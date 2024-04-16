@@ -1,38 +1,53 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import { useState, useEffect, useRef, useLayoutEffect, Suspense } from 'react'
 import { Holistic } from '@mediapipe/holistic'
 import { animateVRM } from './mocap/avatarAnimator'
-import { useLoader } from '@react-three/fiber'
-import { VRM, VRMUtils } from '@pixiv/three-vrm'
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { VRM, VRMLoaderPlugin } from '@pixiv/three-vrm'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { Vector3 } from 'three'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import './App.css'
 
+// https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
+// https://github.com/google/mediapipe/blob/master/docs/solutions/holistic.md
+// https://glitch.com/edit/#!/kalidokit?path=script.js%3A334%3A0
+// https://codesandbox.io/s/react-three-fiber-vrm-9ryxq?file=/src/index.tsx:2398-2461
+// https://github.com/pixiv/three-vrm/blob/dev/docs/migration-guide-1.0.md
 
 export default function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [currentVrm, setCurrentVrm] = useState<VRM | null>(null);
-  const gltf = useLoader<GLTF, string, typeof GLTFLoader>(GLTFLoader, 'https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981'); // import the gltf and use relative path for old man avatar
+  // const [currentVrm, setCurrentVrm] = useState<VRM | null>(null);
+  const avatar = useRef<VRM | null>(null);
   const [poseData, setPoseData] = useState(null);
 
   function onResults(results) {
+    console.log('~~ RESULTS FROM HOLISTIC ARE ', results)
     if (results.poseLandmarks && results.poseLandmarks.length > 0) {
       setPoseData(results.poseLandmarks);
       // drawLandmarkGuides(results)
-      // animateVRM(currentVrm, results, videoRef);
+      // animateVRM(avatar, results, videoRef);
     }
   }
 
-  // useLayoutEffect(() => {
-  //   if (gltf) {
-  //     VRMUtils.removeUnnecessaryJoints(gltf.scene);
-
-  //     VRM.from(gltf).then((vrm: VRM) => {
-  //       setCurrentVrm(vrm);
-  //       // vrm.scene.rotation.y = Math.PI; // To flip the avatar around
-  //     });
-  //   }
-  // }, [gltf]);
+  useLayoutEffect(() => {
+    const loader = new GLTFLoader();
+    loader.register((parser) => {
+      return new VRMLoaderPlugin(parser);
+    });
+    loader.load(
+      'https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981',
+      (gltf) => {
+        const vrm = gltf.userData.vrm;
+        avatar.current = vrm;
+        console.log('~~current avatar is ', avatar.current)
+      },
+      (progress) => console.log( 'Loading model...', 100.0 * ( progress.loaded / progress.total ), '%' ),
+      (error) => console.error('Error Loading Avatar: ', error)
+    )
+  }, []);
 
   useEffect(() => {
     // grab the video stream from client webcam
@@ -59,7 +74,6 @@ export default function App() {
     });
     // Pass holistic a callback function
     holistic.onResults(onResults);
-    // holistic.send({ image: videoRef.current });
 
     // start webcam video stream playback
     if (videoRef.current) {
@@ -74,15 +88,30 @@ export default function App() {
     };
   }, []);
 
+  // useFrame(({ clock }, delta) => {
+  //   if (avatar.current) {
+  //     avatar.current.update(delta)
+  //   }
+  // })
 
   return (
     <div>
-      <video ref={videoRef} width="640" height="480" muted playsInline></video>
-      {poseData && (
-        <div>
-          {/* Display pose data */}
-        </div>
-      )}
+      <video ref={videoRef} width="380" height="480" muted playsInline style={{position: 'fixed', display: 'flex', zIndex: 2}}></video>
+      <div style={{ width: '100vw', height: '100vh' }}>
+        <Canvas camera={{fov: 75, position: [0, 1, 2]}}>
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} />
+          {/* <OrbitControls /> */}
+          {/* <perspectiveCamera position={[0, 10, 5]} /> */}
+          <Suspense fallback={null}>
+            {avatar.current && (
+              <primitive object={avatar.current.scene} scale={[2, 2, 2]} />
+            )}
+          </Suspense>
+          <axesHelper args={[5]} />
+          <gridHelper args={[10, 10]} />
+        </Canvas>
+      </div>
     </div>
   );
 }
