@@ -1,9 +1,12 @@
-export function drawLandmarkGuides(results, videoRef) {
-  guideCanvas.width = videoRef.current.videoWidth;
-  guideCanvas.height = videoRef.current.videoHeight;
-  const canvasCtx = guideCanvas.getContext('2d');
+import { FACEMESH_TESSELATION, HAND_CONNECTIONS, POSE_CONNECTIONS } from '@mediapipe/holistic'
+import {drawConnectors, drawLandmarks} from '@mediapipe/drawing_utils'
+
+export function drawLandmarkGuides(results, videoRef, landmarkCanvasRef) {
+  landmarkCanvasRef.current.width = videoRef.current.videoWidth;
+  landmarkCanvasRef.current.height = videoRef.current.videoHeight;
+  const canvasCtx = landmarkCanvasRef.current.getContext('2d');
   canvasCtx.save();
-  canvasCtx.clearRect(0, 0, guideCanvas.width, guideCanvas.height);
+  canvasCtx.clearRect(0, 0, landmarkCanvasRef.current.width, landmarkCanvasRef.current.height);
   // Use `Mediapipe` drawing functions
   drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
       color: "#00cff7",

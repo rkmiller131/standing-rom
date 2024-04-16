@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef, useLayoutEffect, Suspense } from 'react'
 import { Holistic } from '@mediapipe/holistic'
 import { animateVRM } from './mocap/avatarAnimator'
+import { drawLandmarkGuides } from './mocap/landmarkGuides'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { VRM, VRMLoaderPlugin } from '@pixiv/three-vrm'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { Vector3 } from 'three'
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { Camera } from '@mediapipe/camera_utils'
 
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import './App.css'
 
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -21,13 +19,14 @@ export default function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   // const [currentVrm, setCurrentVrm] = useState<VRM | null>(null);
   const avatar = useRef<VRM | null>(null);
-  const [poseData, setPoseData] = useState(null);
+  // const [poseData, setPoseData] = useState(null);
+  const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null)
 
   function onResults(results) {
-    console.log('~~ RESULTS FROM HOLISTIC ARE ', results)
+    // console.log('~~ RESULTS FROM HOLISTIC ARE ', results)
     if (results.poseLandmarks && results.poseLandmarks.length > 0) {
-      setPoseData(results.poseLandmarks);
-      // drawLandmarkGuides(results)
+      // setPoseData(results.poseLandmarks);
+      drawLandmarkGuides(results, videoRef, landmarkCanvasRef)
       // animateVRM(avatar, results, videoRef);
     }
   }
@@ -39,6 +38,7 @@ export default function App() {
     });
     loader.load(
       'https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981',
+      // '/man.gltf',
       (gltf) => {
         const vrm = gltf.userData.vrm;
         avatar.current = vrm;
@@ -72,7 +72,8 @@ export default function App() {
       refineFaceLandmarks: true,
       selfieMode: true,
     });
-    // Pass holistic a callback function
+
+    // Pass holistic a callback function to handle streamed images
     holistic.onResults(onResults);
 
     // start webcam video stream playback
@@ -80,7 +81,17 @@ export default function App() {
       videoRef.current.addEventListener('loadedmetadata', () => {
         videoRef.current!.play().catch(error => console.error('Video playback error: ', error));
       });
+      const camera = new Camera(videoRef.current, {
+        onFrame: async () => {
+          if (!videoRef.current) return;
+          await holistic.send({ image: videoRef.current})
+        },
+        width: 300,
+        height: 400
+      });
+      camera.start();
     }
+
 
     return () => {
       // clean up mediapipe
@@ -88,24 +99,27 @@ export default function App() {
     };
   }, []);
 
-  // useFrame(({ clock }, delta) => {
-  //   if (avatar.current) {
-  //     avatar.current.update(delta)
-  //   }
+  // useFrame((_state, delta) => {
+  //   // if (avatar.current) {
+  //   //   avatar.current.update(delta)
+  //   // }
+
   // })
 
+  
   return (
     <div>
-      <video ref={videoRef} width="380" height="480" muted playsInline style={{position: 'fixed', display: 'flex', zIndex: 2}}></video>
-      <div style={{ width: '100vw', height: '100vh' }}>
-        <Canvas camera={{fov: 75, position: [0, 1, 2]}}>
+      <div id="mocap-container" style={{width: 300, height: 400, position: 'absolute', zIndex: 2, bottom: '3%', left: '2%'}}>
+        <video id="webcam-stream" ref={videoRef} width="100%" height="100%" muted playsInline style={{objectFit: 'cover', borderRadius: '1rem', transform: 'scaleX(-1)'}}></video>
+        <canvas id="landmark-guides" ref={landmarkCanvasRef} style={{width: '100%', height: '100%', position: 'absolute', bottom: 0, left: 0}}/>
+      </div>
+      <div style={{ width: '100vw', height: '100vh', zIndex: 1 }}>
+        <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 1, 2], fov: 50, near: 1, far: 20, rotation: [0, 0, 0] }}>
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} />
-          {/* <OrbitControls /> */}
-          {/* <perspectiveCamera position={[0, 10, 5]} /> */}
           <Suspense fallback={null}>
             {avatar.current && (
-              <primitive object={avatar.current.scene} scale={[2, 2, 2]} />
+              <primitive object={avatar.current.scene} scale={[1, 1, 1]} />
             )}
           </Suspense>
           <axesHelper args={[5]} />

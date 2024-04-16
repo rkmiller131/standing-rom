@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mediapipe/camera_utils": "^0.3.1675466862",
+    "@mediapipe/drawing_utils": "^0.3.1675466124",
     "@mediapipe/holistic": "^0.5.1675471629",
     "@pixiv/three-vrm": "^2.1.1",
+    "@react-three/drei": "^9.105.4",
     "@react-three/fiber": "^8.16.2",
     "kalidokit": "^1.1.5",
     "react": "^18.2.0",

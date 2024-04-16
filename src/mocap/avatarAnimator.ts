@@ -24,17 +24,17 @@ export const animateVRM = (vrm, results, videoRef) => {
       enableLegs: true
     });
     rigRotation(vrm, "Hips", riggedPose!.Hips.rotation, 0.7);
-    rigPosition(
-      vrm,
-      "Hips",
-      {
-        x: -riggedPose!.Hips.position.x, // Reverse direction
-        y: riggedPose!.Hips.position.y + 1, // Add a bit of height
-        z: -riggedPose!.Hips.position.z // Reverse direction
-      },
-      1,
-      0.07
-    );
+    // rigPosition(
+    //   vrm,
+    //   "Hips",
+    //   {
+    //     x: -riggedPose!.Hips.position.x, // Reverse direction
+    //     y: riggedPose!.Hips.position.y + 1, // Add a bit of height
+    //     z: -riggedPose!.Hips.position.z // Reverse direction
+    //   },
+    //   1,
+    //   0.07
+    // );
 
     rigRotation(vrm, "Chest", riggedPose!.Spine, 0.25, .3);
     rigRotation(vrm, "Spine", riggedPose!.Spine, 0.45, .3);
