@@ -1,5 +1,5 @@
 import { Pose, Hand } from 'kalidokit';
-import { rigRotation } from './animationHelpers';
+import { rigPosition, rigRotation } from './animationHelpers';
 
 export const animateVRM = (vrm, results, videoRef) => {
   if (!vrm.current) return;
@@ -50,7 +50,6 @@ export const animateVRM = (vrm, results, videoRef) => {
 
   // Animate Hands
   if (leftHandLandmarks) {
-    console.log('~~ rigged pose left hand? ', riggedPose)
     riggedLeftHand = Hand.solve(leftHandLandmarks, "Left");
     rigRotation(vrm, "leftHand", {
       // Combine pose rotation Z and hand rotation X Y

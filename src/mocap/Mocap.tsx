@@ -1,19 +1,22 @@
 import { useRef, useEffect } from 'react'
-import { drawLandmarkGuides } from './landmarkGuides';
-import { Holistic } from '@mediapipe/holistic';
-import { Camera } from '@mediapipe/camera_utils';
+import { drawLandmarkGuides } from './landmarkGuides'
+import { Holistic } from '@mediapipe/holistic'
+import { Camera } from '@mediapipe/camera_utils'
+import { animateVRM } from '../avatar/avatarAnimator'
 
 import '../css/Mocap.css'
 
-export default function Mocap() {
+export default function Mocap({ avatar }) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
     function onResults(results) {
-        // console.log('~~ RESULTS FROM HOLISTIC ARE ', results)
+        console.log('~~ RESULTS FROM HOLISTIC ARE ', results)
         if (results.poseLandmarks && results.poseLandmarks.length > 0) {
           drawLandmarkGuides(results, videoRef, landmarkCanvasRef)
-        //   animateVRM(avatar, results, videoRef);
+          if (avatar && avatar.current) {
+            animateVRM(avatar, results, videoRef);
+          }
         }
     }
 
@@ -64,6 +67,7 @@ export default function Mocap() {
           // clean up mediapipe
           holistic.close();
         };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
     return (
