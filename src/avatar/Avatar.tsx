@@ -1,10 +1,13 @@
-import { VRMLoaderPlugin } from "@pixiv/three-vrm";
-import { useFrame } from "@react-three/fiber";
-import { useLayoutEffect, Suspense, useState } from "react"
-import { Clock } from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { VRM, VRMLoaderPlugin } from '@pixiv/three-vrm'
+import { useFrame } from '@react-three/fiber'
+import { useLayoutEffect, Suspense, useState } from 'react'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
-export default function Avatar({ setAvatarModel, avatar }) {
+interface AvatarProps {
+  setAvatarModel: (vrm: VRM) => void;
+  avatar: React.RefObject<VRM>;
+}
+export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
     const [avatarLoaded, setAvatarLoaded] = useState(false);
 
     useLayoutEffect(() => {
@@ -34,8 +37,8 @@ export default function Avatar({ setAvatarModel, avatar }) {
       return (
         <Suspense fallback={null}>
             {avatarLoaded && (
-                <primitive object={avatar.current.scene} scale={[0.85, 0.85, 0.85]} />
+                <primitive object={avatar.current!.scene} scale={[0.85, 0.85, 0.85]} />
             )}
         </Suspense>
-      )
+      );
 }

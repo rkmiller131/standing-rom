@@ -1,10 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FACEMESH_TESSELATION, HAND_CONNECTIONS, POSE_CONNECTIONS } from '@mediapipe/holistic'
 import {drawConnectors, drawLandmarks} from '@mediapipe/drawing_utils'
 
-export function drawLandmarkGuides(results, videoRef, landmarkCanvasRef) {
+export function drawLandmarkGuides(
+  results: any, 
+  videoRef: React.RefObject<HTMLVideoElement>, 
+  landmarkCanvasRef: React.RefObject<HTMLCanvasElement>
+) {
+  if (!landmarkCanvasRef.current || !videoRef.current) return;
+  
   landmarkCanvasRef.current.width = videoRef.current.videoWidth;
   landmarkCanvasRef.current.height = videoRef.current.videoHeight;
   const canvasCtx = landmarkCanvasRef.current.getContext('2d');
+
+  if (!canvasCtx) return;
 
   canvasCtx.save();
   canvasCtx.clearRect(0, 0, landmarkCanvasRef.current.width, landmarkCanvasRef.current.height);

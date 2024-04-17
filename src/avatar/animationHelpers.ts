@@ -1,9 +1,10 @@
-import { VRMHumanBoneName } from '@pixiv/three-vrm';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Euler, Quaternion, Vector3 } from 'three'
+
 // Animate Rotation -----------------------------------------------
 export const rigRotation = (
-  vrm,
-  name,
+  vrm: any,
+  name: string,
   rotation = { x: 0, y: 0, z: 0 },
   dampener = 1,
   lerpAmount = 0.3
@@ -27,8 +28,8 @@ export const rigRotation = (
 
 // Animate Position -----------------------------------------------
 export const rigPosition = (
-  vrm,
-  name,
+  vrm: any,
+  name: string,
   position = { x: 0, y: 0, z: 0 },
   dampener = 1,
   lerpAmount = 0.3

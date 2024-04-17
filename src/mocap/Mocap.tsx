@@ -1,17 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useEffect } from 'react'
 import { drawLandmarkGuides } from './landmarkGuides'
 import { Holistic } from '@mediapipe/holistic'
 import { Camera } from '@mediapipe/camera_utils'
 import { animateVRM } from '../avatar/avatarAnimator'
+import { VRM } from '@pixiv/three-vrm'
 
 import '../css/Mocap.css'
 
-export default function Mocap({ avatar }) {
+interface MocapProps {
+  avatar: React.RefObject<VRM>;
+}
+
+export default function Mocap({ avatar }: MocapProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
-    function onResults(results) {
-        // console.log('~~ RESULTS FROM HOLISTIC ARE ', results)
+    function onResults(results: any) {
         if (results.poseLandmarks && results.poseLandmarks.length > 0) {
           drawLandmarkGuides(results, videoRef, landmarkCanvasRef)
           if (avatar && avatar.current) {
@@ -52,6 +57,7 @@ export default function Mocap({ avatar }) {
           videoRef.current.addEventListener('loadedmetadata', () => {
             videoRef.current!.play().catch(error => console.error('Video playback error: ', error));
           });
+          // use mediapipe camera utils to start the onResults function
           const camera = new Camera(videoRef.current, {
             onFrame: async () => {
               if (!videoRef.current) return;

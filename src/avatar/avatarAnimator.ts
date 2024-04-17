@@ -1,9 +1,15 @@
-import { Pose, Hand } from 'kalidokit';
-import { rigPosition, rigRotation } from './animationHelpers';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Pose, Hand } from 'kalidokit'
+import { rigPosition, rigRotation } from './animationHelpers'
+import { VRM } from '@pixiv/three-vrm'
 
-export const animateVRM = (vrm, results, videoRef) => {
+export const animateVRM = (
+  vrm: React.RefObject<VRM>, 
+  results: any, 
+  videoRef: React.RefObject<HTMLVideoElement>
+) => {
   if (!vrm.current) return;
-  // Take the results from `Holistic` and animate character based on its Pose and Hand Keypoints.
+  // Take the results from Holistic and animate character based on its Pose and Hand Keypoints.
   let riggedPose, riggedLeftHand, riggedRightHand;
 
   // Pose 3D Landmarks are with respect to Hip distance in meters
@@ -18,7 +24,7 @@ export const animateVRM = (vrm, results, videoRef) => {
   if (pose2DLandmarks && pose3DLandmarks) {
     riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
       runtime: "mediapipe",
-      video: videoRef,
+      video: videoRef.current,
       // enableLegs: true
     });
 
