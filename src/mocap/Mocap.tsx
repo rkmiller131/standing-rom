@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useEffect } from 'react'
 import { drawLandmarkGuides } from './landmarkGuides'
@@ -73,7 +74,6 @@ export default function Mocap({ avatar }: MocapProps) {
           // clean up mediapipe
           holistic.close();
         };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
     return (
