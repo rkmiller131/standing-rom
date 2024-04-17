@@ -1,3 +1,4 @@
+import { VRMHumanBoneName } from '@pixiv/three-vrm';
 import { Euler, Quaternion, Vector3 } from 'three'
 // Animate Rotation -----------------------------------------------
 export const rigRotation = (

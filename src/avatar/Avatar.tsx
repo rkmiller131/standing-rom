@@ -1,10 +1,11 @@
 import { VRMLoaderPlugin } from "@pixiv/three-vrm";
 import { useFrame } from "@react-three/fiber";
-import { useLayoutEffect, Suspense } from "react"
+import { useLayoutEffect, Suspense, useState } from "react"
 import { Clock } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export default function Avatar({ setAvatarModel, avatar }) {
+    const [avatarLoaded, setAvatarLoaded] = useState(false);
 
     useLayoutEffect(() => {
         const loader = new GLTFLoader();
@@ -13,46 +14,28 @@ export default function Avatar({ setAvatarModel, avatar }) {
         });
         loader.load(
           'https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981',
-          // '/man.gltf',
+        //   '/avaturn_avatar.vrm',
+          // '/man.vrm',
           (gltf) => {
             const vrm = gltf.userData.vrm;
             setAvatarModel(vrm);
+            setAvatarLoaded(true);
           },
           (progress) => console.log( 'Loading model...', 100.0 * ( progress.loaded / progress.total ), '%' ),
           (error) => console.error('Error Loading Avatar: ', error)
         )
       }, [setAvatarModel]);
 
-    //   useFrame((_state, delta) => {
-    //     if (avatar.current) {
-    //         console.log('~~ update function: ', avatar.current)
-    //         avatar.current.update(delta)
-    //       }
-    //   })
-
-    // const time = Date.now();
-    
-    // const updateModel = () => {
-    //     const currentTime = Date.now();
-    //     const delta = currentTime - time;
-    //     if (avatar.current) {
-    //         avatar.current.update(delta)
-    //     }
-    //     window.requestAnimationFrame(updateModel)
-    // }
-
-    // updateModel();
-
+    useFrame(({ gl, scene, camera }) => {
+        gl.render(scene, camera)
+    }, 1);
 
 
       return (
         <Suspense fallback={null}>
-            {avatar.current && (
-                <primitive object={avatar.current.scene} scale={[1, 1, 1]} />
+            {avatarLoaded && (
+                <primitive object={avatar.current.scene} scale={[0.85, 0.85, 0.85]} />
             )}
         </Suspense>
-        // avatar.current && (
-        //     <primitive object={avatar.current.scene} scale={[1, 1, 1]} />
-        // )
       )
 }

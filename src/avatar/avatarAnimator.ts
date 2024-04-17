@@ -10,7 +10,7 @@ export const animateVRM = (vrm, results, videoRef) => {
   const pose3DLandmarks = results.za;
   // Pose 2D landmarks are with respect to videoWidth and videoHeight
   const pose2DLandmarks = results.poseLandmarks;
-  // Be careful, hand landmarks may be reversed
+
   const leftHandLandmarks = results.rightHandLandmarks;
   const rightHandLandmarks = results.leftHandLandmarks;
 
@@ -19,20 +19,23 @@ export const animateVRM = (vrm, results, videoRef) => {
     riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
       runtime: "mediapipe",
       video: videoRef,
-      enableLegs: true
+      // enableLegs: true
     });
-    rigRotation(vrm, "hips", riggedPose!.Hips.rotation, 0.7);
-    // rigPosition(
-    //   vrm,
-    //   "Hips",
-    //   {
-    //     x: -riggedPose!.Hips.position.x, // Reverse direction
-    //     y: riggedPose!.Hips.position.y + 1, // Add a bit of height
-    //     z: -riggedPose!.Hips.position.z // Reverse direction
-    //   },
-    //   1,
-    //   0.07
-    // );
+
+    // free motion tilting:
+    // rigRotation(vrm, "hips", riggedPose!.Hips.rotation, 0.7);
+    
+    rigPosition(
+      vrm,
+      "Hips",
+      {
+        x: -riggedPose!.Hips.position.x, // Reverse direction
+        y: riggedPose!.Hips.position.y + 1, // Add a bit of height
+        z: -riggedPose!.Hips.position.z // Reverse direction
+      },
+      1,
+      0.07
+    );
 
     rigRotation(vrm, "chest", riggedPose!.Spine, 0.25, .3);
     rigRotation(vrm, "spine", riggedPose!.Spine, 0.45, .3);
@@ -42,10 +45,11 @@ export const animateVRM = (vrm, results, videoRef) => {
     rigRotation(vrm, "leftUpperArm", riggedPose!.LeftUpperArm, 1, .3);
     rigRotation(vrm, "leftLowerArm", riggedPose!.LeftLowerArm, 1, .3);
 
-    rigRotation(vrm, "leftUpperLeg", riggedPose!.LeftUpperLeg, 1, .3);
-    rigRotation(vrm, "leftLowerLeg", riggedPose!.LeftLowerLeg, 1, .3);
-    rigRotation(vrm, "rightUpperLeg", riggedPose!.RightUpperLeg, 1, .3);
-    rigRotation(vrm, "rightLowerLeg", riggedPose!.RightLowerLeg, 1, .3);
+    // comment out to lock the legs:
+    // rigRotation(vrm, "leftUpperLeg", riggedPose!.LeftUpperLeg, 1, .3);
+    // rigRotation(vrm, "leftLowerLeg", riggedPose!.LeftLowerLeg, 1, .3);
+    // rigRotation(vrm, "rightUpperLeg", riggedPose!.RightUpperLeg, 1, .3);
+    // rigRotation(vrm, "rightLowerLeg", riggedPose!.RightLowerLeg, 1, .3);
   }
 
   // Animate Hands

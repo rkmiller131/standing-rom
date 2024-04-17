@@ -11,7 +11,7 @@ export default function Mocap({ avatar }) {
     const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
     function onResults(results) {
-        console.log('~~ RESULTS FROM HOLISTIC ARE ', results)
+        // console.log('~~ RESULTS FROM HOLISTIC ARE ', results)
         if (results.poseLandmarks && results.poseLandmarks.length > 0) {
           drawLandmarkGuides(results, videoRef, landmarkCanvasRef)
           if (avatar && avatar.current) {
@@ -57,8 +57,8 @@ export default function Mocap({ avatar }) {
               if (!videoRef.current) return;
               await holistic.send({ image: videoRef.current})
             },
-            width: 300,
-            height: 400
+            width: 400,
+            height: 500
           });
           camera.start();
         }
