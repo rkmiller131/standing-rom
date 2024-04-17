@@ -1,0 +1,22 @@
+#mocap-container {
+    width: 300px;
+    height: 400px;
+    position: absolute;
+    z-index: 2;
+    bottom: 3%;
+    left: 2%;
+}
+
+#webcam-stream {
+    object-fit: cover;
+    border-radius: 1rem;
+    transform: scaleX(-1);
+}
+
+#landmark-guides {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

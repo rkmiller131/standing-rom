@@ -1,5 +1,4 @@
-import { VRMSchema } from ''
-import { Euler, Quaternion, Vector3 } from 'three'
+import { Euler, Quaternion } from 'three'
 // Animate Rotation -----------------------------------------------
 export const rigRotation = (
   vrm,
@@ -8,11 +7,17 @@ export const rigRotation = (
   dampener = 1,
   lerpAmount = 0.3
 ) => {
-  if (!vrm.current) {return}
-  const Part = vrm.current.humanoid.getBoneNode(
-    THREE.VRMSchema.HumanoidBoneName[name]
-  );
-  if (!Part) {return}
+  // if (!vrm.current) return;
+  // console.dir(vrm.current.humanoid.humanBones[name].node)
+  // const Part = vrm.current.humanoid.humanBones[name];
+  // if (!Part.node) return;
+  if (!vrm.current || !vrm.current.humanoid || !vrm.current.humanoid.humanBones[name]) return;
+
+  const Part = vrm.current.humanoid.humanBones[name];
+  if (!Part.node) {
+    console.error(`Node not found for bone: ${name}`);
+    return;
+  }
 
   const euler = new Euler(
     rotation.x * dampener,
@@ -20,7 +25,7 @@ export const rigRotation = (
     rotation.z * dampener
   );
   const quaternion = new Quaternion().setFromEuler(euler);
-  Part.quaternion.slerp(quaternion, lerpAmount); // interpolate
+  Part.node.quaternion.slerp(quaternion, lerpAmount); // interpolate
 };
 
 // Animate Position -----------------------------------------------
