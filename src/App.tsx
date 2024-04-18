@@ -1,10 +1,13 @@
-import { useRef } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { VRM } from '@pixiv/three-vrm'
-import Mocap from './mocap/Mocap'
-import Avatar from './avatar/Avatar'
+import { useRef } from "react";
+import { Canvas } from "@react-three/fiber";
+import { VRM } from "@pixiv/three-vrm";
+import Mocap from "./mocap/Mocap";
+import Avatar from "./avatar/Avatar";
 
-import './css/App.css'
+import "./css/App.css";
+import { IncandescentBulb, SpotlightWithTarget } from "./environment/lighting";
+import { Office } from "./environment/Office2";
+import { OrbitControls } from "@react-three/drei";
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -20,19 +23,49 @@ export default function App() {
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
-  }
+  };
 
   return (
     <main id="app-container">
-      <Mocap avatar={avatar}/>
+      <Mocap avatar={avatar} />
       <div className="canvas-container">
-        <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 1, 2], fov: 50, near: 1, far: 20, rotation: [0, 0, 0] }}>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} />
+        <Canvas
+          shadows
+          dpr={[1, 1.5]}
+          camera={{
+            position: [0, 1, 4],
+            fov: 50,
+            near: 1,
+            far: 20,
+            rotation: [0, 0, 0],
+          }}
+        >
+          {/* Lighting */}
+          <SpotlightWithTarget
+            position={[-0.2, 2.32, -3.7]}
+            lock={[0, -30, 0]}
+          />
+          <SpotlightWithTarget
+            position={[-1.08, 2.32, -2.8]}
+            lock={[0, -30, 0]}
+          />
+          <SpotlightWithTarget
+            position={[1.1, 2.32, -1.5]}
+            lock={[0, -30, 0]}
+          />
+          <SpotlightWithTarget
+            position={[-1.09, 2.32, 0.67]}
+            lock={[0, -30, 0]}
+          />
+          <IncandescentBulb position={[-1, 1.8, -2]} bulbPower="25W" />
+          <IncandescentBulb position={[0, 1.8, 1]} bulbPower="25W" />
 
-          <Avatar setAvatarModel={setAvatarModel} avatar={avatar}/>
+          {/* Environment */}
+          <Office />
 
-          <axesHelper args={[5]} />
+          {/* Avatar */}
+          <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+
           <gridHelper args={[10, 10]} />
         </Canvas>
       </div>
