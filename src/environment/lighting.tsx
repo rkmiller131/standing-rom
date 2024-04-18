@@ -10,6 +10,7 @@ const bulbLuminousPowers = {
   "60W": 800,
   "40W": 400,
   "25W": 180,
+  "10W": 120,
   "4W": 20,
   Off: 0,
 };
@@ -27,7 +28,6 @@ export const IncandescentBulb: React.FC<IncandescentBulbProps> = ({
   const { scene } = useThree();
 
   useEffect(() => {
-    const bulbGeometry = new THREE.SphereGeometry(0.02, 16, 8);
     const bulbMat = new THREE.MeshStandardMaterial({
       emissive: 0xffffff,
       emissiveIntensity: 1,
@@ -35,7 +35,6 @@ export const IncandescentBulb: React.FC<IncandescentBulbProps> = ({
     });
 
     const bulbLight = new THREE.PointLight(0xffffff, 1, 100, 2);
-    bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
     bulbLight.position.set(...position);
     bulbLight.castShadow = true;
 

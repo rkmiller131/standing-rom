@@ -33,7 +33,7 @@ export default function App() {
           shadows
           dpr={[1, 1.5]}
           camera={{
-            position: [0, 1, 4],
+            position: [0, 1, 2],
             fov: 50,
             near: 1,
             far: 20,
@@ -57,8 +57,8 @@ export default function App() {
             position={[-1.09, 2.32, 0.67]}
             lock={[0, -30, 0]}
           />
-          <IncandescentBulb position={[-1, 1.8, -2]} bulbPower="25W" />
-          <IncandescentBulb position={[0, 1.8, 1]} bulbPower="25W" />
+          <IncandescentBulb position={[-1, 1.8, -2]} bulbPower="10W" />
+          <IncandescentBulb position={[0, 1.8, 1]} bulbPower="10W" />
 
           {/* Environment */}
           <Office />
