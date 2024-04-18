@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
-import { useThree } from "@react-three/fiber";
+import React, { useRef, useEffect } from 'react'
+import { useThree } from '@react-three/fiber'
 
-import * as THREE from "three";
+import * as THREE from 'three'
 
 const bulbLuminousPowers = {
   "1000W": 110000,

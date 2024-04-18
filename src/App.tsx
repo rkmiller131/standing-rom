@@ -1,13 +1,13 @@
-import { useRef } from "react";
-import { Canvas } from "@react-three/fiber";
-import { VRM } from "@pixiv/three-vrm";
-import Mocap from "./mocap/Mocap";
-import Avatar from "./avatar/Avatar";
+import { useRef } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { VRM } from '@pixiv/three-vrm'
+import Mocap from './mocap/Mocap'
+import Avatar from './avatar/Avatar'
+import UbiquitySVG from './assets/ubiquity.svg'
+import { IncandescentBulb, SpotlightWithTarget } from './environment/lighting'
+import { Office } from './environment/Office2'
 
-import "./css/App.css";
-import { IncandescentBulb, SpotlightWithTarget } from "./environment/lighting";
-import { Office } from "./environment/Office2";
-import { OrbitControls } from "@react-three/drei";
+import './css/App.css'
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -27,7 +27,10 @@ export default function App() {
 
   return (
     <main id="app-container">
+      {/* UI */}
+      <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo"/>
       <Mocap avatar={avatar} />
+
       <div className="canvas-container">
         <Canvas
           shadows
@@ -57,8 +60,8 @@ export default function App() {
             position={[-1.09, 2.32, 0.67]}
             lock={[0, -30, 0]}
           />
-          <IncandescentBulb position={[-1, 1.8, -2]} bulbPower="10W" />
-          <IncandescentBulb position={[0, 1.8, 1]} bulbPower="10W" />
+          <IncandescentBulb position={[-1, 1.8, -2]} bulbPower="25W" />
+          <IncandescentBulb position={[0, 1.8, 1]} bulbPower="25W" />
 
           {/* Environment */}
           <Office />

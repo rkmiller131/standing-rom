@@ -64,8 +64,8 @@ export default function Mocap({ avatar }: MocapProps) {
               if (!videoRef.current) return;
               await holistic.send({ image: videoRef.current})
             },
-            width: 400,
-            height: 500
+            width: 450,
+            height: 300
           });
           camera.start();
         }
@@ -74,6 +74,7 @@ export default function Mocap({ avatar }: MocapProps) {
           // clean up mediapipe
           holistic.close();
         };
+        
       }, []);
 
     return (
