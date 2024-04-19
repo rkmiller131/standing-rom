@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, Suspense, useState } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import calculateArmAngles from "../helpers/calculateArmAngles";
-import { Html, Text } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -20,19 +20,14 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-      "https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
-      // '/Man.vrm',
+//       "https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
+      '/Man.vrm',
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setAvatarModel(vrm);
         setAvatarLoaded(true);
       },
-      (progress) =>
-        console.log(
-          "Loading model...",
-          100.0 * (progress.loaded / progress.total),
-          "%"
-        ),
+      (progress) => console.log(`Loading model... ${100 * (progress.loaded / progress.total)}%`),
       (error) => console.error("Error Loading Avatar: ", error)
     );
   }, [setAvatarModel]);
