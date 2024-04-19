@@ -5,7 +5,7 @@ import Mocap from "./mocap/Mocap";
 import Avatar from "./avatar/Avatar";
 import UbiquitySVG from "./assets/ubiquity.svg";
 import { IncandescentBulb, SpotlightWithTarget } from "./environment/lighting";
-import * as THREE from "three";
+// import * as THREE from "three";
 import { Office } from "./environment/Office2";
 
 import "./css/App.css";
