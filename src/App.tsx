@@ -1,13 +1,14 @@
-import { useRef } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { VRM } from '@pixiv/three-vrm'
-import Mocap from './mocap/Mocap'
-import Avatar from './avatar/Avatar'
-import UbiquitySVG from './assets/ubiquity.svg'
-import { IncandescentBulb, SpotlightWithTarget } from './environment/lighting'
-import { Office } from './environment/Office2'
+import { useRef } from "react";
+import { Canvas } from "@react-three/fiber";
+import { VRM } from "@pixiv/three-vrm";
+import Mocap from "./mocap/Mocap";
+import Avatar from "./avatar/Avatar";
+import UbiquitySVG from "./assets/ubiquity.svg";
+import { IncandescentBulb, SpotlightWithTarget } from "./environment/lighting";
+// import * as THREE from "three";
+import { Office } from "./environment/Office2";
 
-import './css/App.css'
+import "./css/App.css";
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -28,7 +29,7 @@ export default function App() {
   return (
     <main id="app-container">
       {/* UI */}
-      <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo"/>
+      <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       <Mocap avatar={avatar} />
 
       <div className="canvas-container">

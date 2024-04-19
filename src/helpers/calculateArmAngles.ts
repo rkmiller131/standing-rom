@@ -1,5 +1,5 @@
-import { VRM } from '@pixiv/three-vrm'
-import { Euler, MathUtils, Quaternion } from 'three'
+import { VRM } from "@pixiv/three-vrm";
+import { Euler, MathUtils, Quaternion } from "three";
 
 const ninetyDegreeAdjust = new Euler(0, 0, Math.PI / 2);
 const rotatedLeftArm = new Quaternion().setFromEuler(ninetyDegreeAdjust);
@@ -14,22 +14,30 @@ const rightArmAngleEuler = new Euler();
  * @returns {{ leftArmAngle: number, rightArmAngle: number }} The angles of the left and right arms in degrees.
  */
 
-export default function calculateArmAngles(vrm: React.RefObject<VRM>): { leftArmAngle: number, rightArmAngle: number } {
+export default function calculateArmAngles(vrm: React.RefObject<VRM>): {
+  leftArmAngle: number;
+  rightArmAngle: number;
+} {
+  const leftArmQuat =
+    vrm.current!.humanoid.humanBones.leftUpperArm.node.quaternion;
+  const rightArmQuat =
+    vrm.current!.humanoid.humanBones.rightUpperArm.node.quaternion;
 
-    const leftArmQuat = vrm.current!.humanoid.humanBones.leftUpperArm.node.quaternion;
-    const rightArmQuat = vrm.current!.humanoid.humanBones.rightUpperArm.node.quaternion;
+  const updatedLeftArmQuat = leftArmQuat.clone().multiply(rotatedLeftArm);
+  const updatedRightArmQuat = rightArmQuat.clone().multiply(rotatedRightArm);
 
-    const updatedLeftArmQuat = leftArmQuat.clone().multiply(rotatedLeftArm);
-    const updatedRightArmQuat = rightArmQuat.clone().multiply(rotatedRightArm);
+  leftArmAngleEuler.setFromQuaternion(updatedLeftArmQuat);
+  rightArmAngleEuler.setFromQuaternion(updatedRightArmQuat);
 
-    leftArmAngleEuler.setFromQuaternion(updatedLeftArmQuat);
-    rightArmAngleEuler.setFromQuaternion(updatedRightArmQuat);
+  const leftArmAngleFlipped = Math.round(
+    MathUtils.radToDeg(leftArmAngleEuler.z)
+  );
+  const rightArmAngleFlipped = Math.round(
+    180 - MathUtils.radToDeg(rightArmAngleEuler.z)
+  );
 
-    const leftArmAngleFlipped = Math.round(MathUtils.radToDeg(leftArmAngleEuler.z));
-    const rightArmAngleFlipped = Math.round(180 - MathUtils.radToDeg(rightArmAngleEuler.z));
+  const leftArmAngle = Math.abs(180 - leftArmAngleFlipped);
+  const rightArmAngle = Math.abs(180 - rightArmAngleFlipped);
 
-    const leftArmAngle = Math.abs(180 - leftArmAngleFlipped);
-    const rightArmAngle = Math.abs(180 - rightArmAngleFlipped);
-
-    return { leftArmAngle, rightArmAngle };
+  return { leftArmAngle, rightArmAngle };
 }
