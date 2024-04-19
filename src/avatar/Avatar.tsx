@@ -2,6 +2,7 @@ import { VRM, VRMLoaderPlugin } from '@pixiv/three-vrm'
 import { useFrame } from '@react-three/fiber'
 import { useLayoutEffect, Suspense, useState } from 'react'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import calculateArmAngles from '../helpers/calculateArmAngles';
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -16,8 +17,8 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
           return new VRMLoaderPlugin(parser);
         });
         loader.load(
-          // 'https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981',
-          '/Man.vrm',
+          'https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981',
+          // '/Man.vrm',
           (gltf) => {
             const vrm = gltf.userData.vrm;
             setAvatarModel(vrm);
@@ -29,7 +30,10 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       }, [setAvatarModel]);
 
     useFrame(({ gl, scene, camera }) => {
-        gl.render(scene, camera)
+      const {leftArmAngle, rightArmAngle} = calculateArmAngles(avatar);
+      // console.log('~~ LEFT ARM ANGLE ', leftArmAngle)
+      console.log('~~ right arm angle ', rightArmAngle)
+        gl.render(scene, camera);
     }, 1);
 
 
