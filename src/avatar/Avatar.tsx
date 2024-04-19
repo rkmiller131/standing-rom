@@ -50,7 +50,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       {avatarLoaded && (
         <>
           <Text position={[0, 2, -2]} scale={0.35} color="black">
-            {right} and {left}
+            {left} and {right}
           </Text>
           <primitive
             object={avatar.current!.scene}
