@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, Suspense, useState } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import calculateArmAngles from "../helpers/calculateArmAngles";
-import { Text } from "@react-three/drei";
+import { Html, Text } from "@react-three/drei";
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -53,9 +53,24 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
             object={avatar.current!.scene}
             scale={[0.85, 0.85, 0.85]}
           />
-          <Text position={[0, 2, -2]} scale={0.35} color="black">
-            {right} and {left}
-          </Text>
+          <Html position={[-3, 2.2, -2]}>
+            <div
+              style={{
+                backgroundColor: "#ffffff80",
+                border: "2px solid",
+                borderColor: "turquoise",
+                width: "350px",
+                height: "250px",
+                padding: "10px",
+                borderRadius: "5px",
+                color: "black",
+              }}
+            >
+              <h2>Game Information</h2>
+              <p>Right Arm Angle: {right}°</p>
+              <p>Left Arm Angle: {left}°</p>
+            </div>
+          </Html>
         </>
       )}
     </Suspense>
