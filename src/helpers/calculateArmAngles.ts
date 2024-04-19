@@ -18,10 +18,8 @@ export default function calculateArmAngles(vrm: React.RefObject<VRM>): {
   leftArmAngle: number;
   rightArmAngle: number;
 } {
-  const leftArmQuat =
-    vrm.current!.humanoid.humanBones.leftUpperArm.node.quaternion;
-  const rightArmQuat =
-    vrm.current!.humanoid.humanBones.rightUpperArm.node.quaternion;
+  const leftArmQuat = vrm.current!.humanoid.humanBones.leftUpperArm.node.quaternion;
+  const rightArmQuat = vrm.current!.humanoid.humanBones.rightUpperArm.node.quaternion;
 
   const updatedLeftArmQuat = leftArmQuat.clone().multiply(rotatedLeftArm);
   const updatedRightArmQuat = rightArmQuat.clone().multiply(rotatedRightArm);
@@ -29,12 +27,8 @@ export default function calculateArmAngles(vrm: React.RefObject<VRM>): {
   leftArmAngleEuler.setFromQuaternion(updatedLeftArmQuat);
   rightArmAngleEuler.setFromQuaternion(updatedRightArmQuat);
 
-  const leftArmAngleFlipped = Math.round(
-    MathUtils.radToDeg(leftArmAngleEuler.z)
-  );
-  const rightArmAngleFlipped = Math.round(
-    180 - MathUtils.radToDeg(rightArmAngleEuler.z)
-  );
+  const leftArmAngleFlipped = Math.round(MathUtils.radToDeg(leftArmAngleEuler.z));
+  const rightArmAngleFlipped = Math.round(180 - MathUtils.radToDeg(rightArmAngleEuler.z));
 
   const leftArmAngle = Math.abs(180 - leftArmAngleFlipped);
   const rightArmAngle = Math.abs(180 - rightArmAngleFlipped);
