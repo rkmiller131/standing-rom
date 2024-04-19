@@ -20,8 +20,8 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-      "https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
-      // '/Man.vrm',
+      // "https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
+      '/Man.vrm',
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setAvatarModel(vrm);
@@ -49,13 +49,13 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
     <Suspense fallback={null}>
       {avatarLoaded && (
         <>
-          <primitive
-            object={avatar.current!.scene}
-            scale={[0.85, 0.85, 0.85]}
-          />
           <Text position={[0, 2, -2]} scale={0.35} color="black">
             {right} and {left}
           </Text>
+          <primitive
+            object={avatar.current!.scene}
+            scale={[0.75, 0.75, 0.75]}
+          />
         </>
       )}
     </Suspense>
