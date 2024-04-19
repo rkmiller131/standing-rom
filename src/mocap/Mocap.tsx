@@ -8,7 +8,6 @@ import { animateVRM } from '../avatar/avatarAnimator'
 import { VRM } from '@pixiv/three-vrm'
 
 import '../css/Mocap.css'
-
 interface MocapProps {
   avatar: React.RefObject<VRM>;
 }
@@ -74,7 +73,7 @@ export default function Mocap({ avatar }: MocapProps) {
           // clean up mediapipe
           holistic.close();
         };
-        
+
       }, []);
 
     return (

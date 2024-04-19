@@ -29,7 +29,13 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       }, [setAvatarModel]);
 
     useFrame(({ gl, scene, camera }) => {
-        gl.render(scene, camera)
+      // SAVED FOR REFERENCE ON GETTING THE ARM ANGLES - PUT IN A SYSTEM CHECKING 1x/60 frames
+      // if (avatar.current) {
+      //   const {leftArmAngle, rightArmAngle} = calculateArmAngles(avatar);
+      //   // console.log('~~ LEFT ARM ANGLE ', leftArmAngle)
+      //   console.log('~~ right arm angle ', rightArmAngle)
+      // }
+        gl.render(scene, camera);
     }, 1);
 
 
