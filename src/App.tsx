@@ -9,6 +9,8 @@ import { IncandescentBulb, SpotlightWithTarget } from "./environment/lighting";
 import { Office } from "./environment/Office2";
 
 import "./css/App.css";
+// import { useGameState } from "./ecs/store/GameState";
+// import { ECS } from "./ecs/World";
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -21,10 +23,15 @@ import "./css/App.css";
 
 export default function App() {
   const avatar = useRef<VRM | null>(null);
+  // const gameState = useGameState();
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
   };
+
+  // useLayoutEffect(() => {
+  //   gameState.startGame();
+  // }, [])
 
   return (
     <main id="app-container">
