@@ -10,11 +10,13 @@ import { VRM } from '@pixiv/three-vrm'
 import '../css/Mocap.css'
 interface MocapProps {
   avatar: React.RefObject<VRM>;
+  setAllLoaded: (loaded: boolean) => void;
 }
 
-export default function Mocap({ avatar }: MocapProps) {
+export default function Mocap({ avatar, setAllLoaded }: MocapProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
+    let holisticLoaded = false;
 
     function onResults(results: any) {
         if (results.poseLandmarks && results.poseLandmarks.length > 0) {
@@ -22,6 +24,10 @@ export default function Mocap({ avatar }: MocapProps) {
           if (avatar && avatar.current) {
             animateVRM(avatar, results, videoRef);
           }
+        }
+        if (!holisticLoaded) {
+          setAllLoaded(true);
+          holisticLoaded = true;
         }
     }
 

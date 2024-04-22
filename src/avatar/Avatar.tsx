@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { VRM, VRMLoaderPlugin } from "@pixiv/three-vrm";
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, Suspense, useState } from "react";
@@ -30,7 +31,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       (progress) => console.log(`Loading model... ${100 * (progress.loaded / progress.total)}%`),
       (error) => console.error("Error Loading Avatar: ", error)
     );
-  }, [setAvatarModel]);
+  }, []);
 
   useFrame(() => {
     if (avatar.current) {
@@ -46,7 +47,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
         <>
           <primitive
             object={avatar.current!.scene}
-            scale={[0.85, 0.85, 0.85]}
+            scale={[0.75, 0.75, 0.75]}
           />
           <Html position={[-3, 2.2, -2]}>
             <div
