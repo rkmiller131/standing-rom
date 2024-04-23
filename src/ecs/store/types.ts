@@ -13,7 +13,7 @@ export type SetType = {
   }
 
   export type LevelsType = Array<SetType>
-  
+
   export type ScoreType = {
     totalBubbles: number
     popped: number
@@ -21,9 +21,10 @@ export type SetType = {
     maxRightArmAngle: number
     poppedVelocities: Vector3[]
   }
-  
+
   export type GameType = {
     levels: LevelsType,
     score: ScoreType,
-    gameOver: boolean
+    gameOver: boolean,
+    sceneLoaded: boolean
   }

@@ -12,7 +12,8 @@ const initialState: GameType = hookstate({
         maxRightArmAngle: 0,
         poppedVelocities: []
     },
-    gameOver: false
+    gameOver: false,
+    sceneLoaded: false
 });
 
 export const useGameState = () => {

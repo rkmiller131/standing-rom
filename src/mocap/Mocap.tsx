@@ -10,10 +10,10 @@ import { VRM } from '@pixiv/three-vrm'
 import '../css/Mocap.css'
 interface MocapProps {
   avatar: React.RefObject<VRM>;
-  setAllLoaded: (loaded: boolean) => void;
+  setHolisticLoaded: (loaded: boolean) => void;
 }
 
-export default function Mocap({ avatar, setAllLoaded }: MocapProps) {
+export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
     let holisticLoaded = false;
@@ -26,7 +26,7 @@ export default function Mocap({ avatar, setAllLoaded }: MocapProps) {
           }
         }
         if (!holisticLoaded) {
-          setAllLoaded(true);
+          setHolisticLoaded(true);
           holisticLoaded = true;
         }
     }
@@ -40,12 +40,12 @@ export default function Mocap({ avatar, setAllLoaded }: MocapProps) {
             }
           }).catch(error => console.error('getUserMedia error: ', error));
         }
-    
+
         // use mediapipe/holistic to track pose and hand landmarks from video stream
         const holistic = new Holistic({
           locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1675471629/${file}`
         });
-    
+
         holistic.setOptions({
           modelComplexity: 1,
           smoothLandmarks: true,
@@ -54,10 +54,10 @@ export default function Mocap({ avatar, setAllLoaded }: MocapProps) {
           refineFaceLandmarks: true,
           selfieMode: true,
         });
-    
+
         // Pass holistic a callback function to handle streamed images
         holistic.onResults(onResults);
-    
+
         // start webcam video stream playback
         if (videoRef.current) {
           videoRef.current.addEventListener('loadedmetadata', () => {
@@ -74,7 +74,7 @@ export default function Mocap({ avatar, setAllLoaded }: MocapProps) {
           });
           camera.start();
         }
-    
+
         return () => {
           // clean up mediapipe
           holistic.close();

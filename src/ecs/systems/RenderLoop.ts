@@ -1,9 +1,11 @@
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Clock } from "three";
+import { useGameState } from "../store/GameState";
 
 export default function RenderLoop() {
     const clock = useRef(new Clock());
+    const gameState = useGameState();
 
     useFrame(() => {
         const elapsedTime = clock.current.getElapsedTime();
@@ -12,7 +14,9 @@ export default function RenderLoop() {
             // have a function in here that pulls from game state and compares the calculated arm angles
             // updates arm angles in state live if the max is reached
             // then somewhere else the component will just pull from that state and render the max that it receives
-            console.log('~~ executing once per second!')
+            if (gameState.sceneLoaded) {
+                console.log('~~ executing once per second!')
+            }
 
             // resetting the clock after all frames per second have been executed
             clock.current.start();
