@@ -7,13 +7,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: visibility 0s 3s, opacity 2s linear;
+    /* transition: visibility 0s 3s, opacity 2s linear; */
 }
 
-#loading-screen.fade-out {
+/* #loading-screen.fade-out {
     opacity: 0;
     visibility: hidden;
-}
+} */
 
 .loading-spinner {
     position: absolute;

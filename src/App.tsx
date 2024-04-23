@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useLayoutEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { VRM } from '@pixiv/three-vrm'
@@ -6,7 +5,7 @@ import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
 import Lighting from './environment/Lighting'
-import { Office } from './environment/Office2'
+import { Office } from './environment/Office'
 import LoadingScreen from './loading/LoadingScreen'
 import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
@@ -33,15 +32,11 @@ export default function App() {
     avatar.current = vrm;
   };
 
-  // useLayoutEffect(() => {
-  //   gameState.startGame();
-  // }, [])
-
   useLayoutEffect(() => {
     if (avatar.current && holisticLoaded) {
       gameState.sceneLoaded.set(true);
     }
-  }, [holisticLoaded]);
+  }, [holisticLoaded, gameState.sceneLoaded]);
 
   return (
     <main id="app-container">
@@ -50,9 +45,8 @@ export default function App() {
       <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded}/>
 
       <div className="canvas-container">
-
-        {!gameState.sceneLoaded.get({noproxy: true}) && <LoadingScreen holisticLoaded={holisticLoaded}/>}
-        {/* {<LoadingScreen holisticLoaded={holisticLoaded}/>} */}
+        {/* currently no fade-out - todo later */}
+        {!gameState.sceneLoaded.get({noproxy: true}) && <LoadingScreen />}
 
         <Canvas
           shadows

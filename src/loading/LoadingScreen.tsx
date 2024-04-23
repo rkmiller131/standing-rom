@@ -1,12 +1,8 @@
 import '../css/LoadingScreen.css'
 
-interface LoadingScreenProps {
-    holisticLoaded: boolean;
-
-}
-export default function LoadingScreen({ holisticLoaded }: LoadingScreenProps) {
+export default function LoadingScreen() {
     return (
-        <div id="loading-screen" className={holisticLoaded ? 'fade-out' : ''}>
+        <div id="loading-screen">
             <div className="loading-spinner">
                 Loading
                 <span></span>

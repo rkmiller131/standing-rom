@@ -42,7 +42,7 @@ type GLTFResult = GLTF & {
 
 export function Office(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
-    "/office2-transformed.glb"
+    "/office.glb"
   ) as GLTFResult;
   return (
     <group {...props} dispose={null}>
