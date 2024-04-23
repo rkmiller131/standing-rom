@@ -11,6 +11,7 @@ import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
 
 import './css/App.css'
+import GameInfo from './ui/GameInfo'
 
 // import { ECS } from "./ecs/World";
 
@@ -46,7 +47,7 @@ export default function App() {
 
       <div className="canvas-container">
         {/* currently no fade-out - todo later */}
-        {!gameState.sceneLoaded.get({noproxy: true}) && <LoadingScreen />}
+        {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
 
         <Canvas
           shadows
@@ -62,8 +63,9 @@ export default function App() {
 
           <Lighting />
           <Office />
+          <GameInfo />
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-          <GameLogic />
+          <GameLogic avatar={avatar}/>
 
         </Canvas>
       </div>

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { VRM, VRMLoaderPlugin } from "@pixiv/three-vrm";
-import { useFrame } from "@react-three/fiber";
+// import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, Suspense, useState } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import calculateArmAngles from "../helpers/calculateArmAngles";
-import { Html } from "@react-three/drei";
+// import calculateArmAngles from "../helpers/calculateArmAngles";
+// import { Html } from "@react-three/drei";
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -12,8 +12,8 @@ interface AvatarProps {
 }
 export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const [avatarLoaded, setAvatarLoaded] = useState(false);
-  const [right, setRightArmAngle] = useState(0);
-  const [left, setLeftArmAngle] = useState(0);
+  // const [right, setRightArmAngle] = useState(0);
+  // const [left, setLeftArmAngle] = useState(0);
 
   useLayoutEffect(() => {
     const loader = new GLTFLoader();
@@ -33,13 +33,13 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
     );
   }, []);
 
-  useFrame(() => {
-    if (avatar.current) {
-      const { leftArmAngle, rightArmAngle } = calculateArmAngles(avatar);
-      setRightArmAngle(rightArmAngle);
-      setLeftArmAngle(leftArmAngle);
-    }
-  });
+  // useFrame(() => {
+  //   if (avatar.current) {
+  //     const { leftArmAngle, rightArmAngle } = calculateArmAngles(avatar);
+  //     setRightArmAngle(rightArmAngle);
+  //     setLeftArmAngle(leftArmAngle);
+  //   }
+  // });
 
   return (
     <Suspense fallback={null}>

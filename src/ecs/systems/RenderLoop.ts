@@ -2,20 +2,35 @@ import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Clock } from "three";
 import { useGameState } from "../store/GameState";
+import calculateArmAngles from "../../helpers/calculateArmAngles";
+import { VRM } from "@pixiv/three-vrm";
 
-export default function RenderLoop() {
+interface RenderLoopProps {
+    avatar: React.RefObject<VRM>
+}
+
+export default function RenderLoop({ avatar }: RenderLoopProps) {
     const clock = useRef(new Clock());
     const gameState = useGameState();
 
     useFrame(() => {
         const elapsedTime = clock.current.getElapsedTime();
 
-        if (elapsedTime >= 1) {
-            // have a function in here that pulls from game state and compares the calculated arm angles
-            // updates arm angles in state live if the max is reached
-            // then somewhere else the component will just pull from that state and render the max that it receives
-            if (gameState.sceneLoaded) {
-                console.log('~~ SCENE HAS LOADED 1x per sec')
+        if (elapsedTime >= 0.5) {
+
+            // currently starts checking when avatar is in T pose - add an extra && for when game start happens
+            if (gameState.sceneLoaded && avatar.current) {
+                const { leftArmAngle, rightArmAngle } = calculateArmAngles(avatar);
+                const maxLeftArmAngle = gameState.score.maxLeftArmAngle.get({ noproxy: true });
+                const maxRightArmAngle = gameState.score.maxRightArmAngle.get({ noproxy: true });
+
+                if (leftArmAngle > maxLeftArmAngle && (leftArmAngle <= 180 && leftArmAngle >= 0)) {
+                    gameState.score.maxLeftArmAngle.set(leftArmAngle);
+                }
+
+                if (rightArmAngle > maxRightArmAngle && (rightArmAngle <= 180 && rightArmAngle >= 0)) {
+                    gameState.score.maxRightArmAngle.set(rightArmAngle);
+                }
             }
 
             // resetting the clock after all frames per second have been executed
