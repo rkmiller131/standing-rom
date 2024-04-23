@@ -20,14 +20,16 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
 
     function onResults(results: any) {
         if (results.poseLandmarks && results.poseLandmarks.length > 0) {
-          drawLandmarkGuides(results, videoRef, landmarkCanvasRef)
+          drawLandmarkGuides(results, videoRef, landmarkCanvasRef);
+
           if (avatar && avatar.current) {
             animateVRM(avatar, results, videoRef);
           }
-        }
-        if (!holisticLoaded) {
-          setHolisticLoaded(true);
-          holisticLoaded = true;
+          
+          if (!holisticLoaded) {
+            setHolisticLoaded(true);
+            holisticLoaded = true;
+          }
         }
     }
 
