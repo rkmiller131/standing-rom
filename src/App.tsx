@@ -75,7 +75,7 @@ export default function App() {
             <RightHandCollider avatar={avatar}/>
           </Physics> */}
 
-          <DemoBubble position={new Vector3(0.5,1,0)} avatar={avatar}/>
+          <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/>
 
         </Canvas>
       </div>

@@ -3,6 +3,7 @@ import { Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Suspense, useRef } from "react";
 import { Mesh, MeshBasicMaterial, Vector3 } from "three";
+import { useGameState } from "../ecs/store/GameState";
 
 interface DemoBubbleProps {
     position: Vector3;
@@ -20,9 +21,10 @@ function checkCollisionWithSphere(landmarkPosition: Vector3, sphere: Mesh) {
 export default function DemoBubble({ position, avatar }: DemoBubbleProps) {
     const sphereRef = useRef<Mesh>();
     const handRef = useRef<Vector3>(new Vector3());
+    const gameState = useGameState();
 
     useFrame(() => {
-        if (avatar.current && sphereRef.current) {
+        if (avatar.current && sphereRef.current && gameState.sceneLoaded) {
             console.log('~~ in the sphere use frame')
             const rightHandMatrix = avatar.current.humanoid.humanBones.rightHand.node.matrixWorld;
             const rightHandPosition = handRef.current.setFromMatrixPosition(rightHandMatrix);
@@ -30,6 +32,7 @@ export default function DemoBubble({ position, avatar }: DemoBubbleProps) {
             if (sphereRef.current!.visible && checkCollisionWithSphere(rightHandPosition, sphereRef.current)) {
                 const material = sphereRef.current.material as MeshBasicMaterial;
                 material.color.set(0xff0000);
+                gameState.score.popped.set(1);
                 sphereRef.current!.visible = false;
             }
         }

@@ -20,6 +20,7 @@ export default function GameInfo() {
           <h2>Game Information</h2>
           <p>Max Right Arm Angle: {gameState.score.maxRightArmAngle.get({noproxy: true})}°</p>
           <p>Max Left Arm Angle: {gameState.score.maxLeftArmAngle.get({noproxy: true})}°</p>
+          <p>Bubbles Popped: {gameState.score.popped.get({noproxy: true})}</p>
         </div>
       </Html>
     )
