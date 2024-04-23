@@ -49,7 +49,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
             object={avatar.current!.scene}
             scale={[0.75, 0.75, 0.75]}
           />
-          <Html position={[-3, 2.2, -2]}>
+          {/* <Html position={[-3, 2.2, -2]}>
             <div
               style={{
                 backgroundColor: "#ffffff80",
@@ -66,7 +66,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
               <p>Right Arm Angle: {right}°</p>
               <p>Left Arm Angle: {left}°</p>
             </div>
-          </Html>
+          </Html> */}
         </>
       )}
     </Suspense>

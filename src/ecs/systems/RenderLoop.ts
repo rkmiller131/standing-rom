@@ -15,7 +15,7 @@ export default function RenderLoop() {
             // updates arm angles in state live if the max is reached
             // then somewhere else the component will just pull from that state and render the max that it receives
             if (gameState.sceneLoaded) {
-                console.log('~~ executing once per second!')
+                console.log('~~ SCENE HAS LOADED 1x per sec')
             }
 
             // resetting the clock after all frames per second have been executed
