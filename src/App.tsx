@@ -1,15 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { VRM } from "@pixiv/three-vrm";
-import Mocap from "./mocap/Mocap";
-import Avatar from "./avatar/Avatar";
-import UbiquitySVG from "./assets/ubiquity.svg";
-import { IncandescentBulb, SpotlightWithTarget } from "./environment/lighting";
-// import * as THREE from "three";
-import { Office } from "./environment/Office2";
+import { useEffect, useRef, useState } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { VRM } from '@pixiv/three-vrm'
+import Mocap from './mocap/Mocap'
+import Avatar from './avatar/Avatar'
+import UbiquitySVG from './assets/ubiquity.svg'
+import Lighting from './environment/Lighting'
+import { Office } from './environment/Office2'
+import LoadingScreen from './loading/LoadingScreen'
+import GameLogic from './ecs/systems/GameLogic'
 
-import "./css/App.css";
-import LoadingScreen from "./loading/LoadingScreen";
+import './css/App.css'
+
+
 // import { useGameState } from "./ecs/store/GameState";
 // import { ECS } from "./ecs/World";
 
@@ -61,33 +63,12 @@ export default function App() {
             rotation: [0, 0, 0],
           }}
         >
-          {/* Lighting */}
-          <SpotlightWithTarget
-            position={[-0.2, 2.32, -3.7]}
-            lock={[0, -30, 0]}
-          />
-          <SpotlightWithTarget
-            position={[-1.08, 2.32, -2.8]}
-            lock={[0, -30, 0]}
-          />
-          <SpotlightWithTarget
-            position={[1.1, 2.32, -1.5]}
-            lock={[0, -30, 0]}
-          />
-          <SpotlightWithTarget
-            position={[-1.09, 2.32, 0.67]}
-            lock={[0, -30, 0]}
-          />
-          <IncandescentBulb position={[-1, 1.8, -2]} bulbPower="25W" />
-          <IncandescentBulb position={[0, 1.8, 1]} bulbPower="25W" />
 
-          {/* Environment */}
+          <Lighting />
           <Office />
-
-          {/* Avatar */}
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+          <GameLogic />
 
-          <gridHelper args={[10, 10]} />
         </Canvas>
       </div>
     </main>

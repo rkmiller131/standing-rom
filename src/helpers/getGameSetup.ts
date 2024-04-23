@@ -1,4 +1,4 @@
-import { GameType, LevelsType, ScoreType, SetType } from "../types";
+import { GameType, LevelsType, ScoreType, SetType } from "../ecs/store/types";
 import findSideSpawned from "./findSideSpawned";
 import getGameData from "./getGameData";
 
