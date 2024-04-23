@@ -1,27 +1,33 @@
 import { VRM, VRMLoaderPlugin } from "@pixiv/three-vrm";
 import { useFrame } from "@react-three/fiber";
-import { useLayoutEffect, Suspense, useState } from "react";
+import { useLayoutEffect, Suspense, useState, useRef } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import calculateArmAngles from "../helpers/calculateArmAngles";
 import { Text } from "@react-three/drei";
+import { RigidBody, useRapier } from "@react-three/rapier";
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
   avatar: React.RefObject<VRM>;
 }
+
 export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const [avatarLoaded, setAvatarLoaded] = useState(false);
   const [right, setRightArmAngle] = useState(0);
   const [left, setLeftArmAngle] = useState(0);
+  const { world } = useRapier();
+
+  const first = useRef(null);
 
   useLayoutEffect(() => {
     const loader = new GLTFLoader();
     loader.register((parser) => {
       return new VRMLoaderPlugin(parser);
     });
+
     loader.load(
       // "https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
-      '/Man.vrm',
+      "/Man.vrm",
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setAvatarModel(vrm);
@@ -40,10 +46,20 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   useFrame(() => {
     if (avatar.current) {
       const { leftArmAngle, rightArmAngle } = calculateArmAngles(avatar);
+
       setRightArmAngle(rightArmAngle);
       setLeftArmAngle(leftArmAngle);
+
+      console.log(
+        "Left Hand Node: ",
+        avatar.current.humanoid.humanBones.leftHand.node.matrixWorld.elements
+      );
     }
   });
+
+  const handleCollision = (event) => {
+    console.log("Avatar collided with");
+  };
 
   return (
     <Suspense fallback={null}>
@@ -52,10 +68,17 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
           <Text position={[0, 2, -2]} scale={0.35} color="black">
             {right} and {left}
           </Text>
-          <primitive
-            object={avatar.current!.scene}
-            scale={[0.75, 0.75, 0.75]}
-          />
+          <RigidBody
+            ref={first}
+            type="kinematicPosition"
+            onCollisionEnter={handleCollision}
+            userData={{ id: "avatar" }}
+            position={[0, -0.3, 0]}
+            colliders="trimesh"
+            key={"123"}
+          >
+            <primitive object={avatar.current!.scene} scale={[0.9, 0.9, 0.9]} />
+          </RigidBody>
         </>
       )}
     </Suspense>

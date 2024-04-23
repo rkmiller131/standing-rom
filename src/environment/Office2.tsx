@@ -1,7 +1,8 @@
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three-stdlib'
+import { useGLTF } from "@react-three/drei";
+import { GLTF } from "three-stdlib";
 
-import * as THREE from 'three'
+import * as THREE from "three";
+import { RigidBody } from "@react-three/rapier";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -45,71 +46,73 @@ export function Office(props: JSX.IntrinsicElements["group"]) {
     "/office2-transformed.glb"
   ) as GLTFResult;
   return (
-    <group {...props} dispose={null}>
-      <group
-        rotation={[0, -0.294, 0]}
-        position={[0, 0.05, 0]}
-        scale={[0.13, 0.005, 0.06]}
-      >
-        <mesh
-          geometry={nodes.Cube_1.geometry}
-          material={materials["Material.003"]}
-        />
-        <mesh
-          geometry={nodes.Cube_2.geometry}
-          material={materials["Material.005"]}
-        />
-        <mesh
-          geometry={nodes.Cube_3.geometry}
-          material={materials.PaletteMaterial002}
-        />
-        <mesh
-          geometry={nodes.Cube_4.geometry}
-          material={materials.laminate_floor_02}
-        />
-        <mesh
-          geometry={nodes.Cube_5.geometry}
-          material={materials.PaletteMaterial004}
-        />
-        <mesh
-          geometry={nodes.Cube_6.geometry}
-          material={materials["Material.007"]}
-        />
-        <mesh
-          geometry={nodes.Cube_7.geometry}
-          material={materials["Material.010"]}
-        />
-        <mesh
-          geometry={nodes.Cube_8.geometry}
-          material={materials.PaletteMaterial005}
-        />
-        <mesh geometry={nodes.Cube_9.geometry} material={materials.wood} />
-        <mesh
-          geometry={nodes.Cube_10.geometry}
-          material={materials["wood.001"]}
-        />
-        <mesh
-          geometry={nodes.Cube_11.geometry}
-          material={materials.PaletteMaterial006}
-        />
-        <mesh
-          geometry={nodes.Cube_12.geometry}
-          material={materials.PaletteMaterial007}
-        />
-        <mesh
-          geometry={nodes.Cube_13.geometry}
-          material={materials.small_wooden_table_01}
-        />
-        <mesh
-          geometry={nodes.Cube_14.geometry}
-          material={materials.PaletteMaterial001}
-        />
-        <mesh
-          geometry={nodes.Cube_15.geometry}
-          material={materials.PaletteMaterial003}
-        />
+    <RigidBody type="fixed" colliders="trimesh">
+      <group {...props} dispose={null}>
+        <group
+          rotation={[0, -0.294, 0]}
+          position={[0, 0.05, 0]}
+          scale={[0.13, 0.005, 0.06]}
+        >
+          <mesh
+            geometry={nodes.Cube_1.geometry}
+            material={materials["Material.003"]}
+          />
+          <mesh
+            geometry={nodes.Cube_2.geometry}
+            material={materials["Material.005"]}
+          />
+          <mesh
+            geometry={nodes.Cube_3.geometry}
+            material={materials.PaletteMaterial002}
+          />
+          <mesh
+            geometry={nodes.Cube_4.geometry}
+            material={materials.laminate_floor_02}
+          />
+          <mesh
+            geometry={nodes.Cube_5.geometry}
+            material={materials.PaletteMaterial004}
+          />
+          <mesh
+            geometry={nodes.Cube_6.geometry}
+            material={materials["Material.007"]}
+          />
+          <mesh
+            geometry={nodes.Cube_7.geometry}
+            material={materials["Material.010"]}
+          />
+          <mesh
+            geometry={nodes.Cube_8.geometry}
+            material={materials.PaletteMaterial005}
+          />
+          <mesh geometry={nodes.Cube_9.geometry} material={materials.wood} />
+          <mesh
+            geometry={nodes.Cube_10.geometry}
+            material={materials["wood.001"]}
+          />
+          <mesh
+            geometry={nodes.Cube_11.geometry}
+            material={materials.PaletteMaterial006}
+          />
+          <mesh
+            geometry={nodes.Cube_12.geometry}
+            material={materials.PaletteMaterial007}
+          />
+          <mesh
+            geometry={nodes.Cube_13.geometry}
+            material={materials.small_wooden_table_01}
+          />
+          <mesh
+            geometry={nodes.Cube_14.geometry}
+            material={materials.PaletteMaterial001}
+          />
+          <mesh
+            geometry={nodes.Cube_15.geometry}
+            material={materials.PaletteMaterial003}
+          />
+        </group>
       </group>
-    </group>
+    </RigidBody>
   );
 }
 

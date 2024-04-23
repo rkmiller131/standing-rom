@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Euler, Quaternion, Vector3 } from 'three'
+import { Euler, Quaternion, Vector3 } from "three";
 
 // Animate Rotation -----------------------------------------------
 export const rigRotation = (
@@ -9,7 +9,12 @@ export const rigRotation = (
   dampener = 1,
   lerpAmount = 0.3
 ) => {
-  if (!vrm.current || !vrm.current.humanoid || !vrm.current.humanoid.humanBones[name]) return;
+  if (
+    !vrm.current ||
+    !vrm.current.humanoid ||
+    !vrm.current.humanoid.humanBones[name]
+  )
+    return;
 
   const Part = vrm.current.humanoid.humanBones[name];
   if (!Part.node) {
@@ -34,14 +39,21 @@ export const rigPosition = (
   dampener = 1,
   lerpAmount = 0.3
 ) => {
-  if (!vrm.current || !vrm.current.humanoid || !vrm.current.humanoid.humanBones[name]) return;
-  
+  if (
+    !vrm.current ||
+    !vrm.current.humanoid ||
+    !vrm.current.humanoid.humanBones[name]
+  )
+    return;
+
   const Part = vrm.current.humanoid.humanBones[name];
   if (!Part.node) {
     console.error(`Node not found for bone: ${name}`);
     return;
   }
-  if (!Part) {return}
+  if (!Part) {
+    return;
+  }
   const vector = new Vector3(
     position.x * dampener,
     position.y * dampener,
