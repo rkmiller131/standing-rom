@@ -37,7 +37,7 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
             clock.current.start();
         }
 
-        console.log('~~ executing once per FRAME')
+        // console.log('~~ executing once per FRAME')
         // import other functions here related to the ecs queries
         // import other functions here related to the WebGPU renderer
     });

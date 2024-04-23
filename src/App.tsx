@@ -12,6 +12,10 @@ import { useGameState } from './ecs/store/GameState'
 
 import './css/App.css'
 import GameInfo from './ui/GameInfo'
+import DemoBubble from './DEMO/demoBubble'
+import { Vector3 } from 'three'
+// import { Physics } from '@react-three/rapier'
+// import RightHandCollider from './DEMO/rightHandCollider'
 
 // import { ECS } from "./ecs/World";
 
@@ -66,6 +70,12 @@ export default function App() {
           <GameInfo />
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           <GameLogic avatar={avatar}/>
+
+          {/* <Physics debug>
+            <RightHandCollider avatar={avatar}/>
+          </Physics> */}
+
+          <DemoBubble position={new Vector3(0.5,1,0)} avatar={avatar}/>
 
         </Canvas>
       </div>
