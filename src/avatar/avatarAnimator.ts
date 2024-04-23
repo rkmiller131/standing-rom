@@ -25,7 +25,7 @@ export const animateVRM = (
     riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
       runtime: "mediapipe",
       video: videoRef.current,
-      // enableLegs: true
+      enableLegs: true
     });
 
     // free motion tilting:
@@ -52,10 +52,10 @@ export const animateVRM = (
     rigRotation(vrm, "leftLowerArm", riggedPose!.LeftLowerArm, 1, .3);
 
     // comment out to lock the legs:
-    // rigRotation(vrm, "leftUpperLeg", riggedPose!.LeftUpperLeg, 1, .3);
-    // rigRotation(vrm, "leftLowerLeg", riggedPose!.LeftLowerLeg, 1, .3);
-    // rigRotation(vrm, "rightUpperLeg", riggedPose!.RightUpperLeg, 1, .3);
-    // rigRotation(vrm, "rightLowerLeg", riggedPose!.RightLowerLeg, 1, .3);
+    rigRotation(vrm, "leftUpperLeg", riggedPose!.LeftUpperLeg, 1, .3);
+    rigRotation(vrm, "leftLowerLeg", riggedPose!.LeftLowerLeg, 1, .3);
+    rigRotation(vrm, "rightUpperLeg", riggedPose!.RightUpperLeg, 1, .3);
+    rigRotation(vrm, "rightLowerLeg", riggedPose!.RightLowerLeg, 1, .3);
   }
 
   // Animate Hands

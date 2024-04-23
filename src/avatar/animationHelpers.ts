@@ -48,4 +48,5 @@ export const rigPosition = (
     position.z * dampener
   );
   Part.position.lerp(vector, lerpAmount); // interpolate
+  // Part.position.add(vector)
 };
