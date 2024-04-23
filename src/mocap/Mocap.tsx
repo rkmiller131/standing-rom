@@ -78,7 +78,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
         }
 
         return () => {
-          // clean up mediapipe
+          // clean up mediapipe.
           holistic.close();
         };
 
