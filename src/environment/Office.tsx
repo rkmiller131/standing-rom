@@ -113,4 +113,4 @@ export function Office(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-useGLTF.preload("/office2-transformed.glb");
+useGLTF.preload("/office.glb");
