@@ -7,6 +7,7 @@ module.exports = {
  output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    publicPath: '/',
  },
  resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -25,6 +26,10 @@ module.exports = {
       {
         test: /\.svg$/,
         use: ['file-loader']
+      },
+      {
+        test: /\.(vrm|glb)$/,
+        type: 'asset/resource',
       },
     ],
  }
