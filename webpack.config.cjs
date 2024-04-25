@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -29,8 +30,15 @@ module.exports = {
       },
       {
         test: /\.(vrm|glb)$/,
-        type: 'asset/resource',
+        type: 'asset/resource'
       },
     ],
- }
+ },
+ plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './production.index.html'),
+      filename: 'index.html',
+      inject: false
+    }),
+  ],
 };

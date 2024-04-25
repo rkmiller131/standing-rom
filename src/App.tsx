@@ -5,7 +5,7 @@ import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
 import Lighting from './environment/Lighting'
-import { Office } from './environment/Office'
+// import { Office } from './environment/Office'
 import LoadingScreen from './loading/LoadingScreen'
 import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
@@ -18,6 +18,8 @@ import { Vector3 } from 'three'
 // import RightHandCollider from './DEMO/rightHandCollider'
 
 // import { ECS } from "./ecs/World";
+
+// const Office = lazy(() => import('./environment/Office'));
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -66,7 +68,7 @@ export default function App() {
         >
 
           <Lighting />
-          <Office />
+          {/* <Office /> */}
           <GameInfo />
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           <GameLogic avatar={avatar}/>
