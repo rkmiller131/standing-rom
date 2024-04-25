@@ -4,11 +4,16 @@ import { VRM } from "@pixiv/three-vrm";
 import Mocap from "./mocap/Mocap";
 import Avatar from "./avatar/Avatar";
 import UbiquitySVG from "./assets/ubiquity.svg";
-import { IncandescentBulb, SpotlightWithTarget } from "./environment/lighting";
+import {
+  IncandescentBulb,
+  Sky,
+  SpotlightWithTarget,
+} from "./environment/lighting";
 // import * as THREE from "three";
-import { Office } from "./environment/Office2";
+import { Office } from "./environment/Office";
 
 import "./css/App.css";
+import { OrbitControls } from "@react-three/drei";
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -45,6 +50,8 @@ export default function App() {
           }}
         >
           {/* Lighting */}
+          <color attach="background" args={["black"]} />
+          <Sky />
           <SpotlightWithTarget
             position={[-0.2, 2.32, -3.7]}
             lock={[0, -30, 0]}
@@ -69,8 +76,6 @@ export default function App() {
 
           {/* Avatar */}
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-
-          <gridHelper args={[10, 10]} />
         </Canvas>
       </div>
     </main>

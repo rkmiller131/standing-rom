@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from 'react'
-import { useThree } from '@react-three/fiber'
+import React, { useRef, useEffect } from "react";
+import { useThree } from "@react-three/fiber";
 
-import * as THREE from 'three'
+import * as THREE from "three";
+import { useVideoTexture } from "@react-three/drei";
 
 const bulbLuminousPowers = {
   "1000W": 110000,
@@ -13,6 +14,29 @@ const bulbLuminousPowers = {
   "10W": 120,
   "4W": 20,
   Off: 0,
+};
+
+export const Sky: React.FC = () => {
+  const tex = useVideoTexture("./sunny.mp4");
+  return (
+    <mesh position={[2.7, 0.95, -2]} rotation={[0, -Math.PI / 2.5, 0]}>
+      <planeGeometry args={[2, 2]} />
+      <meshBasicMaterial map={tex} toneMapped={false} />
+    </mesh>
+  );
+};
+
+export const Sun: React.FC = () => {
+  return (
+    <mesh scale={0.04} position={[4.5, 2.7, -8]}>
+      <sphereGeometry args={[10, 15, 15]} />
+      <meshStandardMaterial
+        emissive="#f9d97a"
+        emissiveIntensity={2}
+        toneMapped={false}
+      />
+    </mesh>
+  );
 };
 
 interface IncandescentBulbProps {
