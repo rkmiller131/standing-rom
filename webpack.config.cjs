@@ -29,8 +29,16 @@ module.exports = {
         use: ['file-loader']
       },
       {
-        test: /\.(vrm|glb)$/,
-        type: 'asset/resource'
+        test: /\.(gltf|glb|fbx|bin|vrm)$/i,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: 'assets/models',
+            limit: false,
+            name: '[name].[ext]'
+          }
+        }],
+        type: 'javascript/auto'
       },
     ],
  },

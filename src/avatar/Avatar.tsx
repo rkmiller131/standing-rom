@@ -21,8 +21,9 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-//       "https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
-      '/Man.vrm',
+      // "https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
+      // '/Man.vrm',
+      'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man.vrm?v=1714005611608',
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setAvatarModel(vrm);
