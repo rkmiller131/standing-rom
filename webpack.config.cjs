@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ThreeMinifierPlugin = require("@yushijinhun/three-minifier-webpack");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const threeMinifier = new ThreeMinifierPlugin();
 const bundleAnalyzer = new BundleAnalyzerPlugin();
 const path = require('path');
 
@@ -15,9 +13,6 @@ module.exports = {
     publicPath: '/',
  },
  resolve: {
-    plugins: [
-      threeMinifier.resolver, // <=== Add resolver on the FIRST line
-    ],
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
  },
  module: {
@@ -55,7 +50,6 @@ module.exports = {
       filename: 'index.html',
       inject: false
     }),
-    threeMinifier,
     bundleAnalyzer
   ],
 };
