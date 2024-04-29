@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Suspense, useEffect, useState } from 'react'
-import { debounce } from 'lodash'
 import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface'
+import debounce from '../ecs/helpers/debounce'
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;

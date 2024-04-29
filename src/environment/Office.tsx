@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { gltfLoader as loader, dracoLoader, GLTF } from '../THREE_Interface'
-import { debounce } from 'lodash'
 import { Suspense, useEffect, useState } from 'react'
+import debounce from '../ecs/helpers/debounce'
 
 interface OfficeProps {
   setEnvironmentModel: (gltf: GLTF) => void;

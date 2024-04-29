@@ -1,29 +1,25 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState, lazy, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { VRM } from '@pixiv/three-vrm'
 import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
-import Lighting from './environment/Lighting'
 import Office from './environment/Office'
 import LoadingScreen from './loading/LoadingScreen'
-import GameInfo from './ui/GameInfo'
 import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
+import { GLTF, VRM } from './THREE_Interface'
 
 import './css/App.css'
 import DemoBubble from './DEMO/demoBubble'
 import { Vector3 } from 'three'
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
+
 // import { Physics } from '@react-three/rapier'
 // import RightHandCollider from './DEMO/rightHandCollider'
 
 // import { ECS } from "./ecs/World";
 
-// const Office = lazy(() => import('./environment/Office'));
-// const Avatar = lazy(() => import('./avatar/Avatar'));
-// const GameInfo = lazy(() => import('./ui/GameInfo'));
-// const Lighting = lazy(() => import('./environment/Lighting'));
+const GameInfo = lazy(() => import('./ui/GameInfo'));
+const Lighting = lazy(() => import('./environment/Lighting'));
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -75,10 +71,12 @@ export default function App() {
             rotation: [0, 0, 0],
           }}
         >
+          <Suspense fallback={null}>
+            <Lighting />
+            <GameInfo />
+          </Suspense>
 
           <Office setEnvironmentModel={setEnvironmentModel} environment={environment}/>
-          <Lighting />
-          <GameInfo />
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           <GameLogic avatar={avatar}/>
 
