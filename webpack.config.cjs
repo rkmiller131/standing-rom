@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require("terser-webpack-plugin");
 const bundleAnalyzer = new BundleAnalyzerPlugin();
 const path = require('path');
 
@@ -28,7 +29,16 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        use: ['file-loader']
+        include: [path.resolve(__dirname, 'src/assets'), path.resolve(__dirname, 'public')],
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'assets',
+            },
+          },
+        ],
       },
       {
         test: /\.(gltf|glb|fbx|bin|vrm)$/i,
@@ -52,4 +62,12 @@ module.exports = {
     }),
     bundleAnalyzer
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      }),
+    ]
+  },
 };
