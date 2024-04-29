@@ -1,30 +1,12 @@
-# React + TypeScript + Vite
+# Standing Range of Motion Version Log
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The [main](https://github.com/rkmiller131/standing-rom) (dev) branch is stable and represents the project's source of truth.
 
-Currently, two official plugins are available:
+The [dummyDemo](https://github.com/rkmiller131/standing-rom/tree/dummyDemo) (prod) branch is hooked to auto-deploy to Vercel, and represents the current version of the project.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 4/29/24: Version 0.0.1 - Demo staged with webpack production bundle
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Git Workflow
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- TODO: link to git workflow md
