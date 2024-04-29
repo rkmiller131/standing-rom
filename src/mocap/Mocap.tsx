@@ -4,23 +4,32 @@ import { useRef, useEffect } from 'react'
 import { drawLandmarkGuides } from './landmarkGuides'
 import { Holistic } from '@mediapipe/holistic'
 import { Camera } from '@mediapipe/camera_utils'
-import { animateVRM } from '../avatar/avatarAnimator'
-import { VRM } from '@pixiv/three-vrm'
+import { animateVRM } from '../avatar/helpers/avatarAnimator'
+import { VRM } from '../THREE_Interface'
 
 import '../css/Mocap.css'
+
 interface MocapProps {
   avatar: React.RefObject<VRM>;
+  setHolisticLoaded: (loaded: boolean) => void;
 }
 
-export default function Mocap({ avatar }: MocapProps) {
+export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
+    let holisticLoaded = false;
 
     function onResults(results: any) {
         if (results.poseLandmarks && results.poseLandmarks.length > 0) {
-          drawLandmarkGuides(results, videoRef, landmarkCanvasRef)
+          drawLandmarkGuides(results, videoRef, landmarkCanvasRef);
+
           if (avatar && avatar.current) {
             animateVRM(avatar, results, videoRef);
+          }
+
+          if (!holisticLoaded) {
+            setHolisticLoaded(true);
+            holisticLoaded = true;
           }
         }
     }
@@ -34,12 +43,12 @@ export default function Mocap({ avatar }: MocapProps) {
             }
           }).catch(error => console.error('getUserMedia error: ', error));
         }
-    
+
         // use mediapipe/holistic to track pose and hand landmarks from video stream
         const holistic = new Holistic({
           locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1675471629/${file}`
         });
-    
+
         holistic.setOptions({
           modelComplexity: 1,
           smoothLandmarks: true,
@@ -48,10 +57,10 @@ export default function Mocap({ avatar }: MocapProps) {
           refineFaceLandmarks: true,
           selfieMode: true,
         });
-    
+
         // Pass holistic a callback function to handle streamed images
         holistic.onResults(onResults);
-    
+
         // start webcam video stream playback
         if (videoRef.current) {
           videoRef.current.addEventListener('loadedmetadata', () => {
@@ -68,9 +77,9 @@ export default function Mocap({ avatar }: MocapProps) {
           });
           camera.start();
         }
-    
+
         return () => {
-          // clean up mediapipe
+          // clean up mediapipe.
           holistic.close();
         };
 

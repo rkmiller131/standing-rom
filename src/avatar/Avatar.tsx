@@ -1,9 +1,7 @@
-import { VRM, VRMLoaderPlugin } from "@pixiv/three-vrm";
-import { useFrame } from "@react-three/fiber";
-import { useLayoutEffect, Suspense, useState } from "react";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import calculateArmAngles from "../helpers/calculateArmAngles";
-import { Html } from "@react-three/drei";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Suspense, useEffect, useState } from 'react'
+import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface'
+import debounce from '../ecs/helpers/debounce'
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -11,34 +9,30 @@ interface AvatarProps {
 }
 export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const [avatarLoaded, setAvatarLoaded] = useState(false);
-  const [right, setRightArmAngle] = useState(0);
-  const [left, setLeftArmAngle] = useState(0);
 
-  useLayoutEffect(() => {
-    const loader = new GLTFLoader();
+  const updateProgress = debounce((loadedPercentage) => {
+    // could set a state here instead, for loading screen in the future
+    console.log('Loading Avatar: ', loadedPercentage + '%');
+  }, 100)
+
+  useEffect(() => {
     loader.register((parser) => {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-//       "https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
-      '/Man.vrm',
+      'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man.vrm?v=1714005611608',
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setAvatarModel(vrm);
         setAvatarLoaded(true);
       },
-      (progress) => console.log(`Loading model... ${100 * (progress.loaded / progress.total)}%`),
+      (progress) => {
+        const loadedPercentage = 100 * (progress.loaded / progress.total);
+        updateProgress(loadedPercentage);
+      },
       (error) => console.error("Error Loading Avatar: ", error)
     );
-  }, [setAvatarModel]);
-
-  useFrame(() => {
-    if (avatar.current) {
-      const { leftArmAngle, rightArmAngle } = calculateArmAngles(avatar);
-      setRightArmAngle(rightArmAngle);
-      setLeftArmAngle(leftArmAngle);
-    }
-  });
+  }, []);
 
   return (
     <Suspense fallback={null}>
@@ -46,26 +40,8 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
         <>
           <primitive
             object={avatar.current!.scene}
-            scale={[0.85, 0.85, 0.85]}
+            scale={[0.75, 0.75, 0.75]}
           />
-          <Html position={[-3, 2.2, -2]}>
-            <div
-              style={{
-                backgroundColor: "#ffffff80",
-                border: "2px solid",
-                borderColor: "turquoise",
-                width: "350px",
-                height: "250px",
-                padding: "10px",
-                borderRadius: "5px",
-                color: "black",
-              }}
-            >
-              <h2>Game Information</h2>
-              <p>Right Arm Angle: {right}°</p>
-              <p>Left Arm Angle: {left}°</p>
-            </div>
-          </Html>
         </>
       )}
     </Suspense>
