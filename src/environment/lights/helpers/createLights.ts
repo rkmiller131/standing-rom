@@ -8,6 +8,7 @@ export const bulbLuminousPowers = {
   "40W": 400,
   "25W": 180,
   "10W": 120,
+  "8W": 80,
   "6W": 60,
   "4W": 20,
   Off: 0,

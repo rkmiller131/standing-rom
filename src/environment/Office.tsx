@@ -18,6 +18,30 @@ export default function Office({
     console.log("Loading Environment: ", loadedPercentage + "%");
   }, 100);
 
+  function updateShadows(gltf: GLTF) {
+    // Iterate over each child of the scene
+    gltf.scene.children.forEach((child) => {
+      // Check if the child has its own children (i.e., it's a group or another container)
+
+      // Iterate over the children of the child
+      child.children.forEach((mesh) => {
+        if (mesh) {
+          // Set castShadow for specific mesh
+          if (mesh.name == "Cube_9" || "Cube_10") {
+            mesh.castShadow = true;
+          }
+
+          if (mesh.name == "Cube_2" || "Cube_5") {
+            mesh.receiveShadow = true;
+          }
+
+          console.log(`Set castShadow for mesh: ${mesh.name}`);
+        }
+      });
+    });
+    return gltf;
+  }
+
   useEffect(() => {
     dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
     loader.setDRACOLoader(dracoLoader);
@@ -28,10 +52,10 @@ export default function Office({
         setEnvironmentModel(gltf);
         setOfficeLoaded(true);
         console.log(gltf.scene.children[0].children[0].name); //Cube_1
-        console.log(gltf.scene.children[0].children[0].material.name); //Material.003
+        // console.log(gltf.scene.children[0].children[0].material.name); //Material.003
         //set mats up for receive and cast shadow
         /* 
-          Cube_1 - Cube_13
+          Cube_1 - Cube_13 map to each of these mats sequentially...
 
           ['Material.003']: THREE.MeshStandardMaterial
           ['Material.005']: THREE.MeshStandardMaterial
@@ -47,6 +71,7 @@ export default function Office({
           PaletteMaterial001: THREE.MeshStandardMaterial
           PaletteMaterial003: THREE.MeshStandardMaterial
         */
+        updateShadows(gltf);
       },
       (progress) => {
         const loadedPercentage = 100 * (progress.loaded / progress.total);
