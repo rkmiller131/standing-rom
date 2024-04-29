@@ -1,8 +1,22 @@
 import { Html } from '@react-three/drei'
 import { useGameState } from '../ecs/store/GameState'
+import { useLayoutEffect, useState } from 'react'
 
 export default function GameInfo() {
     const gameState = useGameState();
+    const [gameInfo, setGameInfo] = useState({
+      maxRightArmAngle: 0,
+      maxLeftArmAngle: 0,
+      popped: 0
+    });
+
+    useLayoutEffect(() => {
+      setGameInfo({
+        maxRightArmAngle: gameState.score.maxRightArmAngle.get({noproxy: true}),
+        maxLeftArmAngle: gameState.score.maxLeftArmAngle.get({noproxy: true}),
+        popped: gameState.score.popped.get({noproxy: true})
+      })
+    }, [gameState.score])
     return (
         <Html position={[-2, 2.2, -2]}>
         <div
@@ -18,9 +32,9 @@ export default function GameInfo() {
           }}
         >
           <h2>Game Information</h2>
-          <p>Max Right Arm Angle: {gameState.score.maxRightArmAngle.get({noproxy: true})}°</p>
-          <p>Max Left Arm Angle: {gameState.score.maxLeftArmAngle.get({noproxy: true})}°</p>
-          <p>Bubbles Popped: {gameState.score.popped.get({noproxy: true})}</p>
+          <p>Max Right Arm Angle: {gameInfo.maxRightArmAngle}°</p>
+          <p>Max Left Arm Angle: {gameInfo.maxLeftArmAngle}°</p>
+          <p>Bubbles Popped: {gameInfo.popped}</p>
         </div>
       </Html>
     )

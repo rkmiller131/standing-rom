@@ -7,8 +7,8 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
 
-    /* Bundler mode */
-    "moduleResolution": "node",
+    /* Bundler mode moduleResolution was node */
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -17,7 +17,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
   },
   "include": ["src"]
 }

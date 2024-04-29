@@ -5,21 +5,25 @@ import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
 import Lighting from './environment/Lighting'
-// import { Office } from './environment/Office'
+import Office from './environment/Office'
 import LoadingScreen from './loading/LoadingScreen'
+import GameInfo from './ui/GameInfo'
 import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
 
 import './css/App.css'
-import GameInfo from './ui/GameInfo'
 import DemoBubble from './DEMO/demoBubble'
 import { Vector3 } from 'three'
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 // import { Physics } from '@react-three/rapier'
 // import RightHandCollider from './DEMO/rightHandCollider'
 
 // import { ECS } from "./ecs/World";
 
 // const Office = lazy(() => import('./environment/Office'));
+// const Avatar = lazy(() => import('./avatar/Avatar'));
+// const GameInfo = lazy(() => import('./ui/GameInfo'));
+// const Lighting = lazy(() => import('./environment/Lighting'));
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -32,12 +36,17 @@ import { Vector3 } from 'three'
 
 export default function App() {
   const avatar = useRef<VRM | null>(null);
+  const environment = useRef<GLTF | null>(null);
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const gameState = useGameState();
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
   };
+
+  const setEnvironmentModel = (gltf: GLTF) => {
+    environment.current = gltf;
+  }
 
   useLayoutEffect(() => {
     if (avatar.current && holisticLoaded) {
@@ -67,8 +76,8 @@ export default function App() {
           }}
         >
 
+          <Office setEnvironmentModel={setEnvironmentModel} environment={environment}/>
           <Lighting />
-          {/* <Office /> */}
           <GameInfo />
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           <GameLogic avatar={avatar}/>
