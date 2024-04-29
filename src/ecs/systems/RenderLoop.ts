@@ -1,9 +1,9 @@
-import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
-import { Clock } from "three";
-import { useGameState } from "../store/GameState";
-import calculateArmAngles from "../../helpers/calculateArmAngles";
-import { VRM } from "@pixiv/three-vrm";
+import { useFrame } from '@react-three/fiber'
+import { useRef } from 'react'
+import { Clock } from 'three'
+import { useGameState } from '../store/GameState'
+import calculateArmAngles from '../../avatar/helpers/calculateArmAngles'
+import { VRM } from '../../THREE_Interface'
 
 interface RenderLoopProps {
     avatar: React.RefObject<VRM>

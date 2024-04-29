@@ -1,5 +1,5 @@
-import { VRM } from "@pixiv/three-vrm";
-import RenderLoop from "./RenderLoop";
+import { VRM } from '../../THREE_Interface'
+import RenderLoop from './RenderLoop'
 
 interface GameLogicProps {
     avatar: React.RefObject<VRM>

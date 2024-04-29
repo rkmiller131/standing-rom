@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Pose, Hand } from 'kalidokit'
 import { rigPosition, rigRotation } from './animationHelpers'
-import { VRM } from '@pixiv/three-vrm'
+import { VRM } from '../../THREE_Interface';
 
 export const animateVRM = (
-  vrm: React.RefObject<VRM>, 
-  results: any, 
+  vrm: React.RefObject<VRM>,
+  results: any,
   videoRef: React.RefObject<HTMLVideoElement>
 ) => {
   if (!vrm.current) return;
@@ -30,7 +30,7 @@ export const animateVRM = (
 
     // free motion tilting:
     // rigRotation(vrm, "hips", riggedPose!.Hips.rotation, 0.7);
-    
+
     rigPosition(
       vrm,
       "Hips",

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useThree } from '@react-three/fiber'
-import { bulbLuminousPowers, createBulbLight } from './utils/createLights'
+import { bulbLuminousPowers, createBulbLight } from './helpers/createLights'
 import { PointLight } from 'three';
 
 interface IncandescentBulbProps {

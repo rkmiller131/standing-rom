@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { VRM, VRMLoaderPlugin } from '@pixiv/three-vrm'
 import { Suspense, useEffect, useState } from 'react'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { debounce } from 'lodash'
+import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface'
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -17,7 +16,6 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   }, 100)
 
   useEffect(() => {
-    const loader = new GLTFLoader();
     loader.register((parser) => {
       return new VRMLoaderPlugin(parser);
     });

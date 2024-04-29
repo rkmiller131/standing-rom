@@ -4,10 +4,11 @@ import { useRef, useEffect } from 'react'
 import { drawLandmarkGuides } from './landmarkGuides'
 import { Holistic } from '@mediapipe/holistic'
 import { Camera } from '@mediapipe/camera_utils'
-import { animateVRM } from '../avatar/avatarAnimator'
-import { VRM } from '@pixiv/three-vrm'
+import { animateVRM } from '../avatar/helpers/avatarAnimator'
+import { VRM } from '../THREE_Interface'
 
 import '../css/Mocap.css'
+
 interface MocapProps {
   avatar: React.RefObject<VRM>;
   setHolisticLoaded: (loaded: boolean) => void;
@@ -25,7 +26,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           if (avatar && avatar.current) {
             animateVRM(avatar, results, videoRef);
           }
-          
+
           if (!holisticLoaded) {
             setHolisticLoaded(true);
             holisticLoaded = true;

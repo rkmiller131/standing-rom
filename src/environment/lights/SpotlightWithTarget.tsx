@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useThree } from '@react-three/fiber'
-import { createTargetObject } from './utils/createTargetObject'
+import { createTargetObject } from './helpers/createTargetObject'
 import { SpotLight } from 'three'
 
 interface SpotlightWithTargetProps {

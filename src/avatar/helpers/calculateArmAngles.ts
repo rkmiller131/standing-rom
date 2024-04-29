@@ -1,5 +1,5 @@
-import { VRM } from "@pixiv/three-vrm";
-import { Euler, MathUtils, Quaternion } from "three";
+import { Euler, MathUtils, Quaternion } from 'three'
+import { VRM } from '../../THREE_Interface'
 
 const ninetyDegreeAdjust = new Euler(0, 0, Math.PI / 2);
 const rotatedLeftArm = new Quaternion().setFromEuler(ninetyDegreeAdjust);

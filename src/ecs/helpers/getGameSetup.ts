@@ -1,6 +1,6 @@
-import { GameType, LevelsType, ScoreType, SetType } from "../ecs/store/types";
-import findSideSpawned from "./findSideSpawned";
-import getGameData from "./getGameData";
+import { GameType, LevelsType, ScoreType, SetType } from '../store/types'
+import findSideSpawned from './findSideSpawned'
+import getGameData from './getGameData'
 
 export default async function getGameSetup(): Promise<GameType> {
     const { reps, sets } = await getGameData();
@@ -13,7 +13,7 @@ export default async function getGameSetup(): Promise<GameType> {
       };
       levels.push(set);
     }
-  
+
     const score: ScoreType = {
       totalBubbles: reps * sets,
       popped: 0,
@@ -21,7 +21,7 @@ export default async function getGameSetup(): Promise<GameType> {
       maxRightArmAngle: 0,
       poppedVelocities: []
     }
-  
+
     const game: GameType = {
       levels,
       score,

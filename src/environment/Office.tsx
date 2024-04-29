@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
+import { gltfLoader as loader, dracoLoader, GLTF } from '../THREE_Interface'
 import { debounce } from 'lodash'
 import { Suspense, useEffect, useState } from 'react'
-import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 interface OfficeProps {
   setEnvironmentModel: (gltf: GLTF) => void;
@@ -17,10 +16,6 @@ export default function Office({ setEnvironmentModel, environment }: OfficeProps
   }, 100)
 
   useEffect(() => {
-    const loader = new GLTFLoader();
-
-    // // Optional: Provide a DRACOLoader instance to decode compressed mesh data
-    const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
     loader.setDRACOLoader( dracoLoader );
 
