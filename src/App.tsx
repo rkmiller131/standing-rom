@@ -1,16 +1,16 @@
 import { useLayoutEffect, useRef, useState, lazy, Suspense } from 'react'
-import { Canvas } from '@react-three/fiber'
+import Renderer from './renderer/Renderer'
 import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
 import Office from './environment/Office'
-import LoadingScreen from './loading/LoadingScreen'
+import LoadingScreen from './ui/LoadingScreen'
 import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
 import { GLTF, VRM } from './THREE_Interface'
 
 import './css/App.css'
-import DemoBubble from './DEMO/demoBubble'
+// import DemoBubble from './DEMO/demoBubble'
 import { Vector3 } from 'three'
 
 // import { Physics } from '@react-three/rapier'
@@ -20,6 +20,7 @@ import { Vector3 } from 'three'
 
 const GameInfo = lazy(() => import('./ui/GameInfo'));
 const Lighting = lazy(() => import('./environment/Lighting'));
+const DemoBubble = lazy(() => import('./DEMO/demoBubble'))
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -60,20 +61,11 @@ export default function App() {
         {/* currently no fade-out - todo later */}
         {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
 
-        <Canvas
-          shadows
-          dpr={[1, 1.5]}
-          camera={{
-            position: [0, 1, 2],
-            fov: 50,
-            near: 1,
-            far: 20,
-            rotation: [0, 0, 0],
-          }}
-        >
+        <Renderer>
           <Suspense fallback={null}>
             <Lighting />
             <GameInfo />
+            <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/>
           </Suspense>
 
           <Office setEnvironmentModel={setEnvironmentModel} environment={environment}/>
@@ -84,9 +76,9 @@ export default function App() {
             <RightHandCollider avatar={avatar}/>
           </Physics> */}
 
-          <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/>
+          {/* <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/> */}
 
-        </Canvas>
+        </Renderer>
       </div>
     </main>
   );

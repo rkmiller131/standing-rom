@@ -24,7 +24,7 @@ export default function DemoBubble({ position, avatar }: DemoBubbleProps) {
     const gameState = useGameState();
 
     useFrame(() => {
-        if (avatar.current && sphereRef.current && gameState.sceneLoaded) {
+        if (avatar.current && sphereRef.current && gameState.sceneLoaded.get({noproxy: true})) {
             // console.log('~~ in the sphere use frame')
             const rightHandMatrix = avatar.current.humanoid.humanBones.rightHand.node.matrixWorld;
             const rightHandPosition = handRef.current.setFromMatrixPosition(rightHandMatrix);

@@ -28,7 +28,9 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           }
 
           if (!holisticLoaded) {
-            setHolisticLoaded(true);
+            setTimeout(() => {
+              setHolisticLoaded(true);
+            }, 2000)
             holisticLoaded = true;
           }
         }
@@ -54,7 +56,6 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           smoothLandmarks: true,
           minDetectionConfidence: 0.7,
           minTrackingConfidence: 0.7,
-          refineFaceLandmarks: true,
           selfieMode: true,
         });
 

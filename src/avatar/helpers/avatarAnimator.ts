@@ -17,8 +17,9 @@ export const animateVRM = (
   // Pose 2D landmarks are with respect to videoWidth and videoHeight
   const pose2DLandmarks = results.poseLandmarks;
 
-  const leftHandLandmarks = results.rightHandLandmarks;
-  const rightHandLandmarks = results.leftHandLandmarks;
+  // need to be flipped (?) doesn't seem to make too much of a difference
+  const leftHandLandmarks = results.leftHandLandmarks;
+  const rightHandLandmarks = results.rightHandLandmarks;
 
   // Animate Pose
   if (pose2DLandmarks && pose3DLandmarks) {
