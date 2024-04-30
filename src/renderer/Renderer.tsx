@@ -1,30 +1,53 @@
 import { Canvas } from '@react-three/fiber'
 import PixelRatio from './PixelRatio'
-import { useState } from 'react'
-import { WebGLRenderer } from '../THREE_Interface'
 
 interface RendererProps {
-    children: React.ReactNode
+ children: React.ReactNode;
+}
+
+let webGL2 = false;
+const canvas = document.createElement('canvas');
+const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
+const isMac = navigator.userAgent.indexOf('Macintosh') > -1;
+
+if (gl) {
+  if (gl.getParameter(gl.VERSION).slice(0, 9) === 'WebGL 2.0' && !(isChrome && isMac)) webGL2 = (true);
+} else {
+  throw new Error('WebGL is not supported by your browser.');
 }
 
 export default function Renderer({ children }: RendererProps) {
-    const [gl, setGL] = useState(new WebGLRenderer({ antialias: true }));
 
-    return (
-        <Canvas
-          shadows
-          dpr={[1, 1.5]}
-          camera={{
-            position: [0, 1, 2],
-            fov: 50,
-            near: 1,
-            far: 20,
-            rotation: [0, 0, 0],
-          }}
-        //   gl={gl}
-        >
-            <PixelRatio setGL={setGL}/>
-            {children}
-        </Canvas>
-    )
+ return webGL2 ? (
+  <Canvas
+    shadows
+    camera={{
+      position: [0, 1, 2],
+      fov: 50,
+      near: 1,
+      far: 20,
+      rotation: [0, 0, 0],
+    }}
+    gl={{ powerPreference: 'high-performance' }}
+  >
+    <PixelRatio />
+    {children}
+  </Canvas>
+ ) : (
+  <Canvas
+    shadows
+    camera={{
+      position: [0, 1, 2],
+      fov: 50,
+      near: 1,
+      far: 20,
+      rotation: [0, 0, 0],
+    }}
+    gl={{ powerPreference: 'low-power', antialias: false }}
+  >
+    <PixelRatio />
+    {children}
+  </Canvas>
+ );
 }
