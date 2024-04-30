@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from 'react'
-import { useThree } from '@react-three/fiber'
-import { createTargetObject } from './helpers/createTargetObject'
-import { SpotLight } from 'three'
+import React, { useRef, useEffect } from "react";
+import { useThree } from "@react-three/fiber";
+import { createTargetObject } from "./helpers/createTargetObject";
+import { SpotLight } from "three";
 
 interface SpotlightWithTargetProps {
   lock: [number, number, number];
@@ -19,6 +19,7 @@ export const SpotlightWithTarget: React.FC<SpotlightWithTargetProps> = ({
     const targetObject = createTargetObject(scene, lock);
     if (spotlightRef.current) {
       spotlightRef.current.target = targetObject;
+      spotlightRef.current.castShadow = true;
       spotlightRef.current.position.set(...position);
     }
 
