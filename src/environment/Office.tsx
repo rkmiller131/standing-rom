@@ -19,25 +19,37 @@ export default function Office({
   }, 100);
 
   function updateShadows(gltf: GLTF) {
-    // Iterate over each child of the scene
-    gltf.scene.children.forEach((child) => {
-      // Check if the child has its own children (i.e., it's a group or another container)
+    // Directly iterate over the meshes in the scene
+    gltf.scene.traverse((object) => {
+      if (object) {
+        // Check if the mesh name matches any of the specified names for castShadow
+        const isCastShadow =
+          object.name === "Cube_3" ||
+          object.name === "Cube_7" ||
+          object.name === "Cube_8" ||
+          object.name === "Cube_9" ||
+          object.name === "Cube_10" ||
+          object.name === "Cube_11" ||
+          object.name === "Cube_12";
+        // Check if the mesh name matches any of the specified names for receiveShadow
+        const isReceiveShadow =
+          object.name === "Cube_13" ||
+          object.name === "Cube_3" ||
+          object.name === "Cube_4" ||
+          object.name === "Cube_5" ||
+          object.name === "Cube_7" ||
+          object.name === "Cube_8";
 
-      // Iterate over the children of the child
-      child.children.forEach((mesh) => {
-        if (mesh) {
-          // Set castShadow for specific mesh
-          if (mesh.name == "Cube_9" || "Cube_10") {
-            mesh.castShadow = true;
-          }
-
-          if (mesh.name == "Cube_2" || "Cube_5") {
-            mesh.receiveShadow = true;
-          }
-
-          console.log(`Set castShadow for mesh: ${mesh.name}`);
+        // Apply castShadow and receiveShadow based on the conditions
+        if (isCastShadow) {
+          object.castShadow = true;
+          console.log(`Set castShadow for object: ${object.name}`);
         }
-      });
+        if (isReceiveShadow) {
+          object.receiveShadow = true;
+          console.log(`Set receiveShadow for object: ${object.name}`);
+        }
+      }
     });
     return gltf;
   }
@@ -51,25 +63,25 @@ export default function Office({
       (gltf) => {
         setEnvironmentModel(gltf);
         setOfficeLoaded(true);
-        console.log(gltf.scene.children[0].children[0].name); //Cube_1
-        // console.log(gltf.scene.children[0].children[0].material.name); //Material.003
+
+        // console.log(gltf.scene.children[0].children[0].material.name);
         //set mats up for receive and cast shadow
         /* 
           Cube_1 - Cube_13 map to each of these mats sequentially...
 
-          ['Material.003']: THREE.MeshStandardMaterial
-          ['Material.005']: THREE.MeshStandardMaterial
-          PaletteMaterial002: THREE.MeshStandardMaterial //Cast
-          laminate_floor_02: THREE.MeshStandardMaterial //Receive
-          PaletteMaterial004: THREE.MeshStandardMaterial //Cast
-          ['Material.007']: THREE.MeshStandardMaterial
-          ['Material.010']: THREE.MeshStandardMaterial
-          PaletteMaterial005: THREE.MeshStandardMaterial
-          small_wooden_table_01: THREE.MeshStandardMaterial //Cast
-          steel_frame_shelves_02: THREE.MeshStandardMaterial //Cast
-          PottedPlant_04: THREE.MeshStandardMaterial //Cast
-          PaletteMaterial001: THREE.MeshStandardMaterial
-          PaletteMaterial003: THREE.MeshStandardMaterial
+          ['Material.003']: THREE.MeshStandardMaterial  1
+          ['Material.005']: THREE.MeshStandardMaterial  2 //Ceiling
+          PaletteMaterial002: THREE.MeshStandardMaterial //Cast   3
+          laminate_floor_02: THREE.MeshStandardMaterial //Receive   4
+          PaletteMaterial004: THREE.MeshStandardMaterial //Cast    5 
+          ['Material.007']: THREE.MeshStandardMaterial  6
+          ['Material.010']: THREE.MeshStandardMaterial  7
+          PaletteMaterial005: THREE.MeshStandardMaterial    8
+          small_wooden_table_01: THREE.MeshStandardMaterial //Cast  9
+          steel_frame_shelves_02: THREE.MeshStandardMaterial //Cast   10
+          PottedPlant_04: THREE.MeshStandardMaterial //Cast   11
+          PaletteMaterial001: THREE.MeshStandardMaterial  12
+          PaletteMaterial003: THREE.MeshStandardMaterial  13
         */
         updateShadows(gltf);
       },
