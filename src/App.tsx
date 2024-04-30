@@ -1,10 +1,10 @@
 import { useLayoutEffect, useRef, useState, lazy, Suspense } from 'react'
-import { Canvas } from '@react-three/fiber'
+import Renderer from './renderer/Renderer'
 import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
 import Office from './environment/Office'
-import LoadingScreen from './loading/LoadingScreen'
+import LoadingScreen from './ui/LoadingScreen'
 import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
 import { GLTF, VRM } from './THREE_Interface'
@@ -53,17 +53,8 @@ export default function App() {
         {/* currently no fade-out - todo later */}
         {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
 
-        <Canvas
-          shadows
-          dpr={[1, 1.5]}
-          camera={{
-            position: [0, 1, 2],
-            fov: 50,
-            near: 1,
-            far: 20,
-            rotation: [0, 0, 0],
-          }}
-        >
+        <Renderer>
+
           <Suspense fallback={null}>
             <Lighting />
             <GameInfo />
@@ -73,7 +64,7 @@ export default function App() {
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           <GameLogic avatar={avatar}/>
 
-        </Canvas>
+        </Renderer>
       </div>
     </main>
   );

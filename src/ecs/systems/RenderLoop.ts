@@ -19,7 +19,7 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
         if (elapsedTime >= 0.5) {
 
             // currently starts checking when avatar is in T pose - add an extra && for when game start happens
-            if (gameState.sceneLoaded && avatar.current) {
+            if (gameState.sceneLoaded.get({ noproxy: true }) && avatar.current) {
                 const { leftArmAngle, rightArmAngle } = calculateArmAngles(avatar);
                 const maxLeftArmAngle = gameState.score.maxLeftArmAngle.get({ noproxy: true });
                 const maxRightArmAngle = gameState.score.maxRightArmAngle.get({ noproxy: true });
