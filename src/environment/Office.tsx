@@ -55,7 +55,7 @@ export default function Office({
     loader.setDRACOLoader(dracoLoader);
 
     loader.load(
-      "/office-transformed.glb",
+      "https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/office2.glb?v=1714510499834",
       (gltf) => {
         setEnvironmentModel(gltf);
         updateShadows(gltf);
