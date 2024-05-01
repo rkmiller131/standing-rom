@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, lazy, Suspense } from 'react'
-import Renderer from './renderer/Renderer'
+// import Renderer from './renderer/Renderer'
 import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
@@ -8,9 +8,9 @@ import LoadingScreen from './ui/LoadingScreen'
 import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
 import { GLTF, VRM } from './THREE_Interface'
+import checkUserDevice from './ecs/helpers/checkUserDevice'
 
 import './css/App.css'
-// import DemoBubble from './DEMO/demoBubble'
 import { Vector3 } from 'three'
 
 // import { Physics } from '@react-three/rapier'
@@ -18,6 +18,7 @@ import { Vector3 } from 'three'
 
 // import { ECS } from "./ecs/World";
 
+const Renderer = lazy(() => import('./renderer/Renderer'))
 const GameInfo = lazy(() => import('./ui/GameInfo'));
 const Lighting = lazy(() => import('./environment/Lighting'));
 const DemoBubble = lazy(() => import('./DEMO/demoBubble'))
@@ -36,6 +37,7 @@ export default function App() {
   const environment = useRef<GLTF | null>(null);
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const gameState = useGameState();
+  gameState.device.set(checkUserDevice());
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
@@ -61,24 +63,24 @@ export default function App() {
         {/* currently no fade-out - todo later */}
         {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
 
-        <Renderer>
-          <Suspense fallback={null}>
-            <Lighting />
-            <GameInfo />
-            <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/>
-          </Suspense>
+        <Suspense fallback={null}>
+          <Renderer>
+            <Suspense fallback={null}>
+              <Lighting />
+              <GameInfo />
+              <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/>
+            </Suspense>
 
-          <Office setEnvironmentModel={setEnvironmentModel} environment={environment}/>
-          <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-          <GameLogic avatar={avatar}/>
+            <Office setEnvironmentModel={setEnvironmentModel} environment={environment}/>
+            <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+            <GameLogic avatar={avatar}/>
 
-          {/* <Physics debug>
-            <RightHandCollider avatar={avatar}/>
-          </Physics> */}
+            {/* <Physics debug>
+              <RightHandCollider avatar={avatar}/>
+            </Physics> */}
 
-          {/* <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/> */}
-
-        </Renderer>
+          </Renderer>
+        </Suspense>
       </div>
     </main>
   );

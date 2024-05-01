@@ -46,8 +46,10 @@ export default function Office({
     <Suspense fallback={null}>
       {officeLoaded && (
         <>
-          <primitive object={environment.current!.scene} />
-        </>
+        <primitive
+          object={environment.current!.scene}
+        />
+      </>
       )}
     </Suspense>
   );
