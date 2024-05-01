@@ -1,17 +1,18 @@
 #mocap-container {
-    height: auto;
     position: absolute;
     z-index: 2;
 }
 
 .Desktop {
     width: 450px;
+    height: auto;
     bottom: 3%;
     left: 2%;
 }
 
 .Tablet {
     width: 450px;
+    height: 300px;
     bottom: 1%;
     left: 0;
     right: 0;
@@ -20,7 +21,8 @@
 }
 
 .Mobile {
-    width: 90%;
+    width: 325px;
+    height: 215px;
     left: 0;
     right: 0;
     margin-left: auto;
