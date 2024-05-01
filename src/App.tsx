@@ -1,18 +1,19 @@
-import { useLayoutEffect, useRef, useState, lazy, Suspense } from 'react'
-import Renderer from './renderer/Renderer'
-import Mocap from './mocap/Mocap'
-import Avatar from './avatar/Avatar'
-import UbiquitySVG from './assets/ubiquity.svg'
-import Office from './environment/Office'
-import LoadingScreen from './ui/LoadingScreen'
-import GameLogic from './ecs/systems/GameLogic'
-import { useGameState } from './ecs/store/GameState'
-import { GLTF, VRM } from './THREE_Interface'
+import { useLayoutEffect, useRef, useState, lazy, Suspense } from "react";
+import Renderer from "./renderer/Renderer";
+import Mocap from "./mocap/Mocap";
+import Avatar from "./avatar/Avatar";
+import UbiquitySVG from "./assets/ubiquity.svg";
+import Office from "./environment/Office";
+import LoadingScreen from "./ui/LoadingScreen";
+import GameLogic from "./ecs/systems/GameLogic";
+import { useGameState } from "./ecs/store/GameState";
+import { GLTF, VRM } from "./THREE_Interface";
 
-import './css/App.css'
+import "./css/App.css";
+import { Sound } from "./environment/sound/Sound";
 
-const GameInfo = lazy(() => import('./ui/GameInfo'));
-const Lighting = lazy(() => import('./environment/Lighting'));
+const GameInfo = lazy(() => import("./ui/GameInfo"));
+const Lighting = lazy(() => import("./environment/Lighting"));
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -35,7 +36,7 @@ export default function App() {
 
   const setEnvironmentModel = (gltf: GLTF) => {
     environment.current = gltf;
-  }
+  };
 
   useLayoutEffect(() => {
     if (avatar.current && holisticLoaded) {
@@ -47,23 +48,25 @@ export default function App() {
     <main id="app-container">
       {/* UI */}
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
-      <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded}/>
+      <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
 
       <div className="canvas-container">
         {/* currently no fade-out - todo later */}
         {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
 
         <Renderer>
-
           <Suspense fallback={null}>
             <Lighting />
+            <Sound />
             <GameInfo />
           </Suspense>
 
-          <Office setEnvironmentModel={setEnvironmentModel} environment={environment}/>
+          <Office
+            setEnvironmentModel={setEnvironmentModel}
+            environment={environment}
+          />
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-          <GameLogic avatar={avatar}/>
-
+          <GameLogic avatar={avatar} />
         </Renderer>
       </div>
     </main>
