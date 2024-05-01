@@ -13,7 +13,8 @@ const initialState: GameType = hookstate({
         poppedVelocities: []
     },
     gameOver: false,
-    sceneLoaded: false
+    sceneLoaded: false,
+    device: 'Desktop'
 });
 
 export const useGameState = () => {

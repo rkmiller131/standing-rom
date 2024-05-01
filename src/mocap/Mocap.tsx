@@ -8,6 +8,7 @@ import { animateVRM } from '../avatar/helpers/avatarAnimator'
 import { VRM } from '../THREE_Interface'
 
 import '../css/Mocap.css'
+import { useGameState } from '../ecs/store/GameState'
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;
@@ -18,6 +19,8 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
     let holisticLoaded = false;
+    const gameState = useGameState();
+    const device = gameState.device.get({ noproxy: true});
 
     function onResults(results: any) {
         if (results.poseLandmarks && results.poseLandmarks.length > 0) {
@@ -52,7 +55,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
         });
 
         holistic.setOptions({
-          modelComplexity: 1,
+          modelComplexity: device !== 'Desktop' ? 0 : 1,
           smoothLandmarks: true,
           minDetectionConfidence: 0.7,
           minTrackingConfidence: 0.7,
@@ -87,7 +90,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
       }, []);
 
     return (
-        <div id="mocap-container">
+        <div id="mocap-container" className={device}>
             <video id="webcam-stream" ref={videoRef} width="100%" height="100%" muted playsInline></video>
             <canvas id="landmark-guides" ref={landmarkCanvasRef}/>
         </div>
