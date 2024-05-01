@@ -28,7 +28,9 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           }
 
           if (!holisticLoaded) {
-            setHolisticLoaded(true);
+            setTimeout(() => {
+              setHolisticLoaded(true);
+            }, 2000)
             holisticLoaded = true;
           }
         }

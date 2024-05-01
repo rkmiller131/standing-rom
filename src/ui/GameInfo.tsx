@@ -11,12 +11,14 @@ export default function GameInfo() {
     });
 
     useEffect(() => {
-      setGameInfo({
-        maxRightArmAngle: gameState.score.maxRightArmAngle.get({noproxy: true}),
-        maxLeftArmAngle: gameState.score.maxLeftArmAngle.get({noproxy: true}),
-        popped: gameState.score.popped.get({noproxy: true})
-      })
-    }, [gameState.score])
+      if (gameState.sceneLoaded.get({ noproxy: true })) {
+        setGameInfo({
+          maxRightArmAngle: gameState.score.maxRightArmAngle.get({ noproxy: true }),
+          maxLeftArmAngle: gameState.score.maxLeftArmAngle.get({ noproxy: true }),
+          popped: gameState.score.popped.get({ noproxy: true })
+        })
+      }
+    }, [gameState.score, gameState.sceneLoaded])
 
     return (
         <Html position={[-2, 2.2, -2]}>
