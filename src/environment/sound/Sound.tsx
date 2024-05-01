@@ -1,19 +1,12 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useThree } from "@react-three/fiber";
-import {
-  AudioListener,
-  PositionalAudio,
-  SphereGeometry,
-  MeshPhongMaterial,
-  Mesh,
-} from "three";
+import { AudioListener, PositionalAudio, SphereGeometry, Mesh } from "three";
 import * as THREE from "three";
 
 export const Sound = () => {
   const { camera, scene } = useThree();
 
   useEffect(() => {
-    // Create an AudioListener and add it to the camera, why the camera? idk
     const listener = new AudioListener();
     camera.add(listener);
 
