@@ -1,52 +1,44 @@
-import Song from "../../assets/song.mp3";
-import { useEffect, useState } from "react";
+import { useEffect } from 'react'
+import { useThree } from '@react-three/fiber'
+import { SphereGeometry, Mesh, PositionalAudio, MeshPhongMaterial, DoubleSide } from 'three'
+import { audioLoader, audioListener as listener } from '../../THREE_Interface'
 
-export const Audio = () => {
-  const [showModal, setShowModal] = useState(true);
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-  const [source, setSource] = useState<AudioBufferSourceNode | null>(null);
+const songPath = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/officeBgMusic.mp3?v=1714682590547';
 
+export default function Sound () {
+  const { camera, scene } = useThree();
+  
   useEffect(() => {
-    // Initialize the AudioContext when the component mounts
-    const context = new AudioContext();
-    setAudioContext(context);
+    camera.add(listener);
 
-    // Load and decode the audio file
-    fetch(Song)
-      .then((response) => response.arrayBuffer())
-      .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
-      .then((audioBuffer) => {
-        const src = context.createBufferSource();
-        src.buffer = audioBuffer;
-        src.loop = true;
-        setSource(src);
+    const sound = new PositionalAudio(listener);
 
-        src.connect(context.destination);
-      })
-      .catch((error) => console.error("Error loading audio:", error));
+    const sphere = new SphereGeometry(20, 32, 16);
+    const material = new MeshPhongMaterial({
+      color: 0xff2200,
+      transparent: true,
+      opacity: 0,
+      side: DoubleSide,
+    });
+
+    audioLoader.load(songPath, function (buffer: AudioBuffer) {
+      sound.setBuffer(buffer);
+      sound.setRefDistance(20);
+      sound.setVolume(0.05);
+      sound.play();
+    });
+
+    const mesh = new Mesh(sphere, material);
+
+    mesh.add(sound);
+
+    scene.add(mesh);
+
+    return () => {
+      scene.remove(mesh);
+      camera.remove(listener);
+    };
   }, []);
 
-  const handlePlay = () => {
-    if (audioContext && source) {
-      audioContext.resume().then(() => {
-        source.start();
-        console.log("Playback resumed successfully");
-        setShowModal(false);
-      });
-    }
-  };
-
-  return (
-    <div>
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Play Audio</h2>
-            <p>Click the button below to unmute the audio.</p>
-            <button onClick={handlePlay}>Play</button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+  return null;
+}

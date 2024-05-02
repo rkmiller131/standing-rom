@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const bundleAnalyzer = new BundleAnalyzerPlugin();
-const path = require("path");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
 
 module.exports = {
   mode: "production",
@@ -77,18 +78,36 @@ module.exports = {
       },
       {
         test: /\.(gltf|glb|fbx|bin|vrm)$/i,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              outputPath: "assets/models",
-              limit: false,
-              name: "[name].[ext]",
-            },
-          },
-        ],
-        type: "javascript/auto",
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: 'assets/models',
+            limit: false,
+            name: '[name].[ext]'
+          }
+        }],
+        type: 'javascript/auto'
       },
+      {
+        test: /\.mp3$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: 'assets/audio',
+            name: '[name].[ext]'
+          }
+        }],
+      },
+      {
+        test: /\.mp4$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: 'assets/video',
+            name: '[name].[ext]'
+          }
+        }],
+      }
     ],
   },
   plugins: [
@@ -98,11 +117,15 @@ module.exports = {
       inject: false,
       favicon: path.resolve(__dirname, "public/uvxicon.svg"),
     }),
-    // bundleAnalyzer
+    // bundleAnalyzer,
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[id].[contenthash].css',
+    }),
   ],
   optimization: {
     minimize: true,
-    minimizer: [
+    minimizer: [ // optimize js
       new TerserPlugin({
         parallel: true,
       }),
