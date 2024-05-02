@@ -1,4 +1,4 @@
-import { PointLight, Scene } from "three";
+import { PointLight, Scene } from 'three'
 
 export const bulbLuminousPowers = {
   "1000W": 110000,

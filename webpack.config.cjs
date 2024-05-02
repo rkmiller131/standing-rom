@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require("terser-webpack-plugin");
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const bundleAnalyzer = new BundleAnalyzerPlugin();
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
@@ -52,6 +53,26 @@ module.exports = {
         }],
         type: 'javascript/auto'
       },
+      {
+        test: /\.mp3$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: 'assets/audio',
+            name: '[name].[ext]'
+          }
+        }],
+      },
+      {
+        test: /\.mp4$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: 'assets/video',
+            name: '[name].[ext]'
+          }
+        }],
+      }
     ],
  },
  plugins: [
@@ -61,11 +82,15 @@ module.exports = {
       inject: false,
       favicon: path.resolve(__dirname, 'public/uvxicon.svg'), 
     }),
-    // bundleAnalyzer
+    // bundleAnalyzer,
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[id].[contenthash].css',
+    }),
   ],
   optimization: {
     minimize: true,
-    minimizer: [
+    minimizer: [ // optimize js
       new TerserPlugin({
         parallel: true,
       }),

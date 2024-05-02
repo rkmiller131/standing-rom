@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
-import { useThree } from "@react-three/fiber";
-import { bulbLuminousPowers, createBulbLight } from "./helpers/createLights";
-import { PointLight } from "three";
+import React, { useRef, useEffect } from 'react'
+import { useThree } from '@react-three/fiber'
+import { bulbLuminousPowers, createBulbLight } from './helpers/createLights'
+import { PointLight } from 'three'
 
 interface IncandescentBulbProps {
   bulbPower?: keyof typeof bulbLuminousPowers;

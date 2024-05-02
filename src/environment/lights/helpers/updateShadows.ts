@@ -1,4 +1,4 @@
-import { GLTF } from "../../../THREE_Interface";
+import { GLTF } from '../../../THREE_Interface'
 
 /**
  * Updates shadows for objects in a GLTF scene.

@@ -2,7 +2,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface'
 import debounce from '../ecs/helpers/debounce'
-import { useGameState } from '../ecs/store/GameState';
+import { useGameState } from '../ecs/store/GameState'
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -22,7 +22,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-      'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man.vrm?v=1714005611608',
+      'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man2.vrm?v=1714584791654',
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setAvatarModel(vrm);

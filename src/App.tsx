@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, lazy, Suspense } from 'react'
-// import Renderer from './renderer/Renderer'
+import Renderer from './renderer/Renderer'
 import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
@@ -18,7 +18,8 @@ import { Vector3 } from 'three'
 
 // import { ECS } from "./ecs/World";
 
-const Renderer = lazy(() => import('./renderer/Renderer'))
+const Sky = lazy(() => import('./environment/Sky'));
+const Sound = lazy(() => import('./environment/sound/Sound'));
 const GameInfo = lazy(() => import('./ui/GameInfo'));
 const Lighting = lazy(() => import('./environment/Lighting'));
 const DemoBubble = lazy(() => import('./DEMO/demoBubble'))
@@ -63,13 +64,14 @@ export default function App() {
         {/* currently no fade-out - todo later */}
         {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
 
-        <Suspense fallback={null}>
-          <Renderer>
-            <Suspense fallback={null}>
-              <Lighting />
-              <GameInfo />
-              <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/>
-            </Suspense>
+        <Renderer>
+          <Suspense fallback={null}>
+            <Lighting />
+            <Sound />
+            <Sky />
+            <GameInfo />
+            <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/>
+          </Suspense>
 
             <Office setEnvironmentModel={setEnvironmentModel} environment={environment}/>
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
@@ -80,7 +82,6 @@ export default function App() {
             </Physics> */}
 
           </Renderer>
-        </Suspense>
       </div>
     </main>
   );
