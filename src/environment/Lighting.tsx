@@ -1,17 +1,5 @@
-import { useVideoTexture } from "@react-three/drei";
 import { IncandescentBulb } from "./lights/IncandescentBulb";
 import { SpotlightWithTarget } from "./lights/SpotlightWithTarget";
-import Video from "../assets/sun2.mp4";
-
-export function Sky() {
-  const texture = useVideoTexture(Video);
-  return (
-    <mesh position={[5, 1.2, -8.5]}>
-      <planeGeometry args={[10, 10]} />
-      <meshBasicMaterial map={texture} toneMapped={false} />
-    </mesh>
-  );
-}
 
 export default function Lighting() {
   return (

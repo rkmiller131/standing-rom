@@ -11,7 +11,7 @@ import { GLTF, VRM } from "./THREE_Interface";
 
 import "./css/App.css";
 
-const Sky = lazy(() => import('./environment/Lighting').then((module) => ({ default: module.Sky })));
+const Sky = lazy(() => import('./environment/Sky'));
 const Sound = lazy(() => import('./environment/sound/Sound'));
 const GameInfo = lazy(() => import("./ui/GameInfo"));
 const Lighting = lazy(() => import("./environment/Lighting"));
@@ -50,7 +50,7 @@ export default function App() {
       {/* UI */}
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-      
+
       <div className="canvas-container">
         {/* currently no fade-out - todo later */}
         {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
