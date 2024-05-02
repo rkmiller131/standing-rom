@@ -1,15 +1,16 @@
-import { useLayoutEffect, useRef, useState, lazy, Suspense } from "react";
-import Renderer from "./renderer/Renderer";
-import Mocap from "./mocap/Mocap";
-import Avatar from "./avatar/Avatar";
-import UbiquitySVG from "./assets/ubiquity.svg";
-import Office from "./environment/Office";
-import LoadingScreen from "./ui/LoadingScreen";
-import GameLogic from "./ecs/systems/GameLogic";
-import { useGameState } from "./ecs/store/GameState";
-import { GLTF, VRM } from "./THREE_Interface";
+import { useLayoutEffect, useRef, useState, lazy, Suspense } from 'react'
+import Renderer from './renderer/Renderer'
+import Mocap from './mocap/Mocap'
+import Avatar from './avatar/Avatar'
+import UbiquitySVG from './assets/ubiquity.svg'
+import Office from './environment/Office'
+import LoadingScreen from './ui/LoadingScreen'
+import GameLogic from './ecs/systems/GameLogic'
+import { useGameState } from './ecs/store/GameState'
+import { GLTF, VRM } from './THREE_Interface'
+import checkUserDevice from './ecs/helpers/checkUserDevice'
 
-import "./css/App.css";
+import './css/App.css'
 
 const Sky = lazy(() => import('./environment/Sky'));
 const Sound = lazy(() => import('./environment/sound/Sound'));
@@ -30,6 +31,7 @@ export default function App() {
   const environment = useRef<GLTF | null>(null);
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const gameState = useGameState();
+  gameState.device.set(checkUserDevice());
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;

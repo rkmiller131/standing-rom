@@ -1,10 +1,32 @@
 #mocap-container {
-    width: 450px;
-    height: 300px;
     position: absolute;
     z-index: 2;
+}
+
+.Desktop {
+    width: 450px;
+    height: auto;
     bottom: 3%;
     left: 2%;
+}
+
+.Tablet {
+    width: 450px;
+    height: 300px;
+    bottom: 1%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Mobile {
+    width: 325px;
+    height: 215px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #webcam-stream {

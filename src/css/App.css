@@ -32,3 +32,16 @@
   text-align: center;
   z-index: 4;
 }
+
+@media screen and (max-width: 820px) {
+  .uvx-logo {
+      width: 25%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .uvx-logo {
+      width: 33%;
+      bottom: 0;
+  }
+}

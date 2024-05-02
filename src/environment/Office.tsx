@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { gltfLoader as loader, dracoLoader, GLTF } from "../THREE_Interface";
-import { Suspense, useEffect, useState } from "react";
-import debounce from "../ecs/helpers/debounce";
-import updateShadows from "./lights/helpers/updateShadows";
+import { gltfLoader as loader, dracoLoader, GLTF } from '../THREE_Interface'
+import { Suspense, useEffect, useState } from 'react'
+import debounce from '../ecs/helpers/debounce'
+import updateShadows from './lights/helpers/updateShadows'
 
 interface OfficeProps {
   setEnvironmentModel: (gltf: GLTF) => void;
@@ -46,8 +46,10 @@ export default function Office({
     <Suspense fallback={null}>
       {officeLoaded && (
         <>
-          <primitive object={environment.current!.scene} />
-        </>
+        <primitive
+          object={environment.current!.scene}
+        />
+      </>
       )}
     </Suspense>
   );
