@@ -3,6 +3,7 @@ import Renderer from "./renderer/Renderer";
 import Mocap from "./mocap/Mocap";
 import Avatar from "./avatar/Avatar";
 import UbiquitySVG from "./assets/ubiquity.svg";
+
 import Office from "./environment/Office";
 import LoadingScreen from "./ui/LoadingScreen";
 import GameLogic from "./ecs/systems/GameLogic";
@@ -10,7 +11,8 @@ import { useGameState } from "./ecs/store/GameState";
 import { GLTF, VRM } from "./THREE_Interface";
 
 import "./css/App.css";
-import { Sound } from "./environment/sound/Sound";
+import { Sky } from "./environment/Lighting";
+import { Audio } from "./environment/sound/Sound";
 
 const GameInfo = lazy(() => import("./ui/GameInfo"));
 const Lighting = lazy(() => import("./environment/Lighting"));
@@ -49,7 +51,7 @@ export default function App() {
       {/* UI */}
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-
+      <Audio />
       <div className="canvas-container">
         {/* currently no fade-out - todo later */}
         {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
@@ -57,7 +59,7 @@ export default function App() {
         <Renderer>
           <Suspense fallback={null}>
             <Lighting />
-            <Sound />
+            <Sky />
             <GameInfo />
           </Suspense>
 
