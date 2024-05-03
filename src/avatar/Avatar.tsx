@@ -2,7 +2,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface'
 import debounce from '../ecs/helpers/debounce'
-import { useGameState } from '../ecs/store/GameState';
+import { useGameState } from '../ecs/store/GameState'
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;

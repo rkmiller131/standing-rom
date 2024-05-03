@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Pose, Hand } from 'kalidokit'
+import { PoseSolver as Pose, HandSolver as Hand } from './solvers'
 import { rigPosition, rigRotation } from './animationHelpers'
-import { VRM } from '../../THREE_Interface';
+import { VRM } from '../../THREE_Interface'
 
 export const animateVRM = (
   vrm: React.RefObject<VRM>,
@@ -17,9 +17,9 @@ export const animateVRM = (
   // Pose 2D landmarks are with respect to videoWidth and videoHeight
   const pose2DLandmarks = results.poseLandmarks;
 
-  // need to be flipped (?) doesn't seem to make too much of a difference
-  const leftHandLandmarks = results.leftHandLandmarks;
-  const rightHandLandmarks = results.rightHandLandmarks;
+  // need to be flipped b/c stream is mirrored
+  const leftHandLandmarks = results.rightHandLandmarks;
+  const rightHandLandmarks = results.leftHandLandmarks;
 
   // Animate Pose
   if (pose2DLandmarks && pose3DLandmarks) {
