@@ -53,9 +53,11 @@ export default function App() {
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
 
+      <LoadingScreen />
       <div className="canvas-container">
         {/* currently no fade-out - todo later */}
-        {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
+        {/* {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />} */}
+
 
         <Renderer>
           <Suspense fallback={null}>
