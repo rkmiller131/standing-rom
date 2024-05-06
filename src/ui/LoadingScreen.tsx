@@ -11,12 +11,10 @@ export default function LoadingScreen() {
     useEffect(() => {
         if (gameState.sceneLoaded.get({noproxy: true})) {
             setIsLoading(false)
-            const timer = setInterval(() => {
+            setTimeout(() => {
                 console.log('Unmounting...');
                 setUnmountComponent(true);
             }, 1000)
-
-            return () => clearInterval(timer);
         }
     }, [gameState.sceneLoaded])
 

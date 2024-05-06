@@ -9,12 +9,13 @@ import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
 import { GLTF, VRM } from './THREE_Interface'
 import checkUserDevice from './ecs/helpers/checkUserDevice'
+import GameInfo from './ui/GameInfo'
 
 import './css/App.css'
 
 const Sky = lazy(() => import('./environment/Sky'));
 const Sound = lazy(() => import('./environment/sound/Sound'));
-const GameInfo = lazy(() => import("./ui/GameInfo"));
+// const GameInfo = lazy(() => import("./ui/GameInfo"));
 const Lighting = lazy(() => import("./environment/Lighting"));
 
 // LEARNING RESOURCES -------------------------------------------------------------------
@@ -55,18 +56,15 @@ export default function App() {
 
       <LoadingScreen />
       <div className="canvas-container">
-        {/* currently no fade-out - todo later */}
-        {/* {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />} */}
-
 
         <Renderer>
           <Suspense fallback={null}>
             <Lighting />
             <Sound />
             <Sky />
-            <GameInfo />
           </Suspense>
 
+          <GameInfo />
           <Office
             setEnvironmentModel={setEnvironmentModel}
             environment={environment}
@@ -74,6 +72,7 @@ export default function App() {
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           <GameLogic avatar={avatar} />
         </Renderer>
+
       </div>
     </main>
   );
