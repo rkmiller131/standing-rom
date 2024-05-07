@@ -100,7 +100,7 @@ export const rigArm = (UpperArm: Vector, LowerArm: Vector, Hand: Vector, side: S
     LowerArm.x = clamp(LowerArm.x, -0.3, 0.3);
 
     Hand.y = clamp(Hand.z * 2, -0.6, 0.6); //side to side
-    Hand.z = Hand.z * -2.5 * invert; //up down 2.3
+    Hand.z = Hand.z * -2.3 * invert; //up down
 
     return {
         //Returns Values in Radians for direct 3D usage

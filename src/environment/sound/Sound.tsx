@@ -26,6 +26,7 @@ export default function Sound () {
       sound.setBuffer(buffer);
       sound.setRefDistance(20);
       sound.setVolume(0.05);
+      sound.setLoop(true);
       sound.play();
     });
 
