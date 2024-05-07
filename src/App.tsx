@@ -9,7 +9,6 @@ import {
 import Renderer from "./renderer/Renderer";
 import Mocap from "./mocap/Mocap";
 import Avatar from "./avatar/Avatar";
-import UbiquitySVG from "./assets/ubiquity.svg";
 import Office from "./environment/Office";
 import LoadingScreen from "./ui/LoadingScreen";
 import GameLogic from "./ecs/systems/GameLogic";
@@ -48,6 +47,14 @@ export default function App() {
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const gameState = useGameState();
   gameState.device.set(checkUserDevice());
+  const [isPhone, setIsPhone] = useState(false);
+
+  const checkIfPhone = () => {
+    const userAgent = navigator.userAgent || navigator.vendor;
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+      userAgent
+    );
+  };
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
@@ -62,6 +69,20 @@ export default function App() {
       gameState.sceneLoaded.set(true);
     }
   }, [holisticLoaded, gameState.sceneLoaded]);
+
+  useEffect(() => {
+    setIsPhone(checkIfPhone());
+    const handleResize = () => {
+      setIsPhone(checkIfPhone());
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <main id="app-container">
@@ -132,7 +153,10 @@ export default function App() {
             />
           </svg>
         </div>
-        <div className="container">
+        <div
+          className="container"
+          style={{ visibility: isPhone ? "hidden" : "visible" }}
+        >
           <img src={Doctor} alt="Doctor Skywalker" className="doctor-image" />
           <div className="label">
             <div
@@ -160,7 +184,10 @@ export default function App() {
           </div>
         </div>
       </div>
-      <div className="info-container3">
+      <div
+        className="info-container3"
+        style={{ visibility: isPhone ? "hidden" : "visible" }}
+      >
         <p
           style={{
             borderRadius: "50px",

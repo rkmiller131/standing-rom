@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { drawLandmarkGuides } from "./landmarkGuides";
 import { Holistic } from "@mediapipe/holistic";
 import { Camera } from "@mediapipe/camera_utils";
@@ -23,6 +23,14 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   let holisticLoaded = false;
   const gameState = useGameState();
   const device = gameState.device.get({ noproxy: true });
+  const [isPhone, setIsPhone] = useState(false);
+
+  const checkIfPhone = () => {
+    const userAgent = navigator.userAgent || navigator.vendor;
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+      userAgent
+    );
+  };
 
   function onResults(results: any) {
     if (results.poseLandmarks && results.poseLandmarks.length > 0) {
@@ -42,7 +50,14 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   }
 
   useEffect(() => {
-    // grab the video stream from client webcam
+    setIsPhone(checkIfPhone());
+    const handleResize = () => {
+      setIsPhone(checkIfPhone());
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
         .getUserMedia({ video: true })
@@ -93,11 +108,16 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
     return () => {
       // clean up mediapipe.
       holistic.close();
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <div id="mocap-container" className={device} style={{ overflow: "hidden" }}>
+    <div
+      id="mocap-container"
+      className={gameState.device.get({ noproxy: true })}
+      style={{ overflow: "hidden", visibility: isPhone ? "hidden" : "visible" }}
+    >
       <div
         style={{
           background: "white",

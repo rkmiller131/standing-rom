@@ -9,8 +9,24 @@ export default function GameInfo() {
     maxLeftArmAngle: 0,
     popped: 0,
   });
+  const [isPhone, setIsPhone] = useState(false);
+
+  const checkIfPhone = () => {
+    const userAgent = navigator.userAgent || navigator.vendor;
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+      userAgent
+    );
+  };
 
   useEffect(() => {
+    setIsPhone(checkIfPhone());
+    const handleResize = () => {
+      setIsPhone(checkIfPhone());
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
     if (gameState.sceneLoaded.get({ noproxy: true })) {
       setGameInfo({
         maxRightArmAngle: gameState.score.maxRightArmAngle.get({
@@ -20,10 +36,14 @@ export default function GameInfo() {
         popped: gameState.score.popped.get({ noproxy: true }),
       });
     }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [gameState.score, gameState.sceneLoaded]);
 
   return (
-    <Html position={[0, 2.63, -2]}>
+    <Html position={[0, -0.5, -2]}>
       <div className="info-container">
         <div
           style={{
