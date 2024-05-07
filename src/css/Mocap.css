@@ -1,44 +1,58 @@
 #mocap-container {
-    position: absolute;
-    z-index: 2;
+  position: absolute;
+  z-index: 2;
+  border-radius: 50px;
 }
 
 .Desktop {
-    width: 450px;
-    height: auto;
-    bottom: 3%;
-    left: 2%;
+  width: 450px;
+  height: auto;
+  bottom: 28px;
+  left: 28px;
+}
+
+.bgGradient {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.74) 0%,
+    rgba(0, 0, 0, 0.479) 35%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  position: absolute;
+  width: 100%;
+  height: 30%;
+  z-index: 1;
 }
 
 .Tablet {
-    width: 450px;
-    height: 300px;
-    bottom: 1%;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
+  width: 450px;
+  height: 300px;
+  bottom: 1%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .Mobile {
-    width: 325px;
-    height: 215px;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
+  width: 325px;
+  height: 215px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #webcam-stream {
-    object-fit: cover;
-    border-radius: 1rem;
-    transform: scaleX(-1);
+  object-fit: cover;
+  border-radius: 50px;
+  transform: scaleX(-1);
 }
 
 #landmark-guides {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }

@@ -1,44 +1,57 @@
-import { Html } from '@react-three/drei'
-import { useGameState } from '../ecs/store/GameState'
-import { useEffect, useState } from 'react'
+import { Html } from "@react-three/drei";
+import { useGameState } from "../ecs/store/GameState";
+import { useEffect, useState } from "react";
 
 export default function GameInfo() {
-    const gameState = useGameState();
-    const [gameInfo, setGameInfo] = useState({
-      maxRightArmAngle: 0,
-      maxLeftArmAngle: 0,
-      popped: 0
-    });
+  const gameState = useGameState();
+  const [gameInfo, setGameInfo] = useState({
+    maxRightArmAngle: 0,
+    maxLeftArmAngle: 0,
+    popped: 0,
+  });
 
-    useEffect(() => {
-      if (gameState.sceneLoaded.get({ noproxy: true })) {
-        setGameInfo({
-          maxRightArmAngle: gameState.score.maxRightArmAngle.get({ noproxy: true }),
-          maxLeftArmAngle: gameState.score.maxLeftArmAngle.get({ noproxy: true }),
-          popped: gameState.score.popped.get({ noproxy: true })
-        })
-      }
-    }, [gameState.score, gameState.sceneLoaded])
+  useEffect(() => {
+    if (gameState.sceneLoaded.get({ noproxy: true })) {
+      setGameInfo({
+        maxRightArmAngle: gameState.score.maxRightArmAngle.get({
+          noproxy: true,
+        }),
+        maxLeftArmAngle: gameState.score.maxLeftArmAngle.get({ noproxy: true }),
+        popped: gameState.score.popped.get({ noproxy: true }),
+      });
+    }
+  }, [gameState.score, gameState.sceneLoaded]);
 
-    return (
-        <Html position={[-2, 2.2, -2]}>
+  return (
+    <Html position={[0, 2.63, -2]}>
+      <div className="info-container">
         <div
           style={{
-            backgroundColor: "#ffffff80",
-            border: "2px solid",
-            borderColor: "#0ED8A5",
-            width: "350px",
-            height: "250px",
-            padding: "10px",
-            borderRadius: "5px",
-            color: "black",
+            background: "white",
+            borderRadius: "50px",
+            padding: "5px 17px",
           }}
         >
-          <h2>Game Information</h2>
-          <p>Max Right Arm Angle: {gameInfo.maxRightArmAngle}°</p>
-          <p>Max Left Arm Angle: {gameInfo.maxLeftArmAngle}°</p>
-          <p>Bubbles Popped: {gameInfo.popped}</p>
+          <svg
+            width="30"
+            height="29"
+            viewBox="0 0 30 29"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ position: "relative", top: "4px" }}
+          >
+            <circle cx="10.8771" cy="10.7873" r="10.7873" fill="#0ED8A5" />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M14.9605 22.2988C15.5719 25.7586 18.5933 28.3865 22.2284 28.3865C26.3047 28.3865 29.6092 25.082 29.6092 21.0058C29.6092 17.0748 26.5361 13.8615 22.6612 13.6375C21.9953 17.7999 18.9481 21.1674 14.9605 22.2988Z"
+              fill="#0ED8A5"
+              fill-opacity="0.51"
+            />
+          </svg>
         </div>
-      </Html>
-    )
+        {gameInfo.popped}/1
+      </div>
+    </Html>
+  );
 }
