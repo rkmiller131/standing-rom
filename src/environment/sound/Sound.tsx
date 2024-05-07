@@ -4,11 +4,11 @@ import { useThree } from '@react-three/fiber'
 import { SphereGeometry, Mesh, PositionalAudio, MeshPhongMaterial, DoubleSide } from 'three'
 import { audioLoader, audioListener as listener } from '../../THREE_Interface'
 
-const songPath = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/officeBgMusic.mp3?v=1714682590547';
+const songPath = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/OfficeNCS.mp3?v=1715028230989';
 
 export default function Sound () {
   const { camera, scene } = useThree();
-  
+
   useEffect(() => {
     camera.add(listener);
 
@@ -26,6 +26,7 @@ export default function Sound () {
       sound.setBuffer(buffer);
       sound.setRefDistance(20);
       sound.setVolume(0.05);
+      sound.setLoop(true);
       sound.play();
     });
 

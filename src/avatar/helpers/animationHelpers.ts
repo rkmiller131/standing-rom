@@ -17,9 +17,16 @@ export const rigRotation = (
     return;
   }
 
+  let spineAdjustmentY = 0;
+  if (name === 'rightUpperArm' || name === 'leftUpperArm') {
+    const spineQuat = vrm.current.humanoid.humanBones['spine'].node.quaternion;
+    const spineEuler = new Euler().setFromQuaternion(spineQuat);
+    spineAdjustmentY = name === 'rightUpperArm' ? (spineEuler.y - 0.4) : (spineEuler.y + 0.4);
+  }
+
   const euler = new Euler(
     rotation.x * dampener,
-    rotation.y * dampener,
+    (rotation.y + spineAdjustmentY) * dampener,
     rotation.z * dampener
   );
   const quaternion = new Quaternion().setFromEuler(euler);
@@ -35,7 +42,7 @@ export const rigPosition = (
   lerpAmount = 0.3
 ) => {
   if (!vrm.current || !vrm.current.humanoid || !vrm.current.humanoid.humanBones[name]) return;
-  
+
   const Part = vrm.current.humanoid.humanBones[name];
   if (!Part.node) {
     console.error(`Node not found for bone: ${name}`);

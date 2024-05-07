@@ -9,20 +9,15 @@ import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
 import { GLTF, VRM } from './THREE_Interface'
 import checkUserDevice from './ecs/helpers/checkUserDevice'
+import GameInfo from './ui/GameInfo'
 
 import './css/App.css'
 import { Vector3 } from 'three'
 
-// import { Physics } from '@react-three/rapier'
-// import RightHandCollider from './DEMO/rightHandCollider'
-
-// import { ECS } from "./ecs/World";
-
 const Sky = lazy(() => import('./environment/Sky'));
 const Sound = lazy(() => import('./environment/sound/Sound'));
-const GameInfo = lazy(() => import('./ui/GameInfo'));
 const Lighting = lazy(() => import('./environment/Lighting'));
-const DemoBubble = lazy(() => import('./DEMO/demoBubble'))
+const DemoBubble = lazy(() => import('./DEMO/demoBubble'));
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -60,28 +55,23 @@ export default function App() {
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded}/>
 
+      <LoadingScreen />
       <div className="canvas-container">
-        {/* currently no fade-out - todo later */}
-        {!gameState.sceneLoaded.get({ noproxy: true }) && <LoadingScreen />}
 
         <Renderer>
           <Suspense fallback={null}>
             <Lighting />
             <Sound />
             <Sky />
-            <GameInfo />
             <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/>
           </Suspense>
 
-            <Office setEnvironmentModel={setEnvironmentModel} environment={environment}/>
-            <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-            <GameLogic avatar={avatar}/>
+          <GameInfo />
+          <Office setEnvironmentModel={setEnvironmentModel} environment={environment}/>
+          <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+          <GameLogic avatar={avatar}/>
 
-            {/* <Physics debug>
-              <RightHandCollider avatar={avatar}/>
-            </Physics> */}
-
-          </Renderer>
+        </Renderer>
       </div>
     </main>
   );

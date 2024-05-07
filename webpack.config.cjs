@@ -80,7 +80,7 @@ module.exports = {
       template: path.resolve(__dirname, './production.index.html'),
       filename: 'index.html',
       inject: false,
-      favicon: path.resolve(__dirname, 'public/uvxicon.svg'), 
+      favicon: path.resolve(__dirname, 'public/uvxicon.svg'),
     }),
     // bundleAnalyzer,
     new MiniCssExtractPlugin({
