@@ -45,33 +45,5 @@ export function drawLandmarkGuides(
     lineWidth: 1
   });
   
-  // drawConnectors(canvasCtx, results.faceLandmarks, FACEMESH_TESSELATION, {
-  //   color: "#C0C0C070",
-  //   lineWidth: 1
-  // });
-  // if(results.faceLandmarks && results.faceLandmarks.length === 478){
-  //   //draw pupils
-  //   drawLandmarks(canvasCtx, [results.faceLandmarks[468],results.faceLandmarks[468+5]], {
-  //     color: "#ffe603",
-  //     lineWidth: 2
-  //   });
-  // }
-  // drawConnectors(canvasCtx, results.leftHandLandmarks, HAND_CONNECTIONS, {
-  //   color: "#0ED8A5",
-  //   lineWidth: 5
-  // });
-  // drawLandmarks(canvasCtx, results.leftHandLandmarks, {
-  //   color: "#00cff7",
-  //   lineWidth: 2
-  // });
-  // drawConnectors(canvasCtx, results.rightHandLandmarks, HAND_CONNECTIONS, {
-  //   color: "#0ED8A5",
-  //   lineWidth: 5
-  // });
-  // drawLandmarks(canvasCtx, results.rightHandLandmarks, {
-  //   color: "#ff0364",
-  //   lineWidth: 2
-  // });
-  
   canvasCtx.restore();
 }

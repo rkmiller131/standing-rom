@@ -12,7 +12,7 @@ export default function LoadingScreen() {
         if (sceneState.sceneLoaded.get({noproxy: true})) {
             setIsLoading(false)
             setTimeout(() => {
-                console.log('Unmounting...');
+                console.log('Closing Loading Screen...');
                 setUnmountComponent(true);
             }, 1000)
         }
