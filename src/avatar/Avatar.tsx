@@ -23,7 +23,9 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
     });
     loader.load(
       // 'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man2.vrm?v=1714584791654',
-      'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man.vrm?v=1714005611608',
+      // 'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man.vrm?v=1714005611608',
+      // 'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Oldy.vrm?v=1715214621903',
+      'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Oldy_02.vrm?v=1715215909299',
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setAvatarModel(vrm);

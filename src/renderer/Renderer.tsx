@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import PixelRatio from './PixelRatio'
+// import { OrbitControls } from '@react-three/drei';
 
 interface RendererProps {
  children: React.ReactNode;
@@ -34,6 +35,7 @@ export default function Renderer({ children }: RendererProps) {
     gl={{ powerPreference: 'high-performance' }}
   >
     <PixelRatio />
+    {/* <OrbitControls /> */}
     {children}
   </Canvas>
  ) : (
