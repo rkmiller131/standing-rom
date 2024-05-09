@@ -2,7 +2,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface'
 import debounce from '../ecs/helpers/debounce'
-import { useGameState } from '../ecs/store/GameState'
+import { useSceneState } from '../ecs/store/SceneState'
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -10,7 +10,7 @@ interface AvatarProps {
 }
 export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const [avatarLoaded, setAvatarLoaded] = useState(false);
-  const isMobile = useGameState().device.get({noproxy: true}) === 'Mobile';
+  const isMobile = useSceneState().device.get({noproxy: true}) === 'Mobile';
 
   const updateProgress = debounce((loadedPercentage) => {
     // could set a state here instead, for loading screen in the future

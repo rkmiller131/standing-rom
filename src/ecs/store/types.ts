@@ -26,6 +26,9 @@ export type SetType = {
     levels: LevelsType,
     score: ScoreType,
     gameOver: boolean,
+  }
+
+  export type SceneType = {
     sceneLoaded: boolean,
     environmentLoaded: boolean,
     device: 'Desktop' | 'Tablet' | 'Mobile',

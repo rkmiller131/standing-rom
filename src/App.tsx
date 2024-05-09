@@ -1,11 +1,10 @@
 import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react'
-// import Renderer from './renderer/Renderer'
 import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
 import LoadingScreen from './ui/LoadingScreen'
 import GameLogic from './ecs/systems/GameLogic'
-import { useGameState } from './ecs/store/GameState'
+import { useSceneState } from './ecs/store/SceneState'
 import { VRM } from './THREE_Interface'
 import checkUserDevice from './ecs/helpers/checkUserDevice'
 import GameInfo from './ui/GameInfo'
@@ -28,8 +27,8 @@ const Renderer = lazy(() => import('./renderer/Renderer'));
 export default function App() {
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const avatar = useRef<VRM | null>(null);
-  const gameState = useGameState();
-  gameState.device.set(checkUserDevice());
+  const sceneState = useSceneState();
+  sceneState.device.set(checkUserDevice());
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
@@ -39,18 +38,20 @@ export default function App() {
     if (
       avatar.current
       && holisticLoaded
-      && gameState.environmentLoaded.get({noproxy: true})
+      && sceneState.environmentLoaded.get({noproxy: true})
     ) {
-      gameState.sceneLoaded.set(true);
+      sceneState.sceneLoaded.set(true);
     }
-  }, [holisticLoaded, gameState.sceneLoaded, gameState.environmentLoaded]);
+  }, [holisticLoaded, sceneState.sceneLoaded, sceneState.environmentLoaded]);
 
   return (
     <main id="app-container">
       {/* UI */}
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
-      <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
       <SetupScreen />
+      {sceneState.selectedEnvironment.get({noproxy: true}) && 
+        <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
+      }
       <LoadingScreen />
 
       <Suspense fallback={null}>

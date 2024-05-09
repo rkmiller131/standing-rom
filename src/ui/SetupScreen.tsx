@@ -1,20 +1,20 @@
 import { useState, FormEvent, useCallback } from 'react'
-import { useGameState } from '../ecs/store/GameState'
+import { useSceneState } from '../ecs/store/SceneState'
 
 import '../css/SetupScreen.css'
 
 export default function SetupScreen() {
-  const gameState = useGameState();
+  const sceneState = useSceneState();
   const [submitted, setSubmitted] = useState(false);
   const [selected, setSelected] = useState<'Outdoors' | 'Indoor Office' | ''>('');
 
   const handleSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (selected) {
-        gameState.selectedEnvironment.set(selected);
+        sceneState.selectedEnvironment.set(selected);
         setSubmitted(true);
     }
-  }, [gameState, selected]);
+  }, [sceneState, selected]);
 
   if (submitted) return null;
 

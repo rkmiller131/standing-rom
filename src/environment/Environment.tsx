@@ -1,16 +1,16 @@
-import { useGameState } from '../ecs/store/GameState'
 import { Suspense } from 'react'
 import OutdoorScene from './outdoors/Outdoors'
 import OfficeScene from './office/Scene'
+import { useSceneState } from '../ecs/store/SceneState'
 
 export default function Environment() {
-  const gameState = useGameState();
+  const sceneState = useSceneState();
   return (
     <Suspense fallback={null}>
-      {gameState.selectedEnvironment.get({ noproxy: true }) === "Indoor Office" && (
+      {sceneState.selectedEnvironment.get({ noproxy: true }) === "Indoor Office" && (
         <OfficeScene />
       )}
-      {gameState.selectedEnvironment.get({ noproxy: true }) === "Outdoors" && (
+      {sceneState.selectedEnvironment.get({ noproxy: true }) === "Outdoors" && (
         <OutdoorScene />
       )}
     </Suspense>

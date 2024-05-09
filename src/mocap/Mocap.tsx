@@ -6,10 +6,9 @@ import { Holistic } from '@mediapipe/holistic'
 import { Camera } from '@mediapipe/camera_utils'
 import { animateVRM } from '../avatar/helpers/avatarAnimator'
 import { VRM } from '../THREE_Interface'
+import { useSceneState } from '../ecs/store/SceneState'
 
 import '../css/Mocap.css'
-import { useGameState } from '../ecs/store/GameState'
-
 interface MocapProps {
   avatar: React.RefObject<VRM>;
   setHolisticLoaded: (loaded: boolean) => void;
@@ -19,8 +18,8 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
     let holisticLoaded = false;
-    const gameState = useGameState();
-    const device = gameState.device.get({ noproxy: true});
+    const sceneState = useSceneState();
+    const device = sceneState.device.get({ noproxy: true});
 
     function onResults(results: any) {
         if (results.poseLandmarks && results.poseLandmarks.length > 0) {

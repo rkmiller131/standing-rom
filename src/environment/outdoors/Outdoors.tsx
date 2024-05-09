@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Environment } from "@react-three/drei";
-import SceneMap from "./props/SceneMap";
-import GrassComponent from "./props/GrassBlade";
-import { Tree, TreeInstance } from "./props/Tree";
-import { Flower, FlowerInstance } from "./props/Flower2";
-import { lazy, useEffect } from "react";
-import { useGameState } from "../../ecs/store/GameState";
+import { Environment } from '@react-three/drei'
+import SceneMap from './props/SceneMap'
+import GrassComponent from './props/GrassBlade'
+import { Tree, TreeInstance } from './props/Tree'
+import { Flower, FlowerInstance } from './props/Flower2'
+import { lazy, useEffect } from 'react'
+import { useSceneState } from '../../ecs/store/SceneState'
 
 const Bush = lazy(() =>
   import("../outdoors/props/Bush").then((module) => ({ default: module.Bush }))
@@ -18,10 +18,16 @@ const BushInstance = lazy(() =>
 );
 
 export default function OutdoorScene() {
-  const gameState = useGameState();
+  const sceneState = useSceneState();
 
   useEffect(() => {
-    gameState.environmentLoaded.set(true);
+    // delay the scene loading to let async instances come into the scene
+    const timer = setTimeout(() => {
+      sceneState.environmentLoaded.set(true);
+    }, 2000)
+
+    return () => clearTimeout(timer);
+
   }, [])
 
   return (

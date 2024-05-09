@@ -12,11 +12,7 @@ const initialState: GameType = hookstate({
         maxRightArmAngle: 0,
         poppedVelocities: []
     },
-    gameOver: false,
-    sceneLoaded: false,
-    environmentLoaded: false,
-    device: 'Desktop',
-    selectedEnvironment: ''
+    gameOver: false
 });
 
 export const useGameState = () => {
