@@ -26,6 +26,11 @@ export type SetType = {
     levels: LevelsType,
     score: ScoreType,
     gameOver: boolean,
+  }
+
+  export type SceneType = {
     sceneLoaded: boolean,
-    device: 'Desktop' | 'Tablet' | 'Mobile'
+    environmentLoaded: boolean,
+    device: 'Desktop' | 'Tablet' | 'Mobile',
+    selectedEnvironment: 'Indoor Office' | 'Outdoors' | ''
   }

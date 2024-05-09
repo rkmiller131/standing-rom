@@ -25,9 +25,7 @@ export default async function getGameSetup(): Promise<GameType> {
     const game: GameType = {
       levels,
       score,
-      gameOver: false,
-      sceneLoaded: false,
-      device: 'Desktop'
+      gameOver: false
     }
     return game;
   }

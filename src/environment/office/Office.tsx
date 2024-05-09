@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { gltfLoader as loader, dracoLoader, GLTF } from '../THREE_Interface'
+import { gltfLoader as loader, dracoLoader, GLTF } from '../../THREE_Interface'
 import { Suspense, useEffect, useState } from 'react'
-import debounce from '../ecs/helpers/debounce'
+import debounce from '../../ecs/helpers/debounce'
 import updateShadows from './lights/helpers/updateShadows'
 
 interface OfficeProps {
@@ -16,7 +16,6 @@ export default function Office({
   const [officeLoaded, setOfficeLoaded] = useState(false);
 
   const updateProgress = debounce((loadedPercentage) => {
-    // could set a state here instead, for loading screen in the future
     console.log("Loading Environment: ", loadedPercentage + "%");
   }, 100);
 

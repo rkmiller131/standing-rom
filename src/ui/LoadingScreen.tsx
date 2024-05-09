@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react'
-import { useGameState } from '../ecs/store/GameState'
+import { useSceneState } from '../ecs/store/SceneState'
 
 import '../css/LoadingScreen.css'
 
 export default function LoadingScreen() {
-    const gameState = useGameState();
+    const sceneState = useSceneState();
     const [isLoading, setIsLoading] = useState(true);
     const [unmountComponent, setUnmountComponent] = useState(false);
 
     useEffect(() => {
-        if (gameState.sceneLoaded.get({noproxy: true})) {
+        if (sceneState.sceneLoaded.get({noproxy: true})) {
             setIsLoading(false)
             setTimeout(() => {
-                console.log('Unmounting...');
+                console.log('Closing Loading Screen...');
                 setUnmountComponent(true);
             }, 1000)
         }
-    }, [gameState.sceneLoaded])
+    }, [sceneState.sceneLoaded])
 
     if (unmountComponent) return null;
 

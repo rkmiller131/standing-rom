@@ -1,8 +1,10 @@
-import { Html } from '@react-three/drei'
-import { useGameState } from '../ecs/store/GameState'
 import { useEffect, useState } from 'react'
+import { Html } from '@react-three/drei'
+import { useSceneState } from '../ecs/store/SceneState'
+import { useGameState } from '../ecs/store/GameState'
 
 export default function GameInfo() {
+    const sceneState = useSceneState();
     const gameState = useGameState();
     const [gameInfo, setGameInfo] = useState({
       maxRightArmAngle: 0,
@@ -11,14 +13,14 @@ export default function GameInfo() {
     });
 
     useEffect(() => {
-      if (gameState.sceneLoaded.get({ noproxy: true })) {
+      if (sceneState.sceneLoaded.get({ noproxy: true })) {
         setGameInfo({
           maxRightArmAngle: gameState.score.maxRightArmAngle.get({ noproxy: true }),
           maxLeftArmAngle: gameState.score.maxLeftArmAngle.get({ noproxy: true }),
           popped: gameState.score.popped.get({ noproxy: true })
         })
       }
-    }, [gameState.score, gameState.sceneLoaded])
+    }, [gameState.score, sceneState.sceneLoaded])
 
     return (
         <Html position={[-2, 2.2, -2]}>

@@ -20,7 +20,7 @@ body {
 .uvx-logo {
   position: fixed;
   margin: 2%;
-  z-index: 2;
+  z-index: 3;
 }
 
 .canvas-container {

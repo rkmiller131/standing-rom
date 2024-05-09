@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const bundleAnalyzer = new BundleAnalyzerPlugin();
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -80,7 +80,7 @@ module.exports = {
       template: path.resolve(__dirname, './production.index.html'),
       filename: 'index.html',
       inject: false,
-      favicon: path.resolve(__dirname, 'public/uvxicon.svg'),
+      favicon: path.resolve(__dirname, 'public/uvxicon.svg'), 
     }),
     // bundleAnalyzer,
     new MiniCssExtractPlugin({

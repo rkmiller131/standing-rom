@@ -4,6 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { Suspense, useRef } from "react";
 import { Mesh, MeshBasicMaterial, Vector3 } from "three";
 import { useGameState } from "../ecs/store/GameState";
+import { useSceneState } from "../ecs/store/SceneState";
 
 interface DemoBubbleProps {
     position: Vector3;
@@ -22,9 +23,10 @@ export default function DemoBubble({ position, avatar }: DemoBubbleProps) {
     const sphereRef = useRef<Mesh>();
     const handRef = useRef<Vector3>(new Vector3());
     const gameState = useGameState();
+    const sceneState = useSceneState();
 
     useFrame(() => {
-        if (avatar.current && sphereRef.current && gameState.sceneLoaded.get({noproxy: true})) {
+        if (avatar.current && sphereRef.current && sceneState.sceneLoaded.get({noproxy: true})) {
             // console.log('~~ in the sphere use frame')
             const rightHandMatrix = avatar.current.humanoid.humanBones.rightHand.node.matrixWorld;
             const rightHandPosition = handRef.current.setFromMatrixPosition(rightHandMatrix);
