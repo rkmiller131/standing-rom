@@ -14,7 +14,9 @@ const initialState: GameType = hookstate({
     },
     gameOver: false,
     sceneLoaded: false,
-    device: 'Desktop'
+    environmentLoaded: false,
+    device: 'Desktop',
+    selectedEnvironment: ''
 });
 
 export const useGameState = () => {

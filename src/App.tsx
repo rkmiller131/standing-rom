@@ -1,22 +1,20 @@
-import { useLayoutEffect, useRef, useState, lazy, Suspense } from 'react'
-import Renderer from './renderer/Renderer'
+import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react'
+// import Renderer from './renderer/Renderer'
 import Mocap from './mocap/Mocap'
 import Avatar from './avatar/Avatar'
 import UbiquitySVG from './assets/ubiquity.svg'
-import Office from './environment/Office'
 import LoadingScreen from './ui/LoadingScreen'
 import GameLogic from './ecs/systems/GameLogic'
 import { useGameState } from './ecs/store/GameState'
-import { GLTF, VRM } from './THREE_Interface'
+import { VRM } from './THREE_Interface'
 import checkUserDevice from './ecs/helpers/checkUserDevice'
 import GameInfo from './ui/GameInfo'
+import SetupScreen from './ui/SetupScreen'
+import Environment from './environment/Environment'
 
 import './css/App.css'
 
-const Sky = lazy(() => import('./environment/Sky'));
-const Sound = lazy(() => import('./environment/sound/Sound'));
-// const GameInfo = lazy(() => import("./ui/GameInfo"));
-const Lighting = lazy(() => import("./environment/Lighting"));
+const Renderer = lazy(() => import('./renderer/Renderer'));
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -28,9 +26,8 @@ const Lighting = lazy(() => import("./environment/Lighting"));
 // --------------------------------------------------------------------------------------
 
 export default function App() {
-  const avatar = useRef<VRM | null>(null);
-  const environment = useRef<GLTF | null>(null);
   const [holisticLoaded, setHolisticLoaded] = useState(false);
+  const avatar = useRef<VRM | null>(null);
   const gameState = useGameState();
   gameState.device.set(checkUserDevice());
 
@@ -38,42 +35,35 @@ export default function App() {
     avatar.current = vrm;
   };
 
-  const setEnvironmentModel = (gltf: GLTF) => {
-    environment.current = gltf;
-  };
-
   useLayoutEffect(() => {
-    if (avatar.current && holisticLoaded) {
+    if (
+      avatar.current
+      && holisticLoaded
+      && gameState.environmentLoaded.get({noproxy: true})
+    ) {
       gameState.sceneLoaded.set(true);
     }
-  }, [holisticLoaded, gameState.sceneLoaded]);
+  }, [holisticLoaded, gameState.sceneLoaded, gameState.environmentLoaded]);
 
   return (
     <main id="app-container">
       {/* UI */}
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-
+      <SetupScreen />
       <LoadingScreen />
-      <div className="canvas-container">
 
-        <Renderer>
-          <Suspense fallback={null}>
-            <Lighting />
-            <Sound />
-            <Sky />
-          </Suspense>
-
-          <GameInfo />
-          <Office
-            setEnvironmentModel={setEnvironmentModel}
-            environment={environment}
-          />
-          <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-          <GameLogic avatar={avatar} />
-        </Renderer>
-
-      </div>
+      <Suspense fallback={null}>
+        <div className="canvas-container">
+          <Renderer>
+            <Environment />
+            <GameInfo />
+            <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+            <GameLogic avatar={avatar} />
+          </Renderer>
+        </div>
+      </Suspense>
+      
     </main>
   );
 }

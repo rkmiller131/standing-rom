@@ -27,5 +27,7 @@ export type SetType = {
     score: ScoreType,
     gameOver: boolean,
     sceneLoaded: boolean,
-    device: 'Desktop' | 'Tablet' | 'Mobile'
+    environmentLoaded: boolean,
+    device: 'Desktop' | 'Tablet' | 'Mobile',
+    selectedEnvironment: 'Indoor Office' | 'Outdoors' | ''
   }
