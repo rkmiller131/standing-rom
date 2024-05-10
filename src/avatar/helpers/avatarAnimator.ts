@@ -26,7 +26,7 @@ export const animateVRM = (
     riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
       runtime: "mediapipe",
       video: videoRef.current,
-      enableLegs: true
+      enableLegs: false
     });
 
     // free motion tilting:

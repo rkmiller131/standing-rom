@@ -22,8 +22,10 @@ export const calcArms = (lm: Results) => {
     };
     LowerArm.r.y = Vector.angleBetween3DCoords(lm[11], lm[13], lm[15]);
     LowerArm.l.y = Vector.angleBetween3DCoords(lm[12], lm[14], lm[16]);
-    LowerArm.r.z = clamp(LowerArm.r.z, -2.14, 0);
-    LowerArm.l.z = clamp(LowerArm.l.z, -2.14, 0);
+    LowerArm.r.z = clamp(LowerArm.r.z, -4.14, 0);
+    LowerArm.l.z = clamp(LowerArm.l.z, -4.14, 0);
+    // LowerArm.r.x = clamp(LowerArm.r.x, -1, 0);
+    // LowerArm.l.x = clamp(LowerArm.l.x, -1, 0);
 
     const Wrist = {
         r: Vector.findRotation(
@@ -36,15 +38,20 @@ export const calcArms = (lm: Results) => {
         ),
     };
 
-    Wrist.r.z = Vector.angleBetween3DCoords(lm[14], lm[16], Vector.lerp(Vector.fromArray(lm[18]), Vector.fromArray(lm[20]), 0.5));
-    Wrist.l.z = Vector.angleBetween3DCoords(lm[13], lm[15], Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5));
-    Wrist.r.z = clamp(Wrist.r.z, -2.14, 0);
-    Wrist.l.z = clamp(Wrist.l.z, -2.14, 0); // z is wrist movement side to side (abduction/adduction)
+    // Wrist.r.y = Vector.angleBetween3DCoords(lm[14], lm[16], Vector.lerp(Vector.fromArray(lm[18]), Vector.fromArray(lm[20]), 0.5));
+    // Wrist.l.y = Vector.angleBetween3DCoords(lm[13], lm[15], Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5));
+    // // Wrist.r.z = clamp(Wrist.r.z, -2.14, 0);
+    // Wrist.l.z = clamp(Wrist.l.z, -2.14, 0); // z is wrist movement side to side (abduction/adduction)
 
     const Hand = {
         r: LowerArm.r.multiply(Wrist.r),
         l: LowerArm.l.multiply(Wrist.l)
     }
+
+    Hand.r.y = Vector.angleBetween3DCoords(lm[14], lm[16], Vector.lerp(Vector.fromArray(lm[18]), Vector.fromArray(lm[20]), 0.5));
+    Hand.l.y = Vector.angleBetween3DCoords(lm[13], lm[15], Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5));
+    Hand.r.x = clamp(Hand.r.x, -PI / 2, 0);
+    Hand.l.x = clamp(Hand.l.x, -PI / 2, 0);
 
     //Modify Rotations slightly for more natural movement
     const rightArmRig = rigArm(UpperArm.r, LowerArm.r, Hand.r, RIGHT);
@@ -99,8 +106,8 @@ export const rigArm = (UpperArm: Vector, LowerArm: Vector, Hand: Vector, side: S
     UpperArm.x = clamp(UpperArm.x, -0.5, PI);
     LowerArm.x = clamp(LowerArm.x, -0.3, 0.3);
 
-    Hand.y = clamp(Hand.z * 2, -0.6, 0.6); //side to side
-    Hand.z = Hand.z * -2.3 * invert; //up down
+    Hand.y = clamp(Hand.z * 2, -0.5, 0.5); //side to side
+    Hand.z = Hand.z * -2.6 * invert; //up down
 
     return {
         //Returns Values in Radians for direct 3D usage
