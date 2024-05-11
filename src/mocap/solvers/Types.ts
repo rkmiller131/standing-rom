@@ -64,7 +64,7 @@ export interface IHips {
     worldPosition?: XYZ;
 }
 
-export type Quaternion = {
+type Quaternion = {
   x: number;
   y: number;
   z: number;
@@ -76,4 +76,16 @@ export const QuaternionSchema: Quaternion = {
   y: 0,
   z: 0,
   w: 0
+};
+
+type Vector3 = {
+  x: number;
+  y: number;
+  z: number;
+};
+
+export const Vector3Schema: Vector3 = {
+  x: 0,
+  y: 0,
+  z: 0,
 };

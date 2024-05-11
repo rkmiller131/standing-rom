@@ -1,11 +1,14 @@
 import { VRMHumanBoneList, VRMHumanBoneName } from '@pixiv/three-vrm'
-import { QuaternionSchema, TFVectorPose } from './solvers/Types'
+import { QuaternionSchema, Vector3Schema, TFVectorPose } from './solvers/Types'
 
 export interface MocapComponent {
   prevWorldLandmarks: TFVectorPose | null;
   prevScreenLandmarks: Omit<TFVectorPose, "z"> | null;
   schema: {
     rig: Record<VRMHumanBoneName, typeof QuaternionSchema>;
+    hipPosition: typeof Vector3Schema;
+    hipRotation: typeof QuaternionSchema;
+    footOffset: 'f64';
   };
 }
 
@@ -16,7 +19,10 @@ export function createMocapComponent(): MocapComponent {
     prevWorldLandmarks: null,
     prevScreenLandmarks: null,
     schema: {
-      rig: Object.fromEntries(VRMHumanBoneList.map((b) => [b, QuaternionSchema])) as Record<VRMHumanBoneName, typeof QuaternionSchema>
+      rig: Object.fromEntries(VRMHumanBoneList.map((b) => [b, QuaternionSchema])) as Record<VRMHumanBoneName, typeof QuaternionSchema>,
+      hipPosition: Vector3Schema,
+      hipRotation: QuaternionSchema,
+      footOffset: 'f64'
     }
   }
 }

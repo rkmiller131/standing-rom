@@ -5,6 +5,15 @@ const directionVector = new Vector3()
 const thirdVector = new Vector3()
 const rotationMatrix = new Matrix4()
 
+/**
+ * Calculates a quaternion representing the rotation between two vectors along a plane.
+ * @param {Vector3} a - The first vector.
+ * @param {Vector3} b - The second vector.
+ * @param {Vector3} planeRestraint - The vector representing the plane constraint.
+ * @param {Quaternion} target - The target quaternion where the result will be stored.
+ * @param {boolean} [invert=false] - Whether to invert the calculation.
+ * @returns {Quaternion} The calculated quaternion representing the rotation.
+ */
 export const getQuaternionFromPointsAlongPlane = (
   a: Vector3,
   b: Vector3,

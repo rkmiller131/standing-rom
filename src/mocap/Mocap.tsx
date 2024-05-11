@@ -26,7 +26,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           drawLandmarkGuides(results, videoRef, landmarkCanvasRef);
 
           if (avatar && avatar.current) {
-            animateVRM(avatar, results, videoRef);
+            animateVRM(avatar, results);
           }
 
           if (!holisticLoaded) {

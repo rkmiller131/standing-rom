@@ -1,33 +1,35 @@
+import { Vector3 } from 'three'
 import { Results, THand, THandUnsafe } from '../../avatar/helpers/solvers/Types'
 import { mocapComponent } from '../mocapComponent'
-import { IPoseSolveOptions, Side, TFVectorPose, TPose } from './Types'
-import { LEFT, PI, RIGHT } from './constants'
-import { calculateGroundedFeet } from './helpers/calculateGroundedFeet'
+import { Side, TFVectorPose } from './Types'
+import { LEFT, PI, PoseIndices, RIGHT } from './constants'
 import keyframeInterpolation from './helpers/keyframeInterpolation'
 import { clamp } from './utils/helpers'
 import Vector from './utils/vector'
+import { solveLimb } from './helpers/solveLimb'
+import { solveHead } from './helpers/solveHead'
 
 const worldFilterAlphaMultiplier = 0.5
 const screenFilterAlphaMultiplier = 0.2
 
 /** Class representing pose solver. */
 export class PoseSolver {
-    /** expose calcGroundedFeet helper as a static method */
-    static calcGroundedFeet = calculateGroundedFeet;
     /** expose smooth lerping animation as a static method */
     static keyframeInterpolation = keyframeInterpolation;
     /**
-     * Combines arm, hips, and leg calcs into one method
-     * @param {Array} lm3d : array of 3D pose vectors from tfjs or mediapipe
-     * @param {Array} lm2d : array of 2D pose vectors from tfjs or mediapipe
-     * @param {String} runtime: set as either "tfjs" or "mediapipe"
-     * @param {IPoseSolveOptions} options: options object
+     * Solves the pose using 3D world landmarks and 2D screen landmarks
+     * @param {Array} lm3d : array of 3D pose vectors from mediapipe
+     * @param {Array} lm2d : array of 2D pose vectors from mediapipe
+     * @returns {{
+     *   lowestWorldY: number,
+     *   worldLandmarks: TFVectorPose,
+     *   screenLandmarks: Omit<TFVectorPose, "z">
+     * }} An object containing the lowest world Y-coordinate reference and key interpolated world and screen landmarks.
      */
     static solve(
         lm3d: TFVectorPose,
         lm2d: Omit<TFVectorPose, "z">,
-        { enableLegs = true }: IPoseSolveOptions
-    ): TPose | undefined {
+    ) {
         if (!lm3d && !lm2d) {
             console.error("Need both 3D World Pose and 2D Pose Landmarks");
             return;
@@ -59,11 +61,41 @@ export class PoseSolver {
 
         // keeps the landmark with the highest y value (so lowest point b/c inverted)
         // used to establish a reference point for vertical positioning (normalization)
-        // const lowestWorldY = worldLandmarks.reduce((a, b) => (a.y > b.y ? a : b)).y
-        // calculateGroundedFeet(worldLandmarks);
+        const lowestWorldY = worldLandmarks.reduce((a, b) => (a.y > b.y ? a : b)).y
 
-        // solveSpine(lowestWorldY, worldLandmarks, enableLegs);
+        solveHead();
+        solveLimb(
+          lowestWorldY,
+          worldLandmarks[PoseIndices.RIGHT_SHOULDER],
+          worldLandmarks[PoseIndices.RIGHT_ELBOW],
+          worldLandmarks[PoseIndices.RIGHT_WRIST],
+          new Vector3(1, 0, 0),
+          "chest",
+          "rightUpperArm",
+          "rightLowerArm",
+          0.75
+        );
+        solveLimb(
+          lowestWorldY,
+          worldLandmarks[PoseIndices.LEFT_SHOULDER],
+          worldLandmarks[PoseIndices.LEFT_ELBOW],
+          worldLandmarks[PoseIndices.LEFT_WRIST],
+          new Vector3(-1, 0, 0),
+          "chest",
+          "leftUpperArm",
+          "leftLowerArm",
+          0.75
+        )
 
+        return {
+          lowestWorldY,
+          worldLandmarks,
+          screenLandmarks
+        }
+
+        // solveSpine(vrm, lowestWorldY, worldLandmarks, enableLegs);
+        // solveLimb(lowestWorldY, worldLandmarks[index] x3, axisVector, name, name, name)
+        // solveHead()
     }
 }
 

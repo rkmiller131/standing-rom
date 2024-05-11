@@ -1,3 +1,5 @@
+import { Vector3 } from 'three'
+
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker
 export const PoseIndices = {
   NOSE: 0,
@@ -37,8 +39,17 @@ export const PoseIndices = {
   RIGHT_FOOT_INDEX: 32
 }
 
-export const RIGHT = "Right";
-export const LEFT = "Left";
+export const RIGHT = 'Right';
+export const LEFT = 'Left';
 
 export const PI = Math.PI;
 export const TWO_PI = Math.PI * 2;
+
+/** const Vector3(1,0,0) */
+export const Vector3_Right = Object.freeze(new Vector3(1, 0, 0));
+
+/** const Vector3(-1,0,0) */
+export const Vector3_Left = Object.freeze(new Vector3(-1, 0, 0));
+
+/** const Vector3(0,1,0) */
+export const Vector3_Up = Object.freeze(new Vector3(0, 1, 0));

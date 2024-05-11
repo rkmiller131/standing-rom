@@ -10,7 +10,7 @@ const vec3 = new Vector3();
 
 /**
  * Solves the rotation of a limb based on three landmarks in 3D space.
- * @param {number} lowestWorldY - The lowest Y coordinate in the world space.
+ * @param {number} lowestWorldY - The lowest Y coordinate in the world space (not normalized).
  * @param {NormalizedLandmark} start - The starting landmark of the limb.
  * @param {NormalizedLandmark} mid - The middle landmark of the limb.
  * @param {NormalizedLandmark} end - The ending landmark of the limb.
