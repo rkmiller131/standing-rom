@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vector3 } from 'three'
 import { Results, THand, THandUnsafe } from '../../avatar/helpers/solvers/Types'
 import { mocapComponent } from '../mocapComponent'
@@ -8,6 +9,10 @@ import { clamp } from './utils/helpers'
 import Vector from './utils/vector'
 import { solveLimb } from './helpers/solveLimb'
 import { solveHead } from './helpers/solveHead'
+import { VRM } from '@pixiv/three-vrm'
+import { solveSpine } from './helpers/solveSpine'
+import { rigRotation, rigRotation2 } from '../../avatar/helpers/animationHelpers'
+import { solveHand } from './helpers/solveHand'
 
 const worldFilterAlphaMultiplier = 0.5
 const screenFilterAlphaMultiplier = 0.2
@@ -29,6 +34,8 @@ export class PoseSolver {
     static solve(
         lm3d: TFVectorPose,
         lm2d: Omit<TFVectorPose, "z">,
+        vrm: React.RefObject<VRM>,
+        enableLegs: boolean
     ) {
         if (!lm3d && !lm2d) {
             console.error("Need both 3D World Pose and 2D Pose Landmarks");
@@ -63,6 +70,7 @@ export class PoseSolver {
         // used to establish a reference point for vertical positioning (normalization)
         const lowestWorldY = worldLandmarks.reduce((a, b) => (a.y > b.y ? a : b)).y
 
+        solveSpine(vrm, lowestWorldY, worldLandmarks, enableLegs);
         solveHead();
         solveLimb(
           lowestWorldY,
@@ -85,17 +93,18 @@ export class PoseSolver {
           "leftUpperArm",
           "leftLowerArm",
           0.75
-        )
+        );
 
-        return {
-          lowestWorldY,
-          worldLandmarks,
-          screenLandmarks
-        }
+        // TODO if feet enabled, do a solve and rig rotation for feet/lower body
 
-        // solveSpine(vrm, lowestWorldY, worldLandmarks, enableLegs);
-        // solveLimb(lowestWorldY, worldLandmarks[index] x3, axisVector, name, name, name)
-        // solveHead()
+        // rigRotation(vrm, "chest", mocapComponent.schema.rig.chest);
+        // rigRotation(vrm, "spine", mocapComponent.schema.rig.spine);
+
+        rigRotation(vrm, "rightUpperArm", mocapComponent.schema.rig.rightUpperArm);
+        rigRotation(vrm, "rightLowerArm", mocapComponent.schema.rig.rightLowerArm);
+
+        rigRotation(vrm, "leftUpperArm", mocapComponent.schema.rig.leftUpperArm);
+        rigRotation(vrm, "leftLowerArm", mocapComponent.schema.rig.leftLowerArm);
     }
 }
 
@@ -106,22 +115,38 @@ export class HandSolver {
      * @param {Array} lm : array of 3D hand vectors from tfjs or mediapipe
      * @param {Side} side: left or right
      */
-    static solve(lm: Results, side: Side = RIGHT): THand<typeof side> | undefined {
+    static solve(vrm: any, lm3d: Results, lm: Results, side: Side = RIGHT): THand<typeof side> | undefined {
         if (!lm) {
             console.error("Need Hand Landmarks");
             return;
         }
-        const palm = [
-            new Vector(lm[0]),
-            new Vector(lm[side === RIGHT ? 17 : 5]),
-            new Vector(lm[side === RIGHT ? 5 : 17]),
-        ];
-        const handRotation = Vector.rollPitchYaw(palm[0], palm[1], palm[2]);
-        // handRotation.y = side === LEFT ? handRotation.z - 0.3 : handRotation.z + 0.3;
-        handRotation.y -= side === LEFT ? 0.4 : -0.4;
+        const lowestWorldY = lm3d.reduce((a, b) => (a.y > b.y ? a : b)).y;
+        solveHand(
+          vrm,
+          lowestWorldY,
+          lm[PoseIndices.RIGHT_WRIST],
+          lm[PoseIndices.RIGHT_PINKY],
+          lm[PoseIndices.RIGHT_INDEX],
+          "leftLowerArm",
+          "leftHand"
+        );
+        solveHand(
+          vrm,
+          lowestWorldY,
+          lm[PoseIndices.LEFT_WRIST],
+          lm[PoseIndices.LEFT_PINKY],
+          lm[PoseIndices.LEFT_INDEX],
+          "rightLowerArm",
+          "rightHand"
+        );
 
         let hand: Record<string, unknown> = {};
-        hand[side + "Wrist"] = { x: handRotation.x, y: handRotation.y, z: handRotation.z };
+        const handRotation = {
+          x: side === RIGHT ? mocapComponent.schema.rig.rightHand.x : mocapComponent.schema.rig.leftHand.x,
+          y: side === RIGHT ? mocapComponent.schema.rig.rightHand.y : mocapComponent.schema.rig.leftHand.y,
+          z: side === RIGHT ? mocapComponent.schema.rig.leftHand.z : mocapComponent.schema.rig.leftHand.z
+        }
+        hand[side + "Wrist"] = handRotation;
         hand[side + "RingProximal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[13], lm[14]) };
         hand[side + "RingIntermediate"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[13], lm[14], lm[15]) };
         hand[side + "RingDistal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[14], lm[15], lm[16]) };
@@ -139,6 +164,54 @@ export class HandSolver {
         hand[side + "LittleDistal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[18], lm[19], lm[20]) };
 
         hand = rigFingers(hand as THand<typeof side>, side);
+
+        if (side === LEFT) {
+          rigRotation2(vrm, "leftHand", {
+            // Combine pose rotation Z and hand rotation X Y
+            z: mocapComponent.schema.rig.leftHand.z,
+            y: hand.LeftWrist.y,
+            x: hand.LeftWrist.x
+          });
+          rigRotation2(vrm, "leftRingProximal", hand.LeftRingProximal);
+          rigRotation2(vrm, "leftRingIntermediate", hand.LeftRingIntermediate);
+          rigRotation2(vrm, "leftRingDistal", hand.LeftRingDistal);
+          rigRotation2(vrm, "leftIndexProximal", hand.LeftIndexProximal);
+          rigRotation2(vrm, "leftIndexIntermediate", hand.LeftIndexIntermediate);
+          rigRotation2(vrm, "leftIndexDistal", hand.LeftIndexDistal);
+          rigRotation2(vrm, "leftMiddleProximal", hand.LeftMiddleProximal);
+          rigRotation2(vrm, "leftMiddleIntermediate", hand.LeftMiddleIntermediate);
+          rigRotation2(vrm, "leftMiddleDistal", hand.LeftMiddleDistal);
+          rigRotation2(vrm, "leftThumbProximal", hand.LeftThumbProximal);
+          rigRotation2(vrm, "leftThumbIntermediate", hand.LeftThumbIntermediate);
+          rigRotation2(vrm, "leftThumbDistal", hand.LeftThumbDistal);
+          rigRotation2(vrm, "leftLittleProximal", hand.LeftLittleProximal);
+          rigRotation2(vrm, "leftLittleIntermediate", hand.LeftLittleIntermediate);
+          rigRotation2(vrm, "leftLittleDistal", hand.LeftLittleDistal);
+        }
+
+        if (side === RIGHT) {
+          rigRotation2(vrm, "rightHand", {
+            // Combine pose rotation Z and hand rotation X Y
+            z: mocapComponent.schema.rig.rightHand.z,
+            y: hand.RightWrist.y,
+            x: hand.RightWrist.x
+          });
+          rigRotation2(vrm, "rightRingProximal", hand.RightRingProximal);
+          rigRotation2(vrm, "rightRingIntermediate", hand.RightRingIntermediate);
+          rigRotation2(vrm, "rightRingDistal", hand.RightRingDistal);
+          rigRotation2(vrm, "rightIndexProximal", hand.RightIndexProximal);
+          rigRotation2(vrm, "rightIndexIntermediate", hand.RightIndexIntermediate);
+          rigRotation2(vrm, "rightIndexDistal", hand.RightIndexDistal);
+          rigRotation2(vrm, "rightMiddleProximal", hand.RightMiddleProximal);
+          rigRotation2(vrm, "rightMiddleIntermediate", hand.RightMiddleIntermediate);
+          rigRotation2(vrm, "rightMiddleDistal", hand.RightMiddleDistal);
+          rigRotation2(vrm, "rightThumbProximal", hand.RightThumbProximal);
+          rigRotation2(vrm, "rightThumbIntermediate", hand.RightThumbIntermediate);
+          rigRotation2(vrm, "rightThumbDistal", hand.RightThumbDistal);
+          rigRotation2(vrm, "rightLittleProximal", hand.RightLittleProximal);
+          rigRotation2(vrm, "rightLittleIntermediate", hand.RightLittleIntermediate);
+          rigRotation2(vrm, "rightLittleDistal", hand.RightLittleDistal);
+        }
 
         return hand as THand<typeof side>;
     }

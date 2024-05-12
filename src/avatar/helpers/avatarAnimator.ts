@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import { HandSolver as Hand } from './solvers'
-import { PoseSolver as Pose } from '../../mocap/solvers/index'
+import { PoseSolver as Pose, HandSolver as Hand } from '../../mocap/solvers/index'
+// import {PoseSolver as KalidoPose} from './solvers'
 // import { rigRotation } from './animationHelpers'
 import { VRM } from '../../THREE_Interface'
-import { solveSpine } from '../../mocap/solvers/helpers/solveSpine'
-import { mocapComponent } from '../../mocap/mocapComponent';
+// import { rigRotation2 } from './animationHelpers';
+// import { mocapComponent } from '../../mocap/mocapComponent';
 
 export const animateVRM = (
   vrm: React.RefObject<VRM>,
@@ -21,20 +22,19 @@ export const animateVRM = (
   const pose2DLandmarks = results.poseLandmarks;
 
   // need to be flipped b/c stream is mirrored
-  // const leftHandLandmarks = results.rightHandLandmarks;
-  // const rightHandLandmarks = results.leftHandLandmarks;
+  const leftHandLandmarks = results.rightHandLandmarks;
+  const rightHandLandmarks = results.leftHandLandmarks;
 
   const enableLegs = false;
 
   // Animate Pose
   if (pose2DLandmarks && pose3DLandmarks) {
-   const { lowestWorldY, worldLandmarks } = Pose.solve(pose3DLandmarks, pose2DLandmarks) || {};
-   if (!lowestWorldY || !worldLandmarks) return;
-
-    solveSpine(vrm, lowestWorldY, worldLandmarks, enableLegs);
+   Pose.solve(pose3DLandmarks, pose2DLandmarks, vrm, enableLegs);
+  //  if (!riggedPose) return;
 
     // this returns nothing... need to make pose.solve return the body parts after all.
-    console.log('the motion capture rig looks like: ', mocapComponent.schema.rig.rightUpperArm);
+    // console.log('the motion capture rig looks like: ', riggedPose.worldLandmarks[14]);
+
     // free motion tilting:
     // rigRotation(vrm, "hips", riggedPose!.Hips.rotation, 0.7);
 
@@ -63,55 +63,59 @@ export const animateVRM = (
     // rigRotation(vrm, "leftLowerLeg", riggedPose!.LeftLowerLeg, 1, .3);
     // rigRotation(vrm, "rightUpperLeg", riggedPose!.RightUpperLeg, 1, .3);
     // rigRotation(vrm, "rightLowerLeg", riggedPose!.RightLowerLeg, 1, .3);
+    // riggedPose = KalidoPose.solve(pose3DLandmarks, pose2DLandmarks, {
+    //   runtime: "mediapipe",
+    //   enableLegs: false
+    // })
   }
 
   // Animate Hands
-  // if (leftHandLandmarks) {
-  //   riggedLeftHand = Hand.solve(leftHandLandmarks, "Left");
-  //   rigRotation(vrm, "leftHand", {
-  //     // Combine pose rotation Z and hand rotation X Y
-  //     z: riggedPose!.LeftHand.z,
-  //     y: riggedLeftHand!.LeftWrist.y,
-  //     x: riggedLeftHand!.LeftWrist.x
-  //   });
-  //   rigRotation(vrm, "leftRingProximal", riggedLeftHand!.LeftRingProximal);
-  //   rigRotation(vrm, "leftRingIntermediate", riggedLeftHand!.LeftRingIntermediate);
-  //   rigRotation(vrm, "leftRingDistal", riggedLeftHand!.LeftRingDistal);
-  //   rigRotation(vrm, "leftIndexProximal", riggedLeftHand!.LeftIndexProximal);
-  //   rigRotation(vrm, "leftIndexIntermediate", riggedLeftHand!.LeftIndexIntermediate);
-  //   rigRotation(vrm, "leftIndexDistal", riggedLeftHand!.LeftIndexDistal);
-  //   rigRotation(vrm, "leftMiddleProximal", riggedLeftHand!.LeftMiddleProximal);
-  //   rigRotation(vrm, "leftMiddleIntermediate", riggedLeftHand!.LeftMiddleIntermediate);
-  //   rigRotation(vrm, "leftMiddleDistal", riggedLeftHand!.LeftMiddleDistal);
-  //   rigRotation(vrm, "leftThumbProximal", riggedLeftHand!.LeftThumbProximal);
-  //   rigRotation(vrm, "leftThumbIntermediate", riggedLeftHand!.LeftThumbIntermediate);
-  //   rigRotation(vrm, "leftThumbDistal", riggedLeftHand!.LeftThumbDistal);
-  //   rigRotation(vrm, "leftLittleProximal", riggedLeftHand!.LeftLittleProximal);
-  //   rigRotation(vrm, "leftLittleIntermediate", riggedLeftHand!.LeftLittleIntermediate);
-  //   rigRotation(vrm, "leftLittleDistal", riggedLeftHand!.LeftLittleDistal);
-  // }
-  // if (rightHandLandmarks) {
-  //   riggedRightHand = Hand.solve(rightHandLandmarks, "Right");
-  //   rigRotation(vrm, "rightHand", {
-  //     // Combine Z axis from pose hand and X/Y axis from hand wrist rotation
-  //     z: riggedPose!.RightHand.z,
-  //     y: riggedRightHand!.RightWrist.y,
-  //     x: riggedRightHand!.RightWrist.x
-  //   });
-  //   rigRotation(vrm, "rightRingProximal", riggedRightHand!.RightRingProximal);
-  //   rigRotation(vrm, "rightRingIntermediate", riggedRightHand!.RightRingIntermediate);
-  //   rigRotation(vrm, "rightRingDistal", riggedRightHand!.RightRingDistal);
-  //   rigRotation(vrm, "rightIndexProximal", riggedRightHand!.RightIndexProximal);
-  //   rigRotation(vrm, "rightIndexIntermediate",riggedRightHand!.RightIndexIntermediate);
-  //   rigRotation(vrm, "rightIndexDistal", riggedRightHand!.RightIndexDistal);
-  //   rigRotation(vrm, "rightMiddleProximal", riggedRightHand!.RightMiddleProximal);
-  //   rigRotation(vrm, "rightMiddleIntermediate", riggedRightHand!.RightMiddleIntermediate);
-  //   rigRotation(vrm, "rightMiddleDistal", riggedRightHand!.RightMiddleDistal);
-  //   rigRotation(vrm, "rightThumbProximal", riggedRightHand!.RightThumbProximal);
-  //   rigRotation(vrm, "rightThumbIntermediate", riggedRightHand!.RightThumbIntermediate);
-  //   rigRotation(vrm, "rightThumbDistal", riggedRightHand!.RightThumbDistal);
-  //   rigRotation(vrm, "rightLittleProximal", riggedRightHand!.RightLittleProximal);
-  //   rigRotation(vrm, "rightLittleIntermediate", riggedRightHand!.RightLittleIntermediate);
-  //   rigRotation(vrm, "rightLittleDistal", riggedRightHand!.RightLittleDistal);
-  // }
+  if (leftHandLandmarks) {
+    Hand.solve(vrm, pose3DLandmarks, leftHandLandmarks, "Left");
+    // rigRotation2(vrm, "leftHand", {
+    //   // Combine pose rotation Z and hand rotation X Y
+    //   z: riggedPose!.LeftHand.z,
+    //   y: riggedLeftHand!.LeftWrist.y,
+    //   x: riggedLeftHand!.LeftWrist.x
+    // });
+    // rigRotation2(vrm, "leftRingProximal", riggedLeftHand!.LeftRingProximal);
+    // rigRotation2(vrm, "leftRingIntermediate", riggedLeftHand!.LeftRingIntermediate);
+    // rigRotation2(vrm, "leftRingDistal", riggedLeftHand!.LeftRingDistal);
+    // rigRotation2(vrm, "leftIndexProximal", riggedLeftHand!.LeftIndexProximal);
+    // rigRotation2(vrm, "leftIndexIntermediate", riggedLeftHand!.LeftIndexIntermediate);
+    // rigRotation2(vrm, "leftIndexDistal", riggedLeftHand!.LeftIndexDistal);
+    // rigRotation2(vrm, "leftMiddleProximal", riggedLeftHand!.LeftMiddleProximal);
+    // rigRotation2(vrm, "leftMiddleIntermediate", riggedLeftHand!.LeftMiddleIntermediate);
+    // rigRotation2(vrm, "leftMiddleDistal", riggedLeftHand!.LeftMiddleDistal);
+    // rigRotation2(vrm, "leftThumbProximal", riggedLeftHand!.LeftThumbProximal);
+    // rigRotation2(vrm, "leftThumbIntermediate", riggedLeftHand!.LeftThumbIntermediate);
+    // rigRotation2(vrm, "leftThumbDistal", riggedLeftHand!.LeftThumbDistal);
+    // rigRotation2(vrm, "leftLittleProximal", riggedLeftHand!.LeftLittleProximal);
+    // rigRotation2(vrm, "leftLittleIntermediate", riggedLeftHand!.LeftLittleIntermediate);
+    // rigRotation2(vrm, "leftLittleDistal", riggedLeftHand!.LeftLittleDistal);
+  }
+  if (rightHandLandmarks) {
+    Hand.solve(vrm, pose3DLandmarks, leftHandLandmarks, "Right");
+    // rigRotation2(vrm, "rightHand", {
+    //   // Combine Z axis from pose hand and X/Y axis from hand wrist rotation
+    //   z: riggedPose!.RightHand.z,
+    //   y: riggedRightHand!.RightWrist.y,
+    //   x: riggedRightHand!.RightWrist.x
+    // });
+    // rigRotation2(vrm, "rightRingProximal", riggedRightHand!.RightRingProximal);
+    // rigRotation2(vrm, "rightRingIntermediate", riggedRightHand!.RightRingIntermediate);
+    // rigRotation2(vrm, "rightRingDistal", riggedRightHand!.RightRingDistal);
+    // rigRotation2(vrm, "rightIndexProximal", riggedRightHand!.RightIndexProximal);
+    // rigRotation2(vrm, "rightIndexIntermediate",riggedRightHand!.RightIndexIntermediate);
+    // rigRotation2(vrm, "rightIndexDistal", riggedRightHand!.RightIndexDistal);
+    // rigRotation2(vrm, "rightMiddleProximal", riggedRightHand!.RightMiddleProximal);
+    // rigRotation2(vrm, "rightMiddleIntermediate", riggedRightHand!.RightMiddleIntermediate);
+    // rigRotation2(vrm, "rightMiddleDistal", riggedRightHand!.RightMiddleDistal);
+    // rigRotation2(vrm, "rightThumbProximal", riggedRightHand!.RightThumbProximal);
+    // rigRotation2(vrm, "rightThumbIntermediate", riggedRightHand!.RightThumbIntermediate);
+    // rigRotation2(vrm, "rightThumbDistal", riggedRightHand!.RightThumbDistal);
+    // rigRotation2(vrm, "rightLittleProximal", riggedRightHand!.RightLittleProximal);
+    // rigRotation2(vrm, "rightLittleIntermediate", riggedRightHand!.RightLittleIntermediate);
+    // rigRotation2(vrm, "rightLittleDistal", riggedRightHand!.RightLittleDistal);
+  }
 };
