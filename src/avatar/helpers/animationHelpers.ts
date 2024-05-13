@@ -25,6 +25,7 @@ export const rigRotation = (
   Part.node.quaternion.slerp(targetRotation, lerpAmount)
 };
 
+// original kalidokit solver for rig rotation - vector3 instead of quaternion
 export const rigRotation2 = (
   vrm: any,
   name: string,

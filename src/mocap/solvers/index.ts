@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vector3 } from 'three'
-import { Results, THand, THandUnsafe } from '../../avatar/helpers/solvers/Types'
 import { mocapComponent } from '../mocapComponent'
-import { Side, TFVectorPose } from './Types'
+import { Results, Side, TFVectorPose, THand, THandUnsafe } from './Types'
 import { LEFT, PI, PoseIndices, RIGHT } from './constants'
 import keyframeInterpolation from './helpers/keyframeInterpolation'
 import { clamp } from './utils/helpers'

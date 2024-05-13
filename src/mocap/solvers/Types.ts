@@ -45,6 +45,31 @@ export interface IPoseSolveOptions {
 }
 
 /**
+ * Array of results from TFJS or MediaPipe
+ */
+export type Results = Array<XYZ>;
+
+export type HandKeys<S extends Side> = `${S}${
+  | "Wrist"
+  | "RingProximal"
+  | "RingIntermediate"
+  | "RingDistal"
+  | "IndexProximal"
+  | "IndexIntermediate"
+  | "IndexDistal"
+  | "MiddleProximal"
+  | "MiddleIntermediate"
+  | "MiddleDistal"
+  | "ThumbProximal"
+  | "ThumbIntermediate"
+  | "ThumbDistal"
+  | "LittleProximal"
+  | "LittleIntermediate"
+  | "LittleDistal"}`;
+export type THand<S extends Side> = Record<HandKeys<S>, XYZ>;
+export type THandUnsafe<S extends Side> = Record<HandKeys<S> | string, XYZ>;
+
+/**
  * The left or the right side
  */
 export type Side = typeof RIGHT | typeof LEFT;
