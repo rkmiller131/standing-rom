@@ -1,8 +1,8 @@
 import { Suspense, lazy, useRef } from 'react';
-import { GLTF, VRM } from '../../THREE_Interface';
+import { GLTF, VRM } from '../../../interfaces/THREE_Interface';
 import Office from './Office';
 import { useSceneState } from '../../ecs/store/SceneState';
-import { Physics } from '../../CANNON_Interface';
+import { Physics } from '../../../interfaces/CANNON_Interface';
 import DemoBubble from '../physics/demoBubble';
 import RightHandCollider from '../physics/rightHandCollider';
 

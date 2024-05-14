@@ -5,7 +5,7 @@ import { drawLandmarkGuides } from './landmarkGuides';
 import { Holistic } from '@mediapipe/holistic';
 import { Camera } from '@mediapipe/camera_utils';
 import { animateVRM } from '../avatar/helpers/avatarAnimator';
-import { VRM } from '../THREE_Interface';
+import { VRM } from '../../interfaces/THREE_Interface';
 import { useSceneState } from '../ecs/store/SceneState';
 
 import '../css/Mocap.css';

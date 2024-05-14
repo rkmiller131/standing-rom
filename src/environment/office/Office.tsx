@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { gltfLoader as loader, dracoLoader, GLTF } from '../../THREE_Interface';
+import { gltfLoader as loader, dracoLoader, GLTF } from '../../../interfaces/THREE_Interface';
 import { Suspense, useEffect, useState } from 'react';
 import debounce from '../../ecs/helpers/debounce';
 import updateShadows from './lights/helpers/updateShadows';

@@ -5,7 +5,7 @@ import UbiquitySVG from './assets/ubiquity.svg';
 import LoadingScreen from './ui/LoadingScreen';
 import GameLogic from './ecs/systems/GameLogic';
 import { useSceneState } from './ecs/store/SceneState';
-import { VRM } from './THREE_Interface';
+import { VRM } from '../interfaces/THREE_Interface';
 import checkUserDevice from './ecs/helpers/checkUserDevice';
 import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';

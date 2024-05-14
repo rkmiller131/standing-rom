@@ -1,4 +1,4 @@
-import { VRM } from '../../THREE_Interface';
+import { VRM } from '../../../interfaces/THREE_Interface';
 import RenderLoop from './RenderLoop';
 
 interface GameLogicProps {

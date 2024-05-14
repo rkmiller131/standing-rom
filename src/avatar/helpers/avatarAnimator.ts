@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PoseSolver as Pose, HandSolver as Hand } from './solvers';
 import { rigPosition, rigRotation } from './animationHelpers';
-import { VRM } from '../../THREE_Interface';
+import { VRM } from '../../../interfaces/THREE_Interface';
 
 export const animateVRM = (
   vrm: React.RefObject<VRM>,

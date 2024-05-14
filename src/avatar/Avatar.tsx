@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Suspense, useEffect, useState } from 'react';
-import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface';
+import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../../interfaces/THREE_Interface';
 import debounce from '../ecs/helpers/debounce';
 import { useSceneState } from '../ecs/store/SceneState';
 

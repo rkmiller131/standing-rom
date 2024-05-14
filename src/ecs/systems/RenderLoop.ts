@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { Clock } from 'three';
 import { useGameState } from '../store/GameState';
 import calculateArmAngles from '../../avatar/helpers/calculateArmAngles';
-import { VRM } from '../../THREE_Interface';
+import { VRM } from '../../../interfaces/THREE_Interface';
 import { useSceneState } from '../store/SceneState';
 
 interface RenderLoopProps {

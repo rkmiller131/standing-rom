@@ -11,7 +11,7 @@ import {
 import {
   audioLoader,
   audioListener as listener,
-} from '../../../THREE_Interface';
+} from '../../../../interfaces/THREE_Interface';
 
 const songPath =
   'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/OfficeNCS.mp3?v=1715028230989';

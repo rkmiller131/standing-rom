@@ -19,5 +19,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "interfaces/CANNON_Interface.ts", "interfaces/THREE_Interface.ts"]
 }

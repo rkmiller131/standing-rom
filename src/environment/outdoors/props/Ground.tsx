@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { textureLoader } from '../../../THREE_Interface';
+import { textureLoader } from '../../../../interfaces/THREE_Interface';
 import { useThree } from '@react-three/fiber';
 
 const map =

@@ -4,7 +4,7 @@ import {
   gltfLoader as loader,
   dracoLoader,
   GLTF,
-} from '../../../THREE_Interface';
+} from '../../../../interfaces/THREE_Interface';
 import { Merged } from '@react-three/drei';
 
 const map =

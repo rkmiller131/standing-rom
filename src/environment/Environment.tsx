@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import OutdoorScene from './outdoors/Outdoors';
 import OfficeScene from './office/Scene';
 import { useSceneState } from '../ecs/store/SceneState';
-import { VRM } from '../THREE_Interface';
+import { VRM } from '../../interfaces/THREE_Interface';
 
 interface SceneProps {
   avatar: React.RefObject<VRM>;
