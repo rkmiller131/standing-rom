@@ -89,9 +89,9 @@ export default function RightHandCollider({ avatar }: RightHandColliderProps) {
       <sphereGeometry args={[0.07]} />
       <meshBasicMaterial
         attach="material"
-        opacity={0.5}
-        color="blue"
-        wireframe
+        transparent
+        opacity={0}
+        color="white"
       />
     </mesh>
   );
