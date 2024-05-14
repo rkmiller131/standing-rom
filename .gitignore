@@ -24,4 +24,7 @@ package-lock.json
 *.sln
 *.sw?
 
+# pre-commit hook linting/prettier
 .eslintcache
+husky/
+
