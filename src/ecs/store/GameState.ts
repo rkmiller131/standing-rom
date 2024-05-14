@@ -1,6 +1,6 @@
-import { hookstate, useHookstate } from "@hookstate/core";
-import { GameType } from "./types";
-import getGameSetup from "../helpers/getGameSetup";
+import { hookstate, useHookstate } from '@hookstate/core';
+import { GameType } from './types';
+import getGameSetup from '../helpers/getGameSetup';
 
 const initialState: GameType = hookstate({
   levels: [],

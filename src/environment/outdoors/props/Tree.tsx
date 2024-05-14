@@ -1,11 +1,11 @@
-import * as THREE from 'three'
-import React, { useContext, createContext, useState, useEffect } from 'react'
-import { Merged } from '@react-three/drei'
+import * as THREE from 'three';
+import React, { useContext, createContext, useState, useEffect } from 'react';
+import { Merged } from '@react-three/drei';
 import {
   gltfLoader as loader,
   GLTF,
   dracoLoader,
-} from '../../../THREE_Interface'
+} from '../../../THREE_Interface';
 
 const map =
   'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/tree-transformed.glb?v=1715123611590';
@@ -41,26 +41,24 @@ export function TreeInstance({
     const loadModel = async () => {
       try {
         const gltf = await loader.loadAsync(map, (event) => {
-          console.log(
-            `Loading Tree: ${(event.loaded / event.total) * 100}%`
-          );
+          console.log(`Loading Tree: ${(event.loaded / event.total) * 100}%`);
         });
         // Extract nodes directly from the loaded GLTF object
         const nodes = {
           BezierCurve025: gltf.scene.getObjectByName(
-            "BezierCurve025"
+            'BezierCurve025',
           ) as THREE.Mesh,
           BezierCurve025_1: gltf.scene.getObjectByName(
-            "BezierCurve025_1"
+            'BezierCurve025_1',
           ) as THREE.Mesh,
           BezierCurve025_2: gltf.scene.getObjectByName(
-            "BezierCurve025_2"
+            'BezierCurve025_2',
           ) as THREE.Mesh,
         };
 
         // Extract materials from the nodes
         const getMaterial = (
-          object: THREE.Object3D
+          object: THREE.Object3D,
         ): THREE.Material | undefined => {
           if (object instanceof THREE.Mesh) {
             return object.material;
@@ -69,20 +67,20 @@ export function TreeInstance({
         };
 
         const materials = {
-          ["trunk-01"]: getMaterial(
-            gltf.scene.getObjectByName("BezierCurve025") as THREE.Object3D
+          ['trunk-01']: getMaterial(
+            gltf.scene.getObjectByName('BezierCurve025') as THREE.Object3D,
           ) as THREE.MeshStandardMaterial,
-          ["branch-2-01"]: getMaterial(
-            gltf.scene.getObjectByName("BezierCurve025_1") as THREE.Object3D
+          ['branch-2-01']: getMaterial(
+            gltf.scene.getObjectByName('BezierCurve025_1') as THREE.Object3D,
           ) as THREE.MeshStandardMaterial,
-          ["branch-2-02"]: getMaterial(
-            gltf.scene.getObjectByName("BezierCurve025_2") as THREE.Object3D
+          ['branch-2-02']: getMaterial(
+            gltf.scene.getObjectByName('BezierCurve025_2') as THREE.Object3D,
           ) as THREE.MeshStandardMaterial,
         };
 
         setGltf({ ...gltf, nodes, materials });
       } catch (error) {
-        console.error("Error loading GLTF model:", error);
+        console.error('Error loading GLTF model:', error);
       }
     };
 
@@ -112,7 +110,7 @@ export function Tree({
   rotation,
   scale = 1,
 }: {
-  props?: JSX.IntrinsicElements["group"];
+  props?: JSX.IntrinsicElements['group'];
   position: [number, number, number];
   rotation: [number, number, number];
   scale?: number;

@@ -1,9 +1,8 @@
-import { Object3D, Scene } from 'three'
-
+import { Object3D, Scene } from 'three';
 
 export const createTargetObject = (
   scene: Scene,
-  lock: [number, number, number]
+  lock: [number, number, number],
 ) => {
   const targetObject = new Object3D();
   targetObject.position.set(...lock);

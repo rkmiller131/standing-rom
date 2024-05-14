@@ -2,10 +2,10 @@ export interface OpaqueType<T extends string> {
   readonly __opaqueType: T;
 }
 
-export type EntityId = OpaqueType<"entity"> & number;
+export type EntityId = OpaqueType<'entity'> & number;
 
 export type SetType = {
-  sideSpawned: "right" | "left" | "frontR" | "frontL" | "crossR" | "crossL";
+  sideSpawned: 'right' | 'left' | 'frontR' | 'frontL' | 'crossR' | 'crossL';
   bubbleEntities: Array<EntityId | null | undefined>;
   inPlay: boolean;
 };
@@ -29,6 +29,6 @@ export type GameType = {
 export type SceneType = {
   sceneLoaded: boolean;
   environmentLoaded: boolean;
-  device: "Desktop" | "Tablet" | "Mobile";
-  selectedEnvironment: "Indoor Office" | "Outdoors" | "";
+  device: 'Desktop' | 'Tablet' | 'Mobile';
+  selectedEnvironment: 'Indoor Office' | 'Outdoors' | '';
 };

@@ -1,14 +1,14 @@
-import { Suspense, lazy, useRef } from "react";
-import { GLTF, VRM } from "../../THREE_Interface";
-import Office from "./Office";
-import { useSceneState } from "../../ecs/store/SceneState";
-import { Physics } from "../../CANNON_Interface";
-import DemoBubble from "../physics/demoBubble";
-import RightHandCollider from "../physics/rightHandCollider";
+import { Suspense, lazy, useRef } from 'react';
+import { GLTF, VRM } from '../../THREE_Interface';
+import Office from './Office';
+import { useSceneState } from '../../ecs/store/SceneState';
+import { Physics } from '../../CANNON_Interface';
+import DemoBubble from '../physics/demoBubble';
+import RightHandCollider from '../physics/rightHandCollider';
 
-const Sky = lazy(() => import("./Sky"));
-const Sound = lazy(() => import("./sound/Sound"));
-const Lighting = lazy(() => import("./Lighting"));
+const Sky = lazy(() => import('./Sky'));
+const Sound = lazy(() => import('./sound/Sound'));
+const Lighting = lazy(() => import('./Lighting'));
 
 interface SceneProps {
   avatar: React.RefObject<VRM>;

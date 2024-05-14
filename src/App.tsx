@@ -1,19 +1,19 @@
-import { Suspense, lazy, useLayoutEffect, useRef, useState } from "react";
-import Mocap from "./mocap/Mocap";
-import Avatar from "./avatar/Avatar";
-import UbiquitySVG from "./assets/ubiquity.svg";
-import LoadingScreen from "./ui/LoadingScreen";
-import GameLogic from "./ecs/systems/GameLogic";
-import { useSceneState } from "./ecs/store/SceneState";
-import { VRM } from "./THREE_Interface";
-import checkUserDevice from "./ecs/helpers/checkUserDevice";
-import GameInfo from "./ui/GameInfo";
-import SetupScreen from "./ui/SetupScreen";
-import Environment from "./environment/Environment";
+import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
+import Mocap from './mocap/Mocap';
+import Avatar from './avatar/Avatar';
+import UbiquitySVG from './assets/ubiquity.svg';
+import LoadingScreen from './ui/LoadingScreen';
+import GameLogic from './ecs/systems/GameLogic';
+import { useSceneState } from './ecs/store/SceneState';
+import { VRM } from './THREE_Interface';
+import checkUserDevice from './ecs/helpers/checkUserDevice';
+import GameInfo from './ui/GameInfo';
+import SetupScreen from './ui/SetupScreen';
+import Environment from './environment/Environment';
 
-import "./css/App.css";
+import './css/App.css';
 
-const Renderer = lazy(() => import("./renderer/Renderer"));
+const Renderer = lazy(() => import('./renderer/Renderer'));
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video

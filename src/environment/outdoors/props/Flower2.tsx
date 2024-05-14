@@ -1,14 +1,14 @@
-import * as THREE from "three";
-import React, { useContext, createContext, useState, useEffect } from "react";
-import { Merged } from "@react-three/drei";
+import * as THREE from 'three';
+import React, { useContext, createContext, useState, useEffect } from 'react';
+import { Merged } from '@react-three/drei';
 import {
   gltfLoader as loader,
   GLTF,
   dracoLoader,
-} from "../../../THREE_Interface";
+} from '../../../THREE_Interface';
 
 const map =
-  "https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/flower2-transformed.glb?v=1715123468363";
+  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/flower2-transformed.glb?v=1715123468363';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -17,39 +17,37 @@ type GLTFResult = GLTF & {
   };
   materials: {
     Material: THREE.MeshStandardMaterial;
-    ["Material.001"]: THREE.MeshStandardMaterial;
+    ['Material.001']: THREE.MeshStandardMaterial;
   };
 };
 
 type ContextType = Record<
   string,
-  React.ForwardRefExoticComponent<JSX.IntrinsicElements["mesh"]>
+  React.ForwardRefExoticComponent<JSX.IntrinsicElements['mesh']>
 >;
 
 const context = createContext({} as ContextType);
 export function FlowerInstance({
   children,
   ...props
-}: JSX.IntrinsicElements["group"]) {
+}: JSX.IntrinsicElements['group']) {
   const [gltf, setGltf] = useState<GLTFResult | null>(null);
 
   useEffect(() => {
-    dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
     loader.setDRACOLoader(dracoLoader);
     const loadModel = async () => {
       try {
         const gltf = await loader.loadAsync(map, (event) => {
-          console.log(
-            `Loading Flower: ${(event.loaded / event.total) * 100}%`
-          );
+          console.log(`Loading Flower: ${(event.loaded / event.total) * 100}%`);
         });
         const nodes = {
-          Triangle_1: gltf.scene.getObjectByName("Triangle_1") as THREE.Mesh,
-          Triangle_2: gltf.scene.getObjectByName("Triangle_2") as THREE.Mesh,
+          Triangle_1: gltf.scene.getObjectByName('Triangle_1') as THREE.Mesh,
+          Triangle_2: gltf.scene.getObjectByName('Triangle_2') as THREE.Mesh,
         };
 
         const getMaterial = (
-          object: THREE.Object3D
+          object: THREE.Object3D,
         ): THREE.Material | undefined => {
           if (object instanceof THREE.Mesh) {
             return object.material;
@@ -59,16 +57,16 @@ export function FlowerInstance({
 
         const materials = {
           Material: getMaterial(
-            gltf.scene.getObjectByName("Triangle_1") as THREE.Object3D
+            gltf.scene.getObjectByName('Triangle_1') as THREE.Object3D,
           ) as THREE.MeshStandardMaterial,
-          ["Material.001"]: getMaterial(
-            gltf.scene.getObjectByName("Triangle_2") as THREE.Object3D
+          ['Material.001']: getMaterial(
+            gltf.scene.getObjectByName('Triangle_2') as THREE.Object3D,
           ) as THREE.MeshStandardMaterial,
         };
 
         setGltf({ ...gltf, nodes, materials });
       } catch (error) {
-        console.error("Error loading GLTF model:", error);
+        console.error('Error loading GLTF model:', error);
       }
     };
 
@@ -97,7 +95,7 @@ export function Flower({
   rotation,
   scale = 1,
 }: {
-  props?: JSX.IntrinsicElements["group"];
+  props?: JSX.IntrinsicElements['group'];
   position: [number, number, number];
   rotation: [number, number, number];
   scale?: number;

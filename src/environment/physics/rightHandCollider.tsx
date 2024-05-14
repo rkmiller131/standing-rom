@@ -1,11 +1,11 @@
-import { VRM } from "@pixiv/three-vrm";
-import { useSphere } from "@react-three/cannon";
-import { useFrame } from "@react-three/fiber";
-import { useRef, useState } from "react";
-import { Mesh } from "three";
-import { useSceneState } from "../../ecs/store/SceneState";
-import * as THREE from "three";
-import { useGameState } from "../../ecs/store/GameState";
+import { VRM } from '@pixiv/three-vrm';
+import { useSphere } from '@react-three/cannon';
+import { useFrame } from '@react-three/fiber';
+import { useRef, useState } from 'react';
+import { Mesh } from 'three';
+import { useSceneState } from '../../ecs/store/SceneState';
+import * as THREE from 'three';
+import { useGameState } from '../../ecs/store/GameState';
 
 interface RightHandColliderProps {
   avatar: React.RefObject<VRM>;
@@ -25,7 +25,7 @@ export default function RightHandCollider({ avatar }: RightHandColliderProps) {
   const [colliderRef, api] = useSphere<THREE.Mesh>(() => ({
     position: [0, 0, 0],
     mass: 1,
-    type: "Kinematic",
+    type: 'Kinematic',
     onCollideBegin: () => {
       setBubblePopped(true);
     },
@@ -69,7 +69,7 @@ export default function RightHandCollider({ avatar }: RightHandColliderProps) {
         avgMoveSpeed =
           (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
           3;
-        console.log("~~Moving at ", `${avgMoveSpeed} m/s`);
+        console.log('~~Moving at ', `${avgMoveSpeed} m/s`);
         success();
       }
     }
@@ -78,7 +78,7 @@ export default function RightHandCollider({ avatar }: RightHandColliderProps) {
   function success() {
     if (bubblePopped) {
       gameState.popBubble(avgMoveSpeed);
-      console.log("~~Game Score:", gameState.score);
+      console.log('~~Game Score:', gameState.score);
       setSuccessCalled(true);
     }
     return;

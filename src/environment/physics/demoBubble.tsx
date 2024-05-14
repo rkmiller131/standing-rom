@@ -1,9 +1,9 @@
-import { useSphere } from "@react-three/cannon";
-import { Sphere } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
-import { Depth, Fresnel, LayerMaterial } from "lamina";
-import { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
+import { useSphere } from '@react-three/cannon';
+import { Sphere } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber';
+import { Depth, Fresnel, LayerMaterial } from 'lamina';
+import { useEffect, useRef, useState } from 'react';
+import * as THREE from 'three';
 
 export default function DemoBubble({
   position,
@@ -36,8 +36,8 @@ export default function DemoBubble({
 
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute(
-        "position",
-        new THREE.Float32BufferAttribute(vertices, 3)
+        'position',
+        new THREE.Float32BufferAttribute(vertices, 3),
       );
       const material = new THREE.PointsMaterial({
         color: 0xffffff,
@@ -54,7 +54,7 @@ export default function DemoBubble({
   const [ref] = useSphere<THREE.Mesh>(() => ({
     position: [...position],
     onCollide: (event) => {
-      console.log("Bubble collided ", event);
+      console.log('Bubble collided ', event);
       if (particleSystemRef.current) {
         particleSystemRef.current.scale.set(0.3, 0.3, 0.3);
       }
@@ -62,10 +62,10 @@ export default function DemoBubble({
     onCollideBegin: (e) => {
       if (e) {
         setActive(true);
-        console.log("Bubble began collision", e);
+        console.log('Bubble began collision', e);
       }
     },
-    type: "Dynamic",
+    type: 'Dynamic',
     args: [0.07],
   }));
 
@@ -97,7 +97,7 @@ export default function DemoBubble({
               i,
               px + 1.25 * (0.75 - Math.random()) * data.speed * delta,
               py + 3.0 * (0.25 - Math.random()) * data.speed * delta,
-              pz + 1.5 * (0.5 - Math.random()) * data.speed * delta
+              pz + 1.5 * (0.5 - Math.random()) * data.speed * delta,
             );
           } else {
             positions.setXYZ(i, px, py - data.speed * delta, pz);
@@ -114,8 +114,8 @@ export default function DemoBubble({
         {!active && (
           <Sphere castShadow ref={ref} args={[0.07, 8, 8]}>
             <LayerMaterial
-              color={"#ffffff"}
-              lighting={"physical"}
+              color={'#ffffff'}
+              lighting={'physical'}
               transmission={1}
               roughness={0.1}
               thickness={2}
@@ -124,16 +124,16 @@ export default function DemoBubble({
                 near={0.4854}
                 far={0.7661999999999932}
                 origin={[-0.4920000000000004, 0.4250000000000003, 0]}
-                colorA={"#fec5da"}
-                colorB={"#00b8fe"}
+                colorA={'#fec5da'}
+                colorB={'#00b8fe'}
               />
               <Fresnel
-                color={"#fefefe"}
+                color={'#fefefe'}
                 bias={-0.3430000000000002}
                 intensity={3.8999999999999946}
                 power={3.3699999999999903}
                 factor={1.119999999999999}
-                mode={"screen"}
+                mode={'screen'}
               />
             </LayerMaterial>
           </Sphere>

@@ -1,5 +1,5 @@
-import { Canvas } from '@react-three/fiber'
-import PixelRatio from './PixelRatio'
+import { Canvas } from '@react-three/fiber';
+import PixelRatio from './PixelRatio';
 
 interface RendererProps {
   children: React.ReactNode;

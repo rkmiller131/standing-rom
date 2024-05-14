@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from 'react'
-import { useThree } from '@react-three/fiber'
-import { bulbLuminousPowers, createBulbLight } from './helpers/createLights'
-import { PointLight } from 'three'
+import React, { useRef, useEffect } from 'react';
+import { useThree } from '@react-three/fiber';
+import { bulbLuminousPowers, createBulbLight } from './helpers/createLights';
+import { PointLight } from 'three';
 
 interface IncandescentBulbProps {
   bulbPower?: keyof typeof bulbLuminousPowers;
@@ -9,7 +9,7 @@ interface IncandescentBulbProps {
 }
 
 export const IncandescentBulb: React.FC<IncandescentBulbProps> = ({
-  bulbPower = "10W",
+  bulbPower = '10W',
   position = [0, 1, 0],
 }) => {
   const bulbLightRef = useRef<PointLight | null>(null);
