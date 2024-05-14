@@ -33,7 +33,6 @@ const LowerArm: ArmQuaternions = {
   r: new Quaternion(),
   l: new Quaternion()
 }
-
 /**
  * Calculates the quaternions for the upper and lower arms based on filtered landmarks.
  *
@@ -45,13 +44,14 @@ export const calcArms = (
   lowestWorldY: number,
   filteredLandmarks: TFVectorPose
 ): ArmsCalculationResult | undefined => {
-  const rightStart = filteredLandmarks[PoseIndices.RIGHT_SHOULDER];
-  const rightMid = filteredLandmarks[PoseIndices.RIGHT_ELBOW];
-  const rightEnd = filteredLandmarks[PoseIndices.RIGHT_WRIST];
+  // flipped because video stream is flipped
+  const rightStart = filteredLandmarks[PoseIndices.LEFT_SHOULDER];
+  const rightMid = filteredLandmarks[PoseIndices.LEFT_ELBOW];
+  const rightEnd = filteredLandmarks[PoseIndices.LEFT_WRIST];
 
-  const leftStart = filteredLandmarks[PoseIndices.LEFT_SHOULDER];
-  const leftMid = filteredLandmarks[PoseIndices.LEFT_ELBOW];
-  const leftEnd = filteredLandmarks[PoseIndices.LEFT_WRIST];
+  const leftStart = filteredLandmarks[PoseIndices.RIGHT_SHOULDER];
+  const leftMid = filteredLandmarks[PoseIndices.RIGHT_ELBOW];
+  const leftEnd = filteredLandmarks[PoseIndices.RIGHT_WRIST];
 
   if (!rightStart || !rightMid || !rightEnd || !leftStart || !leftMid || !leftEnd) return;
 
@@ -66,6 +66,10 @@ export const calcArms = (
     const rightMidQuaternion = new Quaternion().setFromUnitVectors(rightAxis, rightVec3.subVectors(rightMidPoint, rightEndPoint).normalize());
 
     const rightStartLocal = new Quaternion().copy(rightStartQuaternion);
+    // the position of a child bone is defined relative to its parent (this is an object's local space).
+    // Upper arms are child objects of the chest, thus the rotaiton of the arms need to be defined relative to the chest and not the world.
+    // premultiply by the inverse of the chest's quaternion effectively subtracts the rotation of the chest from rotation of the arms, converting
+    // the rotation from world space to local space.
     rightStartLocal.premultiply(
       new Quaternion(
         mocapComponent.schema.rig["chest"].x,

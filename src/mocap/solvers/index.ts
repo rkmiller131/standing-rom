@@ -1,21 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vector3 } from 'three'
 import { mocapComponent } from '../mocapComponent'
 import { Results, Side, TFVectorPose, THand, THandUnsafe } from './Types'
-import { HandIndices, LEFT, PI, PoseIndices, RIGHT } from './constants'
+import { HandIndices, LEFT, PI, RIGHT } from './constants'
 import keyframeInterpolation from './helpers/keyframeInterpolation'
 import { clamp } from './utils/helpers'
 import Vector from './utils/vector'
-import { solveLimb } from './helpers/solveLimb'
-import { solveHead } from './helpers/solveHead'
 import { VRM } from '@pixiv/three-vrm'
-import { solveSpine } from './helpers/solveSpine'
-import { rigRotation, rigRotation2 } from '../../avatar/helpers/animationHelpers'
+import { rigRotation2 } from '../../avatar/helpers/animationHelpers'
 import { solveHand } from './helpers/solveHand'
 import { calcArms } from './helpers/calcArms'
+import { solveSpine } from './helpers/solveSpine'
 
 const worldFilterAlphaMultiplier = 0.5
 const screenFilterAlphaMultiplier = 0.2
+
+type lmInterpolationType = {
+  prevWorldLandmarks: TFVectorPose | null;
+  prevScreenLandmarks: Omit<TFVectorPose, "z"> | null;
+}
+
+const lmInterpolation: lmInterpolationType = {
+  prevWorldLandmarks: null,
+  prevScreenLandmarks: null,
+}
 
 /** Class representing pose solver. */
 export class PoseSolver {
@@ -44,27 +51,27 @@ export class PoseSolver {
 
         // originally initialized to null, storing lm from the previous frame of capture data.
         // when solve is called for the first time, checks for null and sets to first lm feed.
-        if (!mocapComponent.prevWorldLandmarks) {
-          mocapComponent.prevWorldLandmarks = lm3d.map((landmark) => ({...landmark}));
+        if (!lmInterpolation.prevWorldLandmarks) {
+          lmInterpolation.prevWorldLandmarks = lm3d.map((landmark) => ({...landmark}));
         }
-        if (!mocapComponent.prevScreenLandmarks) {
-          mocapComponent.prevScreenLandmarks = lm2d.map((landmark) => ({...landmark}));
+        if (!lmInterpolation.prevScreenLandmarks) {
+          lmInterpolation.prevScreenLandmarks = lm2d.map((landmark) => ({...landmark}));
         }
 
         const worldLandmarks = keyframeInterpolation(
           lm3d,
-          mocapComponent.prevWorldLandmarks,
+          lmInterpolation.prevWorldLandmarks,
           worldFilterAlphaMultiplier
         );
 
         const screenLandmarks = keyframeInterpolation(
           lm2d,
-          mocapComponent.prevScreenLandmarks,
+          lmInterpolation.prevScreenLandmarks,
           screenFilterAlphaMultiplier
         )
 
-        mocapComponent.prevWorldLandmarks = worldLandmarks;
-        mocapComponent.prevScreenLandmarks = screenLandmarks;
+        lmInterpolation.prevWorldLandmarks = worldLandmarks;
+        lmInterpolation.prevScreenLandmarks = screenLandmarks;
 
         // keeps the landmark with the highest y value (so lowest point b/c inverted)
         // used to establish a reference point for vertical positioning (normalization)
@@ -74,10 +81,10 @@ export class PoseSolver {
 
 
 
-        // console.log('ARMS ARE ', Arms)
+        console.log('ARMS ARE ', Arms)
 
         solveSpine(vrm, lowestWorldY, worldLandmarks, enableLegs);
-        solveHead();
+        // solveHead();
         // solveLimb(
         //   lowestWorldY,
         //   worldLandmarks[PoseIndices.RIGHT_SHOULDER],
@@ -106,22 +113,11 @@ export class PoseSolver {
 
         // TODO if feet enabled, do a solve and rig rotation for feet/lower body
 
-        // rigRotation(vrm, "chest", mocapComponent.schema.rig.chest);
-        // rigRotation(vrm, "spine", mocapComponent.schema.rig.spine);
-
-        // rigRotation(vrm, "rightUpperArm", mocapComponent.schema.rig.rightUpperArm);
-        // rigRotation(vrm, "rightLowerArm", mocapComponent.schema.rig.rightLowerArm);
-
-        // console.log('LEFT upper arm ', mocapComponent.schema.rig.leftUpperArm);
-        // console.log('RIGHT upper arm ', mocapComponent.schema.rig.rightUpperArm);
-        // console.log('INSIDE INDEX the mocap rig schema is ', mocapComponent.schema.rig)
-
-        // rigRotation(vrm, "leftUpperArm", mocapComponent.schema.rig.leftUpperArm);
-        // rigRotation(vrm, "leftLowerArm", mocapComponent.schema.rig.leftLowerArm);
-
         return Arms;
     }
 }
+
+
 
 /** Class representing hand solver. */
 export class HandSolver {
@@ -149,7 +145,7 @@ export class HandSolver {
           boneToApplyRotation
         );
 
-        let hand: Record<string, unknown> = {};
+        let hand: Record<string, any> = {};
         const handRotation = {
           x: side === RIGHT ? mocapComponent.schema.rig.rightHand.x : mocapComponent.schema.rig.leftHand.x,
           y: side === RIGHT ? mocapComponent.schema.rig.rightHand.y : mocapComponent.schema.rig.leftHand.y,
