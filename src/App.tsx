@@ -1,21 +1,19 @@
-import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react'
-import Mocap from './mocap/Mocap'
-import Avatar from './avatar/Avatar'
-import UbiquitySVG from './assets/ubiquity.svg'
-import LoadingScreen from './ui/LoadingScreen'
-import GameLogic from './ecs/systems/GameLogic'
-import { useSceneState } from './ecs/store/SceneState'
-import { VRM } from './THREE_Interface'
-import checkUserDevice from './ecs/helpers/checkUserDevice'
-import GameInfo from './ui/GameInfo'
-import SetupScreen from './ui/SetupScreen'
-import Environment from './environment/Environment'
+import { Suspense, lazy, useLayoutEffect, useRef, useState } from "react";
+import Mocap from "./mocap/Mocap";
+import Avatar from "./avatar/Avatar";
+import UbiquitySVG from "./assets/ubiquity.svg";
+import LoadingScreen from "./ui/LoadingScreen";
+import GameLogic from "./ecs/systems/GameLogic";
+import { useSceneState } from "./ecs/store/SceneState";
+import { VRM } from "./THREE_Interface";
+import checkUserDevice from "./ecs/helpers/checkUserDevice";
+import GameInfo from "./ui/GameInfo";
+import SetupScreen from "./ui/SetupScreen";
+import Environment from "./environment/Environment";
 
-import './css/App.css'
-import { Vector3 } from 'three'
+import "./css/App.css";
 
-const Renderer = lazy(() => import('./renderer/Renderer'));
-const DemoBubble = lazy(() => import('./DEMO/demoBubble'));
+const Renderer = lazy(() => import("./renderer/Renderer"));
 
 // LEARNING RESOURCES -------------------------------------------------------------------
 // https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
@@ -38,9 +36,9 @@ export default function App() {
 
   useLayoutEffect(() => {
     if (
-      avatar.current
-      && holisticLoaded
-      && sceneState.environmentLoaded.get({noproxy: true})
+      avatar.current &&
+      holisticLoaded &&
+      sceneState.environmentLoaded.get({ noproxy: true })
     ) {
       sceneState.sceneLoaded.set(true);
     }
@@ -51,23 +49,21 @@ export default function App() {
       {/* UI */}
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       <SetupScreen />
-      {sceneState.selectedEnvironment.get({noproxy: true}) && 
+      {sceneState.selectedEnvironment.get({ noproxy: true }) && (
         <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-      }
+      )}
       <LoadingScreen />
 
       <Suspense fallback={null}>
         <div className="canvas-container">
           <Renderer>
-            <Environment />
+            <Environment avatar={avatar} />
             <GameInfo />
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
             <GameLogic avatar={avatar} />
-            <DemoBubble position={new Vector3(0.5,1.2,0)} avatar={avatar}/>
           </Renderer>
         </div>
       </Suspense>
-      
     </main>
   );
 }
