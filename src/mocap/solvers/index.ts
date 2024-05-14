@@ -2,7 +2,7 @@
 import { Vector3 } from 'three'
 import { mocapComponent } from '../mocapComponent'
 import { Results, Side, TFVectorPose, THand, THandUnsafe } from './Types'
-import { LEFT, PI, PoseIndices, RIGHT } from './constants'
+import { HandIndices, LEFT, PI, PoseIndices, RIGHT } from './constants'
 import keyframeInterpolation from './helpers/keyframeInterpolation'
 import { clamp } from './utils/helpers'
 import Vector from './utils/vector'
@@ -12,6 +12,7 @@ import { VRM } from '@pixiv/three-vrm'
 import { solveSpine } from './helpers/solveSpine'
 import { rigRotation, rigRotation2 } from '../../avatar/helpers/animationHelpers'
 import { solveHand } from './helpers/solveHand'
+import { calcArms } from './helpers/calcArms'
 
 const worldFilterAlphaMultiplier = 0.5
 const screenFilterAlphaMultiplier = 0.2
@@ -69,41 +70,56 @@ export class PoseSolver {
         // used to establish a reference point for vertical positioning (normalization)
         const lowestWorldY = worldLandmarks.reduce((a, b) => (a.y > b.y ? a : b)).y
 
+        const Arms = calcArms(lowestWorldY, worldLandmarks);
+
+
+
+        // console.log('ARMS ARE ', Arms)
+
         solveSpine(vrm, lowestWorldY, worldLandmarks, enableLegs);
         solveHead();
-        solveLimb(
-          lowestWorldY,
-          worldLandmarks[PoseIndices.RIGHT_SHOULDER],
-          worldLandmarks[PoseIndices.RIGHT_ELBOW],
-          worldLandmarks[PoseIndices.RIGHT_WRIST],
-          new Vector3(1, 0, 0),
-          "chest",
-          "rightUpperArm",
-          "rightLowerArm",
-          0.75
-        );
-        solveLimb(
-          lowestWorldY,
-          worldLandmarks[PoseIndices.LEFT_SHOULDER],
-          worldLandmarks[PoseIndices.LEFT_ELBOW],
-          worldLandmarks[PoseIndices.LEFT_WRIST],
-          new Vector3(-1, 0, 0),
-          "chest",
-          "leftUpperArm",
-          "leftLowerArm",
-          0.75
-        );
+        // solveLimb(
+        //   lowestWorldY,
+        //   worldLandmarks[PoseIndices.RIGHT_SHOULDER],
+        //   worldLandmarks[PoseIndices.RIGHT_ELBOW],
+        //   worldLandmarks[PoseIndices.RIGHT_WRIST],
+        //   new Vector3(1, 0, 0),
+        //   "chest",
+        //   "rightUpperArm",
+        //   "rightLowerArm",
+        //   0.75
+        // );
+
+        // rigRotation(vrm, "rightUpperArm", mocapComponent.schema.rig.rightUpperArm);
+        // rigRotation(vrm, "rightLowerArm", mocapComponent.schema.rig.rightLowerArm);
+        // solveLimb(
+        //   lowestWorldY,
+        //   worldLandmarks[PoseIndices.LEFT_SHOULDER],
+        //   worldLandmarks[PoseIndices.LEFT_ELBOW],
+        //   worldLandmarks[PoseIndices.LEFT_WRIST],
+        //   new Vector3(-1, 0, 0),
+        //   "chest",
+        //   "leftUpperArm",
+        //   "leftLowerArm",
+        //   0.75
+        // );
 
         // TODO if feet enabled, do a solve and rig rotation for feet/lower body
 
         // rigRotation(vrm, "chest", mocapComponent.schema.rig.chest);
         // rigRotation(vrm, "spine", mocapComponent.schema.rig.spine);
 
-        rigRotation(vrm, "rightUpperArm", mocapComponent.schema.rig.rightUpperArm);
-        rigRotation(vrm, "rightLowerArm", mocapComponent.schema.rig.rightLowerArm);
+        // rigRotation(vrm, "rightUpperArm", mocapComponent.schema.rig.rightUpperArm);
+        // rigRotation(vrm, "rightLowerArm", mocapComponent.schema.rig.rightLowerArm);
 
-        rigRotation(vrm, "leftUpperArm", mocapComponent.schema.rig.leftUpperArm);
-        rigRotation(vrm, "leftLowerArm", mocapComponent.schema.rig.leftLowerArm);
+        // console.log('LEFT upper arm ', mocapComponent.schema.rig.leftUpperArm);
+        // console.log('RIGHT upper arm ', mocapComponent.schema.rig.rightUpperArm);
+        // console.log('INSIDE INDEX the mocap rig schema is ', mocapComponent.schema.rig)
+
+        // rigRotation(vrm, "leftUpperArm", mocapComponent.schema.rig.leftUpperArm);
+        // rigRotation(vrm, "leftLowerArm", mocapComponent.schema.rig.leftLowerArm);
+
+        return Arms;
     }
 }
 
@@ -120,23 +136,17 @@ export class HandSolver {
             return;
         }
         const lowestWorldY = lm3d.reduce((a, b) => (a.y > b.y ? a : b)).y;
+        const parentBone = side === RIGHT ? 'rightLowerArm' : 'leftLowerArm';
+        const boneToApplyRotation = side === RIGHT ? 'rightHand' : 'leftHand';
+
         solveHand(
           vrm,
           lowestWorldY,
-          lm[PoseIndices.RIGHT_WRIST],
-          lm[PoseIndices.RIGHT_PINKY],
-          lm[PoseIndices.RIGHT_INDEX],
-          "leftLowerArm",
-          "leftHand"
-        );
-        solveHand(
-          vrm,
-          lowestWorldY,
-          lm[PoseIndices.LEFT_WRIST],
-          lm[PoseIndices.LEFT_PINKY],
-          lm[PoseIndices.LEFT_INDEX],
-          "rightLowerArm",
-          "rightHand"
+          lm[HandIndices.WRIST],
+          lm[HandIndices.PINKY_TIP],
+          lm[HandIndices.INDEX_FINGER_TIP],
+          parentBone,
+          boneToApplyRotation
         );
 
         let hand: Record<string, unknown> = {};

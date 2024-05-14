@@ -22,13 +22,13 @@ const vec3 = new Vector3();
  */
 export const solveLimb = (
   lowestWorldY: number,
-  start: NormalizedLandmark,
-  mid: NormalizedLandmark,
-  end: NormalizedLandmark,
-  axis: Vector3,
-  parentTargetBoneName = null as VRMHumanBoneName | null,
-  startTargetBoneName: VRMHumanBoneName,
-  midTargetBoneName: VRMHumanBoneName,
+  start: NormalizedLandmark, //right shoulder
+  mid: NormalizedLandmark, // right elbow
+  end: NormalizedLandmark, // right wrist
+  axis: Vector3, // positive x
+  parentTargetBoneName = null as VRMHumanBoneName | null, // chest
+  startTargetBoneName: VRMHumanBoneName, // right upper arm
+  midTargetBoneName: VRMHumanBoneName, // right lower arm
   minimumVisibility = -1
 ) => {
   if (!start || !mid || !end) return
@@ -58,14 +58,13 @@ export const solveLimb = (
     )
   }
   const midLocal = new Quaternion().copy(midQuaternion).premultiply(startQuaternion.clone().invert())
+  mocapComponent.schema.rig[startTargetBoneName].x = startLocal.x;
+  mocapComponent.schema.rig[startTargetBoneName].y = startLocal.y;
+  mocapComponent.schema.rig[startTargetBoneName].z = startLocal.z;
+  mocapComponent.schema.rig[startTargetBoneName].w = startLocal.w;
 
-  mocapComponent.schema.rig[startTargetBoneName].x = startLocal.x
-  mocapComponent.schema.rig[startTargetBoneName].y = startLocal.y
-  mocapComponent.schema.rig[startTargetBoneName].z = startLocal.z
-  mocapComponent.schema.rig[startTargetBoneName].w = startLocal.w
-
-  mocapComponent.schema.rig[midTargetBoneName].x = midLocal.x
-  mocapComponent.schema.rig[midTargetBoneName].y = midLocal.y
-  mocapComponent.schema.rig[midTargetBoneName].z = midLocal.z
-  mocapComponent.schema.rig[midTargetBoneName].w = midLocal.w
+  mocapComponent.schema.rig[midTargetBoneName].x = midLocal.x;
+  mocapComponent.schema.rig[midTargetBoneName].y = midLocal.y;
+  mocapComponent.schema.rig[midTargetBoneName].z = midLocal.z;
+  mocapComponent.schema.rig[midTargetBoneName].w = midLocal.w;
 }

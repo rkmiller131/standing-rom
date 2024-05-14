@@ -39,6 +39,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
     }
 
     useEffect(() => {
+      console.log('~~~~firing')
         // grab the video stream from client webcam
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
           navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
@@ -86,7 +87,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           holistic.close();
         };
 
-      }, []);
+      }, [navigator.mediaDevices]);
 
     return (
         <div id="mocap-container" className={device}>
