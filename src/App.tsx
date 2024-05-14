@@ -1,17 +1,17 @@
-import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react'
-import Mocap from './mocap/Mocap'
-import Avatar from './avatar/Avatar'
-import UbiquitySVG from './assets/ubiquity.svg'
-import LoadingScreen from './ui/LoadingScreen'
-import GameLogic from './ecs/systems/GameLogic'
-import { useSceneState } from './ecs/store/SceneState'
-import { VRM } from './THREE_Interface'
-import checkUserDevice from './ecs/helpers/checkUserDevice'
-import GameInfo from './ui/GameInfo'
-import SetupScreen from './ui/SetupScreen'
-import Environment from './environment/Environment'
+import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
+import Mocap from './mocap/Mocap';
+import Avatar from './avatar/Avatar';
+import UbiquitySVG from './assets/ubiquity.svg';
+import LoadingScreen from './ui/LoadingScreen';
+import GameLogic from './ecs/systems/GameLogic';
+import { useSceneState } from './ecs/store/SceneState';
+import { VRM } from './THREE_Interface';
+import checkUserDevice from './ecs/helpers/checkUserDevice';
+import GameInfo from './ui/GameInfo';
+import SetupScreen from './ui/SetupScreen';
+import Environment from './environment/Environment';
 
-import './css/App.css'
+import './css/App.css';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 
@@ -36,9 +36,9 @@ export default function App() {
 
   useLayoutEffect(() => {
     if (
-      avatar.current
-      && holisticLoaded
-      && sceneState.environmentLoaded.get({noproxy: true})
+      avatar.current &&
+      holisticLoaded &&
+      sceneState.environmentLoaded.get({ noproxy: true })
     ) {
       sceneState.sceneLoaded.set(true);
     }
@@ -49,9 +49,9 @@ export default function App() {
       {/* UI */}
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       <SetupScreen />
-      {sceneState.selectedEnvironment.get({noproxy: true}) && 
+      {sceneState.selectedEnvironment.get({ noproxy: true }) && (
         <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-      }
+      )}
       <LoadingScreen />
 
       <Suspense fallback={null}>
@@ -64,7 +64,6 @@ export default function App() {
           </Renderer>
         </div>
       </Suspense>
-      
     </main>
   );
 }

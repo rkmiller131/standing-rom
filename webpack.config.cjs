@@ -7,17 +7,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
- mode: 'production',
- entry: './src/main.tsx',
- output: {
+  mode: 'production',
+  entry: './src/main.tsx',
+  output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/',
- },
- resolve: {
+  },
+  resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
- },
- module: {
+  },
+  module: {
     rules: [
       {
         test: /\.(ts|tsx)$/,
@@ -30,7 +30,10 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        include: [path.resolve(__dirname, 'src/assets'), path.resolve(__dirname, 'public')],
+        include: [
+          path.resolve(__dirname, 'src/assets'),
+          path.resolve(__dirname, 'public'),
+        ],
         use: [
           {
             loader: 'file-loader',
@@ -43,44 +46,50 @@ module.exports = {
       },
       {
         test: /\.(gltf|glb|fbx|bin|vrm)$/i,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            outputPath: 'assets/models',
-            limit: false,
-            name: '[name].[ext]'
-          }
-        }],
-        type: 'javascript/auto'
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'assets/models',
+              limit: false,
+              name: '[name].[ext]',
+            },
+          },
+        ],
+        type: 'javascript/auto',
       },
       {
         test: /\.mp3$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            outputPath: 'assets/audio',
-            name: '[name].[ext]'
-          }
-        }],
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'assets/audio',
+              name: '[name].[ext]',
+            },
+          },
+        ],
       },
       {
         test: /\.mp4$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            outputPath: 'assets/video',
-            name: '[name].[ext]'
-          }
-        }],
-      }
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'assets/video',
+              name: '[name].[ext]',
+            },
+          },
+        ],
+      },
     ],
- },
- plugins: [
+  },
+  plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './production.index.html'),
       filename: 'index.html',
       inject: false,
-      favicon: path.resolve(__dirname, 'public/uvxicon.svg'), 
+      favicon: path.resolve(__dirname, 'public/uvxicon.svg'),
     }),
     // bundleAnalyzer,
     new MiniCssExtractPlugin({
@@ -90,10 +99,11 @@ module.exports = {
   ],
   optimization: {
     minimize: true,
-    minimizer: [ // optimize js
+    minimizer: [
+      // optimize js
       new TerserPlugin({
         parallel: true,
       }),
-    ]
+    ],
   },
 };

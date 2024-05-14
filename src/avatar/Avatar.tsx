@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Suspense, useEffect, useState } from 'react'
-import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface'
-import debounce from '../ecs/helpers/debounce'
-import { useSceneState } from '../ecs/store/SceneState'
+import { Suspense, useEffect, useState } from 'react';
+import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface';
+import debounce from '../ecs/helpers/debounce';
+import { useSceneState } from '../ecs/store/SceneState';
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -10,12 +10,12 @@ interface AvatarProps {
 }
 export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const [avatarLoaded, setAvatarLoaded] = useState(false);
-  const isMobile = useSceneState().device.get({noproxy: true}) === 'Mobile';
+  const isMobile = useSceneState().device.get({ noproxy: true }) === 'Mobile';
 
   const updateProgress = debounce((loadedPercentage) => {
     // could set a state here instead, for loading screen in the future
     console.log('Loading Avatar: ', loadedPercentage + '%');
-  }, 100)
+  }, 100);
 
   useEffect(() => {
     loader.register((parser) => {
@@ -33,7 +33,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
         const loadedPercentage = 100 * (progress.loaded / progress.total);
         updateProgress(loadedPercentage);
       },
-      (error) => console.error("Error Loading Avatar: ", error)
+      (error) => console.error('Error Loading Avatar: ', error),
     );
   }, []);
 

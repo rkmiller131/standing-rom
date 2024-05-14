@@ -1,9 +1,9 @@
-import { useThree } from "@react-three/fiber";
-import { textureLoader } from "../../../THREE_Interface";
-import * as THREE from "three";
+import { useThree } from '@react-three/fiber';
+import { textureLoader } from '../../../THREE_Interface';
+import * as THREE from 'three';
 
 const map =
-  "https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/meadow_7.jpg?v=1715123525520";
+  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/meadow_7.jpg?v=1715123525520';
 
 export default function SceneMap() {
   const { scene } = useThree();
@@ -25,7 +25,7 @@ export default function SceneMap() {
       scene.add(mesh);
     })
     .catch((error) => {
-      console.error("Failed to load texture:", error);
+      console.error('Failed to load texture:', error);
     });
 
   return null;

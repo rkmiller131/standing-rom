@@ -1,12 +1,12 @@
-import { VRM, VRMLoaderPlugin } from '@pixiv/three-vrm'
-import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
+import { VRM, VRMLoaderPlugin } from '@pixiv/three-vrm';
+import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import {
   WebGLRenderer,
   AudioListener,
   AudioLoader,
   TextureLoader,
-} from 'three'
+} from 'three';
 
 const gltfLoader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();

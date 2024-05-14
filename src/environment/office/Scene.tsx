@@ -1,11 +1,11 @@
-import { Suspense, lazy, useRef } from 'react'
-import { GLTF } from '../../THREE_Interface'
-import Office from './Office'
-import { useSceneState } from '../../ecs/store/SceneState'
+import { Suspense, lazy, useRef } from 'react';
+import { GLTF } from '../../THREE_Interface';
+import Office from './Office';
+import { useSceneState } from '../../ecs/store/SceneState';
 
-const Sky = lazy(() => import("./Sky"));
-const Sound = lazy(() => import("./sound/Sound"));
-const Lighting = lazy(() => import("./Lighting"));
+const Sky = lazy(() => import('./Sky'));
+const Sound = lazy(() => import('./sound/Sound'));
+const Lighting = lazy(() => import('./Lighting'));
 
 export default function OfficeScene() {
   const environment = useRef<GLTF | null>(null);

@@ -8,7 +8,8 @@
     "build": "npm run clean && webpack",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "clean": "rimraf dist build cache"
+    "clean": "rimraf dist build cache",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@hookstate/core": "^4.0.1",
@@ -33,12 +34,16 @@
     "@vitejs/plugin-react": "^4.2.1",
     "css-loader": "^7.1.1",
     "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "mini-css-extract-plugin": "^2.9.0",
     "postcss-loader": "^8.1.1",
+    "prettier": "3.2.5",
     "rimraf": "^5.0.5",
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.10",
@@ -48,5 +53,9 @@
     "webpack": "^5.91.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }

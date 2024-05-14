@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
-import * as THREE from "three";
-import { grassVertexShader } from "../shaders/grassVertexShader";
-import { grassFragmentShader } from "../shaders/grassFragmentShader";
+import React, { useEffect, useRef } from 'react';
+import { useFrame, useThree } from '@react-three/fiber';
+import * as THREE from 'three';
+import { grassVertexShader } from '../shaders/grassVertexShader';
+import { grassFragmentShader } from '../shaders/grassFragmentShader';
 
 const BLADE_WIDTH = 0.1;
 const BLADE_HEIGHT = 0.25;
@@ -11,14 +11,14 @@ const BLADE_VERTEX_COUNT = 5;
 const BLADE_TIP_OFFSET = 0.1;
 
 const cloudMap =
-  "https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/cloudinverted.jpg?v=1715283924460";
+  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/cloudinverted.jpg?v=1715283924460';
 
 function interpolate(
   val: number,
   oldMin: number,
   oldMax: number,
   newMin: number,
-  newMax: number
+  newMax: number,
 ): number {
   return ((val - oldMin) * (newMax - newMin)) / (oldMax - oldMin) + newMin;
 }
@@ -26,7 +26,7 @@ function interpolate(
 // Initialize it to null
 let cloudTexture: THREE.Texture | null = null;
 
-if (typeof document !== "undefined") {
+if (typeof document !== 'undefined') {
   cloudTexture = new THREE.TextureLoader().load(cloudMap);
   cloudTexture.wrapS = cloudTexture.wrapT = THREE.RepeatWrapping;
 }
@@ -52,7 +52,7 @@ export class GrassGeometry extends THREE.BufferGeometry {
         ...Array.from({ length: BLADE_VERTEX_COUNT }).flatMap(() => [
           interpolate(x, surfaceMin, surfaceMax, 0, 1),
           interpolate(y, surfaceMin, surfaceMax, 0, 1),
-        ])
+        ]),
       );
 
       const blade = this.computeBlade([x, 0, y], i);
@@ -61,12 +61,12 @@ export class GrassGeometry extends THREE.BufferGeometry {
     }
 
     this.setAttribute(
-      "position",
-      new THREE.BufferAttribute(new Float32Array(positions), 3)
+      'position',
+      new THREE.BufferAttribute(new Float32Array(positions), 3),
     );
     this.setAttribute(
-      "uv",
-      new THREE.BufferAttribute(new Float32Array(uvs), 2)
+      'uv',
+      new THREE.BufferAttribute(new Float32Array(uvs), 2),
     );
     this.setIndex(indices);
     this.computeVertexNormals();
@@ -74,7 +74,7 @@ export class GrassGeometry extends THREE.BufferGeometry {
 
   computeBlade(
     center: [number, number, number],
-    index: number = 0
+    index: number = 0,
   ): { positions: number[]; indices: number[] } {
     const height = BLADE_HEIGHT + Math.random() * BLADE_HEIGHT_VARIATION;
     const vIndex = index * BLADE_VERTEX_COUNT;

@@ -1,9 +1,9 @@
-import * as THREE from "three";
-import { textureLoader } from "../../../THREE_Interface";
-import { useThree } from "@react-three/fiber";
+import * as THREE from 'three';
+import { textureLoader } from '../../../THREE_Interface';
+import { useThree } from '@react-three/fiber';
 
 const map =
-  "https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/grass3.jpg?v=1715123494484";
+  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/grass3.jpg?v=1715123494484';
 
 export default function Ground() {
   const { scene } = useThree();
@@ -34,7 +34,7 @@ export default function Ground() {
       scene.add(meshWithShadow);
     })
     .catch((error) => {
-      console.error("Failed to load texture:", error);
+      console.error('Failed to load texture:', error);
     });
 
   return null;

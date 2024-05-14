@@ -7,14 +7,14 @@
  * @param {number} wait The time to wait (in milliseconds) before calling the debounced function.
  * @returns {(...args: Args[]) => void} A debounced version of the input function.
  */
-export default function debounce<F extends (...args: any[]) => any, Args extends any[]>(
-    fn: F,
-    wait: number
-  ): (...args: Args | [Args]) => void {
-    let timer: ReturnType<typeof setTimeout>;
-  
-    return function (...args: Args | [Args]) {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), wait);
-    };
-  }
+export default function debounce<
+  F extends (...args: any[]) => any,
+  Args extends any[],
+>(fn: F, wait: number): (...args: Args | [Args]) => void {
+  let timer: ReturnType<typeof setTimeout>;
+
+  return function (...args: Args | [Args]) {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), wait);
+  };
+}

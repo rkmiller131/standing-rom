@@ -1,5 +1,5 @@
-import { IncandescentBulb } from './lights/IncandescentBulb'
-import { SpotlightWithTarget } from './lights/SpotlightWithTarget'
+import { IncandescentBulb } from './lights/IncandescentBulb';
+import { SpotlightWithTarget } from './lights/SpotlightWithTarget';
 
 export default function Lighting() {
   return (

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { gltfLoader as loader, dracoLoader, GLTF } from '../../THREE_Interface'
-import { Suspense, useEffect, useState } from 'react'
-import debounce from '../../ecs/helpers/debounce'
-import updateShadows from './lights/helpers/updateShadows'
+import { gltfLoader as loader, dracoLoader, GLTF } from '../../THREE_Interface';
+import { Suspense, useEffect, useState } from 'react';
+import debounce from '../../ecs/helpers/debounce';
+import updateShadows from './lights/helpers/updateShadows';
 
 interface OfficeProps {
   setEnvironmentModel: (gltf: GLTF) => void;
@@ -16,16 +16,15 @@ export default function Office({
   const [officeLoaded, setOfficeLoaded] = useState(false);
 
   const updateProgress = debounce((loadedPercentage) => {
-    console.log("Loading Environment: ", loadedPercentage + "%");
+    console.log('Loading Environment: ', loadedPercentage + '%');
   }, 100);
 
-
   useEffect(() => {
-    dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
     loader.setDRACOLoader(dracoLoader);
 
     loader.load(
-      "https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/office2.glb?v=1714510499834",
+      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/office2.glb?v=1714510499834',
       (gltf) => {
         setEnvironmentModel(gltf);
         updateShadows(gltf);
@@ -36,8 +35,8 @@ export default function Office({
         updateProgress(loadedPercentage);
       },
       (error) => {
-        console.error("Error Loading Environment: ", error);
-      }
+        console.error('Error Loading Environment: ', error);
+      },
     );
   }, []);
 
@@ -45,10 +44,8 @@ export default function Office({
     <Suspense fallback={null}>
       {officeLoaded && (
         <>
-        <primitive
-          object={environment.current!.scene}
-        />
-      </>
+          <primitive object={environment.current!.scene} />
+        </>
       )}
     </Suspense>
   );
