@@ -3,9 +3,9 @@ import { useSphere } from '@react-three/cannon';
 import { useFrame } from '@react-three/fiber';
 import { useRef, useState } from 'react';
 import { Mesh } from 'three';
-import { useSceneState } from '../../ecs/store/SceneState';
+import { useSceneState } from '../ecs/store/SceneState';
 import * as THREE from 'three';
-import { useGameState } from '../../ecs/store/GameState';
+import { useGameState } from '../ecs/store/GameState';
 
 interface RightHandColliderProps {
   avatar: React.RefObject<VRM>;
@@ -33,7 +33,7 @@ export default function RightHandCollider({ avatar }: RightHandColliderProps) {
   }));
 
   // Track the previous position of the rightHandWorld
-  let previousPosition = new THREE.Vector3();
+  const previousPosition = new THREE.Vector3();
   let avgMoveSpeed = 0;
 
   useFrame(({ clock }) => {

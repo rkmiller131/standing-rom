@@ -10,6 +10,9 @@ import checkUserDevice from './ecs/helpers/checkUserDevice';
 import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
+import { Physics } from '../interfaces/CANNON_Interface';
+import DemoBubble from './DEMO/demoBubble';
+import RightHandCollider from './DEMO/rightHandCollider';
 
 import './css/App.css';
 
@@ -57,9 +60,15 @@ export default function App() {
       <Suspense fallback={null}>
         <div className="canvas-container">
           <Renderer>
-            <Environment avatar={avatar} />
+            <Environment/>
             <GameInfo />
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+
+            <Physics gravity={[0, 0, 0]}>
+              <DemoBubble position={[0.5, 1.2, 0.3]} />
+              <RightHandCollider avatar={avatar} />
+            </Physics>
+            
             <GameLogic avatar={avatar} />
           </Renderer>
         </div>

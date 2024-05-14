@@ -5,11 +5,7 @@ import { Depth, Fresnel, LayerMaterial } from 'lamina';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-export default function DemoBubble({
-  position,
-}: {
-  position: [number, number, number];
-}) {
+export default function DemoBubble({ position }: { position: [number, number, number] }) {
   const { scene } = useThree();
   const particleSystemRef = useRef<THREE.Points | null>(null);
   const [active, setActive] = useState(false);
