@@ -173,7 +173,7 @@ export const RestingDefault = {
     RightMiddleDistal: {
       x: 0,
       y: 0,
-      z: -0.06,
+      z: -0.08,
     },
     RightThumbProximal: {
       x: -0.23,
@@ -182,13 +182,13 @@ export const RestingDefault = {
     },
     RightThumbIntermediate: {
       x: -0.2,
-      y: -0.199,
-      z: -0.0139,
+      y: -0.175,
+      z: -0.013,
     },
     RightThumbDistal: {
-      x: -0.2,
+      x: -0.1,
       y: 0.002,
-      z: 0.15,
+      z: 0.1,
     },
     RightLittleProximal: {
       x: 0,
@@ -284,7 +284,7 @@ export const RestingDefault = {
     },
     LeftLittleDistal: {
       x: 0,
-      y: 0,
+      y: 0.05,
       z: 0.1,
     },
   },
