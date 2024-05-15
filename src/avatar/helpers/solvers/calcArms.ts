@@ -22,8 +22,8 @@ export const calcArms = (lm: Results) => {
     };
     LowerArm.r.y = Vector.angleBetween3DCoords(lm[11], lm[13], lm[15]);
     LowerArm.l.y = Vector.angleBetween3DCoords(lm[12], lm[14], lm[16]);
-    LowerArm.r.z = clamp(LowerArm.r.z, -4.14, 0);
-    LowerArm.l.z = clamp(LowerArm.l.z, -4.14, 0);
+    LowerArm.r.z = clamp(LowerArm.r.z, -2.14, 0.1);
+    LowerArm.l.z = clamp(LowerArm.l.z, -2.14, 0.1);
     // LowerArm.r.x = clamp(LowerArm.r.x, -1, 0);
     // LowerArm.l.x = clamp(LowerArm.l.x, -1, 0);
 
@@ -40,7 +40,7 @@ export const calcArms = (lm: Results) => {
 
     // Wrist.r.y = Vector.angleBetween3DCoords(lm[14], lm[16], Vector.lerp(Vector.fromArray(lm[18]), Vector.fromArray(lm[20]), 0.5));
     // Wrist.l.y = Vector.angleBetween3DCoords(lm[13], lm[15], Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5));
-    // // Wrist.r.z = clamp(Wrist.r.z, -2.14, 0);
+    // Wrist.r.z = clamp(Wrist.r.z, -2.14, 0);
     // Wrist.l.z = clamp(Wrist.l.z, -2.14, 0); // z is wrist movement side to side (abduction/adduction)
 
     const Hand = {

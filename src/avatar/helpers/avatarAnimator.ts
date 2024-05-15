@@ -48,9 +48,9 @@ export const animateVRM = (
     rigRotation(vrm, "spine", riggedPose!.Spine, 0.45, .3);
 
     rigRotation(vrm, "rightUpperArm", riggedPose!.RightUpperArm, 1, .3);
-    rigRotation(vrm, "rightLowerArm", riggedPose!.RightLowerArm, 1, .3);
+    rigRotation(vrm, "rightLowerArm", riggedPose!.RightLowerArm, 1, .5);
     rigRotation(vrm, "leftUpperArm", riggedPose!.LeftUpperArm, 1, .3);
-    rigRotation(vrm, "leftLowerArm", riggedPose!.LeftLowerArm, 1, .3);
+    rigRotation(vrm, "leftLowerArm", riggedPose!.LeftLowerArm, 1, .5);
 
     // comment out to lock the legs:
     // rigRotation(vrm, "leftUpperLeg", riggedPose!.LeftUpperLeg, 1, .3);
@@ -67,7 +67,7 @@ export const animateVRM = (
       z: riggedPose!.LeftHand.z,
       y: riggedLeftHand!.LeftWrist.y,
       x: riggedLeftHand!.LeftWrist.x
-    });
+    }, 1, 0.5);
     rigRotation(vrm, "leftRingProximal", riggedLeftHand!.LeftRingProximal);
     rigRotation(vrm, "leftRingIntermediate", riggedLeftHand!.LeftRingIntermediate);
     rigRotation(vrm, "leftRingDistal", riggedLeftHand!.LeftRingDistal);
@@ -91,7 +91,7 @@ export const animateVRM = (
       z: riggedPose!.RightHand.z,
       y: riggedRightHand!.RightWrist.y,
       x: riggedRightHand!.RightWrist.x
-    });
+    }, 1, 0.5);
     rigRotation(vrm, "rightRingProximal", riggedRightHand!.RightRingProximal);
     rigRotation(vrm, "rightRingIntermediate", riggedRightHand!.RightRingIntermediate);
     rigRotation(vrm, "rightRingDistal", riggedRightHand!.RightRingDistal);
