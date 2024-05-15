@@ -27,7 +27,7 @@ const particleData = {
 export default function Bubble({ position }: { position: [number, number, number] }) {
   const { scene } = useThree();
   const particleSystemRef = useRef<Points | null>(null);
-  const [active, setActive] = useState(false);
+  const [hasCollided, setHasCollided] = useState(false);
 
   useEffect(() => {
     if (!particleSystemRef.current) {
@@ -39,7 +39,7 @@ export default function Bubble({ position }: { position: [number, number, number
     }
   }, [position, scene]);
 
-  const [ref] = useSphere<Mesh>(() => ({
+  const [ref, api] = useSphere<Mesh>(() => ({
     position: [...position],
     onCollide: () => {
       if (particleSystemRef.current) {
@@ -48,21 +48,22 @@ export default function Bubble({ position }: { position: [number, number, number
     },
     onCollideBegin: (e) => {
       if (e) {
-        setActive(true);
+        setHasCollided(true);
       }
+    },
+    onCollideEnd: () => {
+      api.sleep;
     },
     type: 'Dynamic',
     args: [0.07],
   }));
 
   useFrame(({ clock }) => {
-    if (!particleSystemRef.current || !particleSystemRef.current.geometry) return;
+    if (!hasCollided || !particleSystemRef.current || !particleSystemRef.current.geometry) return;
 
     const positions = particleSystemRef.current.geometry.attributes.position;
     const count = positions.count;
     const delta = clock.getDelta();
-
-    if (!active) return;
 
     for (let i = 0; i < count; i++) {
       const px = positions.getX(i);
@@ -96,8 +97,8 @@ export default function Bubble({ position }: { position: [number, number, number
 
   return (
     <>
-      <group {...position}>
-        {!active && (
+      {!hasCollided ? (
+        <group {...position}>
           <Sphere castShadow ref={ref} args={[0.07, 8, 8]}>
             <LayerMaterial
               color={'#ffffff'}
@@ -123,8 +124,9 @@ export default function Bubble({ position }: { position: [number, number, number
               />
             </LayerMaterial>
           </Sphere>
-        )}
-      </group>
+        </group>
+      ) : null}
+    
       {particleSystemRef.current && (
         <primitive object={particleSystemRef.current} />
       )}
