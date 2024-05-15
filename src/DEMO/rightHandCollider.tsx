@@ -1,50 +1,47 @@
 import { VRM } from '@pixiv/three-vrm';
 import { useSphere } from '@react-three/cannon';
 import { useFrame } from '@react-three/fiber';
-import { useRef, useState } from 'react';
-import { Mesh } from 'three';
+import { useRef } from 'react';
 import { useSceneState } from '../ecs/store/SceneState';
-import * as THREE from 'three';
+import { Vector3, Mesh } from 'three';
 import { useGameState } from '../ecs/store/GameState';
 
 interface RightHandColliderProps {
   avatar: React.RefObject<VRM>;
 }
 
+const previousPosition = new Vector3();
+const position = new Vector3();
+let avgMoveSpeed = 0;
+
 export default function RightHandCollider({ avatar }: RightHandColliderProps) {
   const sphereRef = useRef<Mesh>(null);
 
   const sceneState = useSceneState();
   const gameState = useGameState();
-
-  const [bubblePopped, setBubblePopped] = useState(false);
-  const [successCalled, setSuccessCalled] = useState(false);
-
   const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
 
-  const [colliderRef, api] = useSphere<THREE.Mesh>(() => ({
+  const poppedBubbles = useRef<Set<string>>(new Set());
+
+  const [colliderRef, api] = useSphere<Mesh>(() => ({
     position: [0, 0, 0],
     mass: 1,
     type: 'Kinematic',
-    onCollideBegin: () => {
-      setBubblePopped(true);
+    onCollideBegin: (e) => {
+      if (!poppedBubbles.current.has(e.body.uuid)) {
+        poppedBubbles.current.add(e.body.uuid);
+      }
     },
     args: [0.075],
   }));
 
-  // Track the previous position of the rightHandWorld
-  const previousPosition = new THREE.Vector3();
-  let avgMoveSpeed = 0;
-
+  // Track the previous position of the rightHandWorld for velocity of bubble contact
   useFrame(({ clock }) => {
     if (!sceneLoaded || !avatar.current) return;
 
-    const rightHandWorld =
-      avatar.current.humanoid.humanBones.rightMiddleIntermediate?.node
-        .matrixWorld;
+    const rightHandWorld = avatar.current.humanoid.humanBones.rightMiddleIntermediate?.node.matrixWorld;
     if (!rightHandWorld) return;
 
-    const position = new THREE.Vector3();
     position.setFromMatrixPosition(rightHandWorld);
 
     if (colliderRef.current && sphereRef.current && position) {
@@ -61,28 +58,18 @@ export default function RightHandCollider({ avatar }: RightHandColliderProps) {
       const velocity = displacement.clone().divideScalar(timeDifference);
       // Normalize velocity after division for unit vector
       velocity.normalize();
-
       previousPosition.copy(position);
 
-      // Call in Success
-      if (bubblePopped && !successCalled) {
-        avgMoveSpeed =
-          (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
-          3;
-        console.log('~~Moving at ', `${avgMoveSpeed} m/s`);
-        success();
+      if (poppedBubbles.current.size > 0) {
+        poppedBubbles.current.forEach(() => {
+          avgMoveSpeed = (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) / 3;
+          console.log('~~Moving at ', `${avgMoveSpeed} m/s`);
+          gameState.popBubble(avgMoveSpeed);
+        });
+        poppedBubbles.current.clear();
       }
     }
   });
-
-  function success() {
-    if (bubblePopped) {
-      gameState.popBubble(avgMoveSpeed);
-      console.log('~~Game Score:', gameState.score);
-      setSuccessCalled(true);
-    }
-    return;
-  }
 
   return (
     <mesh ref={sphereRef}>

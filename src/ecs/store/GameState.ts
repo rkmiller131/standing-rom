@@ -24,7 +24,7 @@ export const useGameState = () => {
     },
     popBubble: (velocity: number) => {
       gameState.score.popped.set((prev) => prev + 1);
-      gameState.score.poppedVelocities.set([velocity]);
+      gameState.score.poppedVelocities.merge([velocity]);
     },
     toggleEndGame: () => {
       gameState.gameOver.set((prev) => !prev);
