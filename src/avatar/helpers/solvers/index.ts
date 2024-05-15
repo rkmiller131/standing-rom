@@ -23,24 +23,24 @@ export class PoseSolver {
      */
     static solve(
         lm3d: TFVectorPose,
-        lm2d: Omit<TFVectorPose, "z">,
-        { runtime = "mediapipe", video = null, imageSize = null, enableLegs = true }: Partial<IPoseSolveOptions> = {}
+        lm2d: Omit<TFVectorPose, 'z'>,
+        { runtime = 'mediapipe', video = null, imageSize = null, enableLegs = true }: Partial<IPoseSolveOptions> = {}
     ): TPose | undefined {
         if (!lm3d && !lm2d) {
-            console.error("Need both World Pose and Pose Landmarks");
+            console.error('Need both World Pose and Pose Landmarks');
             return;
         }
 
         // format and normalize values given by tfjs output
         if (video) {
-            const videoEl = (typeof video === "string" ? document.querySelector(video) : video) as HTMLVideoElement;
+            const videoEl = (typeof video === 'string' ? document.querySelector(video) : video) as HTMLVideoElement;
 
             imageSize = {
                 width: videoEl.videoWidth,
                 height: videoEl.videoHeight,
             };
         }
-        if (runtime === "tfjs" && imageSize) {
+        if (runtime === 'tfjs' && imageSize) {
             for (const e of lm3d) {
                 e.visibility = e.score;
             }
@@ -108,7 +108,7 @@ export class HandSolver {
      */
     static solve(lm: Results, side: Side = RIGHT): THand<typeof side> | undefined {
         if (!lm) {
-            console.error("Need Hand Landmarks");
+            console.error('Need Hand Landmarks');
             return;
         }
         const palm = [
@@ -117,27 +117,27 @@ export class HandSolver {
             new Vector(lm[side === RIGHT ? 5 : 17]),
         ];
         const handRotation = Vector.rollPitchYaw(palm[0], palm[1], palm[2]);
-        handRotation.y = side === LEFT ? handRotation.z - 0.3 : handRotation.z + 0.3;
+        handRotation.y = side === LEFT ? handRotation.z - 0.4 : handRotation.z + 0.4;
         // handRotation.y -= side === LEFT ? 0.4 : -0.4;
         handRotation.z = side === LEFT ? handRotation.z - 0.3 : handRotation.z + 0.3;
 
         let hand: Record<string, unknown> = {};
-        hand[side + "Wrist"] = { x: handRotation.x, y: handRotation.y, z: handRotation.z };
-        hand[side + "RingProximal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[13], lm[14]) };
-        hand[side + "RingIntermediate"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[13], lm[14], lm[15]) };
-        hand[side + "RingDistal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[14], lm[15], lm[16]) };
-        hand[side + "IndexProximal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[5], lm[6]) };
-        hand[side + "IndexIntermediate"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[5], lm[6], lm[7]) };
-        hand[side + "IndexDistal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[6], lm[7], lm[8]) };
-        hand[side + "MiddleProximal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[9], lm[10]) };
-        hand[side + "MiddleIntermediate"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[9], lm[10], lm[11]) };
-        hand[side + "MiddleDistal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[10], lm[11], lm[12]) };
-        hand[side + "ThumbProximal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[1], lm[2]) };
-        hand[side + "ThumbIntermediate"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[1], lm[2], lm[3]) };
-        hand[side + "ThumbDistal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[2], lm[3], lm[4]) };
-        hand[side + "LittleProximal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[17], lm[18]) };
-        hand[side + "LittleIntermediate"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[17], lm[18], lm[19]) };
-        hand[side + "LittleDistal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[18], lm[19], lm[20]) };
+        hand[side + 'Wrist'] = { x: handRotation.x, y: handRotation.y, z: handRotation.z };
+        hand[side + 'RingProximal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[13], lm[14]) };
+        hand[side + 'RingIntermediate'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[13], lm[14], lm[15]) };
+        hand[side + 'RingDistal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[14], lm[15], lm[16]) };
+        hand[side + 'IndexProximal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[5], lm[6]) };
+        hand[side + 'IndexIntermediate'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[5], lm[6], lm[7]) };
+        hand[side + 'IndexDistal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[6], lm[7], lm[8]) };
+        hand[side + 'MiddleProximal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[9], lm[10]) };
+        hand[side + 'MiddleIntermediate'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[9], lm[10], lm[11]) };
+        hand[side + 'MiddleDistal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[10], lm[11], lm[12]) };
+        hand[side + 'ThumbProximal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[1], lm[2]) };
+        hand[side + 'ThumbIntermediate'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[1], lm[2], lm[3]) };
+        hand[side + 'ThumbDistal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[2], lm[3], lm[4]) };
+        hand[side + 'LittleProximal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[17], lm[18]) };
+        hand[side + 'LittleIntermediate'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[17], lm[18], lm[19]) };
+        hand[side + 'LittleDistal'] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[18], lm[19], lm[20]) };
 
         hand = rigFingers(hand as THand<typeof side>, side);
 
@@ -153,12 +153,12 @@ export class HandSolver {
 const rigFingers = (hand: THandUnsafe<typeof side>, side: Side = RIGHT): THand<typeof side> => {
     // Invert modifier based on left vs right side
     const invert = side === RIGHT ? 1 : -1;
-    const digits = ["Ring", "Index", "Little", "Thumb", "Middle"];
-    const segments = ["Proximal", "Intermediate", "Distal"];
+    const digits = ['Ring', 'Index', 'Little', 'Thumb', 'Middle'];
+    const segments = ['Proximal', 'Intermediate', 'Distal'];
 
-    hand[side + "Wrist"].x = clamp(hand[side + "Wrist"].x * 2 * invert, -0.3, 0.3); // twist
-    hand[side + "Wrist"].y = clamp(
-        hand[side + "Wrist"].y * 2.3,
+    hand[side + 'Wrist'].x = clamp(hand[side + 'Wrist'].x * 2 * invert, -0.3, 0.3); // twist
+    hand[side + 'Wrist'].y = clamp(
+        hand[side + 'Wrist'].y * 2.3,
         side === RIGHT ? -1.1 : -0.4, // -1.2, -0.6
         side === RIGHT ? 0.4 : 1.1 //0.6,  1.6
     );
@@ -169,20 +169,20 @@ const rigFingers = (hand: THandUnsafe<typeof side>, side: Side = RIGHT): THand<t
         segments.forEach((j) => {
             const trackedFinger = hand[side + e + j];
 
-            if (e === "Thumb") {
+            if (e === 'Thumb') {
                 //dampen thumb rotation depending on segment
                 const dampener = {
-                    x: j === "Proximal" ? 2.2 : j === "Intermediate" ? 0 : 0,
-                    y: j === "Proximal" ? 2.2 : j === "Intermediate" ? 0.7 : 1,
-                    z: j === "Proximal" ? 0.5 : j === "Intermediate" ? 0.5 : 0.5,
+                    x: j === 'Proximal' ? 2.2 : j === 'Intermediate' ? 0 : 0,
+                    y: j === 'Proximal' ? 2.2 : j === 'Intermediate' ? 0.7 : 1,
+                    z: j === 'Proximal' ? 0.5 : j === 'Intermediate' ? 0.5 : 0.5,
                 };
                 const startPos = {
-                    x: j === "Proximal" ? 1.2 : j === "Distal" ? -0.2 : -0.2,
-                    y: j === "Proximal" ? 1.1 * invert : j === "Distal" ? 0.1 * invert : 0.1 * invert,
-                    z: j === "Proximal" ? 0.2 * invert : j === "Distal" ? 0.2 * invert : 0.2 * invert,
+                    x: j === 'Proximal' ? 1.2 : j === 'Distal' ? -0.2 : -0.2,
+                    y: j === 'Proximal' ? 1.1 * invert : j === 'Distal' ? 0.1 * invert : 0.1 * invert,
+                    z: j === 'Proximal' ? 0.2 * invert : j === 'Distal' ? 0.2 * invert : 0.2 * invert,
                 };
                 const newThumb = { x: 0, y: 0, z: 0 };
-                if (j === "Proximal") {
+                if (j === 'Proximal') {
                     newThumb.z = clamp(
                         startPos.z + trackedFinger.z * -PI * dampener.z * invert,
                         side === RIGHT ? -0.6 : -0.3,
