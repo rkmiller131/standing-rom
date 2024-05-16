@@ -2,6 +2,10 @@ import Vector from './utils/vector'
 import { clamp } from './utils/helpers'
 import { Results, Side } from './Types'
 import { RIGHT, LEFT, PI } from './constants'
+// import { Quaternion, Vector3 } from 'three';
+
+// const rightAxis = new Vector3(1, 0, 0);
+// const leftAxis = new Vector3(-1, 0, 0);
 
 /**
  * Calculates arm rotation as euler angles
@@ -38,8 +42,8 @@ export const calcArms = (lm: Results) => {
         ),
     };
 
-    // Wrist.r.y = Vector.angleBetween3DCoords(lm[14], lm[16], Vector.lerp(Vector.fromArray(lm[18]), Vector.fromArray(lm[20]), 0.5));
-    // Wrist.l.y = Vector.angleBetween3DCoords(lm[13], lm[15], Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5));
+    Wrist.r.y = Vector.angleBetween3DCoords(lm[14], lm[16], Vector.lerp(Vector.fromArray(lm[18]), Vector.fromArray(lm[20]), 0.5));
+    Wrist.l.y = Vector.angleBetween3DCoords(lm[13], lm[15], Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5));
     // Wrist.r.z = clamp(Wrist.r.z, -2.14, 0);
     // Wrist.l.z = clamp(Wrist.l.z, -2.14, 0); // z is wrist movement side to side (abduction/adduction)
 
@@ -48,10 +52,14 @@ export const calcArms = (lm: Results) => {
         l: LowerArm.l.multiply(Wrist.l)
     }
 
-    Hand.r.y = Vector.angleBetween3DCoords(lm[14], lm[16], Vector.lerp(Vector.fromArray(lm[18]), Vector.fromArray(lm[20]), 0.5));
-    Hand.l.y = Vector.angleBetween3DCoords(lm[13], lm[15], Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5));
-    Hand.r.x = clamp(Hand.r.x, -PI / 2, 0);
-    Hand.l.x = clamp(Hand.l.x, -PI / 2, 0);
+    // const startRight = new Vector3().subVectors(UpperArm.r, LowerArm.r).normalize()
+    // const midRight = new Vector3().subVectors(LowerArm.r, Hand.l).normalize()
+    // const parentRightChest = new Vector3().subVectors(lm[12], lm[11]).normalize()
+
+    // Hand.r.y = Vector.angleBetween3DCoords(lm[14], lm[16], Vector.lerp(Vector.fromArray(lm[18]), Vector.fromArray(lm[20]), 0.5));
+    // Hand.l.y = Vector.angleBetween3DCoords(lm[13], lm[15], Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5));
+    // Hand.r.x = clamp(Hand.r.x, -PI / 2, 0);
+    // Hand.l.x = clamp(Hand.l.x, -PI / 2, 0);
 
     //Modify Rotations slightly for more natural movement
     const rightArmRig = rigArm(UpperArm.r, LowerArm.r, Hand.r, RIGHT);

@@ -5,8 +5,7 @@ import { VRM } from '@pixiv/three-vrm';
 
 export const animateVRM = (
   vrm: React.RefObject<VRM>,
-  results: any,
-  videoRef: React.RefObject<HTMLVideoElement>
+  results: any
 ) => {
   if (!vrm.current) return;
   // Take the results from Holistic and animate character based on its Pose and Hand Keypoints.
@@ -24,39 +23,39 @@ export const animateVRM = (
   // Animate Pose
   if (pose2DLandmarks && pose3DLandmarks) {
     riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
-      runtime: 'mediapipe',
-      video: videoRef.current,
       enableLegs: false
     });
 
     // free motion tilting:
-    // rigRotation(vrm, "hips", riggedPose!.Hips.rotation, 0.7);
+    // rigRotation(vrm, 'hips', riggedPose!.Hips.rotation, 0.7);
 
     rigPosition(
       vrm,
-      'Hips',
+      'hips',
       {
-        x: -riggedPose!.Hips.position.x, // Reverse direction
+        x: riggedPose!.Hips.position.x,
         y: riggedPose!.Hips.position.y + 1, // Add a bit of height
         z: -riggedPose!.Hips.position.z // Reverse direction
       },
       1,
-      0.07
+      0.06
     );
 
     rigRotation(vrm, 'chest', riggedPose!.Spine, 0.25, .3);
     rigRotation(vrm, 'spine', riggedPose!.Spine, 0.45, .3);
 
     rigRotation(vrm, 'rightUpperArm', riggedPose!.RightUpperArm, 1, .3);
-    rigRotation(vrm, 'rightLowerArm', riggedPose!.RightLowerArm, 1, .5);
+    rigRotation(vrm, 'rightLowerArm', riggedPose!.RightLowerArm, 1, .3);
     rigRotation(vrm, 'leftUpperArm', riggedPose!.LeftUpperArm, 1, .3);
-    rigRotation(vrm, 'leftLowerArm', riggedPose!.LeftLowerArm, 1, .5);
+    rigRotation(vrm, 'leftLowerArm', riggedPose!.LeftLowerArm, 1, .3);
 
-    // comment out to lock the legs:
-    // rigRotation(vrm, "leftUpperLeg", riggedPose!.LeftUpperLeg, 1, .3);
-    // rigRotation(vrm, "leftLowerLeg", riggedPose!.LeftLowerLeg, 1, .3);
-    // rigRotation(vrm, "rightUpperLeg", riggedPose!.RightUpperLeg, 1, .3);
-    // rigRotation(vrm, "rightLowerLeg", riggedPose!.RightLowerLeg, 1, .3);
+    // rigRotation(vrm, 'leftUpperLeg', riggedPose!.LeftUpperLeg, 1, .3);
+    // rigRotation(vrm, 'leftLowerLeg', riggedPose!.LeftLowerLeg, 1, .3);
+    // rigRotation(vrm, 'rightUpperLeg', riggedPose!.RightUpperLeg, 1, .3);
+    // rigRotation(vrm, 'rightLowerLeg', riggedPose!.RightLowerLeg, 1, .3);
+
+    // note, we could add a foot solver/determine which foot is grounded to allow for one leg lift to be smoother
+    // also rig for position if we want free motion? 
   }
 
   // Animate Hands

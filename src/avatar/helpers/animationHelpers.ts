@@ -22,17 +22,17 @@ export const rigRotation = (
     return;
   }
 
-  let spineAdjustmentY = 0;
-  if (name === 'rightUpperArm' || name === 'leftUpperArm') {
-    const spineQuat = vrm.current.humanoid.humanBones['spine'].node.quaternion;
-    const spineEuler = new Euler().setFromQuaternion(spineQuat);
-    spineAdjustmentY =
-      name === 'rightUpperArm' ? spineEuler.y - 0.4 : spineEuler.y + 0.4;
-  }
+  // let spineAdjustmentY = 0;
+  // if (name === 'rightUpperArm' || name === 'leftUpperArm') {
+  //   const spineQuat = vrm.current.humanoid.humanBones['spine'].node.quaternion;
+  //   const spineEuler = new Euler().setFromQuaternion(spineQuat);
+  //   spineAdjustmentY =
+  //     name === 'rightUpperArm' ? spineEuler.y - 0.4 : spineEuler.y + 0.4;
+  // }
 
   const euler = new Euler(
     rotation.x * dampener,
-    (rotation.y + spineAdjustmentY) * dampener,
+    rotation.y * dampener,
     rotation.z * dampener,
   );
   const quaternion = new Quaternion().setFromEuler(euler);
@@ -59,14 +59,10 @@ export const rigPosition = (
     console.error(`Node not found for bone: ${name}`);
     return;
   }
-  if (!Part) {
-    return;
-  }
   const vector = new Vector3(
     position.x * dampener,
     position.y * dampener,
     position.z * dampener,
   );
-  Part.position.lerp(vector, lerpAmount); // interpolate
-  // Part.position.add(vector)
+  Part.node.position.lerp(vector, lerpAmount); // interpolate
 };
