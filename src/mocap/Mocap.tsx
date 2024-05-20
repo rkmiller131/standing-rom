@@ -67,7 +67,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
         minTrackingConfidence: 0.7,
         selfieMode: true,
       });
-  
+
       // Pass holistic a callback function to handle streamed video data
       holistic.onResults(onResults);
 
