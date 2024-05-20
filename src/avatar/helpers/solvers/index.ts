@@ -117,9 +117,10 @@ export class HandSolver {
             new Vector(lm[side === RIGHT ? 5 : 17]),
         ];
         const handRotation = Vector.rollPitchYaw(palm[0], palm[1], palm[2]);
-        handRotation.y = side === LEFT ? handRotation.z - 0.4 : handRotation.z + 0.4;
-        // handRotation.y -= side === LEFT ? 0.4 : -0.4;
-        handRotation.z = side === LEFT ? handRotation.z - 0.3 : handRotation.z + 0.3;
+        // handRotation.y = side === LEFT ? handRotation.z - 0.4 : handRotation.z + 0.4;
+        handRotation.y -= side === LEFT ? 0.2 : -0.2
+        // handRotation.z = side === LEFT ? handRotation.z - 0.3 : handRotation.z + 0.3;
+        // handRotation.y = side === LEFT ? handRotation.y -0.3 : handRotation.y + 0.3
 
         let hand: Record<string, unknown> = {};
         hand[side + 'Wrist'] = { x: handRotation.x, y: handRotation.y, z: handRotation.z };
@@ -159,11 +160,11 @@ const rigFingers = (hand: THandUnsafe<typeof side>, side: Side = RIGHT): THand<t
     hand[side + 'Wrist'].x = clamp(hand[side + 'Wrist'].x * 2 * invert, -0.3, 0.3); // twist
     hand[side + 'Wrist'].y = clamp(
         hand[side + 'Wrist'].y * 2.3,
-        side === RIGHT ? -1.1 : -0.4, // -1.2, -0.6
-        side === RIGHT ? 0.4 : 1.1 //0.6,  1.6
+        side === RIGHT ? -1.6 : -0.6, // -1.2, -0.6
+        side === RIGHT ? 0.6 : 1.6 //0.6,  1.6
     );
-    //                                               -2.3
-    // hand[side + "Wrist"].z = hand[side + "Wrist"].z * -2.3 * invert; //left right
+    // //                                              *-2.3 * invert
+    hand[side + 'Wrist'].z = hand[side + 'Wrist'].z * 2.3 * invert; //left right
 
     digits.forEach((e) => {
         segments.forEach((j) => {
