@@ -9,24 +9,23 @@ import { RIGHT, LEFT, PI } from './constants'
 
 /**
  * Calculates arm rotation as euler angles
- * @param {Array} lm : array of 3D pose vectors from tfjs or mediapipe
+ * @param {Array} lm : array of 3D pose vectors from mediapipe
  */
 export const calcArms = (lm: Results) => {
-    //Pure Rotation Calculations
     const UpperArm = {
-        r: Vector.findRotation(lm[11], lm[13]),
+        r: lm[11],
         l: Vector.findRotation(lm[12], lm[14]),
     };
-    UpperArm.r.y = Vector.angleBetween3DCoords(lm[12], lm[11], lm[13]);
+    // UpperArm.r.y = Vector.angleBetween3DCoords(lm[12], lm[11], lm[13]);
     UpperArm.l.y = Vector.angleBetween3DCoords(lm[11], lm[12], lm[14]);
 
     const LowerArm = {
-        r: Vector.findRotation(lm[13], lm[15]),
+        r: lm[13],
         l: Vector.findRotation(lm[14], lm[16]),
     };
-    LowerArm.r.y = Vector.angleBetween3DCoords(lm[11], lm[13], lm[15]);
+    // LowerArm.r.y = Vector.angleBetween3DCoords(lm[11], lm[13], lm[15]);
     LowerArm.l.y = Vector.angleBetween3DCoords(lm[12], lm[14], lm[16]);
-    LowerArm.r.z = clamp(LowerArm.r.z, -2.14, 0);
+    // LowerArm.r.z = clamp(LowerArm.r.z, -2.14, 0);
     LowerArm.l.z = clamp(LowerArm.l.z, -2.14, 0);
     // LowerArm.r.x = clamp(LowerArm.r.x, -1, 0);
     // LowerArm.l.x = clamp(LowerArm.l.x, -1, 0);
@@ -52,6 +51,9 @@ export const calcArms = (lm: Results) => {
     //     l: LowerArm.l.multiply(Wrist.l)
     // }
 
+    const Wrist = {
+        r: lm[15],
+    }
     const Hand = {
         r: Vector.findRotation(
             Vector.fromArray(lm[15]),
@@ -73,21 +75,21 @@ export const calcArms = (lm: Results) => {
     // Hand.l.x = clamp(Hand.l.x, -PI / 2, 0);
 
     //Modify Rotations slightly for more natural movement
-    const rightArmRig = rigArm(UpperArm.r, LowerArm.r, Hand.r, RIGHT);
+    // const rightArmRig = rigArm(UpperArm.r, LowerArm.r, Hand.r, RIGHT);
     const leftArmRig = rigArm(UpperArm.l, LowerArm.l, Hand.l, LEFT);
 
     return {
         //Scaled
         UpperArm: {
-            r: rightArmRig.UpperArm,
+            r: UpperArm.r,
             l: leftArmRig.UpperArm,
         },
         LowerArm: {
-            r: rightArmRig.LowerArm,
+            r: LowerArm.r,
             l: leftArmRig.LowerArm,
         },
         Hand: {
-            r: rightArmRig.Hand,
+            r: Wrist.r,
             l: leftArmRig.Hand,
         },
         //Unscaled
@@ -95,7 +97,7 @@ export const calcArms = (lm: Results) => {
             UpperArm: UpperArm,
             LowerArm: LowerArm,
             Hand: Hand,
-        },
+        }
     };
 };
 
