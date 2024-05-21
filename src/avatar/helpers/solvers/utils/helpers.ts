@@ -289,3 +289,12 @@ export const RestingDefault = {
     },
   },
 };
+
+// export function preventHandThroughBody(armPos: Vector3, bodyPos: Vector3, minDistance: number) {
+//   const direction = armPos.clone().sub(bodyPos).normalize();
+//   const distance = armPos.distanceTo(bodyPos);
+//   if (distance < minDistance) {
+//     return bodyPos.clone().add(direction.multiplyScalar(minDistance))
+//   }
+//   return armPos;
+// }

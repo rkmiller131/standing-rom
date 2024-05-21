@@ -63,6 +63,20 @@ export class PoseSolver {
         const leftFootOffscreen = lm3d[23].y > 0.1 || (lm3d[23].visibility ?? 0) < 0.63 || Hips.Hips.position.z > -0.4;
         const rightFootOffscreen = lm3d[24].y > 0.1 || (lm3d[24].visibility ?? 0) < 0.63 || Hips.Hips.position.z > -0.4;
 
+        // const rightHandTouchingBody =
+        //     lm3d[15].x >= 0.07 && // Lower bound for X
+        //     lm3d[15].x <= 0.13 && // Upper bound for X
+        //     lm3d[15].y >= -0.07 && // Lower bound for Y
+        //     lm3d[15].y <= 0.01 && // Upper bound for Y
+        //     lm3d[15].z >= -0.17 && // Lower bound for Z
+        //     lm3d[15].z <= 0.01; // Upper bound for Z
+        // if (rightHandTouchingBody) {
+        //     console.log('right hand touching hips')
+        //     Arms.UpperArm.r.multiply(0);
+        //     Arms.LowerArm.r = Arms.LowerArm.r.multiply(0);
+        //     Arms.Hand.r = Arms.Hand.r.multiply(0);
+        // }
+
         Arms.UpperArm.l = Arms.UpperArm.l.multiply(leftHandOffscreen ? 0 : 1);
         Arms.UpperArm.l.z = leftHandOffscreen ? RestingDefault.Pose.LeftUpperArm.z : Arms.UpperArm.l.z;
         Arms.UpperArm.r = Arms.UpperArm.r.multiply(rightHandOffscreen ? 0 : 1);
