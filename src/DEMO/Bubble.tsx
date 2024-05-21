@@ -44,6 +44,8 @@ export default function Bubble({ position }: { position: [number, number, number
     onCollide: () => {
       if (particleSystemRef.current) {
         particleSystemRef.current.scale.set(0.3, 0.3, 0.3);
+        // can't destroy collider, so just move it far away
+        api.position.set(5,5,5);
       }
     },
     onCollideBegin: (e) => {
@@ -126,7 +128,7 @@ export default function Bubble({ position }: { position: [number, number, number
           </Sphere>
         </group>
       ) : null}
-    
+
       {particleSystemRef.current && (
         <primitive object={particleSystemRef.current} />
       )}

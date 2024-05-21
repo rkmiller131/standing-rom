@@ -39,7 +39,7 @@ export default function RightHandCollider({ avatar }: RightHandColliderProps) {
   useFrame(({ clock }) => {
     if (!sceneLoaded || !avatar.current) return;
 
-    const rightHandWorld = avatar.current.humanoid.humanBones.rightMiddleIntermediate?.node.matrixWorld;
+    const rightHandWorld = avatar.current.humanoid.humanBones.rightMiddleProximal?.node.matrixWorld;
     if (!rightHandWorld) return;
 
     position.setFromMatrixPosition(rightHandWorld);
