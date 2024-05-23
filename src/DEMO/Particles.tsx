@@ -1,25 +1,28 @@
+import { useFrame, useThree } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { fragmentShader } from './fragmentShader';
 import { vertexShader } from './vertexShader';
 
 export default function CustomGeometryParticles({
+  position,
   count,
   radius,
-  position,
+  isActive,
 }: {
+  position: [number, number, number];
   count: number;
   radius: number;
-  position: [number, number, number];
+  isActive: boolean;
 }) {
-  // This reference gives us direct access to our points
   const points = useRef<THREE.Points>(null);
-  // const { scene } = useThree();
+  const { scene } = useThree();
 
-  // Generate our positions attributes array
+  // Define a local variable for elapsed time
+  let elapsedTime = 0;
+
   const particlesPosition = useMemo(() => {
     const positions = new Float32Array(count * 3);
-
     for (let i = 0; i < count; i++) {
       const distance = Math.sqrt(Math.random()) * radius;
       const theta = THREE.MathUtils.randFloatSpread(360);
@@ -31,7 +34,6 @@ export default function CustomGeometryParticles({
 
       positions.set([x, y, z], i * 3);
     }
-
     return positions;
   }, [count]);
 
@@ -44,25 +46,30 @@ export default function CustomGeometryParticles({
         value: radius,
       },
       uOpacity: {
-        value: 1, // Set initial opacity, to zero. We can't go to zero
+        value: 1,
       },
     }),
     [],
   );
 
-  // useFrame(({ clock }) => {
-  //   const material = points.current?.material as THREE.ShaderMaterial;
-  //   const time = clock.getElapsedTime();
-  //   if (material.uniforms) {
-  //     material.uniforms.uTime.value = time;
-  //   }
-  //   if (time >= 5) {
-  //     if (points.current !== null) {
-  //       points.current.geometry.dispose();
-  //       scene.remove(points.current as THREE.Object3D);
-  //     }
-  //   }
-  // });
+  useFrame((_, delta) => {
+    if (isActive) {
+      elapsedTime += delta;
+
+      const material = points.current?.material as THREE.ShaderMaterial;
+      if (material.uniforms) {
+        material.uniforms.uTime.value = elapsedTime;
+      }
+
+      if (elapsedTime >= 5) {
+        if (points.current !== null) {
+          material.dispose();
+          points.current.geometry.dispose();
+          scene.remove(points.current as THREE.Object3D);
+        }
+      }
+    }
+  });
 
   return (
     <points ref={points} position={position}>

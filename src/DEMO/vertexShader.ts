@@ -2,7 +2,7 @@ export const vertexShader = `
 uniform float uRadius;
 uniform float uTime;
 
-vec3 explode(vec3 originalPosition, float time) {
+vec3 explodeFac(vec3 originalPosition, float time) {
   // Extract the speed from the y-component of the original position
   float speed = originalPosition.y;
 
@@ -28,8 +28,9 @@ vec3 explode(vec3 originalPosition, float time) {
 
 void main() {
   vec3 originalPosition = position;
+  vec3 newPos = explodeFac(originalPosition, uTime);
 
-  vec4 modelPosition = modelMatrix * vec4(originalPosition, 1.0);
+  vec4 modelPosition = modelMatrix * vec4(newPos, 1.0);
   vec4 viewPosition = viewMatrix * modelPosition;
   vec4 projectedPosition = projectionMatrix * viewPosition;
 

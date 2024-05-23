@@ -69,6 +69,7 @@ export default function Bubble({
           position={[0.5, 1.2, 0.3]}
           radius={1}
           count={2000}
+          isActive={hasCollided}
         />
       )}
     </>

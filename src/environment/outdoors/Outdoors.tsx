@@ -38,8 +38,9 @@ export default function OutdoorScene() {
       <ambientLight intensity={0.5} />
       <directionalLight position={[0, 10, 2]} castShadow />
       <SceneMap />
+      {/* <Gltf src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/disp.gltf?v=1716415635496" /> */}
 
-      <GrassComponent size={100} count={100000} />
+      <GrassComponent size={100} count={200000} />
       <TreeInstance>
         <Tree position={[-3, 0, -1]} rotation={[0, 0, 0]} scale={0.8} />
       </TreeInstance>
