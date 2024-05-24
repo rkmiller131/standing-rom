@@ -18,7 +18,7 @@ const CustomEnvironment: React.FC<CustomEnvironmentProps> = () => {
 
   useEffect(() => {
     const light = new DirectionalLight(0xffffff, Math.PI);
-    light.position.set(10, 20, -35);
+    light.position.set(18, 16, -35);
     light.castShadow = true;
 
     // const directionalLightHelper = new CameraHelper(light.shadow.camera); // Uncomment if needed
@@ -54,8 +54,8 @@ const CustomEnvironment: React.FC<CustomEnvironmentProps> = () => {
       (texture) => {
         texture.mapping = EquirectangularReflectionMapping;
         scene.environment = texture;
+        scene.environmentRotation.set(0, Math.PI / 4, 0);
         scene.background = texture;
-        // scene.backgroundBlurriness = 0.4;
       },
     );
   }, [scene]);
