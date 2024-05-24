@@ -8,7 +8,7 @@ export default function Environment() {
   return (
     <Suspense fallback={null}>
       {sceneState.selectedEnvironment.get({ noproxy: true }) ===
-        'Indoor Office' && <OfficeScene/>}
+        'Indoor Office' && <OfficeScene />}
       {sceneState.selectedEnvironment.get({ noproxy: true }) === 'Outdoors' && (
         <OutdoorScene />
       )}

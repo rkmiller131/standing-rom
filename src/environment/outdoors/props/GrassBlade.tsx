@@ -1,17 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import * as THREE from 'three';
+import { gltfLoader as loader } from '../../../../interfaces/THREE_Interface';
 import { grassVertexShader } from '../shaders/grassVertexShader';
 import { grassFragmentShader } from '../shaders/grassFragmentShader';
 
+import * as THREE from 'three';
+
 const BLADE_WIDTH = 0.1;
-const BLADE_HEIGHT = 0.25;
-const BLADE_HEIGHT_VARIATION = 0.1;
+const BLADE_HEIGHT = 0.3;
+const BLADE_HEIGHT_VARIATION = 0.6;
 const BLADE_VERTEX_COUNT = 5;
 const BLADE_TIP_OFFSET = 0.1;
-
-const cloudMap =
-  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/cloudinverted.jpg?v=1715283924460';
 
 function interpolate(
   val: number,
@@ -23,7 +22,9 @@ function interpolate(
   return ((val - oldMin) * (newMax - newMin)) / (oldMax - oldMin) + newMin;
 }
 
-// Initialize it to null
+const cloudMap =
+  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/cloud.jpg?v=1716582328055';
+
 let cloudTexture: THREE.Texture | null = null;
 
 if (typeof document !== 'undefined') {
@@ -32,7 +33,7 @@ if (typeof document !== 'undefined') {
 }
 
 export class GrassGeometry extends THREE.BufferGeometry {
-  constructor(size: number, count: number) {
+  constructor(size: number, count: number, groundPlaneMesh: THREE.Mesh) {
     super();
 
     const positions: number[] = [];
@@ -55,7 +56,20 @@ export class GrassGeometry extends THREE.BufferGeometry {
         ]),
       );
 
-      const blade = this.computeBlade([x, 0, y], i);
+      // Raycast to find the height of the ground plane at the current position
+      const raycaster = new THREE.Raycaster(
+        new THREE.Vector3(x, 10, y),
+        new THREE.Vector3(0, -1, 0),
+      );
+
+      const intersects = raycaster.intersectObject(groundPlaneMesh);
+
+      let groundHeight = 0;
+      if (intersects.length > 0) {
+        groundHeight = intersects[0].point.y;
+      }
+
+      const blade = this.computeBlade([x, groundHeight, y], i);
       positions.push(...blade.positions);
       indices.push(...blade.indices);
     }
@@ -64,6 +78,7 @@ export class GrassGeometry extends THREE.BufferGeometry {
       'position',
       new THREE.BufferAttribute(new Float32Array(positions), 3),
     );
+
     this.setAttribute(
       'uv',
       new THREE.BufferAttribute(new Float32Array(uvs), 2),
@@ -112,8 +127,8 @@ export class GrassGeometry extends THREE.BufferGeometry {
 }
 
 class Grass extends THREE.Mesh {
-  constructor(size: number, count: number) {
-    const geometry = new GrassGeometry(size, count);
+  constructor(size: number, count: number, groundPlaneMesh: THREE.Mesh) {
+    const geometry = new GrassGeometry(size, count, groundPlaneMesh);
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uCloud: { value: cloudTexture },
@@ -127,29 +142,55 @@ class Grass extends THREE.Mesh {
   }
 }
 
-const GrassComponent: React.FC<{
-  size: number;
-  count: number;
-}> = ({ size, count }) => {
+const GrassComponent: React.FC<{ size: number; count: number }> = ({
+  size,
+  count,
+}) => {
   const { scene } = useThree();
   const grassRef = useRef<Grass>();
+  const [groundPlaneMesh, setGroundPlaneMesh] = useState<THREE.Mesh | null>(
+    null,
+  );
 
   useEffect(() => {
-    const grass = new Grass(size, count);
-    grassRef.current = grass;
-    scene.add(grass);
-
-    return () => {
-      if (grassRef.current) {
-        scene.remove(grassRef.current);
+    const loadModel = async () => {
+      try {
+        const gltf = await loader.loadAsync(
+          'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/disp2.gltf?v=1716418251510',
+          (event) => {
+            console.log(
+              `Loading Ground Plane: ${(event.loaded / event.total) * 100}%`,
+            );
+          },
+        );
+        const mesh = gltf.scene.children[0];
+        if (mesh) {
+          setGroundPlaneMesh(mesh as THREE.Mesh);
+          scene.add(mesh);
+        }
+      } catch (error) {
+        console.error('Failed to load the model:', error);
       }
     };
-  }, [scene, size, count]);
+
+    loadModel();
+  }, []);
+
+  useEffect(() => {
+    if (groundPlaneMesh && !grassRef.current) {
+      const grass = new Grass(size, count, groundPlaneMesh);
+      grassRef.current = grass;
+      scene.add(grass);
+    }
+  }, [scene, size, count, groundPlaneMesh]);
 
   useFrame(({ clock }) => {
-    const material = grassRef.current?.material as THREE.ShaderMaterial;
-    material.uniforms.uTime.value += clock.getDelta() + 10;
-    // material.uniforms.uTime.value = 300; static grass
+    if (grassRef.current) {
+      const material = grassRef.current?.material as THREE.ShaderMaterial;
+      if (material.uniforms) {
+        material.uniforms.uTime.value += clock.getDelta() + 15;
+      }
+    }
   });
 
   return null;
