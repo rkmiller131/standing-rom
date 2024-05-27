@@ -8,7 +8,7 @@ import * as THREE from 'three';
 
 const BLADE_WIDTH = 0.1;
 const BLADE_HEIGHT = 0.3;
-const BLADE_HEIGHT_VARIATION = 0.6;
+const BLADE_HEIGHT_VARIATION = 0.3;
 const BLADE_VERTEX_COUNT = 5;
 const BLADE_TIP_OFFSET = 0.1;
 
@@ -58,8 +58,8 @@ export class GrassGeometry extends THREE.BufferGeometry {
 
       // Raycast to find the height of the ground plane at the current position
       const raycaster = new THREE.Raycaster(
-        new THREE.Vector3(x, 10, y),
-        new THREE.Vector3(0, -1, 0),
+        new THREE.Vector3(x, 20, y),
+        new THREE.Vector3(0, -20, 0),
       );
 
       const intersects = raycaster.intersectObject(groundPlaneMesh);
@@ -156,7 +156,7 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
     const loadModel = async () => {
       try {
         const gltf = await loader.loadAsync(
-          'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/disp2.gltf?v=1716418251510',
+          'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/disp.gltf?v=1716830307718',
           (event) => {
             console.log(
               `Loading Ground Plane: ${(event.loaded / event.total) * 100}%`,
@@ -165,8 +165,10 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
         );
         const mesh = gltf.scene.children[0];
         if (mesh) {
+          mesh.position.set(0, -0.625, 0);
           setGroundPlaneMesh(mesh as THREE.Mesh);
           scene.add(mesh);
+          console.log('Current Position:', mesh.position);
         }
       } catch (error) {
         console.error('Failed to load the model:', error);
