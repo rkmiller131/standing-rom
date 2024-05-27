@@ -58,8 +58,8 @@ export class GrassGeometry extends THREE.BufferGeometry {
 
       // Raycast to find the height of the ground plane at the current position
       const raycaster = new THREE.Raycaster(
-        new THREE.Vector3(x, 20, y),
-        new THREE.Vector3(0, -20, 0),
+        new THREE.Vector3(x, 10, y),
+        new THREE.Vector3(0, -10, 0),
       );
 
       const intersects = raycaster.intersectObject(groundPlaneMesh);
@@ -166,9 +166,17 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
         const mesh = gltf.scene.children[0];
         if (mesh) {
           mesh.position.set(0, -0.625, 0);
-          setGroundPlaneMesh(mesh as THREE.Mesh);
-          scene.add(mesh);
-          console.log('Current Position:', mesh.position);
+          if (
+            mesh.position.x === 0 &&
+            mesh.position.y === -0.625 &&
+            mesh.position.z === 0
+          ) {
+            setGroundPlaneMesh(mesh as THREE.Mesh);
+            scene.add(mesh);
+            console.log('Current Position:', mesh.position);
+          } else {
+            console.log('Failed to set proper position. Please Refresh');
+          }
         }
       } catch (error) {
         console.error('Failed to load the model:', error);
