@@ -45,7 +45,7 @@ export default function Renderer({ children }: RendererProps) {
         position: [0, 1, 2.5],
         fov: 40,
         near: 1,
-        far: 50,
+        far: 120,
         rotation: [0, 0, 0],
       }}
       gl={{ powerPreference: 'low-power', antialias: false }}
