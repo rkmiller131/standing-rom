@@ -63,7 +63,6 @@ export default function RightHandCollider({ avatar }: RightHandColliderProps) {
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
           avgMoveSpeed = (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) / 3;
-          console.log('~~Moving at ', `${avgMoveSpeed} m/s`);
           gameState.popBubble(avgMoveSpeed);
         });
         poppedBubbles.current.clear();

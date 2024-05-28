@@ -5,11 +5,7 @@ import { useRef, useState } from 'react';
 import { Mesh, Points } from 'three';
 import CustomGeometryParticles from './Particles';
 
-export default function Bubble({
-  position,
-}: {
-  position: [number, number, number];
-}) {
+export default function Bubble({ position }: { position: [number, number, number] }) {
   const particleSystemRef = useRef<Points | null>(null);
   const [hasCollided, setHasCollided] = useState(false);
 
@@ -18,13 +14,13 @@ export default function Bubble({
     onCollide: () => {
       if (particleSystemRef.current) {
         particleSystemRef.current.scale.set(0.3, 0.3, 0.3);
-        // can't destroy collider, so just move it far away
-        api.position.set(5, 5, 5);
       }
     },
     onCollideBegin: (e) => {
       if (e) {
         setHasCollided(true);
+        // can't destroy collider, so just move it far away
+        api.position.set(10, 10, 10);
       }
     },
     onCollideEnd: () => {

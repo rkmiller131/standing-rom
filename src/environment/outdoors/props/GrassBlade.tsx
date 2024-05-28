@@ -184,6 +184,7 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
     };
 
     loadModel();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
