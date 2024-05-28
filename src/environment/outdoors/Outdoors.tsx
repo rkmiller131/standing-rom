@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import SceneMap from './props/SceneMap';
 import GrassComponent from './props/GrassBlade';
-import { lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { useSceneState } from '../../ecs/store/SceneState';
 import CustomEnvironment from './props/Sunlight';
 
@@ -51,7 +51,7 @@ export default function OutdoorScene() {
   }, []);
 
   return (
-    <>
+    <Suspense>
       <ambientLight intensity={1} />
       <CustomEnvironment />
       <SceneMap />
@@ -73,6 +73,6 @@ export default function OutdoorScene() {
         />
       </FlowerInstance>
       <Sound />
-    </>
+    </Suspense>
   );
 }

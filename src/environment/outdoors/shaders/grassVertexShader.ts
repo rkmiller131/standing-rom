@@ -19,7 +19,7 @@ export const grassVertexShader = `
       vUv = uv;
       vNormal = normalize(normalMatrix * normal);
 
-      vPosition.x += wave(uv.x * 1.01, 0.1, 0.05); 
+      vPosition.x += wave(uv.x * 1.01, 0.1, 0.05);
 
       gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0);
     }
