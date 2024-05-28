@@ -57,6 +57,7 @@ export default function App() {
       )}
       <LoadingScreen />
 
+      {/* 3D Canvas */}
       <Suspense fallback={null}>
         <div className="canvas-container">
           <Renderer>
