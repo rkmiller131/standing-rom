@@ -58,8 +58,8 @@ export class GrassGeometry extends THREE.BufferGeometry {
 
       // Raycast to find the height of the ground plane at the current position
       const raycaster = new THREE.Raycaster(
-        new THREE.Vector3(x, 10, y),
-        new THREE.Vector3(0, -10, 0),
+        new THREE.Vector3(x, 20, y),
+        new THREE.Vector3(0, -20, 0),
       );
 
       const intersects = raycaster.intersectObject(groundPlaneMesh);
