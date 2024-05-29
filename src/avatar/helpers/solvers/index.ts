@@ -6,12 +6,19 @@ import { calcLegs } from './calcLegs'
 import { LEFT, PI, RIGHT } from './constants'
 import Vector from './utils/vector'
 import { calcIKArms } from './calcIKArms'
+import { Vector3 } from 'three'
 
 export const ikTargets = {};
 export const iks = [{
   target: 22, // change to the live mediapipe landmarks for the right hand
   effector: 21,
-  links: [{ index: 20 }]
+  links: [
+    { 
+        index: 20,
+        rotationMin: new Vector3( 1.2, - 1.8, - .4 ),
+		rotationMax: new Vector3( 1.7, - 1.1, .3 )
+    }, 
+  ]
 }]
 
 /** Class representing pose solver. */
@@ -32,7 +39,8 @@ export class PoseSolver {
     static solve(
         lm3d: TFVectorPose,
         lm2d: Omit<TFVectorPose, 'z'>,
-        { enableLegs = true }: Partial<IPoseSolveOptions> = {}
+        { enableLegs = true }: Partial<IPoseSolveOptions> = {},
+        vrm
     ): TPose | undefined {
         if (!lm3d && !lm2d) {
             console.error('Need both World Pose and Pose Landmarks');
@@ -40,7 +48,7 @@ export class PoseSolver {
         }
 
         const Arms = calcArms(lm3d);
-        calcIKArms(ikTargets, iks, lm3d);
+        calcIKArms(vrm, ikTargets, iks, lm3d);
         const Hips = calcHips(lm3d, lm2d);
         const Legs = enableLegs ? calcLegs(lm3d) : null;
 

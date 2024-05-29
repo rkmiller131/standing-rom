@@ -8,7 +8,7 @@ export const animateVRM = (
   results: any,
   videoRef: React.RefObject<HTMLVideoElement>
 ) => {
-  if (!vrm.current) return;
+  if (!vrm.current || !videoRef) return;
   // Take the results from Holistic and animate character based on its Pose and Hand Keypoints.
   let riggedPose, riggedLeftHand, riggedRightHand;
 
@@ -23,11 +23,8 @@ export const animateVRM = (
 
   // Animate Pose
   if (pose2DLandmarks && pose3DLandmarks) {
-    riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
-      runtime: 'mediapipe',
-      video: videoRef.current,
-      enableLegs: false
-    });
+    riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, 
+      { enableLegs: false }, vrm);
 
     // free motion tilting:
     // rigRotation(vrm, "hips", riggedPose!.Hips.rotation, 0.7);
@@ -47,9 +44,9 @@ export const animateVRM = (
     rigRotation(vrm, 'chest', riggedPose!.Spine, 0.25, .3);
     rigRotation(vrm, 'spine', riggedPose!.Spine, 0.45, .3);
 
-    rigRotation(vrm, 'rightUpperArm', riggedPose!.RightUpperArm, 1, .3);
-    rigRotation(vrm, 'rightLowerArm', riggedPose!.RightLowerArm, 1, .5);
-    // rigRotation(vrm, 'rightHand', riggedPose!.RightHand, 0.5, .3)
+    // rigRotation(vrm, 'rightUpperArm', riggedPose!.RightUpperArm, 1, .3);
+    // rigRotation(vrm, 'rightLowerArm', riggedPose!.RightLowerArm, 1, .5);
+    rigRotation(vrm, 'rightHand', riggedPose!.RightHand, 1, .3)
     rigRotation(vrm, 'leftUpperArm', riggedPose!.LeftUpperArm, 1, .3);
     rigRotation(vrm, 'leftLowerArm', riggedPose!.LeftLowerArm, 1, .5);
 
@@ -58,7 +55,7 @@ export const animateVRM = (
     //   'RightHand',
     //   {
     //     x: riggedPose!.RightHand.x, 
-    //     y: riggedPose!.RightHand.y + 1,
+    //     y: riggedPose!.RightHand.y,
     //     z: riggedPose!.RightHand.z
     //   }
     // );
