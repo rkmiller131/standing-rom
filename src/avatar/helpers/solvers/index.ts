@@ -5,6 +5,14 @@ import { calcHips } from './calcHips'
 import { calcLegs } from './calcLegs'
 import { LEFT, PI, RIGHT } from './constants'
 import Vector from './utils/vector'
+import { calcIKArms } from './calcIKArms'
+
+export const ikTargets = {};
+export const iks = [{
+  target: 22, // change to the live mediapipe landmarks for the right hand
+  effector: 21,
+  links: [{ index: 20 }]
+}]
 
 /** Class representing pose solver. */
 export class PoseSolver {
@@ -24,35 +32,15 @@ export class PoseSolver {
     static solve(
         lm3d: TFVectorPose,
         lm2d: Omit<TFVectorPose, 'z'>,
-        { runtime = 'mediapipe', video = null, imageSize = null, enableLegs = true }: Partial<IPoseSolveOptions> = {}
+        { enableLegs = true }: Partial<IPoseSolveOptions> = {}
     ): TPose | undefined {
         if (!lm3d && !lm2d) {
             console.error('Need both World Pose and Pose Landmarks');
             return;
         }
 
-        // format and normalize values given by tfjs output
-        if (video) {
-            const videoEl = (typeof video === 'string' ? document.querySelector(video) : video) as HTMLVideoElement;
-
-            imageSize = {
-                width: videoEl.videoWidth,
-                height: videoEl.videoHeight,
-            };
-        }
-        if (runtime === 'tfjs' && imageSize) {
-            for (const e of lm3d) {
-                e.visibility = e.score;
-            }
-            for (const e of lm2d) {
-                e.x /= imageSize.width;
-                e.y /= imageSize.height;
-                e.z = 0;
-                e.visibility = e.score;
-            }
-        }
-
         const Arms = calcArms(lm3d);
+        calcIKArms(ikTargets, iks, lm3d);
         const Hips = calcHips(lm3d, lm2d);
         const Legs = enableLegs ? calcLegs(lm3d) : null;
 
@@ -63,19 +51,6 @@ export class PoseSolver {
         const leftFootOffscreen = lm3d[23].y > 0.1 || (lm3d[23].visibility ?? 0) < 0.63 || Hips.Hips.position.z > -0.4;
         const rightFootOffscreen = lm3d[24].y > 0.1 || (lm3d[24].visibility ?? 0) < 0.63 || Hips.Hips.position.z > -0.4;
 
-        // const rightHandTouchingBody =
-        //     lm3d[15].x >= 0.07 && // Lower bound for X
-        //     lm3d[15].x <= 0.13 && // Upper bound for X
-        //     lm3d[15].y >= -0.07 && // Lower bound for Y
-        //     lm3d[15].y <= 0.01 && // Upper bound for Y
-        //     lm3d[15].z >= -0.17 && // Lower bound for Z
-        //     lm3d[15].z <= 0.01; // Upper bound for Z
-        // if (rightHandTouchingBody) {
-        //     console.log('right hand touching hips')
-        //     Arms.UpperArm.r.multiply(0);
-        //     Arms.LowerArm.r = Arms.LowerArm.r.multiply(0);
-        //     Arms.Hand.r = Arms.Hand.r.multiply(0);
-        // }
 
         Arms.UpperArm.l = Arms.UpperArm.l.multiply(leftHandOffscreen ? 0 : 1);
         Arms.UpperArm.l.z = leftHandOffscreen ? RestingDefault.Pose.LeftUpperArm.z : Arms.UpperArm.l.z;

@@ -49,8 +49,19 @@ export const animateVRM = (
 
     rigRotation(vrm, 'rightUpperArm', riggedPose!.RightUpperArm, 1, .3);
     rigRotation(vrm, 'rightLowerArm', riggedPose!.RightLowerArm, 1, .5);
+    // rigRotation(vrm, 'rightHand', riggedPose!.RightHand, 0.5, .3)
     rigRotation(vrm, 'leftUpperArm', riggedPose!.LeftUpperArm, 1, .3);
     rigRotation(vrm, 'leftLowerArm', riggedPose!.LeftLowerArm, 1, .5);
+
+    // rigPosition(
+    //   vrm,
+    //   'RightHand',
+    //   {
+    //     x: riggedPose!.RightHand.x, 
+    //     y: riggedPose!.RightHand.y + 1,
+    //     z: riggedPose!.RightHand.z
+    //   }
+    // );
 
     // comment out to lock the legs:
     // rigRotation(vrm, "leftUpperLeg", riggedPose!.LeftUpperLeg, 1, .3);
@@ -64,7 +75,8 @@ export const animateVRM = (
     riggedLeftHand = Hand.solve(leftHandLandmarks, 'Left');
     rigRotation(vrm, 'leftHand', {
       // Combine pose rotation Z and hand rotation X Y
-      z: riggedPose!.LeftHand.z,
+      // z: riggedPose!.LeftHand.z,
+      z: riggedLeftHand!.LeftWrist.z,
       y: riggedLeftHand!.LeftWrist.y,
       x: riggedLeftHand!.LeftWrist.x
     }, 1, 0.4);
@@ -88,7 +100,7 @@ export const animateVRM = (
     riggedRightHand = Hand.solve(rightHandLandmarks, 'Right');
     rigRotation(vrm, 'rightHand', {
       // Combine Z axis from pose hand and X/Y axis from hand wrist rotation
-      z: riggedPose!.RightHand.z,
+      z: riggedRightHand!.RightWrist.z,
       y: riggedRightHand!.RightWrist.y,
       x: riggedRightHand!.RightWrist.x
     }, 1, 0.4);
