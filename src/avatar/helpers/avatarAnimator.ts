@@ -3,8 +3,13 @@ import { HandSolver as Hand } from './solvers';
 import { rigRotation } from './animationHelpers';
 import { VRM } from '../../THREE_Interface';
 import { avatarSchema } from '../Avatar';
-import { Quaternion, Vector3 } from 'three';
-import { MathUtils, QuaternionO, Solve3D, V3O } from 'inverse-kinematics';
+import { Euler, Quaternion, Vector3 } from 'three';
+import { MathUtils, QuaternionO, Solve3D, V3O, V3 } from 'inverse-kinematics';
+
+// const rightArmTarget = new Vector3();
+const rightUpperArmEulerTest = new Euler();
+const rightLowerArmEulerTest = new Euler();
+const rightHandEulerTest = new Euler();
 
 export const animateVRM = (
   vrm: React.RefObject<VRM>,
@@ -25,7 +30,7 @@ export const animateVRM = (
 
   // Animate Pose
   if (pose2DLandmarks && pose3DLandmarks && avatarSchema.rootBone) {
-    const rightArmTarget = pose3DLandmarks[15];
+    const rightArmTarget = [pose3DLandmarks[15].x, pose3DLandmarks[15].y, pose3DLandmarks[15].z] as V3;
     const rightArmLinks = avatarSchema.ikTargets.rightArm.map((bone) => ({
       rotation: QuaternionO.fromObject(bone.quaternion),
       position: V3O.fromVector3(bone.position)
@@ -57,7 +62,16 @@ export const animateVRM = (
       method: 'FABRIK',
     }).links
 
-    console.log('results are ', results)
+    const rightArmQuatToEul = {
+      rightUpperArm: rightUpperArmEulerTest.setFromQuaternion(new Quaternion(results[0].rotation[0], results[0].rotation[1], results[0].rotation[2], results[0].rotation[3])),
+      rightLowerArm: rightLowerArmEulerTest.setFromQuaternion(new Quaternion(results[1].rotation[0], results[1].rotation[1], results[1].rotation[2], results[1].rotation[3])),
+      rightHand: rightHandEulerTest.setFromQuaternion(new Quaternion(results[2].rotation[0], results[2].rotation[1], results[2].rotation[2], results[2].rotation[3])),
+    }
+    // console.log('results are ', results[0]);
+
+    rigRotation(vrm, 'rightUpperArm', rightArmQuatToEul.rightUpperArm);
+    rigRotation(vrm, 'rightLowerArm', rightArmQuatToEul.rightLowerArm);
+    rigRotation(vrm, 'rightHand', rightArmQuatToEul.rightHand);
     
 }
 
@@ -66,7 +80,7 @@ export const animateVRM = (
     riggedLeftHand = Hand.solve(leftHandLandmarks, 'Left');
     rigRotation(vrm, 'leftHand', {
       // Combine pose rotation Z and hand rotation X Y
-      z: riggedPose!.LeftHand.z,
+      z: riggedLeftHand!.LeftWrist.z,
       y: riggedLeftHand!.LeftWrist.y,
       x: riggedLeftHand!.LeftWrist.x,
     });
@@ -110,7 +124,7 @@ export const animateVRM = (
     riggedRightHand = Hand.solve(rightHandLandmarks, 'Right');
     rigRotation(vrm, 'rightHand', {
       // Combine Z axis from pose hand and X/Y axis from hand wrist rotation
-      z: riggedPose!.RightHand.z,
+      z: riggedRightHand!.RightWrist.z,
       y: riggedRightHand!.RightWrist.y,
       x: riggedRightHand!.RightWrist.x,
     });
