@@ -3,11 +3,20 @@ import { Suspense, useEffect, useState } from 'react';
 import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../THREE_Interface';
 import debounce from '../ecs/helpers/debounce';
 import { useSceneState } from '../ecs/store/SceneState';
+import { Bone, Object3D } from 'three';
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
   avatar: React.RefObject<VRM>;
 }
+
+export const avatarSchema = {
+  rootBone: new Bone(),
+  ikTargets: {
+    rightArm: [] as Object3D[]
+  }
+}
+
 export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const [avatarLoaded, setAvatarLoaded] = useState(false);
   const isMobile = useSceneState().device.get({ noproxy: true }) === 'Mobile';
@@ -22,10 +31,18 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-      // 'https://cdn.glitch.me/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man.vrm?v=1714005611608',
       'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man-Compressed.vrm?v=1715274436489',
       (gltf) => {
         const vrm = gltf.userData.vrm;
+        avatarSchema.rootBone = vrm.scene.children[3].skeleton.bones[0];
+        const iks = {
+          rightArm: [
+            vrm.humanoid.humanBones.rightUpperArm.node,
+            vrm.humanoid.humanBones.rightLowerArm.node,
+            vrm.humanoid.humanBones.rightHand.node
+          ]
+        };
+        avatarSchema.ikTargets = iks;
         setAvatarModel(vrm);
         setAvatarLoaded(true);
       },

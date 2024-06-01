@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PoseSolver as Pose, HandSolver as Hand } from './solvers';
-import { rigPosition, rigRotation } from './animationHelpers';
+import { HandSolver as Hand } from './solvers';
+import { rigRotation } from './animationHelpers';
 import { VRM } from '../../THREE_Interface';
+import { avatarSchema } from '../Avatar';
+import { Quaternion, Vector3 } from 'three';
+import { MathUtils, QuaternionO, Solve3D, V3O } from 'inverse-kinematics';
 
 export const animateVRM = (
   vrm: React.RefObject<VRM>,
   results: any,
-  videoRef: React.RefObject<HTMLVideoElement>,
 ) => {
   if (!vrm.current) return;
   // Take the results from Holistic and animate character based on its Pose and Hand Keypoints.
@@ -22,42 +24,42 @@ export const animateVRM = (
   const rightHandLandmarks = results.leftHandLandmarks;
 
   // Animate Pose
-  if (pose2DLandmarks && pose3DLandmarks) {
-    riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
-      runtime: 'mediapipe',
-      video: videoRef.current,
-      enableLegs: true,
-    });
+  if (pose2DLandmarks && pose3DLandmarks && avatarSchema.rootBone) {
+    const rightArmTarget = pose3DLandmarks[15];
+    const rightArmLinks = avatarSchema.ikTargets.rightArm.map((bone) => ({
+      rotation: QuaternionO.fromObject(bone.quaternion),
+      position: V3O.fromVector3(bone.position)
+    }));
+    const rightArmBase = {
+      position: V3O.fromVector3(avatarSchema.rootBone.getWorldPosition((new Vector3()))),
+      rotation: QuaternionO.fromObject(avatarSchema.rootBone.getWorldQuaternion(new Quaternion()))
+    };
+    const knownRangeOfMovement = rightArmLinks.reduce((acc, cur) => acc + V3O.euclideanLength(cur.position), 0);
 
-    // free motion tilting:
-    // rigRotation(vrm, "hips", riggedPose!.Hips.rotation, 0.7);
+    // eslint-disable-next-line no-inner-declarations
+    function learningRate(errorDistance: number): number {
+      const relativeDistanceToTarget = MathUtils.clamp(errorDistance / knownRangeOfMovement, 0, 1)
+      const cutoff = 0.1
 
-    rigPosition(
-      vrm,
-      'Hips',
-      {
-        x: -riggedPose!.Hips.position.x, // Reverse direction
-        y: riggedPose!.Hips.position.y + 1, // Add a bit of height
-        z: -riggedPose!.Hips.position.z, // Reverse direction
-      },
-      1,
-      0.07,
-    );
+      if (relativeDistanceToTarget > cutoff) {
+        return 10e-3
+      }
 
-    rigRotation(vrm, 'chest', riggedPose!.Spine, 0.25, 0.3);
-    rigRotation(vrm, 'spine', riggedPose!.Spine, 0.45, 0.3);
+      // result is between 0 and 1
+      const remainingDistance = relativeDistanceToTarget / 0.02
+      const minimumLearningRate = 10e-4
 
-    rigRotation(vrm, 'rightUpperArm', riggedPose!.RightUpperArm, 1, 0.3);
-    rigRotation(vrm, 'rightLowerArm', riggedPose!.RightLowerArm, 1, 0.3);
-    rigRotation(vrm, 'leftUpperArm', riggedPose!.LeftUpperArm, 1, 0.3);
-    rigRotation(vrm, 'leftLowerArm', riggedPose!.LeftLowerArm, 1, 0.3);
+      return minimumLearningRate + remainingDistance * 10e-4
+    }
+    const results = Solve3D.solve(rightArmLinks, rightArmBase, rightArmTarget, {
+      learningRate,
+      acceptedError: knownRangeOfMovement / 1000,
+      method: 'FABRIK',
+    }).links
 
-    // comment out to lock the legs:
-    // rigRotation(vrm, "leftUpperLeg", riggedPose!.LeftUpperLeg, 1, .3);
-    // rigRotation(vrm, "leftLowerLeg", riggedPose!.LeftLowerLeg, 1, .3);
-    // rigRotation(vrm, "rightUpperLeg", riggedPose!.RightUpperLeg, 1, .3);
-    // rigRotation(vrm, "rightLowerLeg", riggedPose!.RightLowerLeg, 1, .3);
-  }
+    console.log('results are ', results)
+    
+}
 
   // Animate Hands
   if (leftHandLandmarks) {
