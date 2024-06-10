@@ -61,51 +61,51 @@ export const animateVRM = (
 
   // Animate Hands
   if (leftHandLandmarks) {
-    riggedLeftHand = Hand.solve(leftHandLandmarks, 'Left');
-    rigRotation(vrm, 'leftHand', {
-      // Combine pose rotation Z and hand rotation X Y
-      z: riggedPose!.LeftHand.z,
-      y: riggedLeftHand!.LeftWrist.y,
-      x: riggedLeftHand!.LeftWrist.x
-    }, 1, 0.4);
-    rigRotation(vrm, 'leftRingProximal', riggedLeftHand!.LeftRingProximal);
-    rigRotation(vrm, 'leftRingIntermediate', riggedLeftHand!.LeftRingIntermediate);
-    rigRotation(vrm, 'leftRingDistal', riggedLeftHand!.LeftRingDistal);
-    rigRotation(vrm, 'leftIndexProximal', riggedLeftHand!.LeftIndexProximal);
-    rigRotation(vrm, 'leftIndexIntermediate', riggedLeftHand!.LeftIndexIntermediate);
-    rigRotation(vrm, 'leftIndexDistal', riggedLeftHand!.LeftIndexDistal);
-    rigRotation(vrm, 'leftMiddleProximal', riggedLeftHand!.LeftMiddleProximal);
-    rigRotation(vrm, 'leftMiddleIntermediate', riggedLeftHand!.LeftMiddleIntermediate);
-    rigRotation(vrm, 'leftMiddleDistal', riggedLeftHand!.LeftMiddleDistal);
-    rigRotation(vrm, 'leftThumbProximal', riggedLeftHand!.LeftThumbProximal);
-    rigRotation(vrm, 'leftThumbIntermediate', riggedLeftHand!.LeftThumbIntermediate);
-    rigRotation(vrm, 'leftThumbDistal', riggedLeftHand!.LeftThumbDistal);
-    rigRotation(vrm, 'leftLittleProximal', riggedLeftHand!.LeftLittleProximal);
-    rigRotation(vrm, 'leftLittleIntermediate', riggedLeftHand!.LeftLittleIntermediate);
-    rigRotation(vrm, 'leftLittleDistal', riggedLeftHand!.LeftLittleDistal);
+    // riggedLeftHand = Hand.solve(leftHandLandmarks, 'Left');
+    // rigRotation(vrm, 'leftHand', {
+    //   // Combine pose rotation Z and hand rotation X Y
+    //   z: riggedPose!.LeftHand.z,
+    //   y: riggedLeftHand!.LeftWrist.y,
+    //   x: riggedLeftHand!.LeftWrist.x
+    // }, 1, 0.4);
+    // rigRotation(vrm, 'leftRingProximal', riggedLeftHand!.LeftRingProximal);
+    // rigRotation(vrm, 'leftRingIntermediate', riggedLeftHand!.LeftRingIntermediate);
+    // rigRotation(vrm, 'leftRingDistal', riggedLeftHand!.LeftRingDistal);
+    // rigRotation(vrm, 'leftIndexProximal', riggedLeftHand!.LeftIndexProximal);
+    // rigRotation(vrm, 'leftIndexIntermediate', riggedLeftHand!.LeftIndexIntermediate);
+    // rigRotation(vrm, 'leftIndexDistal', riggedLeftHand!.LeftIndexDistal);
+    // rigRotation(vrm, 'leftMiddleProximal', riggedLeftHand!.LeftMiddleProximal);
+    // rigRotation(vrm, 'leftMiddleIntermediate', riggedLeftHand!.LeftMiddleIntermediate);
+    // rigRotation(vrm, 'leftMiddleDistal', riggedLeftHand!.LeftMiddleDistal);
+    // rigRotation(vrm, 'leftThumbProximal', riggedLeftHand!.LeftThumbProximal);
+    // rigRotation(vrm, 'leftThumbIntermediate', riggedLeftHand!.LeftThumbIntermediate);
+    // rigRotation(vrm, 'leftThumbDistal', riggedLeftHand!.LeftThumbDistal);
+    // rigRotation(vrm, 'leftLittleProximal', riggedLeftHand!.LeftLittleProximal);
+    // rigRotation(vrm, 'leftLittleIntermediate', riggedLeftHand!.LeftLittleIntermediate);
+    // rigRotation(vrm, 'leftLittleDistal', riggedLeftHand!.LeftLittleDistal);
   }
   if (rightHandLandmarks) {
-    riggedRightHand = Hand.solve(rightHandLandmarks, 'Right');
-    rigRotation(vrm, 'rightHand', {
-      // Combine Z axis from pose hand and X/Y axis from hand wrist rotation
-      z: riggedPose!.RightHand.z,
-      y: riggedRightHand!.RightWrist.y,
-      x: riggedRightHand!.RightWrist.x
-    }, 1, 0.4);
-    rigRotation(vrm, 'rightRingProximal', riggedRightHand!.RightRingProximal);
-    rigRotation(vrm, 'rightRingIntermediate', riggedRightHand!.RightRingIntermediate);
-    rigRotation(vrm, 'rightRingDistal', riggedRightHand!.RightRingDistal);
-    rigRotation(vrm, 'rightIndexProximal', riggedRightHand!.RightIndexProximal);
-    rigRotation(vrm, 'rightIndexIntermediate',riggedRightHand!.RightIndexIntermediate);
-    rigRotation(vrm, 'rightIndexDistal', riggedRightHand!.RightIndexDistal);
-    rigRotation(vrm, 'rightMiddleProximal', riggedRightHand!.RightMiddleProximal);
-    rigRotation(vrm, 'rightMiddleIntermediate', riggedRightHand!.RightMiddleIntermediate);
-    rigRotation(vrm, 'rightMiddleDistal', riggedRightHand!.RightMiddleDistal);
-    rigRotation(vrm, 'rightThumbProximal', riggedRightHand!.RightThumbProximal);
-    rigRotation(vrm, 'rightThumbIntermediate', riggedRightHand!.RightThumbIntermediate);
-    rigRotation(vrm, 'rightThumbDistal', riggedRightHand!.RightThumbDistal);
-    rigRotation(vrm, 'rightLittleProximal', riggedRightHand!.RightLittleProximal);
-    rigRotation(vrm, 'rightLittleIntermediate', riggedRightHand!.RightLittleIntermediate);
-    rigRotation(vrm, 'rightLittleDistal', riggedRightHand!.RightLittleDistal);
+    // riggedRightHand = Hand.solve(rightHandLandmarks, 'Right');
+    // rigRotation(vrm, 'rightHand', {
+    //   // Combine Z axis from pose hand and X/Y axis from hand wrist rotation
+    //   z: riggedPose!.RightHand.z,
+    //   y: riggedRightHand!.RightWrist.y,
+    //   x: riggedRightHand!.RightWrist.x
+    // }, 1, 0.4);
+    // rigRotation(vrm, 'rightRingProximal', riggedRightHand!.RightRingProximal);
+    // rigRotation(vrm, 'rightRingIntermediate', riggedRightHand!.RightRingIntermediate);
+    // rigRotation(vrm, 'rightRingDistal', riggedRightHand!.RightRingDistal);
+    // rigRotation(vrm, 'rightIndexProximal', riggedRightHand!.RightIndexProximal);
+    // rigRotation(vrm, 'rightIndexIntermediate',riggedRightHand!.RightIndexIntermediate);
+    // rigRotation(vrm, 'rightIndexDistal', riggedRightHand!.RightIndexDistal);
+    // rigRotation(vrm, 'rightMiddleProximal', riggedRightHand!.RightMiddleProximal);
+    // rigRotation(vrm, 'rightMiddleIntermediate', riggedRightHand!.RightMiddleIntermediate);
+    // rigRotation(vrm, 'rightMiddleDistal', riggedRightHand!.RightMiddleDistal);
+    // rigRotation(vrm, 'rightThumbProximal', riggedRightHand!.RightThumbProximal);
+    // rigRotation(vrm, 'rightThumbIntermediate', riggedRightHand!.RightThumbIntermediate);
+    // rigRotation(vrm, 'rightThumbDistal', riggedRightHand!.RightThumbDistal);
+    // rigRotation(vrm, 'rightLittleProximal', riggedRightHand!.RightLittleProximal);
+    // rigRotation(vrm, 'rightLittleIntermediate', riggedRightHand!.RightLittleIntermediate);
+    // rigRotation(vrm, 'rightLittleDistal', riggedRightHand!.RightLittleDistal);
   }
 };
