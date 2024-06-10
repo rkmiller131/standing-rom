@@ -68,9 +68,9 @@ export default function App() {
             <Physics gravity={[0, 0, 0]}>
                 <Bubble position={[0.5, 1.2, 0.3]} />
                 <RightHandCollider avatar={avatar} />
+                <GameLogic avatar={avatar} />
             </Physics>
 
-            <GameLogic avatar={avatar} />
           </Renderer>
         </div>
       </Suspense>

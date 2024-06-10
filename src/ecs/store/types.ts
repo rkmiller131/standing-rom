@@ -2,11 +2,11 @@ export interface OpaqueType<T extends string> {
   readonly __opaqueType: T;
 }
 
-export type EntityId = OpaqueType<'entity'> & number;
+export type EntityUUID = OpaqueType<'Entity'> & number;
 
 export type SetType = {
   sideSpawned: 'right' | 'left' | 'frontR' | 'frontL' | 'crossR' | 'crossL';
-  bubbleEntities: Array<EntityId | null | undefined>;
+  bubbleEntities: Array<EntityUUID | null | undefined>;
   inPlay: boolean;
 };
 

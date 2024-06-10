@@ -14,6 +14,8 @@ export default function GameInfo() {
     avgVelocity: '0',
   });
 
+  console.log('game state is !', gameState)
+
   useEffect(() => {
     if (sceneState.sceneLoaded.get({ noproxy: true })) {
       setGameInfo({
