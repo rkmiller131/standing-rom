@@ -1,4 +1,5 @@
 import { VRM } from '../../../interfaces/THREE_Interface';
+import { useGameState } from '../store/GameState';
 import RenderLoop from './RenderLoop';
 
 interface GameLogicProps {
@@ -6,6 +7,13 @@ interface GameLogicProps {
 }
 
 export default function GameLogic({ avatar }: GameLogicProps) {
+  const gameState = useGameState();
+
+  async function startTheGame() {
+    await gameState.startGame();
+  }
+
+  console.log('game logic component is rendering')
   // any side effects that need to happen, render here in a useEffect
   // if you need to listen to any ecs onEntityAdded or whatever changes, probably here too
 
