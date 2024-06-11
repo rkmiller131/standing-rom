@@ -11,7 +11,6 @@ import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
 import { Physics } from '../interfaces/CANNON_Interface';
-import Bubble from './DEMO/Bubble';
 import RightHandCollider from './DEMO/rightHandCollider';
 
 import './css/App.css';
@@ -45,6 +44,7 @@ export default function App() {
     ) {
       sceneState.sceneLoaded.set(true);
     }
+    // renderBubbles();
   }, [holisticLoaded, sceneState.sceneLoaded, sceneState.environmentLoaded]);
 
   return (
@@ -66,7 +66,8 @@ export default function App() {
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
 
             <Physics gravity={[0, 0, 0]}>
-                <Bubble position={[0.5, 1.2, 0.3]} />
+                {/* <Bubble position={[0.5, 1.2, 0.3]} /> */}
+                {/* {bubbles.map((_bubble, i) => <Bubble position={[0.4, 1  + i/4, 0.3]} key={i}/>)} */}
                 <RightHandCollider avatar={avatar} />
                 <GameLogic avatar={avatar} />
             </Physics>
