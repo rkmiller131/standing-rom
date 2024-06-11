@@ -32,7 +32,6 @@ export default function GameLogic({ avatar }: GameLogicProps) {
   return (
     <>
       <Bubbles bubbles={bubbles} />
-      {/* {bubbles.map((_bubble, i) => <Bubble position={[0.4, 1  + i/4, 0.3]} key={i}/>)} */}
       {gameStarted && <RenderLoop avatar={avatar} renderBubbles={renderBubbles}/>}
     </>
   )
