@@ -3,6 +3,7 @@ import { Box3, Vector3 } from 'three';
 
 interface AvatarProportions {
   avatarHeight: number;
+  shoulderHeight: number;
   eyeHeight: number;
   handHeight: number;
   hipsHeight: number;
@@ -13,6 +14,7 @@ interface AvatarProportions {
   lowerLegLength: number;
   footGap: number;
 
+  avatarPos: Vector3;
   hipsPos: Vector3;
   headPos: Vector3;
   leftFootPos: Vector3;
@@ -22,6 +24,7 @@ interface AvatarProportions {
   rightLowerLegPos: Vector3;
   rightUpperLegPos: Vector3;
   eyePos: Vector3;
+  spinePos: Vector3;
 }
 
 export const avatarProportions: AvatarProportions = {} as AvatarProportions;
@@ -49,6 +52,7 @@ export function setupAvatarProportions(vrm: VRM): AvatarProportions {
 
   // get the vector 3 positions of major body parts
   const rawRig = vrm.humanoid.humanBones;
+  avatarProportions.avatarPos = vrm.scene.position;
   avatarProportions.hipsPos = rawRig.hips.node.getWorldPosition(hipsPos);
   avatarProportions.headPos = rawRig.head.node.getWorldPosition(headPos);
   avatarProportions.eyePos = rawRig.leftEye ? rawRig.leftEye.node.getWorldPosition(eyePos) : eyePos.copy(avatarProportions.headPos).setY(avatarProportions.headPos.y + 0.1); // fallback to rough estimation if no eye bone is present
@@ -56,9 +60,11 @@ export function setupAvatarProportions(vrm: VRM): AvatarProportions {
   avatarProportions.rightFootPos = rawRig.rightFoot.node.getWorldPosition(rightFootPos);
   avatarProportions.leftLowerLegPos = rawRig.leftLowerLeg.node.getWorldPosition(leftLowerLegPos);
   avatarProportions.leftUpperLegPos = rawRig.leftUpperLeg.node.getWorldPosition(leftUpperLegPos);
+  avatarProportions.spinePos = vrm.scene.position.clone().setY(avatarProportions.avatarHeight * 0.75);
 
   // calculate lengths and heights based on positions
   avatarProportions.avatarHeight = size.y;
+  avatarProportions.shoulderHeight = avatarProportions.avatarHeight - (0.5 * avatarProportions.torsoLength);
   avatarProportions.eyeHeight = avatarProportions.eyePos.y;
   avatarProportions.handHeight = avatarProportions.eyeHeight - 0.5 * avatarProportions.avatarHeight;
   avatarProportions.hipsHeight = avatarProportions.hipsPos.y;
