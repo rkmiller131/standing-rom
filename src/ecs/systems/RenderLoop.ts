@@ -8,26 +8,29 @@ import { useSceneState } from '../store/SceneState';
 import { avatarProportions } from '../../avatar/helpers/setupAvatarProportions';
 import { calculateLinearCoordinates } from '../helpers/calculateLinearCoordinates';
 import { calculateArcCoordinates } from '../helpers/calculateArcCoordinates';
+import { ECS } from '../World';
 
 interface RenderLoopProps {
   avatar: React.RefObject<VRM>;
 }
 
 let gameEnded = false;
+const leftHandPosition = new Vector3();
+const rightHandPosition = new Vector3();
 
-const leftHandPosition = new Vector3(-0.5 * avatarProportions.armLength, avatarProportions.handHeight, 0);
-const rightHandPosition = new Vector3(0.5 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+const leftHandFrontPos = new Vector3();
+const rightHandFrontPos = new Vector3();
 
-const leftHandFrontPos = new Vector3(-0.3 * avatarProportions.armLength, avatarProportions.handHeight, 0);
-const rightHandFrontPos = new Vector3(0.3 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+const leftShoulderPosition = new Vector3();
+const rightShoulderPosition = new Vector3();
 
-const leftShoulderPosition = new Vector3(-0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0);
-const rightShoulderPosition = new Vector3(0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0);
 
 export default function RenderLoop({ avatar }: RenderLoopProps) {
   const clock = useRef(new Clock());
   const gameState = useGameState();
   const sceneState = useSceneState();
+  // const [activeBubble, setActiveBubble] = useState(null);
+
   console.log('render loop has started')
 
   useFrame(() => {
@@ -82,11 +85,21 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
           const spawnSide = levels[0].sideSpawned;
           let startPosition;
           let spawnPos;
-          const startAngle = 0.45; // about 25 deg to compensate for the armpit angle
-          const endAngle = Math.PI - 0.45;
+          const startAngle = 0; // about 18 deg to compensate for the starting arm angle
+          const endAngle = Math.PI - 0.75;
           const midAngle = (endAngle - startAngle) / 2;
           const angleIncrement = (endAngle - startAngle) / (numTargets - 1);
-          const spinePos = avatar.current!.scene.position.clone().setY(avatarProportions.avatarHeight * 0.75);
+          const spinePos = avatar.current!.scene.position.clone().setY(avatarProportions.avatarHeight * 0.65);
+
+          // positions to spawn bubbles slightly away from the avatar's body but within arm's length
+          leftHandPosition.set(-0.5 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+          rightHandPosition.set(0.4 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+
+          leftHandFrontPos.set(-0.3 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+          rightHandFrontPos.set(0.3 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+
+          leftShoulderPosition.set(-0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0);
+          rightShoulderPosition.set(0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0);
 
           // Now spawn all the reps (bubbles) in that set
           for (let i = 0; i < numTargets; i++) {
@@ -123,6 +136,13 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
 
             // now use the spawnPos to add a bubble to the ECS.world.add({ bubble: ... })
             console.log('spawn pos is ', spawnPos);
+            ECS.world.add({
+              bubble: {
+                age: 0,
+                spawnPosition: spawnPos,
+                active: false
+              }
+            })
             // console.log('spine position is ', avatarProportions.spinePos)
           }
         } else {

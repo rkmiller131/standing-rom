@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactNode, useEffect, useRef } from 'react'
-import { ECS, Entity, world } from '../World'
+import { ECS, Entity } from '../World'
 
 // FROM: https://github.com/hmans/miniplex/blob/f40b96cd702148b0c23a9c1e141ae0fd615ac6fc/packages/react/src/createReactAPI.tsx#L122-L156
 export const ForkedECSComponent = (props: {
@@ -20,8 +20,8 @@ export const ForkedECSComponent = (props: {
   /* Handle creation and removal of component with a value prop */
   useEffect(() => {
     // changed from useLayoutEffect to useEffect
-    world.addComponent(entity, props.name, props.data || ref.current)
-    return () => world.removeComponent(entity, props.name)
+    ECS.world.addComponent(entity, props.name, props.data || ref.current)
+    return () => ECS.world.removeComponent(entity, props.name)
   }, [entity, props.name])
 
   /* Handle updates to existing component */

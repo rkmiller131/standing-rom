@@ -2,7 +2,7 @@ import { CollideBeginEvent, CollideEndEvent, CollideEvent, useSphere } from '@re
 import { forwardRef } from 'react';
 import { Object3D } from 'three';
 
-interface ColliderComponent {
+export type SphereColliderComponent = {
   position: [number, number, number];
   type?: 'Kinematic' | 'Dynamic' | 'Static';
   onCollide?: (event: CollideEvent) => void;
@@ -10,13 +10,14 @@ interface ColliderComponent {
   onCollideEnd?: (event: CollideEndEvent) => void;
 }
 
-const SphereCollider = forwardRef<Object3D, Omit<ColliderComponent, 'ref'>>(({
+const SphereCollider = forwardRef<Object3D, Omit<SphereColliderComponent, 'ref'>>(({
   position,
   onCollide,
   onCollideBegin,
   onCollideEnd,
   type = 'Dynamic'
 }, ref) => {
+  
   useSphere(() => ({
     position,
     onCollide,
@@ -30,6 +31,4 @@ const SphereCollider = forwardRef<Object3D, Omit<ColliderComponent, 'ref'>>(({
 });
 
 export default SphereCollider;
-export type { ColliderComponent };
-
 
