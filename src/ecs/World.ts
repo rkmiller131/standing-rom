@@ -1,19 +1,22 @@
 import { World } from 'miniplex';
 import createReactAPI from 'miniplex-react';
-import { SphereColliderComponent } from './components/sphereCollider';
+import { Vector3 } from 'three';
 import { SceneObjectComponent } from './components/sceneObject';
-import { BubbleComponent } from './components/bubble';
+import { SphereColliderComponent } from './components/sphereCollider';
 
-/* Create a list of components, perhaps some required, some optional, to exist in our world */
-// type RequiredComponents = ??
-  // ??
+type WorldEntities = {
+  bubble: {
+      age: number;
+      spawnPosition: Vector3;
+      active: boolean;
+  }
+}
 
-type OptionalComponents = BubbleComponent &
-  SphereColliderComponent &
-  SceneObjectComponent
+type OptionalComponents = SceneObjectComponent &
+  SphereColliderComponent
 
 // export type Entity = RequiredComponents & Partial<OptionalComponents & BubbleTag>
-export type Entity = Partial<OptionalComponents>;
+export type Entity = Partial<WorldEntities & OptionalComponents>;
 
 /* Create a Miniplex world that holds our entities */
 const world = new World<Entity>();

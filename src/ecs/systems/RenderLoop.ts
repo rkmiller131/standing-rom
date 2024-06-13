@@ -85,15 +85,14 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
           const spawnSide = levels[0].sideSpawned;
           let startPosition;
           let spawnPos;
-          const startAngle = 0; // about 18 deg to compensate for the starting arm angle
-          const endAngle = Math.PI - 0.75;
+          const startAngle = 0.31; // about 18 deg to compensate for the starting arm angle
+          const endAngle = Math.PI - 0.75; // end over top the head, not too far over
           const midAngle = (endAngle - startAngle) / 2;
           const angleIncrement = (endAngle - startAngle) / (numTargets - 1);
-          const spinePos = avatar.current!.scene.position.clone().setY(avatarProportions.avatarHeight * 0.65);
 
           // positions to spawn bubbles slightly away from the avatar's body but within arm's length
-          leftHandPosition.set(-0.5 * avatarProportions.armLength, avatarProportions.handHeight, 0);
-          rightHandPosition.set(0.4 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+          leftHandPosition.set(-0.35 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+          rightHandPosition.set(0.35 * avatarProportions.armLength, avatarProportions.handHeight, 0);
 
           leftHandFrontPos.set(-0.3 * avatarProportions.armLength, avatarProportions.handHeight, 0);
           rightHandFrontPos.set(0.3 * avatarProportions.armLength, avatarProportions.handHeight, 0);
@@ -131,11 +130,10 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
               spawnPos = calculateLinearCoordinates(startPosition!, endPosition, numTargets, i);
 
             } else {
-              spawnPos = calculateArcCoordinates(spinePos, spawnSide, startPosition!, angle);
+              spawnPos = calculateArcCoordinates(avatarProportions.spinePos, spawnSide, startPosition!, angle);
             }
 
             // now use the spawnPos to add a bubble to the ECS.world.add({ bubble: ... })
-            console.log('spawn pos is ', spawnPos);
             ECS.world.add({
               bubble: {
                 age: 0,
@@ -143,7 +141,6 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
                 active: false
               }
             })
-            // console.log('spine position is ', avatarProportions.spinePos)
           }
         } else {
           // // if the first set is already in play, then we need to check if the first bubble is present.
