@@ -2,7 +2,7 @@ import { World } from 'miniplex';
 import createReactAPI from 'miniplex-react';
 import { Vector3 } from 'three';
 import { SceneObjectComponent } from './components/sceneObject';
-import { SphereColliderComponent } from './components/sphereCollider';
+import { SphereColliderComponent } from './components/SphereCollider';
 
 type WorldEntities = {
   bubble: {

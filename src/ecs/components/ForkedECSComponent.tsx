@@ -33,6 +33,9 @@ export const ForkedECSComponent = (props: {
 
   /* Handle setting of child value */
   if (props.children) {
+    // When ForkedECSComponent receives children, it uses React.Children.only to ensure there's only one child
+    // then it clones this child, merging its ref with the local ref in ForkedECSComponent using mergeRefs.
+    // This means that the ref from the child is combined with the local ref of ForkedECSComponent
     const child = React.Children.only(props.children) as any
 
     return React.cloneElement(child, {
@@ -44,6 +47,9 @@ export const ForkedECSComponent = (props: {
 }
 
 // FROM: https://github.com/hmans/miniplex/blob/f40b96cd702148b0c23a9c1e141ae0fd615ac6fc/packages/react/src/lib/mergeRefs.ts#L3C1-L10C4
+// combines multiple ref callbacks into a single callback - useful when you want to attach a ref to a component that may
+// already have a ref attached to it. Iterates over the array of ref callbacks and calls each one with the same value, ensuring all
+// refs are updated with the latest value.
 export const mergeRefs =
   (refs: Array<React.Ref<any>>): React.Ref<any> =>
   (v: any) => {

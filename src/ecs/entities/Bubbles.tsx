@@ -1,6 +1,8 @@
 import { ECS } from '../World';
 import { useEntities } from 'miniplex-react';
 import BubbleEntity from './BubbleEntity';
+// import { ForkedECSComponent } from '../components/ForkedECSComponent';
+// import Bubble from '../../DEMO/Bubble2';
 
 // interface BubbleEntityProps {
 //   position?: [number, number, number]
@@ -14,15 +16,21 @@ export const Bubbles = () => {
   return (
     <>
       <ECS.Entities in={entities}>
-        {(eBubble) => {
+        {(e) => {
           // console.log('eBubble is ', eBubble);
           return (
-            <BubbleEntity 
-              entity={eBubble} 
-              position={eBubble.bubble.spawnPosition} 
-              active={eBubble.bubble.active}
+            <BubbleEntity
+              entity={e}
+              position={e.bubble.spawnPosition}
+              active={e.bubble.active}
             />
           )
+          // const arrPos: [number, number, number] = [e.bubble.spawnPosition.x, e.bubble.spawnPosition.y, e.bubble.spawnPosition.z]
+          // return (
+          //   <ForkedECSComponent name="sceneObject">
+          //     <Bubble position={arrPos} />
+          //   </ForkedECSComponent>
+          // )
         }}
       </ECS.Entities>
     </>

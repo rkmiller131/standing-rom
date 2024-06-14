@@ -11,7 +11,7 @@ import checkUserDevice from './ecs/helpers/checkUserDevice';
 import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
-import { Physics } from '../interfaces/CANNON_Interface';
+import { Debug, Physics } from '../interfaces/CANNON_Interface';
 // import Bubble from './DEMO/Bubble';
 import RightHandCollider from './DEMO/rightHandCollider';
 
@@ -72,9 +72,11 @@ export default function App() {
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
 
             <Physics gravity={[0, 0, 0]}>
+              <Debug color="blue">
                 {/* <Bubble position={[0.5, 1.2, 0.3]} /> */}
                 <Bubbles />
                 <RightHandCollider avatar={avatar} />
+              </Debug>
             </Physics>
 
             <GameLogic avatar={avatar} />
