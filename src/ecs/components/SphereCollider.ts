@@ -1,10 +1,10 @@
 import { CollideBeginEvent, CollideEndEvent, CollideEvent, PublicApi, useSphere } from '@react-three/cannon';
 import { useEffect } from 'react';
-import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap } from 'three';
+import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
 
 export type SphereColliderComponent = {
   onAttachRefs: (ref: React.RefObject<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>, api: PublicApi) => void;
-  position: [number, number, number];
+  position: Vector3;
   type?: 'Kinematic' | 'Dynamic' | 'Static';
   onCollide?: (event: CollideEvent) => void;
   onCollideBegin?: ((event: CollideBeginEvent) => void) | null | undefined;
@@ -21,7 +21,7 @@ export default function SphereCollider({
   }: SphereColliderComponent
 ) {
   const [ref, api] = useSphere(() => ({
-    position: [...position],
+    position: [position.x, position.y, position.z],
     onCollide,
     onCollideBegin: onCollideBegin ? onCollideBegin : () => {},
     onCollideEnd,

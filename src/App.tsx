@@ -73,7 +73,6 @@ export default function App() {
 
             <Physics gravity={[0, 0, 0]}>
               <Debug color="blue">
-                {/* <Bubble position={[0.5, 1.2, 0.3]} /> */}
                 <Bubbles />
                 <RightHandCollider avatar={avatar} />
               </Debug>

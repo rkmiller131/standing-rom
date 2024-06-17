@@ -1,9 +1,10 @@
-import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Sphere } from '@react-three/drei';
 import { Depth, Fresnel, LayerMaterial } from 'lamina';
 import SphereCollider from '../ecs/components/SphereCollider';
 import { PublicApi } from '@react-three/cannon';
-import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap } from 'three';
+import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
+import BubbleParticles from './Particles';
 
 // Bubble is wrapped in ECS.Component, which implicitly "fowards" a ref to the Bubble component
 // forwardRef allows this parent to pass a ref directly to this child, as denoted by the child declaring
@@ -16,19 +17,21 @@ import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMa
 // Note - if ever adapted to React 19, this forwarding ref pattern will be obsolete
 
 interface BubbleProps {
-  position: [number, number, number]
+  position: Vector3;
+  active: boolean;
 }
 
-const Bubble = forwardRef(({ position }: BubbleProps, ref) => {
+const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
   const colliderRef =  useRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null>(null);
   const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
+  const [bubblePopped, setBubblePopped] = useState(false);
 
   // if bubble is active, set a custom ref. otherwise just return the original ref
   // useImperativeHandle(ref, () => ({
   //   sphereCollider: colliderRef.current,
   //   physicsApi
   // }), [physicsApi, colliderRef])
-  useImperativeHandle(ref, () => (colliderRef), [colliderRef]);
+  // useImperativeHandle(ref, () => (colliderRef), [colliderRef]);
 
   const attachRefs = (physicsRef: React.RefObject<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null>, colliderApi: PublicApi) => {
     if (physicsRef && physicsRef.current) {
@@ -39,46 +42,66 @@ const Bubble = forwardRef(({ position }: BubbleProps, ref) => {
     }
   }
 
-  const onCollideBegin = useCallback(() => {
-    setPhysicsApi((physicsApiValue) => {
-      // need to extract from the setState, otherwise value is stale
-      if (physicsApiValue) {
-        physicsApiValue.position.set(10, 10, 10);
-      }
-      return physicsApiValue;
-    })
-  }, []);
-  console.log('the colliderRef reference is ', colliderRef)
+  useEffect(() => {
+    if (bubblePopped && physicsApi) {
+      physicsApi.position.set(10, 10, 10)
+    }
+  }, [bubblePopped, physicsApi])
+
+  const onCollideBegin = () => {
+    // setPhysicsApi((physicsApiValue) => {
+    //   // need to extract from the setState, otherwise value is stale
+    //   if (physicsApiValue) {
+    //     physicsApiValue.position.set(10, 10, 10);
+    //   }
+    //   return physicsApiValue;
+    // });
+    setBubblePopped(true);
+  };
 
   return (
     <>
-      <group {...position}>
-        <Sphere castShadow ref={colliderRef} args={[0.07, 8, 8]}>
-          <LayerMaterial
-            color={'#ffffff'}
-            lighting={'physical'}
-            transmission={1}
-            roughness={0.1}
-            thickness={2}
-          >
-            <Depth
-              near={0.4854}
-              far={0.7661999999999932}
-              origin={[-0.4920000000000004, 0.4250000000000003, 0]}
-              colorA={'#fec5da'}
-              colorB={'#00b8fe'}
-            />
-            <Fresnel
-              color={'#fefefe'}
-              bias={-0.3430000000000002}
-              intensity={3.8999999999999946}
-              power={3.3699999999999903}
-              factor={1.119999999999999}
-              mode={'screen'}
-            />
-          </LayerMaterial>
-        </Sphere>
-      </group>
+      {bubblePopped ? (
+        <BubbleParticles
+          position={[position.x, position.y + 0.1, position.z]}
+          radius={0.1}
+          count={100}
+        />
+      ) : (
+        <mesh position={position}>
+          <Sphere castShadow ref={ref} args={[0.07, 8, 8]}>
+            <LayerMaterial
+              color={'#ffffff'}
+              lighting={'physical'}
+              transmission={1}
+              roughness={0.1}
+              thickness={2}
+            >
+              <Depth
+                near={0.4854}
+                far={0.7661999999999932}
+                origin={[-0.4920000000000004, 0.4250000000000003, 0]}
+                // green active, regular bubble color not active
+                colorA={active ? '#9effb1' : '#fec5da'}
+                colorB={active ? '#04781a' : '#00b8fe'}
+              />
+              <Fresnel
+                color={'#fefefe'}
+                bias={-0.3430000000000002}
+                intensity={1}
+                power={3.3699999999999903}
+                factor={1.119999999999999}
+                mode={'screen'}
+              />
+            </LayerMaterial>
+          </Sphere>
+        </mesh>
+      )}
+      {active && <SphereCollider
+        onAttachRefs={attachRefs}
+        position={position}
+        onCollideBegin={onCollideBegin}
+      />}
       <SphereCollider
         onAttachRefs={attachRefs}
         position={position}

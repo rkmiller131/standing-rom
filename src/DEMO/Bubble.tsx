@@ -3,7 +3,7 @@ import { Sphere } from '@react-three/drei';
 import { Depth, Fresnel, LayerMaterial } from 'lamina';
 import { useRef, useState } from 'react';
 import { Mesh, Points } from 'three';
-import CustomGeometryParticles from './Particles';
+import BubbleParticles from './Particles';
 
 export default function Bubble({ position }: { position: [number, number, number] }) {
   const particleSystemRef = useRef<Points | null>(null);
@@ -61,11 +61,10 @@ export default function Bubble({ position }: { position: [number, number, number
           </Sphere>
         </group>
       ) : (
-        <CustomGeometryParticles
+        <BubbleParticles
           position={[0.5, 1.2, 0.3]}
           radius={1}
           count={2000}
-          isActive={hasCollided}
         />
       )}
     </>

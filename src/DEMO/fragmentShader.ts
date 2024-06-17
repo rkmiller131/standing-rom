@@ -7,7 +7,7 @@ void main() {
   float decaySpeed = 3.14;
   float timeFactor = clamp(uTime / decaySpeed, 0.0, 1.0);
   float timeModulatedOpacity = mix(uOpacity, 0.0, timeFactor);
-  
+
   gl_FragColor = vec4(1, 1, 1, timeModulatedOpacity);
 }
 `;
