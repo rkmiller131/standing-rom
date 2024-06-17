@@ -12,14 +12,13 @@ interface BubbleEntityProps {
 const BubbleEntity = ({ active, position, entity }: BubbleEntityProps) => {
     const arrPos: [number, number, number] = [position.x, position.y, position.z]
     // console.log('position is ', position)
-    console.log('active is ', active)
+    // console.log('active is ', active)
 
     return (
         <ECS.Entity entity={entity}>
             <ForkedECSComponent name="sceneObject">
                 <Bubble position={arrPos} />
             </ForkedECSComponent>
-            {/* {active && <ForkedECSComponent name="collider" />} */}
         </ECS.Entity>
     )
 }

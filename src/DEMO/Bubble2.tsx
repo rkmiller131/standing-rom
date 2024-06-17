@@ -1,8 +1,8 @@
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import { Sphere } from '@react-three/drei';
 import { Depth, Fresnel, LayerMaterial } from 'lamina';
 import SphereCollider from '../ecs/components/SphereCollider';
-import { CollideBeginEvent, PublicApi } from '@react-three/cannon';
+import { PublicApi } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap } from 'three';
 
 // Bubble is wrapped in ECS.Component, which implicitly "fowards" a ref to the Bubble component
@@ -13,7 +13,7 @@ import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMa
 // The Bubble component who receives this ref then passes it to SphereCollider via the onAttachRefs callback, which allows the collider
 // to attach the physics api to the ref, linking the visual mesh with the physics simulation.
 
-// Note - if ever adapted to React 19, this forwarding ref will be obsolete
+// Note - if ever adapted to React 19, this forwarding ref pattern will be obsolete
 
 interface BubbleProps {
   position: [number, number, number]
@@ -23,40 +23,32 @@ const Bubble = forwardRef(({ position }: BubbleProps, ref) => {
   const colliderRef =  useRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null>(null);
   const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
 
-  useImperativeHandle(ref, () => ({
-    sphereCollider: colliderRef.current,
-    physicsApi
-  }), [physicsApi])
+  // if bubble is active, set a custom ref. otherwise just return the original ref
+  // useImperativeHandle(ref, () => ({
+  //   sphereCollider: colliderRef.current,
+  //   physicsApi
+  // }), [physicsApi, colliderRef])
+  useImperativeHandle(ref, () => (colliderRef), [colliderRef]);
 
   const attachRefs = (physicsRef: React.RefObject<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null>, colliderApi: PublicApi) => {
     if (physicsRef && physicsRef.current) {
-      // console.log('physics ref is ', physicsRef)
       colliderRef.current! = physicsRef.current;
     }
     if (colliderApi) {
-      // console.log('collider api is ', colliderApi)
       setPhysicsApi(colliderApi);
     }
   }
 
   const onCollideBegin = useCallback(() => {
-    if (physicsApi) {
-      // can't destroy collider, so just move it far away
-      physicsApi.position.set(10, 10, 10);
-    }
-  }, [physicsApi])
-
-  // const handleCollideBegin = (_ref: Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null, api: PublicApi) => {
-  //   // can't destroy collider, so just move it far away
-  //   api.position.set(10, 10, 10);
-
-  // }
-
-  // useEffect(() => {
-  //   if (typeof ref !== 'function') {
-  //     colliderRef.current = ref!.current;
-  //   }
-  // }, [ref])
+    setPhysicsApi((physicsApiValue) => {
+      // need to extract from the setState, otherwise value is stale
+      if (physicsApiValue) {
+        physicsApiValue.position.set(10, 10, 10);
+      }
+      return physicsApiValue;
+    })
+  }, []);
+  console.log('the colliderRef reference is ', colliderRef)
 
   return (
     <>

@@ -29,13 +29,16 @@ export default function SphereCollider({
     type,
   }));
 
+  console.log('sphere collider rendered')
+
   useEffect(() => {
     if (onAttachRefs) {
       onAttachRefs(ref as React.RefObject<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>, api);
     }
-  }, [api, onAttachRefs, ref]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  return null; // Returns null because the ref intended for the visual mesh is passed through the callback
+  return null; // Returns null because the ref intended for the visual mesh is passed through the onAttachRefs callback
 }
 
 
