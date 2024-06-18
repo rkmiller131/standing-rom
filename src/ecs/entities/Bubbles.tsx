@@ -25,12 +25,6 @@ export const Bubbles = () => {
               active={e.bubble.active}
             />
           )
-          // const arrPos: [number, number, number] = [e.bubble.spawnPosition.x, e.bubble.spawnPosition.y, e.bubble.spawnPosition.z]
-          // return (
-          //   <ForkedECSComponent name="sceneObject">
-          //     <Bubble position={arrPos} />
-          //   </ForkedECSComponent>
-          // )
         }}
       </ECS.Entities>
     </>

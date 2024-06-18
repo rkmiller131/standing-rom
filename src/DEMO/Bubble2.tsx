@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Sphere } from '@react-three/drei';
 import { Depth, Fresnel, LayerMaterial } from 'lamina';
 import SphereCollider from '../ecs/components/SphereCollider';
@@ -21,17 +21,15 @@ interface BubbleProps {
   active: boolean;
 }
 
+// FUTURE TODOS FOR POLISH
+// add sound when bubble pops
+
 const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
   const colliderRef =  useRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null>(null);
   const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
   const [bubblePopped, setBubblePopped] = useState(false);
 
-  // if bubble is active, set a custom ref. otherwise just return the original ref
-  // useImperativeHandle(ref, () => ({
-  //   sphereCollider: colliderRef.current,
-  //   physicsApi
-  // }), [physicsApi, colliderRef])
-  // useImperativeHandle(ref, () => (colliderRef), [colliderRef]);
+  useImperativeHandle(ref, () => (colliderRef), [colliderRef]);
 
   const attachRefs = (physicsRef: React.RefObject<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null>, colliderApi: PublicApi) => {
     if (physicsRef && physicsRef.current) {
@@ -44,18 +42,12 @@ const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
 
   useEffect(() => {
     if (bubblePopped && physicsApi) {
+      // can't destroy cannon collider, so just move it far away
       physicsApi.position.set(10, 10, 10)
     }
   }, [bubblePopped, physicsApi])
 
   const onCollideBegin = () => {
-    // setPhysicsApi((physicsApiValue) => {
-    //   // need to extract from the setState, otherwise value is stale
-    //   if (physicsApiValue) {
-    //     physicsApiValue.position.set(10, 10, 10);
-    //   }
-    //   return physicsApiValue;
-    // });
     setBubblePopped(true);
   };
 
@@ -69,7 +61,7 @@ const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
         />
       ) : (
         <mesh position={position}>
-          <Sphere castShadow ref={ref} args={[0.07, 8, 8]}>
+          <Sphere castShadow ref={colliderRef} args={[0.07, 8, 8]}>
             <LayerMaterial
               color={'#ffffff'}
               lighting={'physical'}

@@ -9,6 +9,7 @@ import { avatarProportions } from '../../avatar/helpers/setupAvatarProportions';
 import { calculateLinearCoordinates } from '../helpers/calculateLinearCoordinates';
 import { calculateArcCoordinates } from '../helpers/calculateArcCoordinates';
 import { ECS } from '../World';
+import { uuidComponent } from '../components/uuid';
 
 interface RenderLoopProps {
   avatar: React.RefObject<VRM>;
@@ -85,19 +86,19 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
           const spawnSide = levels[0].sideSpawned;
           let startPosition;
           let spawnPos;
-          const startAngle = 0.31; // about 18 deg to compensate for the starting arm angle
-          const endAngle = Math.PI - 0.75; // end over top the head, not too far over
+          const startAngle = 0; // 0.31 would be about 18 deg to compensate for the starting arm angle, subject to change though
+          const endAngle = Math.PI - 1.31; // end over top the head, not too far over. 1.31 feels about right, subject to change though. Was - 0.75
           const midAngle = (endAngle - startAngle) / 2;
           const angleIncrement = (endAngle - startAngle) / (numTargets - 1);
 
           // positions to spawn bubbles slightly away from the avatar's body but within arm's length
-          leftHandPosition.set(-0.35 * avatarProportions.armLength, avatarProportions.handHeight, 0);
-          rightHandPosition.set(0.35 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+          leftHandPosition.set(avatarProportions.armLength - 0.35, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos); // maybe add in the actual spawn pos of hand
+          rightHandPosition.set(avatarProportions.armLength - 0.35, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos);
 
-          leftHandFrontPos.set(-0.3 * avatarProportions.armLength, avatarProportions.handHeight, 0);
-          rightHandFrontPos.set(0.3 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+          leftHandFrontPos.set(-0.25 * avatarProportions.armLength, avatarProportions.handHeight, 0); // might be able to use same value for front as lateral sides
+          rightHandFrontPos.set(0.25 * avatarProportions.armLength, avatarProportions.handHeight, 0);
 
-          leftShoulderPosition.set(-0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0);
+          leftShoulderPosition.set(-0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0); // might have to add in actual shoulder spawn pos too
           rightShoulderPosition.set(0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0);
 
           // Now spawn all the reps (bubbles) in that set
@@ -133,14 +134,18 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
               spawnPos = calculateArcCoordinates(avatarProportions.spinePos, spawnSide, startPosition!, angle);
             }
 
+            console.log(`spawn side was ${spawnSide} and the angle was ${angle}: calculated spawn position is ${JSON.stringify(spawnPos)}`)
             // now use the spawnPos to add a bubble to the ECS.world.add({ bubble: ... })
-            ECS.world.add({
+            const { bubble } = ECS.world.add({
               bubble: {
+                ...uuidComponent(),
                 age: 0,
                 spawnPosition: spawnPos,
                 active: false
               }
             })
+            // save the EntityId (uuid) of the bubbles in game state, replacing the empty array slots
+            gameState.levels[0].bubbleEntities[i].set(bubble.uuid);
           }
         } else {
           // // if the first set is already in play, then we need to check if the first bubble is present.

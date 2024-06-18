@@ -73,7 +73,7 @@ export function setupAvatarProportions(vrm: VRM): AvatarProportions {
   avatarProportions.upperLegLength = Math.abs(avatarProportions.hipsPos.y - avatarProportions.leftLowerLegPos.y);
   avatarProportions.lowerLegLength = Math.abs(avatarProportions.leftLowerLegPos.y - avatarProportions.leftFootPos.y);
   avatarProportions.footGap = footGap.subVectors(avatarProportions.leftFootPos, avatarProportions.rightFootPos).length();
-  avatarProportions.spinePos = vrm.scene.position.clone().setY(avatarProportions.avatarHeight * 0.65);
+  avatarProportions.spinePos = vrm.scene.position.clone().setY(avatarProportions.avatarHeight * 0.55);
 
   return avatarProportions;
 }
