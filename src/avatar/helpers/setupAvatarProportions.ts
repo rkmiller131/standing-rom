@@ -58,20 +58,20 @@ export function setupAvatarProportions(vrm: VRM): AvatarProportions {
   avatarProportions.eyePos = rawRig.leftEye ? rawRig.leftEye.node.getWorldPosition(eyePos) : eyePos.copy(avatarProportions.headPos).setY(avatarProportions.headPos.y + 0.1); // fallback to rough estimation if no eye bone is present
   avatarProportions.leftFootPos = rawRig.leftFoot.node.getWorldPosition(leftFootPos);
   avatarProportions.rightFootPos = rawRig.rightFoot.node.getWorldPosition(rightFootPos);
-  avatarProportions.leftLowerLegPos = rawRig.leftLowerLeg.node.getWorldPosition(leftLowerLegPos);
   avatarProportions.leftUpperLegPos = rawRig.leftUpperLeg.node.getWorldPosition(leftUpperLegPos);
+  avatarProportions.leftLowerLegPos = rawRig.leftLowerLeg.node.getWorldPosition(leftLowerLegPos);
 
   // calculate lengths and heights based on positions
   avatarProportions.avatarHeight = size.y;
-  avatarProportions.shoulderHeight = avatarProportions.avatarHeight - (0.5 * avatarProportions.torsoLength);
   avatarProportions.eyeHeight = avatarProportions.eyePos.y;
   avatarProportions.handHeight = avatarProportions.eyeHeight - 0.5 * avatarProportions.avatarHeight;
   avatarProportions.hipsHeight = avatarProportions.hipsPos.y;
   avatarProportions.footHeight = avatarProportions.leftFootPos.y;
   avatarProportions.armLength = avatarProportions.avatarHeight / 2;
   avatarProportions.torsoLength = Math.abs(avatarProportions.headPos.y - avatarProportions.hipsPos.y);
-  avatarProportions.upperLegLength = Math.abs(avatarProportions.hipsPos.y - avatarProportions.leftLowerLegPos.y);
+  avatarProportions.shoulderHeight = avatarProportions.avatarHeight - 0.5 * avatarProportions.torsoLength;
   avatarProportions.lowerLegLength = Math.abs(avatarProportions.leftLowerLegPos.y - avatarProportions.leftFootPos.y);
+  avatarProportions.upperLegLength = Math.abs(avatarProportions.hipsPos.y - avatarProportions.leftLowerLegPos.y);
   avatarProportions.footGap = footGap.subVectors(avatarProportions.leftFootPos, avatarProportions.rightFootPos).length();
   avatarProportions.spinePos = vrm.scene.position.clone().setY(avatarProportions.avatarHeight * 0.55);
 

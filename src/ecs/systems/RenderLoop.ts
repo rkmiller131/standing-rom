@@ -16,15 +16,6 @@ interface RenderLoopProps {
 }
 
 let gameEnded = false;
-const leftHandPosition = new Vector3();
-const rightHandPosition = new Vector3();
-
-const leftHandFrontPos = new Vector3();
-const rightHandFrontPos = new Vector3();
-
-const leftShoulderPosition = new Vector3();
-const rightShoulderPosition = new Vector3();
-
 
 export default function RenderLoop({ avatar }: RenderLoopProps) {
   const clock = useRef(new Clock());
@@ -92,14 +83,14 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
           const angleIncrement = (endAngle - startAngle) / (numTargets - 1);
 
           // positions to spawn bubbles slightly away from the avatar's body but within arm's length
-          leftHandPosition.set(avatarProportions.armLength - 0.35, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos); // maybe add in the actual spawn pos of hand
-          rightHandPosition.set(avatarProportions.armLength - 0.35, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos);
+          const leftHandPosition = new Vector3(-0.6 * avatarProportions.armLength, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos); // maybe add in the actual spawn pos of hand
+          const rightHandPosition = new Vector3(0.6 * avatarProportions.armLength, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos);
 
-          leftHandFrontPos.set(-0.25 * avatarProportions.armLength, avatarProportions.handHeight, 0); // might be able to use same value for front as lateral sides
-          rightHandFrontPos.set(0.25 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+          const leftHandFrontPos = new Vector3(-0.25 * avatarProportions.armLength, avatarProportions.handHeight, 0); // might be able to use same value for front as lateral sides
+          const rightHandFrontPos = new Vector3(0.25 * avatarProportions.armLength, avatarProportions.handHeight, 0);
 
-          leftShoulderPosition.set(-0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0); // might have to add in actual shoulder spawn pos too
-          rightShoulderPosition.set(0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0);
+          const leftShoulderPosition = new Vector3(-0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0); // might have to add in actual shoulder spawn pos too
+          const rightShoulderPosition = new Vector3(0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0);
 
           // Now spawn all the reps (bubbles) in that set
           for (let i = 0; i < numTargets; i++) {

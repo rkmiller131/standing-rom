@@ -33,8 +33,6 @@ export default function GameLogic({ avatar }: GameLogicProps) {
   }, [sceneState.sceneLoaded])
 
   useEffect(() => {
-    // if (!gameState.levels[0].bubbleEntities || !gameState.levels[0].bubbleEntities.length) return;
-    // console.log('First bubble use effect: games state is currently ', gameState)
     if (!gameRunning) return;
 
     console.log('first bubble in the set is ', firstBubbleInSet)
