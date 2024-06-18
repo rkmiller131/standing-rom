@@ -12,11 +12,10 @@ import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
 import { Debug, Physics } from '../interfaces/CANNON_Interface';
-// import Bubble from './DEMO/Bubble';
-import RightHandCollider from './DEMO/rightHandCollider';
+import AvatarHandColliders from './DEMO/AvatarHandColliders';
+import { Bubbles } from './ecs/entities/Bubbles';
 
 import './css/App.css';
-import { Bubbles } from './ecs/entities/Bubbles';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 
@@ -73,8 +72,8 @@ export default function App() {
 
             <Physics gravity={[0, 0, 0]}>
               <Debug color="blue">
+                <AvatarHandColliders avatar={avatar} />
                 <Bubbles />
-                <RightHandCollider avatar={avatar} />
               </Debug>
             </Physics>
 
