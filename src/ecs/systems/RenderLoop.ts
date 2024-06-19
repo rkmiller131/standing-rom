@@ -21,7 +21,6 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
   const clock = useRef(new Clock());
   const gameState = useGameState();
   const sceneState = useSceneState();
-  // const [activeBubble, setActiveBubble] = useState(null);
 
   console.log('render loop has started')
 
@@ -112,6 +111,7 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
 
             } else if (spawnSide === 'crossL') {
               startPosition = leftShoulderPosition;
+              // update with the actual origin of the left shoulder plus some extra -z(?)
               origin = new Vector3(-0.2, 0.8, -0.05).add(avatarProportions.avatarPos);
 
             } else if (spawnSide === 'crossR') {
@@ -139,9 +139,19 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
             //   spawnPos = calculateArcCoordinates(avatarProportions.spinePos, spawnSide, startPosition!, angle);
             // }
 
+            // ---------------------------------------------------------------------------------------------------------------------------------
+            // Changing the linear coordinates to frontal raises instead of cross body - more consistent with the actual PT but hard to track
+            // with a single web cam - the arm doesn't fully extend, so maybe still compensate with the frontal arc raises
+            // ---------------------------------------------------------------------------------------------------------------------------------
+            // if (spawnSide === 'frontL' || spawnSide === 'frontR') {
+            //   const endPosition = spawnSide === 'frontL' ? new Vector3(-0.2, 0.8, -0.05).add(avatarProportions.avatarPos) : new Vector3(0.2, 0.8, -0.05).add(avatarProportions.avatarPos);
+            //   spawnPos = calculateLinearCoordinates(startPosition!, endPosition, numTargets, i);
+            // } else {
+            //   spawnPos = calculateArcCoordinates(origin, spawnSide, startPosition!, angle);
+            // }
+
             spawnPos = calculateArcCoordinates(origin, spawnSide, startPosition!, angle);
 
-            console.log(`spawn side was ${spawnSide} and the angle was ${angle}: calculated spawn position is ${JSON.stringify(spawnPos)}`)
             // now use the spawnPos to add a bubble to the ECS.world.add({ bubble: ... })
             const { bubble } = ECS.world.add({
               bubble: {

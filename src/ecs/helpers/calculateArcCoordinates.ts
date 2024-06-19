@@ -31,9 +31,9 @@ export function calculateArcCoordinates(
     qy = oy + Math.cos(angle) * (py - oy) - Math.sin(angle) * (pz - oz);
     qz = oz + Math.sin(angle) * (py - oy) + Math.cos(angle) * (pz - oz);
   } else if (sideSpawned === 'crossL') {
-    qy = py; // mirroring crossL is a little different:
-    qx = ox - Math.cos(angle) * (px - ox) - Math.sin(angle) * (py - oy);
-    qz = oz + Math.sin(angle) * (py - oy) + Math.cos(angle) * (pz - oz);
+    qy = py; // mirroring crossbody: for the xz plane, rotating a point around an origin by an angle involves transforming both x and z coords based on the angle
+    qx = ox - Math.cos(angle) * (px - ox) - Math.sin(angle) * (py - oy); // use subtraction on cos to reflect movement across the body in the opposite direction
+    qz = oz + Math.sin(angle) * (py - oy) + Math.cos(angle) * (pz - oz); // the use of cos and sin are also flipped to reflect opposite movement
   } else if (sideSpawned === 'crossR') {
     qy = py; // constrain the y, we're doing horizontal adduction on the xz plane
     qx = ox + Math.sin(angle) * (px - ox) + Math.cos(angle) * (py - oy);
