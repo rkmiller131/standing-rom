@@ -61,7 +61,7 @@ const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
         />
       ) : (
         <mesh position={position}>
-          <Sphere castShadow ref={colliderRef} args={[0.07, 8, 8]}>
+          <Sphere castShadow ref={colliderRef} args={[0.05, 8, 8]}>
             <LayerMaterial
               color={'#ffffff'}
               lighting={'physical'}
@@ -89,11 +89,11 @@ const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
           </Sphere>
         </mesh>
       )}
-      {active && <SphereCollider
+      {/* {active && <SphereCollider
         onAttachRefs={attachRefs}
         position={position}
         onCollideBegin={onCollideBegin}
-      />}
+      />} */}
       <SphereCollider
         onAttachRefs={attachRefs}
         position={position}

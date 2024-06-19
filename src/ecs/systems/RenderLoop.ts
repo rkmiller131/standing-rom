@@ -6,7 +6,7 @@ import calculateArmAngles from '../../avatar/helpers/calculateArmAngles';
 import { VRM } from '../../../interfaces/THREE_Interface';
 import { useSceneState } from '../store/SceneState';
 import { avatarProportions } from '../../avatar/helpers/setupAvatarProportions';
-import { calculateLinearCoordinates } from '../helpers/calculateLinearCoordinates';
+// import { calculateLinearCoordinates } from '../helpers/calculateLinearCoordinates';
 import { calculateArcCoordinates } from '../helpers/calculateArcCoordinates';
 import { ECS } from '../World';
 import { uuidComponent } from '../components/uuid';
@@ -70,27 +70,29 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
           // if the current set is not already in play, make it in play
           gameState.levels[0].inPlay.set(true);
           const numTargets = levels[0].bubbleEntities.length; // reps
-          console.log('the game state is ', gameState)
 
           // depending on the level's spawn side, calc angles for all the reps
           // these are the starting angles/points of reference
           const spawnSide = levels[0].sideSpawned;
-          let startPosition;
-          let spawnPos;
-          const startAngle = 0; // 0.31 would be about 18 deg to compensate for the starting arm angle, subject to change though
-          const endAngle = Math.PI - 1.31; // end over top the head, not too far over. 1.31 feels about right, subject to change though. Was - 0.75
-          const midAngle = (endAngle - startAngle) / 2;
-          const angleIncrement = (endAngle - startAngle) / (numTargets - 1);
 
           // positions to spawn bubbles slightly away from the avatar's body but within arm's length
           const leftHandPosition = new Vector3(-0.6 * avatarProportions.armLength, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos); // maybe add in the actual spawn pos of hand
           const rightHandPosition = new Vector3(0.6 * avatarProportions.armLength, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos);
 
-          const leftHandFrontPos = new Vector3(-0.25 * avatarProportions.armLength, avatarProportions.handHeight, 0); // might be able to use same value for front as lateral sides
-          const rightHandFrontPos = new Vector3(0.25 * avatarProportions.armLength, avatarProportions.handHeight, 0);
+          const leftHandFrontPos = new Vector3(-0.3 * avatarProportions.armLength, avatarProportions.handHeight, -0.2 * avatarProportions.armLength).add(avatarProportions.avatarPos); // might be able to use same value for front as lateral sides
+          const rightHandFrontPos = new Vector3(0.3 * avatarProportions.armLength, avatarProportions.handHeight, -0.2 * avatarProportions.armLength).add(avatarProportions.avatarPos);
 
-          const leftShoulderPosition = new Vector3(-0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0); // might have to add in actual shoulder spawn pos too
-          const rightShoulderPosition = new Vector3(0.3 * avatarProportions.armLength, avatarProportions.shoulderHeight, 0);
+          const leftShoulderPosition = new Vector3(-0.5 * avatarProportions.armLength, 0.75 * avatarProportions.shoulderHeight, 0).add(avatarProportions.avatarPos); // might have to add in actual shoulder spawn pos too
+          const rightShoulderPosition = new Vector3(0.5 * avatarProportions.armLength, 0.75 * avatarProportions.shoulderHeight, 0).add(avatarProportions.avatarPos);
+
+          let origin = avatarProportions.spinePos;
+          let startPosition, spawnPos;
+          // 0.31 would be about 18 deg to compensate for the starting arm angle, subject to change though
+          const startAngle = (spawnSide !== 'crossL' && spawnSide !== 'crossR') ? 0 : Math.PI / 2;
+          // end over top the head, not too far over. 1.31 feels about right, subject to change though. Was - 0.75
+          const endAngle = (spawnSide !== 'crossL' && spawnSide !== 'crossR') ? Math.PI - 1.31 : Math.PI;
+          const midAngle = (endAngle - startAngle) / 2;
+          const angleIncrement = (endAngle - startAngle) / (numTargets - 1);
 
           // Now spawn all the reps (bubbles) in that set
           for (let i = 0; i < numTargets; i++) {
@@ -102,28 +104,42 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
             } else if (spawnSide === 'right') {
               startPosition = rightHandPosition;
 
-            } else if (spawnSide === 'frontL' || spawnSide === 'crossL') {
+            } else if (spawnSide === 'frontL') {
               startPosition = leftHandFrontPos;
 
-            } else if (spawnSide === 'frontR' || spawnSide === 'crossR') {
+            } else if (spawnSide === 'frontR') {
               startPosition = rightHandFrontPos;
+
+            } else if (spawnSide === 'crossL') {
+              startPosition = leftShoulderPosition;
+              origin = new Vector3(-0.2, 0.8, -0.05).add(avatarProportions.avatarPos);
+
+            } else if (spawnSide === 'crossR') {
+              startPosition = rightShoulderPosition;
+              origin = new Vector3(0.2, 0.8, -0.05).add(avatarProportions.avatarPos);
             }
 
             if (numTargets === 1) {
               angle = midAngle; // edge case fix: selecting 1 set and 1 rep needs an angle calc accommodation
             }
 
-            if (spawnSide === 'left') {
-              angle = -angle; // necessary to mirror coordinates
+            if (spawnSide === 'left' || spawnSide === 'crossL') {
+              angle = -angle // necessary to mirror coordinates
             }
 
-            if (spawnSide === 'crossL' || spawnSide === 'crossR') {
-              const endPosition = spawnSide === 'crossL' ? rightShoulderPosition : leftShoulderPosition;
-              spawnPos = calculateLinearCoordinates(startPosition!, endPosition, numTargets, i);
+            // ---------------------------------------------------------------------------------------------------------------------------------
+            // No longer have linear cross body bubbles (not going from hand to cross shoulder, but rather an arc of t pose to opposite shoulder)
+            // Saving for reference later in case linear cross body is used --------------------------------------------------------------------
+            // ---------------------------------------------------------------------------------------------------------------------------------
+            // if (spawnSide === 'crossL' || spawnSide === 'crossR') {
+            //   const endPosition = spawnSide === 'crossL' ? rightShoulderPosition : leftShoulderPosition;
+            //   spawnPos = calculateLinearCoordinates(startPosition!, endPosition, numTargets, i);
 
-            } else {
-              spawnPos = calculateArcCoordinates(avatarProportions.spinePos, spawnSide, startPosition!, angle);
-            }
+            // } else {
+            //   spawnPos = calculateArcCoordinates(avatarProportions.spinePos, spawnSide, startPosition!, angle);
+            // }
+
+            spawnPos = calculateArcCoordinates(origin, spawnSide, startPosition!, angle);
 
             console.log(`spawn side was ${spawnSide} and the angle was ${angle}: calculated spawn position is ${JSON.stringify(spawnPos)}`)
             // now use the spawnPos to add a bubble to the ECS.world.add({ bubble: ... })

@@ -25,7 +25,7 @@ export default function SphereCollider({
     onCollide,
     onCollideBegin: onCollideBegin ? onCollideBegin : () => {},
     onCollideEnd,
-    args: [0.07],
+    args: [0.05],
     type,
   }));
 

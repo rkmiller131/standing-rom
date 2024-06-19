@@ -41,6 +41,7 @@ export default function GameLogic({ avatar }: GameLogicProps) {
       // remove the set from the levels array
       const setsInPlay = gameState.levels.get({ noproxy: true }).slice(1);
       gameState.levels.set(setsInPlay);
+      console.log('No more bubbles in the set; game state is ', gameState)
     } else {
       // otherwise if there is a new first bubble, make it active!
       // do a query in the world for the bubble by the id of the firstBubble, then access its active property

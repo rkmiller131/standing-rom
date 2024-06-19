@@ -30,7 +30,16 @@ export function calculateArcCoordinates(
     qx = px; // constrain the x, we're doing frontal raises on the yz plane
     qy = oy + Math.cos(angle) * (py - oy) - Math.sin(angle) * (pz - oz);
     qz = oz + Math.sin(angle) * (py - oy) + Math.cos(angle) * (pz - oz);
+  } else if (sideSpawned === 'crossL') {
+    qy = py; // mirroring crossL is a little different:
+    qx = ox - Math.cos(angle) * (px - ox) - Math.sin(angle) * (py - oy);
+    qz = oz + Math.sin(angle) * (py - oy) + Math.cos(angle) * (pz - oz);
+  } else if (sideSpawned === 'crossR') {
+    qy = py; // constrain the y, we're doing horizontal adduction on the xz plane
+    qx = ox + Math.sin(angle) * (px - ox) + Math.cos(angle) * (py - oy);
+    qz = oz + Math.cos(angle) * (py - oy) - Math.sin(angle) * (pz - oz);
   }
+
   const result = new Vector3(qx, qy, qz);
   return result;
 }

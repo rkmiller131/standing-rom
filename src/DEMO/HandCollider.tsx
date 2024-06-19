@@ -27,7 +27,7 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
     onCollideBegin: (e) => {
       if (!poppedBubbles.current.has(e.body.uuid)) {
         poppedBubbles.current.add(e.body.uuid);
-        console.log(`${handedness} hand collided with bubble ${e.body.uuid}`);
+        // console.log(`${handedness} hand collided with bubble ${e.body.uuid}`);
       }
     },
     args: [0.075],
