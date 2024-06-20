@@ -153,9 +153,9 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
                   // ...uuidComponent(),
                   age: 0,
                   spawnPosition: spawnPos,
-                  active: false
-                },
-                invisible: true
+                  active: false,
+                  visible: false
+                }
               });
               const bubbleId = ECS.world.id(bubbleEntity);
               // save the EntityId (uuid) of the bubbles in game state, replacing the empty array slots
@@ -172,7 +172,7 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
           const bubbleIds = gameState.levels[0].bubbleEntities.get({ noproxy: true });
           for (let k = 0; k < bubbleIds.length; k++) {
             const bubbleEntity = ECS.world.entity(bubbleIds[k] as EntityId);
-            if (bubbleEntity) ECS.world.removeComponent(bubbleEntity, 'invisible');
+            if (bubbleEntity) bubbleEntity.bubble!.visible = true;
           }
 
         } else {

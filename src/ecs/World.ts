@@ -10,8 +10,8 @@ type WorldEntities = {
     age: number;
     spawnPosition: Vector3;
     active: boolean;
-  },
-  invisible?: boolean;
+    visible: boolean;
+  }
 }
 
 type OptionalComponents = SceneObjectComponent &
@@ -27,7 +27,8 @@ const world = new World<Entity>();
 export const ECS = createReactAPI(world);
 
 export const queries = {
-  allBubbles: ECS.world.with('bubble')
+  allBubbles: ECS.world.with('bubble'),
+  visibleBubbles: ECS.world.with('bubble').where((entity) => entity.bubble.visible === true)
 }
 
 // HELPFUL EXAMPLE (BETTER THAN THE DOCS)
