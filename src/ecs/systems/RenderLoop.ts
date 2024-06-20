@@ -9,7 +9,7 @@ import { avatarProportions } from '../../avatar/helpers/setupAvatarProportions';
 // import { calculateLinearCoordinates } from '../helpers/calculateLinearCoordinates';
 import { calculateArcCoordinates } from '../helpers/calculateArcCoordinates';
 import { ECS } from '../World';
-import { uuidComponent } from '../components/uuid';
+import { EntityId } from '../store/types';
 
 interface RenderLoopProps {
   avatar: React.RefObject<VRM>;
@@ -153,16 +153,16 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
             spawnPos = calculateArcCoordinates(origin, spawnSide, startPosition!, angle);
 
             // now use the spawnPos to add a bubble to the ECS.world.add({ bubble: ... })
-            const { bubble } = ECS.world.add({
+            const bubbleEntity = ECS.world.add({
               bubble: {
-                ...uuidComponent(),
                 age: 0,
                 spawnPosition: spawnPos,
                 active: false
               }
             })
+            const bubbleId = ECS.world.id(bubbleEntity);
             // save the EntityId (uuid) of the bubbles in game state, replacing the empty array slots
-            gameState.levels[0].bubbleEntities[i].set(bubble.uuid);
+            gameState.levels[0].bubbleEntities[i].set(bubbleId as EntityId);
           }
         } else {
           // // if the first set is already in play, then we need to check if the first bubble is present.

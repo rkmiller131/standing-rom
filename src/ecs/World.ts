@@ -6,7 +6,6 @@ import { SphereColliderComponent } from './components/SphereCollider';
 
 type WorldEntities = {
   bubble: {
-    uuid: number;
     age: number;
     spawnPosition: Vector3;
     active: boolean;
