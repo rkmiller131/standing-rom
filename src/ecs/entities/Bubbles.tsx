@@ -10,8 +10,8 @@ import BubbleEntity from './BubbleEntity';
 
 export const Bubbles = () => {
   // query the world for everything that has a 'bubble' tag or component
-  const entities = useEntities(ECS.world.with('bubble'));
-  // console.log('entities are ', entities)
+  const entities = useEntities(ECS.world.with('bubble').without('invisible'));
+  console.log('entities are ', entities)
 
   return (
     <>

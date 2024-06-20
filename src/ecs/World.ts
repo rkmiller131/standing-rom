@@ -6,11 +6,12 @@ import { SphereColliderComponent } from './components/SphereCollider';
 
 type WorldEntities = {
   bubble: {
-    uuid: number;
+    // uuid: number; miniplex handles id generation :O
     age: number;
     spawnPosition: Vector3;
     active: boolean;
-  }
+  },
+  invisible?: boolean;
 }
 
 type OptionalComponents = SceneObjectComponent &
@@ -25,6 +26,9 @@ const world = new World<Entity>();
 /* Create and export React bindings */
 export const ECS = createReactAPI(world);
 
+export const queries = {
+  allBubbles: ECS.world.with('bubble')
+}
 
 // HELPFUL EXAMPLE (BETTER THAN THE DOCS)
 // https://github.com/rechenberger/neoverse-firestarter/blob/main/src/components/3d/Galaxy.tsx
