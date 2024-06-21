@@ -44,10 +44,10 @@
 
 import { CollideBeginEvent, CollideEndEvent, CollideEvent, PublicApi, useSphere } from '@react-three/cannon';
 import { memo, useEffect, useMemo } from 'react';
-import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
+import { Vector3 } from 'three';
 
 export type SphereColliderComponent = {
-  onAttachRefs: (ref: React.RefObject<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>, api: PublicApi) => void;
+  onAttachRefs: (api: PublicApi) => void;
   position: Vector3;
   type?: 'Kinematic' | 'Dynamic' | 'Static';
   onCollide?: (event: CollideEvent) => void;
@@ -56,7 +56,7 @@ export type SphereColliderComponent = {
 }
 
 export type SphereColliderComponentProps = {
-  onAttachRefs: (ref: React.RefObject<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>, api: PublicApi) => void;
+  onAttachRefs: (api: PublicApi) => void;
   position: Vector3;
   type?: 'Kinematic' | 'Dynamic' | 'Static';
   onCollide?: (event: CollideEvent) => void;
@@ -88,12 +88,10 @@ const SphereCollider = ({
     collisionFilterMask
   }), [position.x, position.y, position.z, onCollide, onCollideBegin, onCollideEnd, type, collisionFilterGroup, collisionFilterMask]);
 
-  const [ref, api] = useSphere(() => sphereConfig);
+  const [, api] = useSphere(() => sphereConfig);
 
   useEffect(() => {
-    if (onAttachRefs) {
-      onAttachRefs(ref as React.RefObject<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>, api);
-    }
+    if (onAttachRefs) onAttachRefs(api);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

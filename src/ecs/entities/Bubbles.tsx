@@ -16,8 +16,8 @@ export const Bubbles = () => {
           return (
             <BubbleEntity
               entity={e}
-              position={e.bubble.spawnPosition}
-              active={e.bubble.active}
+              // position={e.bubble.spawnPosition}
+              // active={e.bubble.active}
             />
           )
         }}

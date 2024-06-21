@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { LegacyRef, forwardRef, useEffect, useState } from 'react';
 import { Sphere } from '@react-three/drei';
 import { Depth, Fresnel, LayerMaterial } from 'lamina';
 import SphereCollider from '../ecs/components/SphereCollider';
@@ -24,17 +24,14 @@ interface BubbleProps {
 // FUTURE TODOS FOR POLISH
 // add sound when bubble pops
 
-const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
-  const colliderRef =  useRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null>(null);
+const Bubble = forwardRef((
+  { position, active }: BubbleProps,
+  ref: LegacyRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>
+) => {
   const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
   const [bubblePopped, setBubblePopped] = useState(false);
 
-  useImperativeHandle(ref, () => (colliderRef), [colliderRef]);
-
-  const attachRefs = (physicsRef: React.RefObject<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null>, colliderApi: PublicApi) => {
-    if (physicsRef && physicsRef.current) {
-      colliderRef.current! = physicsRef.current;
-    }
+  const attachRefs = (colliderApi: PublicApi) => {
     if (colliderApi) {
       setPhysicsApi(colliderApi);
     }
@@ -63,7 +60,7 @@ const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
         />
       ) : (
         <mesh position={position}>
-          <Sphere castShadow ref={colliderRef} args={[0.05, 8, 8]}>
+          <Sphere castShadow ref={ref} args={[0.05, 8, 8]}>
             <LayerMaterial
               color={'#ffffff'}
               lighting={'physical'}
@@ -91,18 +88,11 @@ const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
           </Sphere>
         </mesh>
       )}
-      {/* {active && <SphereCollider
+      {!active && <SphereCollider
         onAttachRefs={attachRefs}
         position={position}
         onCollideBegin={onCollideBegin}
-      />} */}
-      {!bubblePopped &&
-        <SphereCollider
-          onAttachRefs={attachRefs}
-          position={position}
-          onCollideBegin={onCollideBegin}
-        />
-      }
+      />}
     </>
   );
 });
