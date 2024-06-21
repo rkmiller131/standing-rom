@@ -20,7 +20,7 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
   const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
   const poppedBubbles = useRef<Set<string>>(new Set());
 
-  // Collision filter groups - one for each hand so we can specify that these two don't interact
+  // Collision filter group - both hands are part of the same group
   const collisionFilterGroup = 1 << 0;
 
   // Determine the current hand's group and the mask to exclude the other hand

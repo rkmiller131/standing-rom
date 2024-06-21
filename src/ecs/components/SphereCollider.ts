@@ -74,6 +74,9 @@ const SphereCollider = ({
 }: SphereColliderComponentProps) => {
   console.log('~~sphere collider rendered');
 
+  const collisionFilterGroup = 1 << 2 // Bubbles assigned to group 4 (2^2)
+  const collisionFilterMask = (1 << 0) | (1 << 1) // Allow interaction with hands (group 1 and 2)
+
   const sphereConfig = useMemo(() => ({
     position: [position.x, position.y, position.z] as [x: number, y: number, z: number],
     onCollide,
@@ -81,7 +84,9 @@ const SphereCollider = ({
     onCollideEnd,
     args: [0.05] as [radius: number],
     type,
-  }), [position, type, onCollide, onCollideBegin, onCollideEnd]);
+    collisionFilterGroup,
+    collisionFilterMask
+  }), [position.x, position.y, position.z, onCollide, onCollideBegin, onCollideEnd, type, collisionFilterGroup, collisionFilterMask]);
 
   const [ref, api] = useSphere(() => sphereConfig);
 

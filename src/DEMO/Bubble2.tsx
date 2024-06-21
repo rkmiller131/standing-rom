@@ -91,18 +91,18 @@ const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
           </Sphere>
         </mesh>
       )}
-      {active && <SphereCollider
+      {/* {active && <SphereCollider
         onAttachRefs={attachRefs}
         position={position}
         onCollideBegin={onCollideBegin}
-      />}
-      {/* {!bubblePopped &&
+      />} */}
+      {!bubblePopped &&
         <SphereCollider
           onAttachRefs={attachRefs}
           position={position}
           onCollideBegin={onCollideBegin}
         />
-      } */}
+      }
     </>
   );
 });
