@@ -37,6 +37,8 @@ export default function App() {
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDevice());
 
+  console.log('APP RERENDERED')
+
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
   };
@@ -70,13 +72,16 @@ export default function App() {
             <GameInfo />
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
 
-            <Physics gravity={[0, 0, 0]}>
-              <Debug color="blue">
-                <AvatarHandColliders avatar={avatar} />
-                <Bubbles />
-              </Debug>
-            </Physics>
+            {sceneState.sceneLoaded.get({ noproxy: true }) &&
+              <Physics gravity={[0, 0, 0]}>
+                <Debug color="blue">
+                  <AvatarHandColliders avatar={avatar} />
+                  <Bubbles />
+                </Debug>
+              </Physics>
+            }
 
+            {/* All logic, including side effects and the animation frame loop system */}
             <GameLogic avatar={avatar} />
           </Renderer>
         </div>

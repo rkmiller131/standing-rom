@@ -40,6 +40,8 @@ const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
     }
   }
 
+  console.log('~~Bubble has rerendered')
+
   useEffect(() => {
     if (bubblePopped && physicsApi) {
       // can't destroy cannon collider, so just move it far away
@@ -89,16 +91,18 @@ const Bubble = forwardRef(({ position, active }: BubbleProps, ref) => {
           </Sphere>
         </mesh>
       )}
-      {/* {active && <SphereCollider
+      {active && <SphereCollider
         onAttachRefs={attachRefs}
         position={position}
         onCollideBegin={onCollideBegin}
-      />} */}
-      <SphereCollider
-        onAttachRefs={attachRefs}
-        position={position}
-        onCollideBegin={onCollideBegin}
-      />
+      />}
+      {/* {!bubblePopped &&
+        <SphereCollider
+          onAttachRefs={attachRefs}
+          position={position}
+          onCollideBegin={onCollideBegin}
+        />
+      } */}
     </>
   );
 });

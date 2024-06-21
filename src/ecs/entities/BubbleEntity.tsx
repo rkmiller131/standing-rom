@@ -8,6 +8,7 @@ interface BubbleEntityProps {
     entity: Entity
 }
 const BubbleEntity = ({ active, position, entity }: BubbleEntityProps) => {
+    console.log('~~ Bubble entity has rerendered ECS.Entity')
 
     return (
         <ECS.Entity entity={entity}>

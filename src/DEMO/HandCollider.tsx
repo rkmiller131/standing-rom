@@ -20,6 +20,12 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
   const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
   const poppedBubbles = useRef<Set<string>>(new Set());
 
+  // Collision filter groups - one for each hand so we can specify that these two don't interact
+  const collisionFilterGroup = 1 << 0;
+
+  // Determine the current hand's group and the mask to exclude the other hand
+  const collisionFilterMask = ~(1 << (handedness === 'right'? 0 : 1));
+
   const [, api] = useSphere<Mesh>(() => ({
     position: handedness === 'right' ? [1, 0, 0] : [-1, 0, 0],
     mass: 1,
@@ -27,10 +33,12 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
     onCollideBegin: (e) => {
       if (!poppedBubbles.current.has(e.body.uuid)) {
         poppedBubbles.current.add(e.body.uuid);
-        // console.log(`${handedness} hand collided with bubble ${e.body.uuid}`);
+        console.log(`${handedness} hand collided with bubble ${e.body.uuid}`);
       }
     },
     args: [0.075],
+    collisionFilterGroup,
+    collisionFilterMask
   }));
 
   useFrame((_state, delta) => {
