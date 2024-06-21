@@ -5,7 +5,6 @@ import BubbleEntity from './BubbleEntity';
 export const Bubbles = () => {
   // query the world for everything that has a 'bubble' tag or component
   const entities = useEntities(ECS.world.with('bubble'));
-  // console.log('entities are ', entities)
 
   console.log('~~Bubbles have rerendered ECS.Entities')
   return (
@@ -16,8 +15,8 @@ export const Bubbles = () => {
           return (
             <BubbleEntity
               entity={e}
-              // position={e.bubble.spawnPosition}
-              // active={e.bubble.active}
+              position={e.bubble.spawnPosition}
+              active={e.bubble.active}
             />
           )
         }}

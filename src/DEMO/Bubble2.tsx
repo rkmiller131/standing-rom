@@ -4,7 +4,7 @@ import { Depth, Fresnel, LayerMaterial } from 'lamina';
 import SphereCollider from '../ecs/components/SphereCollider';
 import { PublicApi } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
-import BubbleParticles from './Particles';
+import BubbleParticles from './BubbleParticles';
 
 // Bubble is wrapped in ECS.Component, which implicitly "fowards" a ref to the Bubble component
 // forwardRef allows this parent to pass a ref directly to this child, as denoted by the child declaring

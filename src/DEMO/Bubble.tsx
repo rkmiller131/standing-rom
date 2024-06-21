@@ -3,7 +3,7 @@ import { Sphere } from '@react-three/drei';
 import { Depth, Fresnel, LayerMaterial } from 'lamina';
 import { useRef, useState } from 'react';
 import { Mesh, Points } from 'three';
-import BubbleParticles from './Particles';
+import BubbleParticles from './BubbleParticles';
 
 export default function Bubble({ position }: { position: [number, number, number] }) {
   const particleSystemRef = useRef<Points | null>(null);
