@@ -1,7 +1,7 @@
 import { ECS, queries } from '../World';
 import { useEntities } from 'miniplex-react';
 import BubbleEntity from './BubbleEntity';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useGameState } from '../store/GameState';
 // import { useEffect, useState } from 'react';
 // import { useGameState } from '../store/GameState';
@@ -18,7 +18,7 @@ export const Bubbles = () => {
   // const entities = useEntities(ECS.world.with('bubble').without('invisible'));
   // const entities = useEntities(ECS.world.with('bubble'));
   const [visibleBubbles, setVisibleBubbles] = useState([]);
-  const entities = useRef(useEntities(queries.allBubbles))
+  const entities = useRef(queries.allBubbles)
 
   // useEffect(() => {
   //   // if (gameState.levels.get({noproxy: true}).length) {
@@ -34,7 +34,7 @@ export const Bubbles = () => {
   //   console.log('entities are ', entities)
 
   // }, [gameState.levels])
-  entities.current = entities.current.where((entity) => entity.bubble.visible === true);
+  // entities.current = entities.current.where((entity) => entity.bubble.visible === true);
 
   // function findVisibleBubbles() {
   //   const bubbles = queries.allBubbles;
@@ -42,13 +42,25 @@ export const Bubbles = () => {
   //   return new Bucket(test)
   // }
 
+  // const filteredEntities = useMemo(() => {
+  //   if (gameState.levels.get({noproxy: true}).length <= 0) {
+  //     return [];
+  //   }
+  //   return entities.current.where((entity) => entity.bubble.visible === true);
+  // }, [gameState.levels, entities])
+
+  // useEffect(() => {
+  //   setVisibleBubbles(filteredEntities);
+  //   console.log('Filtered entities are', filteredEntities);
+  // }, [filteredEntities]);
+
 
 
   return (
     <>
       <ECS.Entities in={entities.current}>
         {(e) => {
-          console.log('eBubble is ', e);
+          // console.log('eBubble is ', e);
           return (
             <BubbleEntity
               entity={e}
