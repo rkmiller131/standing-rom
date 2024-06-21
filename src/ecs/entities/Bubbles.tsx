@@ -1,24 +1,16 @@
-import { ECS, queries } from '../World';
-import { useEntities } from 'miniplex-react';
-import BubbleEntity from './BubbleEntity';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useGameState } from '../store/GameState';
-// import { useEffect, useState } from 'react';
-// import { useGameState } from '../store/GameState';
-// import { ForkedECSComponent } from '../components/ForkedECSComponent';
-// import Bubble from '../../DEMO/Bubble2';
-
-// interface BubbleEntityProps {
-//   position?: [number, number, number]
-// }
+import { BubbleEntity as Entity } from '../store/types';
+import BubbleEntity from './BubbleEntity';
 
 export const Bubbles = () => {
   const gameState = useGameState();
   // query the world for everything that has a 'bubble' tag or component
   // const entities = useEntities(ECS.world.with('bubble').without('invisible'));
   // const entities = useEntities(ECS.world.with('bubble'));
-  const [visibleBubbles, setVisibleBubbles] = useState([]);
-  const entities = useRef(queries.allBubbles)
+  // const [visibleBubbles, setVisibleBubbles] = useState([] as Entity[]);
+  const visibleBubbles = useRef<Entity[] | null[]>()
+  // const entities = useRef(queries.allBubbles)
 
   // useEffect(() => {
   //   // if (gameState.levels.get({noproxy: true}).length) {
@@ -42,34 +34,27 @@ export const Bubbles = () => {
   //   return new Bucket(test)
   // }
 
-  // const filteredEntities = useMemo(() => {
-  //   if (gameState.levels.get({noproxy: true}).length <= 0) {
-  //     return [];
-  //   }
-  //   return entities.current.where((entity) => entity.bubble.visible === true);
-  // }, [gameState.levels, entities])
+  const filteredEntities = useMemo(() => {
+    if (!gameState.levels[0].bubbleEntities) {
+      return [];
+    }
+    return gameState.levels[0].bubbleEntities.get({ noproxy: true });
+  }, [gameState.levels])
 
-  // useEffect(() => {
-  //   setVisibleBubbles(filteredEntities);
-  //   console.log('Filtered entities are', filteredEntities);
-  // }, [filteredEntities]);
-
-
+  useEffect(() => {
+    visibleBubbles.current = filteredEntities
+    console.log('Filtered entities are', filteredEntities);
+  }, [filteredEntities]);
 
   return (
     <>
-      <ECS.Entities in={entities.current}>
-        {(e) => {
-          // console.log('eBubble is ', e);
-          return (
-            <BubbleEntity
-              entity={e}
-              position={e.bubble.spawnPosition}
-              active={e.bubble.active}
-            />
-          )
-        }}
-      </ECS.Entities>
+      {visibleBubbles.current && visibleBubbles.current.map((entity) => (
+        <BubbleEntity
+          position={entity.spawnPos}
+          active={entity.active}
+          key={entity.uuid}
+        />
+      ))}
     </>
   );
 }

@@ -8,8 +8,8 @@ import { useSceneState } from '../store/SceneState';
 import { avatarProportions } from '../../avatar/helpers/setupAvatarProportions';
 // import { calculateLinearCoordinates } from '../helpers/calculateLinearCoordinates';
 import { calculateArcCoordinates } from '../helpers/calculateArcCoordinates';
-import { ECS } from '../World';
-import { EntityId } from '../store/types';
+import { BubbleEntity } from '../store/types';
+import { uuidComponent } from '../components/uuid';
 
 interface RenderLoopProps {
   avatar: React.RefObject<VRM>;
@@ -147,19 +147,16 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
 
               const spawnPos = calculateArcCoordinates(origin, spawnSide, startPosition!, angle);
 
-              // now use the spawnPos to add a bubble to the ECS.world.add({ bubble: ... })
-              const bubbleEntity = ECS.world.add({
-                bubble: {
-                  // ...uuidComponent(),
-                  age: 0,
-                  spawnPosition: spawnPos,
-                  active: false,
-                  visible: false
-                }
-              });
-              const bubbleId = ECS.world.id(bubbleEntity);
+              // now use the spawnPos to add a bubble data that will be iterated and filtered over in Bubbles.tsx
+              const bubbleEntity: BubbleEntity = {
+                ...uuidComponent(),
+                age: 0,
+                spawnPos: spawnPos,
+                active: false,
+                visible: false
+              };
               // save the EntityId (uuid) of the bubbles in game state, replacing the empty array slots
-              gameState.levels[i].bubbleEntities[j].set(bubbleId as EntityId);
+              gameState.levels[i].bubbleEntities[j].set(bubbleEntity);
             }
           }
           gameInitialized = true;
@@ -168,11 +165,13 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
         if (levels[0].inPlay === false) {
           // if the current set is not already in play, make it in play
           gameState.levels[0].inPlay.set(true);
-          // make all bubbles in the first set visible by removing their invisibility component
-          const bubbleIds = gameState.levels[0].bubbleEntities.get({ noproxy: true });
-          for (let k = 0; k < bubbleIds.length; k++) {
-            const bubbleEntity = ECS.world.entity(bubbleIds[k] as EntityId);
-            if (bubbleEntity) bubbleEntity.bubble!.visible = true;
+          // make all bubbles in the first set visible
+          const bubbleEntities = gameState.levels[0].bubbleEntities.get({ noproxy: true });
+          for (let k = 0; k < bubbleEntities.length; k++) {
+            gameState.levels[0].bubbleEntities[k].set((prev) => ({
+              ...prev,
+               visible: true
+             }) as BubbleEntity);
           }
 
         } else {
