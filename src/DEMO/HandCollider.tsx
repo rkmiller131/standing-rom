@@ -5,6 +5,7 @@ import { useSphere } from '@react-three/cannon';
 import { Mesh, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
+import useGameData from '../hooks/useGameData';
 
 interface HandColliderProps {
   avatar: React.RefObject<VRM>;
@@ -15,8 +16,10 @@ const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
 export default function HandCollider({ avatar, handedness }: HandColliderProps) {
+  console.log(`~~ ${handedness} Avatar Hand Collider Component Rendered`)
   const sceneState = useSceneState();
   const gameState = useGameState();
+  const { removeBubble } = useGameData();
   const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
   const poppedBubbles = useRef<Set<string>>(new Set());
 
@@ -67,6 +70,7 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
           poppedBubbles.current.forEach(() => {
             const velocity = (Math.abs(velocityVector.x) + Math.abs(velocityVector.y) + Math.abs(velocityVector.z)) / 3;
             gameState.popBubble(velocity);
+            removeBubble();
           });
           poppedBubbles.current.clear();
         }

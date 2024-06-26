@@ -50,6 +50,7 @@ export default function App() {
       sceneState.environmentLoaded.get({ noproxy: true })
     ) {
       sceneState.sceneLoaded.set(true);
+      console.log('the scene loaded state is officially set to true')
     }
   }, [holisticLoaded, sceneState.environmentLoaded]);
 

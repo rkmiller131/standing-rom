@@ -24,6 +24,7 @@ if (gl) {
 }
 
 export default function Renderer({ children }: RendererProps) {
+  console.log('~~ Renderer rendered: creating the 3D canvas')
   return webGL2 ? (
     <Canvas
       shadows

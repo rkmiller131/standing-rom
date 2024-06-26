@@ -5,6 +5,8 @@ import { useSceneState } from '../ecs/store/SceneState';
 
 export default function Environment() {
   const sceneState = useSceneState();
+
+  console.log('~~ The environment component rendered: rendering the selected environment')
   return (
     <Suspense fallback={null}>
       {sceneState.selectedEnvironment.get({ noproxy: true }) ===

@@ -7,5 +7,6 @@ export default async function getGameData() {
   return {
     reps,
     sets,
+    ok: true
   };
 }

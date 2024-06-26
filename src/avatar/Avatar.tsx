@@ -13,6 +13,8 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const [avatarLoaded, setAvatarLoaded] = useState(false);
   const isMobile = useSceneState().device.get({ noproxy: true }) === 'Mobile';
 
+  console.log('~~ Avatar component rendered')
+
   const updateProgress = debounce((loadedPercentage) => {
     // could set a state here instead, for loading screen in the future
     console.log('Loading Avatar: ', loadedPercentage + '%');

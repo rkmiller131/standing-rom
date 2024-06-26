@@ -9,6 +9,8 @@ export default function LoadingScreen() {
   const sceneState = useSceneState();
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log('~~ Loading screen rendered')
+
   useEffect(() => {
     if (sceneState.sceneLoaded.get({ noproxy: true })) {
       setIsLoading(false);

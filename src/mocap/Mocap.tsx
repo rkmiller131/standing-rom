@@ -24,6 +24,8 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   const sceneState = useSceneState();
   const device = sceneState.device.get({ noproxy: true });
 
+  console.log('~~ Mocap component rendered')
+
   function onResults(results: any) {
     if (results.poseLandmarks && results.poseLandmarks.length > 0) {
       drawLandmarkGuides(results, videoRef, landmarkCanvasRef);

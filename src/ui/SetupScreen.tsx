@@ -6,9 +6,9 @@ import '../css/SetupScreen.css';
 export default function SetupScreen() {
   const sceneState = useSceneState();
   const [submitted, setSubmitted] = useState(false);
-  const [selected, setSelected] = useState<'Outdoors' | 'Indoor Office' | ''>(
-    '',
-  );
+  const [selected, setSelected] = useState<'Outdoors' | 'Indoor Office' | ''>('');
+
+  console.log('~~ Setup Screen rendered: waiting for user to select an environment')
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -16,6 +16,7 @@ export default function SetupScreen() {
       if (selected) {
         sceneState.selectedEnvironment.set(selected);
         setSubmitted(true);
+        console.log('Setup screen is now closing... (rendering null)')
       }
     },
     [sceneState, selected],
