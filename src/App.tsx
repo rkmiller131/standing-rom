@@ -16,6 +16,9 @@ import AvatarHandColliders from './DEMO/AvatarHandColliders';
 import { Bubbles } from './ecs/entities/Bubbles';
 
 import './css/App.css';
+import getGameData from './ecs/helpers/getGameData';
+// import { useThree } from '@react-three/fiber';
+import GameSetup from './ecs/entities/BubbleManager';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 
@@ -32,16 +35,32 @@ const Renderer = lazy(() => import('./renderer/Renderer'));
 // --------------------------------------------------------------------------------------
 
 export default function App() {
-  const [holisticLoaded, setHolisticLoaded] = useState(false);
-  const avatar = useRef<VRM | null>(null);
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDevice());
 
+  const [holisticLoaded, setHolisticLoaded] = useState(false);
+  const avatar = useRef<VRM | null>(null);
+  // const game = useRef<GameSetup | null>(null);
   console.log('APP RERENDERED')
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
   };
+
+  // const startTheGame = async () => {
+  //   try {
+  //     const response = await getGameData(); // rename later to httpGetGameData
+  //     if (!response.ok) {
+  //       throw new Error('Failed to fetch game data from the server');
+  //     }
+  //     const { reps, sets } = response; // later is await response.json() ?
+  //     game.current = new GameSetup(reps, sets, scene);
+  //     game.current.initialize();
+
+  //   } catch (error) {
+  //     console.error('Error during game initialization: ', error);
+  //   }
+  // }
 
   useLayoutEffect(() => {
     if (
@@ -76,7 +95,7 @@ export default function App() {
               <Physics gravity={[0, 0, 0]}>
                 <Debug color="blue">
                   <AvatarHandColliders avatar={avatar} />
-                  <Bubbles />
+                  {/* <Bubbles /> */}
                 </Debug>
               </Physics>
             }

@@ -1,68 +1,58 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { VRM } from '../../../interfaces/THREE_Interface';
-import { useGameState } from '../store/GameState';
 import RenderLoop from './RenderLoop';
 import { useSceneState } from '../store/SceneState';
-// import SideEffects from './SideEffects';
-import { EntityId } from '../store/types';
-// import { EntityId } from '../store/types';
+import GameSetup from '../entities/BubbleManager';
+import { useThree } from '@react-three/fiber';
+import getGameData from '../helpers/getGameData';
+import CannonDebugger from 'cannon-es-debugger';
+import world from '../../DEMO/PhysicsWorld';
 
 interface GameLogicProps {
   avatar: React.RefObject<VRM>;
 }
 
-let gameRunning = false;
-
 export default function GameLogic({ avatar }: GameLogicProps) {
-  const gameState = useGameState();
+  // const gameState = useGameState();
   const sceneState = useSceneState();
-  let firstBubbleInSet: null | undefined | EntityId;
+  // let firstBubbleInSet: null | undefined | EntityId;
+  const { scene } = useThree();
+  const game = useRef<GameSetup | null>(null);
+
+  const debugRenderer = CannonDebugger(scene, world, { color: 'blue' });
+
+  const updateDebug = () => {
+    debugRenderer.update();
+  }
 
   console.log('~~THE GAME LOGIC RERENDERED')
 
-  if (gameRunning) {
-    firstBubbleInSet = gameState.levels[0].bubbleEntities[0].get({ noproxy: true });
-  }
+  const startTheGame = async () => {
+    try {
+      const response = await getGameData(); // rename later to httpGetGameData
+      if (!response.ok) {
+        throw new Error('Failed to fetch game data from the server');
+      }
 
-  async function startTheGame() {
-    await gameState.startGame();
+      const { reps, sets } = response; // later is await response.json() ?
+      game.current = new GameSetup(reps, sets, scene);
+      console.log('game current? ', game.current.initialize)
+      game.current.initialize();
+
+    } catch (error) {
+      console.error('Error during game initialization: ', error);
+    }
   }
 
   useEffect(() => {
     if (sceneState.sceneLoaded.get({ noproxy: true })) {
       startTheGame();
-      gameRunning = true;
     }
   }, [sceneState.sceneLoaded])
 
-  useEffect(() => {
-    if (!gameRunning) return;
 
-    console.log('first bubble in the set is ', firstBubbleInSet)
-    // if there are no more bubbles in the current set
-    if (firstBubbleInSet !== 0 && !firstBubbleInSet) {
-      // remove the set from the levels array
-      const setsInPlay = gameState.levels.get({ noproxy: true }).slice(1);
-      gameState.levels.set(setsInPlay);
-      console.log('No more bubbles in the set; game state is ', gameState)
-    } else {
-      // otherwise if there is a new first bubble, make it active!
-      // do a query in the world for the bubble by the id of the firstBubble, then access its active property
-    }
-  }, [firstBubbleInSet])
-
-  // any side effects that need to happen, render here in a useEffect
-  // if you need to listen to any ecs onEntityAdded or whatever changes, probably here too
-
-  // pull from the hookstate store and if we have, say, levels length then return this renderloop (only start game when ready)
-  // Maybe in the future if game is all set up, then render the countdown to start while render loop is happening, and then only
-  // when countdown starts does the render loop render all the bubbles (edit bubbles.tsx to wait for countdown over)
-  return gameRunning ? <RenderLoop avatar={avatar} /> : null;
-  // return gameRunning ? (
-  //   <>
-  //     <RenderLoop avatar={avatar} />
-  //     {firstBubbleInSet && <SideEffects firstBubbleInSet={firstBubbleInSet}/>}
-  //   </>
-  // ) : null
+  return !game.current?.gameEnded ? (
+    <RenderLoop avatar={avatar} game={game} debugRenderer={updateDebug}/>
+  ) : null;
 }
