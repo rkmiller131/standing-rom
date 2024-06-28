@@ -1,14 +1,12 @@
 import { VRM } from '@pixiv/three-vrm';
 import { useSceneState } from '../ecs/store/SceneState';
 import { useGameState } from '../ecs/store/GameState';
-import { useSphere } from '@react-three/cannon';
-import { Mesh, Vector3 } from 'three';
+import { Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useRef } from 'react';
-import HandCollider2 from './vanillaHandCollider';
-import world, { worldBubbleManager } from './PhysicsWorld';
+import { useRef } from 'react';
+import HandCollider from './classes/HandCollider';
 
-interface HandColliderProps {
+interface HandProps {
   avatar: React.RefObject<VRM>;
   handedness: 'right' | 'left';
 }
@@ -16,13 +14,13 @@ interface HandColliderProps {
 const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
-export default function HandCollider({ avatar, handedness }: HandColliderProps) {
+export default function Hand({ avatar, handedness }: HandProps) {
   const sceneState = useSceneState();
   const gameState = useGameState();
   const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
   const poppedBubbles = useRef<Set<string>>(new Set());
 
-  const handCollider = new HandCollider2(handedness);
+  const handCollider = new HandCollider(handedness);
 
   useFrame((_state, delta) => {
     if (sceneLoaded && avatar.current){
@@ -38,6 +36,7 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
         handCollider.body.position.set(currentPosition.x, currentPosition.y, currentPosition.z)
       }
 
+      // NOTE -- currently not calculating velocity, just testing lag fix
       // Calculate velocity only if time difference is greater than zero (so no divide by 0 or super small values)
       if (poppedBubbles.current.size > 0 && delta > 0.001) {
         const distance = currentPosition.clone().sub(previousPosition);

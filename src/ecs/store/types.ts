@@ -40,5 +40,4 @@ export type SceneType = {
   environmentLoaded: boolean;
   device: 'Desktop' | 'Tablet' | 'Mobile';
   selectedEnvironment: 'Indoor Office' | 'Outdoors' | '';
-  // gameIsRunning: boolean;
 };

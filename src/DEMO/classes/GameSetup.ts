@@ -1,9 +1,9 @@
 import { Scene, Vector3 } from 'three';
 import { avatarProportions } from '../../avatar/helpers/setupAvatarProportions';
-import findSideSpawned from '../helpers/findSideSpawned';
-import { LevelsType, SetType } from '../store/types';
-import { calculateArcCoordinates } from '../helpers/calculateArcCoordinates';
-import Bubble from '../../DEMO/vanillaBubble';
+import findSideSpawned from '../../ecs/helpers/findSideSpawned';
+import { LevelsType, SetType } from '../../ecs/store/types';
+import { calculateArcCoordinates } from '../../ecs/helpers/calculateArcCoordinates';
+import Bubble from './Bubble';
 
 export default class GameSetup {
   public gameInfo = {
@@ -144,7 +144,6 @@ export default class GameSetup {
 
   // only removes the first bubble from the currently active level. removeBubble called when bubble ages (not collided with)
   removeBubble() {
-    console.log('remove bubble was called and levels are ', this.levels)
     // doesn't need to handle mesh or scene removal (done in vanilla bubble) Just needs to update the array refernce for update loop
     if (this.levels[0].inPlay && this.levels[0].bubbleEntities.length > 0) {
       this.levels[0].bubbleEntities.splice(0, 1);

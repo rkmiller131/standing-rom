@@ -1,8 +1,8 @@
 import { Body, Sphere } from 'cannon-es';
 import { LayerMaterial, Depth, Fresnel } from 'lamina/vanilla';
 import { Mesh, Object3D, Scene, SphereGeometry, Vector3 } from 'three';
-import { world, worldBubbleManager } from './PhysicsWorld';
-import GameSetup from '../ecs/entities/BubbleManager';
+import { world, worldBubbleManager } from '../PhysicsWorld';
+import GameSetup from './GameSetup';
 
 export default class Bubble extends Object3D {
   public mesh: Mesh;

@@ -1,5 +1,5 @@
 import { VRM } from '@pixiv/three-vrm';
-import HandCollider from './HandCollider';
+import Hand from './Hand';
 
 interface AvatarHandColliderProps {
   avatar: React.RefObject<VRM>;
@@ -8,8 +8,8 @@ interface AvatarHandColliderProps {
 export default function AvatarHandColliders({ avatar }: AvatarHandColliderProps) {
   return (
     <>
-      <HandCollider avatar={avatar} handedness='right'/>
-      <HandCollider avatar={avatar} handedness='left'/>
+      <Hand avatar={avatar} handedness='right'/>
+      <Hand avatar={avatar} handedness='left'/>
     </>
   )
 }

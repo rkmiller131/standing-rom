@@ -1,5 +1,5 @@
 import { Vec3, World } from 'cannon-es';
-import Bubble from './vanillaBubble';
+import Bubble from './classes/Bubble';
 
 export const world = new World({
   gravity: new Vec3(0, 0, 0),

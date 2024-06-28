@@ -11,7 +11,6 @@ import checkUserDevice from './ecs/helpers/checkUserDevice';
 import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
-import { Debug, Physics } from '../interfaces/CANNON_Interface';
 import AvatarHandColliders from './DEMO/AvatarHandColliders';
 
 import './css/App.css';
@@ -36,27 +35,10 @@ export default function App() {
 
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const avatar = useRef<VRM | null>(null);
-  // const game = useRef<GameSetup | null>(null);
-  console.log('APP RERENDERED')
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
   };
-
-  // const startTheGame = async () => {
-  //   try {
-  //     const response = await getGameData(); // rename later to httpGetGameData
-  //     if (!response.ok) {
-  //       throw new Error('Failed to fetch game data from the server');
-  //     }
-  //     const { reps, sets } = response; // later is await response.json() ?
-  //     game.current = new GameSetup(reps, sets, scene);
-  //     game.current.initialize();
-
-  //   } catch (error) {
-  //     console.error('Error during game initialization: ', error);
-  //   }
-  // }
 
   useLayoutEffect(() => {
     if (
@@ -69,8 +51,8 @@ export default function App() {
   }, [holisticLoaded, sceneState.environmentLoaded]);
 
   return (
-    <main id="app-container">
-      <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
+    <main id='app-container'>
+      <img src={UbiquitySVG} alt='Ubiquity Logo' className='uvx-logo' />
       {!sceneState.selectedEnvironment.get({ noproxy: true }) && <SetupScreen />}
       {/* Once the environment has been selected from setup screen, start rendering the mocap */}
       {sceneState.selectedEnvironment.get({ noproxy: true }) && (
@@ -81,22 +63,14 @@ export default function App() {
 
       {/* 3D Canvas */}
       <Suspense fallback={null}>
-        <div className="canvas-container">
+        <div className='canvas-container'>
           <Renderer>
             <Environment/>
             <GameInfo />
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
 
-            {sceneState.sceneLoaded.get({ noproxy: true }) &&
-              <Physics gravity={[0, 0, 0]}>
-                <Debug color="blue">
-                  <AvatarHandColliders avatar={avatar} />
-                  {/* <Bubbles /> */}
-                </Debug>
-              </Physics>
-            }
-
             {/* All logic, including side effects and the animation frame loop system */}
+            {sceneState.sceneLoaded.get({noproxy: true}) && <AvatarHandColliders avatar={avatar} />}
             <GameLogic avatar={avatar} />
           </Renderer>
         </div>

@@ -1,8 +1,8 @@
 import { hookstate, useHookstate } from '@hookstate/core';
 import { GameType } from './types';
 import getGameSetup from '../helpers/getGameSetup';
-import { ECS } from '../World';
 
+// NOTE:  moved levels and this game state store into the class for GameSetup
 const initialState: GameType = hookstate({
   levels: [],
   score: {
@@ -21,7 +21,6 @@ export const useGameState = () => {
   return {
     ...gameState,
     startGame: () => {
-      ECS.world.clear();
       getGameSetup().then((results) => gameState.set(results));
     },
     popBubble: (velocity: number) => {
@@ -31,7 +30,6 @@ export const useGameState = () => {
       gameState.score.poppedVelocities.merge([velocity]);
     },
     toggleEndGame: () => {
-      ECS.world.clear();
       gameState.gameOver.set((prev) => !prev);
     },
   };

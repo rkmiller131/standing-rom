@@ -1,7 +1,7 @@
 import { Body, Sphere, Vec3 } from 'cannon-es';
-import { world } from './PhysicsWorld';
+import { world } from '../PhysicsWorld';
 
-export default class HandCollider2 {
+export default class HandCollider {
   // both hands are part of the same group
   public COLLISION_FILTER = 1 << 0;
   public COLLISION_MASK: number;

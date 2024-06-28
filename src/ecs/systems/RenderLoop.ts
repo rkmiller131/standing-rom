@@ -5,7 +5,7 @@ import { useGameState } from '../store/GameState';
 import calculateArmAngles from '../../avatar/helpers/calculateArmAngles';
 import { VRM } from '../../../interfaces/THREE_Interface';
 import { useSceneState } from '../store/SceneState';
-import GameSetup from '../entities/BubbleManager';
+import GameSetup from '../../DEMO/classes/GameSetup';
 import { world } from '../../DEMO/PhysicsWorld';
 import eventEmitter from '../../DEMO/vanillaEventEmitter';
 
@@ -56,7 +56,7 @@ export default function RenderLoop({ avatar, game, debugRenderer }  : RenderLoop
 
     game.current?.update();
     eventEmitter.update();
-    // debugRenderer();
+    debugRenderer();
     world.step(delta);
   });
 

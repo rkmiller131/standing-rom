@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { VRM } from '../../../interfaces/THREE_Interface';
 import RenderLoop from './RenderLoop';
 import { useSceneState } from '../store/SceneState';
-import GameSetup from '../entities/BubbleManager';
+import GameSetup from '../../DEMO/classes/GameSetup';
 import { useThree } from '@react-three/fiber';
 import getGameData from '../helpers/getGameData';
 import CannonDebugger from 'cannon-es-debugger';
