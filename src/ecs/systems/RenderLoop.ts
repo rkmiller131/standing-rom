@@ -7,7 +7,6 @@ import { VRM } from '../../../interfaces/THREE_Interface';
 import { useSceneState } from '../store/SceneState';
 import GameSetup from '../../DEMO/classes/GameSetup';
 import { world } from '../../DEMO/PhysicsWorld';
-import eventEmitter from '../../DEMO/vanillaEventEmitter';
 
 interface RenderLoopProps {
   avatar: React.RefObject<VRM>;
@@ -55,7 +54,6 @@ export default function RenderLoop({ avatar, game, debugRenderer }  : RenderLoop
     }
 
     game.current?.update();
-    eventEmitter.update();
     debugRenderer();
     world.step(delta);
   });
