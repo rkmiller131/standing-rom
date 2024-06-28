@@ -7,16 +7,14 @@ import GameSetup from '../entities/BubbleManager';
 import { useThree } from '@react-three/fiber';
 import getGameData from '../helpers/getGameData';
 import CannonDebugger from 'cannon-es-debugger';
-import world from '../../DEMO/PhysicsWorld';
+import { world } from '../../DEMO/PhysicsWorld';
 
 interface GameLogicProps {
   avatar: React.RefObject<VRM>;
 }
 
 export default function GameLogic({ avatar }: GameLogicProps) {
-  // const gameState = useGameState();
   const sceneState = useSceneState();
-  // let firstBubbleInSet: null | undefined | EntityId;
   const { scene } = useThree();
   const game = useRef<GameSetup | null>(null);
 
@@ -37,7 +35,6 @@ export default function GameLogic({ avatar }: GameLogicProps) {
 
       const { reps, sets } = response; // later is await response.json() ?
       game.current = new GameSetup(reps, sets, scene);
-      console.log('game current? ', game.current.initialize)
       game.current.initialize();
 
     } catch (error) {
@@ -45,6 +42,7 @@ export default function GameLogic({ avatar }: GameLogicProps) {
     }
   }
 
+  // in app just have this check of scene loaded, render game logic, then empty dep here
   useEffect(() => {
     if (sceneState.sceneLoaded.get({ noproxy: true })) {
       startTheGame();

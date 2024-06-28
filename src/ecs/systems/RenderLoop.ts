@@ -6,7 +6,8 @@ import calculateArmAngles from '../../avatar/helpers/calculateArmAngles';
 import { VRM } from '../../../interfaces/THREE_Interface';
 import { useSceneState } from '../store/SceneState';
 import GameSetup from '../entities/BubbleManager';
-import world from '../../DEMO/PhysicsWorld';
+import { world } from '../../DEMO/PhysicsWorld';
+import eventEmitter from '../../DEMO/vanillaEventEmitter';
 
 interface RenderLoopProps {
   avatar: React.RefObject<VRM>;
@@ -21,7 +22,7 @@ export default function RenderLoop({ avatar, game, debugRenderer }  : RenderLoop
 
   console.log('render loop has started')
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     const elapsedTime = clock.current.getElapsedTime();
 
     // CALCULATE ROM - ARM ANGLES ---------------------------------------------------------------
@@ -54,8 +55,9 @@ export default function RenderLoop({ avatar, game, debugRenderer }  : RenderLoop
     }
 
     game.current?.update();
-    debugRenderer();
-    world.step(1/60);
+    eventEmitter.update();
+    // debugRenderer();
+    world.step(delta);
   });
 
   return null;

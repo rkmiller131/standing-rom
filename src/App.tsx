@@ -13,12 +13,8 @@ import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
 import { Debug, Physics } from '../interfaces/CANNON_Interface';
 import AvatarHandColliders from './DEMO/AvatarHandColliders';
-import { Bubbles } from './ecs/entities/Bubbles';
 
 import './css/App.css';
-import getGameData from './ecs/helpers/getGameData';
-// import { useThree } from '@react-three/fiber';
-import GameSetup from './ecs/entities/BubbleManager';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 

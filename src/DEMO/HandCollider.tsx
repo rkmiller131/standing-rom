@@ -4,7 +4,9 @@ import { useGameState } from '../ecs/store/GameState';
 import { useSphere } from '@react-three/cannon';
 import { Mesh, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import HandCollider2 from './vanillaHandCollider';
+import world, { worldBubbleManager } from './PhysicsWorld';
 
 interface HandColliderProps {
   avatar: React.RefObject<VRM>;
@@ -20,26 +22,25 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
   const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
   const poppedBubbles = useRef<Set<string>>(new Set());
 
-  // Collision filter group - both hands are part of the same group
-  const collisionFilterGroup = 1 << 0;
+  const handCollider = new HandCollider2(handedness);
 
-  // Determine the current hand's group and the mask to exclude the other hand
-  const collisionFilterMask = ~(1 << (handedness === 'right'? 0 : 1));
+  // useEffect(() => {
+  //   const handleBeginContact = ({ bodyB }: { bodyB: Body }) => {
+  //     const bubbleId = bodyB.id;
+  //     const bubble = worldBubbleManager[bubbleId];
+  //     if (bubble) {
+  //       world.removeBody(bodyB);
+  //       bubble.popEffect();
+  //       delete worldBubbleManager[bubbleId];
+  //     }
+  //   }
+  //   world.addEventListener('beginContact', handleBeginContact);
 
-  const [, api] = useSphere<Mesh>(() => ({
-    position: handedness === 'right' ? [1, 0, 0] : [-1, 0, 0],
-    mass: 1,
-    type: 'Kinematic',
-    onCollideBegin: (e) => {
-      if (!poppedBubbles.current.has(e.body.uuid)) {
-        poppedBubbles.current.add(e.body.uuid);
-        // console.log(`${handedness} hand collided with bubble ${e.body.uuid}`);
-      }
-    },
-    args: [0.075],
-    collisionFilterGroup,
-    collisionFilterMask
-  }));
+  //   return () => {
+  //     world.removeEventListener('beginContact', handleBeginContact);
+  //   };
+
+  // }, []);
 
   useFrame((_state, delta) => {
     if (sceneLoaded && avatar.current){
@@ -51,8 +52,8 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
 
       currentPosition.setFromMatrixPosition(handNodeWorld)
 
-      if (currentPosition) {
-        api.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
+      if (currentPosition && handCollider.body) {
+        handCollider.body.position.set(currentPosition.x, currentPosition.y, currentPosition.z)
       }
 
       // Calculate velocity only if time difference is greater than zero (so no divide by 0 or super small values)

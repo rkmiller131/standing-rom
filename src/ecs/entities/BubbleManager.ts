@@ -11,16 +11,16 @@ export default class GameSetup {
     sets: 0
   };
 
-  public gameEnded = false;
-  private scene: Scene
-
   public levels: LevelsType = [];
+  public gameEnded = false;
+
+  private _scene: Scene
 
   // do the http get data thing, also call useThree to get the scene and pass to this constructor
   constructor(reps: number, sets: number, scene: Scene) {
     this.gameInfo.reps = reps;
     this.gameInfo.sets = sets;
-    this.scene = scene;
+    this._scene = scene;
   }
 
   initialize() {
@@ -40,8 +40,8 @@ export default class GameSetup {
         const bubblesInScene = this.levels[0].bubbleEntities;
         for (let i = 0; i < bubblesInScene.length; i++) {
           const currentBubble = bubblesInScene[i];
-          const bubble = new Bubble(currentBubble.spawnPosition);
-          this.scene.add(bubble.mesh);
+          const bubble = new Bubble(this._scene, currentBubble.spawnPosition);
+          this._scene.add(bubble.mesh);
           bubble.addCollider();
         }
 
@@ -136,9 +136,12 @@ export default class GameSetup {
     return bubbles;
   }
 
-  // only removes the first bubble from the currently active level
+  // only removes the first bubble from the currently active level. removeBubble called when bubble ages (not collided with)
   removeBubble() {
-
+    // doesn't need to handle mesh or scene removal (done in vanilla bubble) Just needs to update the array refernce for update loop
+    if (this.levels[0].inPlay && this.levels[0].bubbleEntities.length > 0) {
+      this.levels[0].bubbleEntities.splice(0, 1);
+    }
   }
 
   // when all the bubble entities in this set's array are empty, the level is removed
