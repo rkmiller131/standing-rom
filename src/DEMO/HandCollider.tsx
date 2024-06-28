@@ -24,24 +24,6 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
 
   const handCollider = new HandCollider2(handedness);
 
-  // useEffect(() => {
-  //   const handleBeginContact = ({ bodyB }: { bodyB: Body }) => {
-  //     const bubbleId = bodyB.id;
-  //     const bubble = worldBubbleManager[bubbleId];
-  //     if (bubble) {
-  //       world.removeBody(bodyB);
-  //       bubble.popEffect();
-  //       delete worldBubbleManager[bubbleId];
-  //     }
-  //   }
-  //   world.addEventListener('beginContact', handleBeginContact);
-
-  //   return () => {
-  //     world.removeEventListener('beginContact', handleBeginContact);
-  //   };
-
-  // }, []);
-
   useFrame((_state, delta) => {
     if (sceneLoaded && avatar.current){
       const handNodeWorld = handedness === 'right' ?

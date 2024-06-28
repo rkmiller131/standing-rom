@@ -40,15 +40,21 @@ export default class GameSetup {
         const bubblesInScene = this.levels[0].bubbleEntities;
         for (let i = 0; i < bubblesInScene.length; i++) {
           const currentBubble = bubblesInScene[i];
-          const bubble = new Bubble(this._scene, currentBubble.spawnPosition);
+          const bubble = new Bubble(this._scene, this, currentBubble.spawnPosition);
           this._scene.add(bubble.mesh);
           bubble.addCollider();
         }
 
       } else {
         // if the first set is already in play, then check if we have a first bubble
+        const firstBubbleInSet = this.levels[0].bubbleEntities[0];
         // if we do have a first bubble, make it active, make it start ageing
-        // if we don't have a first bubble, then remove the set.
+        if (firstBubbleInSet) {
+          // console.log('This set still has a first bubble')
+        } else {
+          // if we don't have a first bubble, then remove the set.
+          this.removeLevel();
+        }
       }
     } else {
       // if there are no more levels in the levels array, the game is over!
@@ -138,6 +144,7 @@ export default class GameSetup {
 
   // only removes the first bubble from the currently active level. removeBubble called when bubble ages (not collided with)
   removeBubble() {
+    console.log('remove bubble was called and levels are ', this.levels)
     // doesn't need to handle mesh or scene removal (done in vanilla bubble) Just needs to update the array refernce for update loop
     if (this.levels[0].inPlay && this.levels[0].bubbleEntities.length > 0) {
       this.levels[0].bubbleEntities.splice(0, 1);

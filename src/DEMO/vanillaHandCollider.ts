@@ -28,14 +28,6 @@ export default class HandCollider2 {
         collisionFilterMask: this.COLLISION_MASK
       });
 
-      // this.body.addEventListener('onCollideBegin', () => {
-      //   console.log(`The ${this._handedness} hand collided with something!`)
-
-      // });
-      // eventEmitter.on('bubbleCollision', () => {
-      //   console.log(`The ${this._handedness} hand collided with something!`);
-      // })
-
       world.addBody(this.body);
     }
   }
