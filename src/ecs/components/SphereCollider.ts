@@ -40,5 +40,3 @@ export default function SphereCollider({
 
   return null; // Returns null because the ref intended for the visual mesh is passed through the onAttachRefs callback
 }
-
-

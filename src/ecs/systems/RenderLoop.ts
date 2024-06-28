@@ -6,7 +6,6 @@ import calculateArmAngles from '../../avatar/helpers/calculateArmAngles';
 import { VRM } from '../../../interfaces/THREE_Interface';
 import { useSceneState } from '../store/SceneState';
 import { avatarProportions } from '../../avatar/helpers/setupAvatarProportions';
-// import { calculateLinearCoordinates } from '../helpers/calculateLinearCoordinates';
 import { calculateArcCoordinates } from '../helpers/calculateArcCoordinates';
 import { BubbleEntity } from '../store/types';
 import { uuidComponent } from '../components/uuid';
@@ -121,29 +120,6 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
               if (spawnSide === 'left' || spawnSide === 'crossL') {
                 angle = -angle // necessary to mirror coordinates
               }
-
-              // ---------------------------------------------------------------------------------------------------------------------------------
-              // No longer have linear cross body bubbles (not going from hand to cross shoulder, but rather an arc of t pose to opposite shoulder)
-              // Saving for reference later in case linear cross body is used --------------------------------------------------------------------
-              // ---------------------------------------------------------------------------------------------------------------------------------
-              // if (spawnSide === 'crossL' || spawnSide === 'crossR') {
-              //   const endPosition = spawnSide === 'crossL' ? rightShoulderPosition : leftShoulderPosition;
-              //   spawnPos = calculateLinearCoordinates(startPosition!, endPosition, numTargets, i);
-
-              // } else {
-              //   spawnPos = calculateArcCoordinates(avatarProportions.spinePos, spawnSide, startPosition!, angle);
-              // }
-
-              // ---------------------------------------------------------------------------------------------------------------------------------
-              // Changing the linear coordinates to frontal raises instead of cross body - more consistent with the actual PT but hard to track
-              // with a single web cam - the arm doesn't fully extend, so maybe still compensate with the frontal arc raises
-              // ---------------------------------------------------------------------------------------------------------------------------------
-              // if (spawnSide === 'frontL' || spawnSide === 'frontR') {
-              //   const endPosition = spawnSide === 'frontL' ? new Vector3(-0.2, 0.8, -0.05).add(avatarProportions.avatarPos) : new Vector3(0.2, 0.8, -0.05).add(avatarProportions.avatarPos);
-              //   spawnPos = calculateLinearCoordinates(startPosition!, endPosition, numTargets, i);
-              // } else {
-              //   spawnPos = calculateArcCoordinates(origin, spawnSide, startPosition!, angle);
-              // }
 
               const spawnPos = calculateArcCoordinates(origin, spawnSide, startPosition!, angle);
 

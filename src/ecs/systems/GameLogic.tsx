@@ -49,11 +49,5 @@ export default function GameLogic({ avatar }: GameLogicProps) {
     }
   }, [firstBubbleInSet])
 
-  // any side effects that need to happen, render here in a useEffect
-  // if you need to listen to any ecs onEntityAdded or whatever changes, probably here too
-
-  // pull from the hookstate store and if we have, say, levels length then return this renderloop (only start game when ready)
-  // Maybe in the future if game is all set up, then render the countdown to start while render loop is happening, and then only
-  // when countdown starts does the render loop render all the bubbles (edit bubbles.tsx to wait for countdown over)
   return gameRunning ? <RenderLoop avatar={avatar} /> : null;
 }
