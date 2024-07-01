@@ -6,6 +6,7 @@
   color: #0ed8a5;
   display: flex;
   flex-direction: column;
+  pointer-events: none;
   justify-content: center;
   align-items: center;
   z-index: 1;

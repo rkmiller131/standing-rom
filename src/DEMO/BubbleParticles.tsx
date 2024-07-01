@@ -5,16 +5,14 @@ import * as THREE from 'three';
 import { fragmentShader } from './fragmentShader';
 import { vertexShader } from './vertexShader';
 
-export default function CustomGeometryParticles({
+export default function BubbleParticles({
   position,
   count,
   radius,
-  isActive,
 }: {
   position: [number, number, number];
   count: number;
   radius: number;
-  isActive: boolean;
 }) {
   const points = useRef<THREE.Points>(null);
   const { scene } = useThree();
@@ -44,20 +42,18 @@ export default function CustomGeometryParticles({
       uOpacity: { value: 1 }}), []);
 
   useFrame((_, delta) => {
-    if (isActive) {
-      elapsedTime += delta;
+    elapsedTime += delta;
 
-      const material = points.current?.material as THREE.ShaderMaterial;
-      if (material.uniforms) {
-        material.uniforms.uTime.value = elapsedTime;
-      }
+    const material = points.current?.material as THREE.ShaderMaterial;
+    if (material.uniforms) {
+      material.uniforms.uTime.value = elapsedTime;
+    }
 
-      if (elapsedTime >= 5) {
-        if (points.current !== null) {
-          material.dispose();
-          points.current.geometry.dispose();
-          scene.remove(points.current as THREE.Object3D);
-        }
+    if (elapsedTime >= 5) {
+      if (points.current !== null) {
+        material.dispose();
+        points.current.geometry.dispose();
+        scene.remove(points.current as THREE.Object3D);
       }
     }
   });

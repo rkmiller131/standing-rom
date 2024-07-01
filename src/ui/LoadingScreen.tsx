@@ -3,17 +3,18 @@ import { useSceneState } from '../ecs/store/SceneState';
 
 import '../css/LoadingScreen.css';
 
+let unmountComponent = false;
+
 export default function LoadingScreen() {
   const sceneState = useSceneState();
   const [isLoading, setIsLoading] = useState(true);
-  const [unmountComponent, setUnmountComponent] = useState(false);
 
   useEffect(() => {
     if (sceneState.sceneLoaded.get({ noproxy: true })) {
       setIsLoading(false);
       setTimeout(() => {
         console.log('Closing Loading Screen...');
-        setUnmountComponent(true);
+        unmountComponent = true;
       }, 1000);
     }
   }, [sceneState.sceneLoaded]);

@@ -3,6 +3,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../../interfaces/THREE_Interface';
 import debounce from '../ecs/helpers/debounce';
 import { useSceneState } from '../ecs/store/SceneState';
+import { setupAvatarProportions } from './helpers/setupAvatarProportions';
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -26,6 +27,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man-Compressed.vrm?v=1715274436489',
       (gltf) => {
         const vrm = gltf.userData.vrm;
+        setupAvatarProportions(vrm);
         setAvatarModel(vrm);
         setAvatarLoaded(true);
       },

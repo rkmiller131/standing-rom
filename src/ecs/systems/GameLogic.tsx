@@ -1,14 +1,45 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
 import { VRM } from '../../../interfaces/THREE_Interface';
+import { useGameState } from '../store/GameState';
 import RenderLoop from './RenderLoop';
+import { Bubble } from '../store/types';
+import { ECS } from '../World';
 
 interface GameLogicProps {
   avatar: React.RefObject<VRM>;
 }
 
-export default function GameLogic({ avatar }: GameLogicProps) {
-  // any side effects that need to happen, render here in a useEffect
-  // if you need to listen to any ecs onEntityAdded or whatever changes, probably here too
+let gameRunning = false;
+let firstBubbleInSet: null | Bubble;
 
-  // pull from the hookstate store and if we have, say, levels length then return this renderloop (only start game when ready)
-  return <RenderLoop avatar={avatar} />;
+export default function GameLogic({ avatar }: GameLogicProps) {
+  const gameState = useGameState();
+
+  if (gameRunning && gameState.levels.length) {
+    firstBubbleInSet = gameState.levels[0].bubbleEntities[0].get({ noproxy: true });
+  }
+
+  async function startTheGame() {
+    await gameState.startGame();
+  }
+
+  useEffect(() => {
+    startTheGame();
+    gameRunning = true;
+  }, [])
+
+  useEffect(() => {
+    if (!gameRunning) return;
+    // if there are no more bubbles in the current set
+    if (!firstBubbleInSet && firstBubbleInSet !== 0) {
+      // remove the set from the levels array
+      const setsInPlay = gameState.levels.get({ noproxy: true }).slice(1);
+      gameState.levels.set(setsInPlay);
+      // since all we have are bubbles, and each bubble is added per set, clear the whole world I guess.
+      ECS.world.clear();
+    }
+  }, [firstBubbleInSet])
+
+  return gameRunning ? <RenderLoop avatar={avatar} /> : null;
 }

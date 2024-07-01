@@ -5,11 +5,13 @@ import { useSceneState } from '../ecs/store/SceneState';
 
 export default function Environment() {
   const sceneState = useSceneState();
+  const selectedScene = sceneState.selectedEnvironment.get({ noproxy: true });
   return (
     <Suspense fallback={null}>
-      {sceneState.selectedEnvironment.get({ noproxy: true }) ===
-        'Indoor Office' && <OfficeScene />}
-      {sceneState.selectedEnvironment.get({ noproxy: true }) === 'Outdoors' && (
+      {selectedScene === 'Indoor Office' && (
+        <OfficeScene />
+      )}
+      {selectedScene === 'Outdoors' && (
         <OutdoorScene />
       )}
     </Suspense>
