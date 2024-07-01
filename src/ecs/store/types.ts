@@ -1,12 +1,20 @@
+import { Vector3 } from 'three';
+
 export interface OpaqueType<T extends string> {
   readonly __opaqueType: T;
 }
 
 export type EntityId = OpaqueType<'entity'> & number;
 
+export type Bubble = {
+  age: number;
+  spawnPosition: Vector3;
+  active: boolean;
+}
+
 export type SetType = {
   sideSpawned: 'right' | 'left' | 'frontR' | 'frontL' | 'crossR' | 'crossL';
-  bubbleEntities: Array<EntityId | null | undefined>;
+  bubbleEntities: Bubble[];
   inPlay: boolean;
 };
 

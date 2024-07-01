@@ -27,6 +27,8 @@ export const useGameState = () => {
     popBubble: (velocity: number) => {
       const bubblesInPlay = gameState.levels[0].bubbleEntities.get({ noproxy: true }).slice(1);
       gameState.levels[0].bubbleEntities.set(bubblesInPlay);
+
+      // future: add an extra param for playerPopped and only do this step if player popped
       gameState.score.popped.set((prev) => prev + 1);
       gameState.score.poppedVelocities.merge([velocity]);
     },

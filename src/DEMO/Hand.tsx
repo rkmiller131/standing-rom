@@ -6,7 +6,7 @@ import { Mesh, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 
-interface HandColliderProps {
+interface HandProps {
   avatar: React.RefObject<VRM>;
   handedness: 'right' | 'left';
 }
@@ -14,7 +14,7 @@ interface HandColliderProps {
 const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
-export default function HandCollider({ avatar, handedness }: HandColliderProps) {
+export default function Hand({ avatar, handedness }: HandProps) {
   const sceneState = useSceneState();
   const gameState = useGameState();
   const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
@@ -31,10 +31,7 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
     mass: 1,
     type: 'Kinematic',
     onCollideBegin: (e) => {
-      if (!poppedBubbles.current.has(e.body.uuid)) {
-        poppedBubbles.current.add(e.body.uuid);
-        // console.log(`${handedness} hand collided with bubble ${e.body.uuid}`);
-      }
+      poppedBubbles.current.add(e.body.uuid);
     },
     args: [0.075],
     collisionFilterGroup,

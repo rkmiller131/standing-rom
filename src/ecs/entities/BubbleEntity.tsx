@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 import { ECS, Entity } from '../World';
-import Bubble from '../../DEMO/Bubble2';
+import Bubble from '../../DEMO/Bubble';
 
 interface BubbleEntityProps {
     active: boolean,
@@ -8,8 +8,6 @@ interface BubbleEntityProps {
     entity: Entity
 }
 const BubbleEntity = ({ active, position, entity }: BubbleEntityProps) => {
-    console.log('~~ Bubble entity has rerendered ECS.Entity')
-
     return (
         <ECS.Entity entity={entity}>
             <ECS.Component name="sceneObject">

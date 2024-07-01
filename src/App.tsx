@@ -11,7 +11,7 @@ import checkUserDevice from './ecs/helpers/checkUserDevice';
 import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
-import { Debug, Physics } from '../interfaces/CANNON_Interface';
+import { Physics } from '../interfaces/CANNON_Interface';
 import AvatarHandColliders from './DEMO/AvatarHandColliders';
 import { Bubbles } from './ecs/entities/Bubbles';
 
@@ -32,12 +32,11 @@ const Renderer = lazy(() => import('./renderer/Renderer'));
 // --------------------------------------------------------------------------------------
 
 export default function App() {
-  const [holisticLoaded, setHolisticLoaded] = useState(false);
-  const avatar = useRef<VRM | null>(null);
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDevice());
 
-  console.log('APP RERENDERED')
+  const [holisticLoaded, setHolisticLoaded] = useState(false);
+  const avatar = useRef<VRM | null>(null);
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
@@ -68,21 +67,20 @@ export default function App() {
       <Suspense fallback={null}>
         <div className="canvas-container">
           <Renderer>
-            <Environment/>
+            {sceneState.selectedEnvironment.get({ noproxy: true }) && <Environment/>}
             <GameInfo />
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
 
-            {sceneState.sceneLoaded.get({ noproxy: true }) &&
-              <Physics gravity={[0, 0, 0]}>
-                <Debug color="blue">
+            {sceneState.sceneLoaded.get({ noproxy: true }) && (
+              <>
+                <Physics gravity={[0, 0, 0]}>
                   <AvatarHandColliders avatar={avatar} />
                   <Bubbles />
-                </Debug>
-              </Physics>
-            }
-
-            {/* All logic, including side effects and the animation frame loop system */}
-            <GameLogic avatar={avatar} />
+                </Physics>
+                {/* All logic, including side effects and the animation frame loop system */}
+                <GameLogic avatar={avatar} />
+              </>
+            )}
           </Renderer>
         </div>
       </Suspense>
