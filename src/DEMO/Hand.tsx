@@ -1,9 +1,10 @@
 import { VRM } from '@pixiv/three-vrm';
 import { useSceneState } from '../ecs/store/SceneState';
 import { useGameState } from '../ecs/store/GameState';
-import { Vector3 } from 'three';
+import { Clock, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
 import HandCollider from './classes/HandCollider';
+import { useRef } from 'react';
 
 interface HandProps {
   avatar: React.RefObject<VRM>;
@@ -20,8 +21,9 @@ export default function Hand({ avatar, handedness }: HandProps) {
 
   const handCollider = new HandCollider(handedness);
   const poppedBubbles = handCollider.poppedTargets;
+  const clock = useRef(new Clock());
 
-  useFrame((_state, delta) => {
+  useFrame(() => {
     if (sceneLoaded && avatar.current){
       const handNodeWorld = handedness === 'right' ?
       avatar.current.humanoid.humanBones.rightMiddleProximal?.node.matrixWorld :
@@ -35,12 +37,20 @@ export default function Hand({ avatar, handedness }: HandProps) {
         handCollider.body.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
       }
 
-      // Calculate velocity only if time difference is greater than zero (so no divide by 0 or super small values)
-      if (poppedBubbles.size > 0 && delta > 0.001) {
+      // TODO: VELOCITY DOESNT SEEM CORRECT
+      // Revist the calculation and compare to some hand calculations to ensure accuracy. Should be m/s
+      // previous versions of this used the delta from useFrame, which is time in between frames, not an arbitrary seconds
+      // we would want seconds from one pop to the next, and the distance the arm has traveled since last pop
+      if (poppedBubbles.size > 0) {
+        const delta = clock.current.getElapsedTime(); // in seconds
+        console.log('delta is ', delta)
         const distance = currentPosition.clone().sub(previousPosition);
 
+        console.log('distance length is ', distance.length())
+        console.log('distance divided by seconds ', distance.length() / delta)
+
         const velocityVector = distance.clone().divideScalar(delta);
-        velocityVector.normalize();
+        // velocityVector.normalize();
         previousPosition.copy(currentPosition);
 
         poppedBubbles.forEach(() => {
@@ -48,6 +58,7 @@ export default function Hand({ avatar, handedness }: HandProps) {
           gameState.popBubble(velocity);
         })
         poppedBubbles.clear();
+        clock.current.start();
       }
     }
   });
