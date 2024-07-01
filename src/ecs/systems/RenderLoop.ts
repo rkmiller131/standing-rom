@@ -54,7 +54,7 @@ export default function RenderLoop({ avatar, game, debugRenderer }  : RenderLoop
     }
 
     game.current?.update();
-    debugRenderer();
+    // debugRenderer();
     world.step(delta);
   });
 

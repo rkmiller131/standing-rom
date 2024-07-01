@@ -4,6 +4,7 @@ import findSideSpawned from '../../ecs/helpers/findSideSpawned';
 import { LevelsType, SetType } from '../../ecs/store/types';
 import { calculateArcCoordinates } from '../../ecs/helpers/calculateArcCoordinates';
 import Bubble from './Bubble';
+// import createActiveBubble from '../materials/createActiveBubble';
 
 export default class GameSetup {
   public gameInfo = {
@@ -14,7 +15,7 @@ export default class GameSetup {
   public levels: LevelsType = [];
   public gameEnded = false;
 
-  private _scene: Scene
+  private _scene: Scene;
 
   // do the http get data thing, also call useThree to get the scene and pass to this constructor
   constructor(reps: number, sets: number, scene: Scene) {

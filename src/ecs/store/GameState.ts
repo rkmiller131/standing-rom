@@ -24,8 +24,8 @@ export const useGameState = () => {
       getGameSetup().then((results) => gameState.set(results));
     },
     popBubble: (velocity: number) => {
-      const bubblesInPlay = gameState.levels[0].bubbleEntities.get({ noproxy: true }).slice(1);
-      gameState.levels[0].bubbleEntities.set(bubblesInPlay);
+      // const bubblesInPlay = gameState.levels[0].bubbleEntities.get({ noproxy: true }).slice(1);
+      // gameState.levels[0].bubbleEntities.set(bubblesInPlay);
       gameState.score.popped.set((prev) => prev + 1);
       gameState.score.poppedVelocities.merge([velocity]);
     },

@@ -1,6 +1,6 @@
 import { Body, Sphere } from 'cannon-es';
-import { LayerMaterial, Depth, Fresnel } from 'lamina/vanilla';
-import { Mesh, Object3D, Scene, SphereGeometry, Vector3 } from 'three';
+// import { LayerMaterial, Depth, Fresnel } from 'lamina/vanilla';
+import { Mesh, MeshBasicMaterial, Object3D, Scene, SphereGeometry, Vector3 } from 'three';
 import { world, worldBubbleManager } from '../PhysicsWorld';
 import GameSetup from './GameSetup';
 
@@ -17,31 +17,34 @@ export default class Bubble extends Object3D {
 
   constructor(scene: Scene, gameManager: GameSetup, position: Vector3) {
     super();
+    // const geometry = new SphereGeometry(0.05, 8, 8);
+    // const material = new LayerMaterial({
+    //   color: '#ffffff',
+    //   lighting: 'physical',
+    //   transmission: 1,
+    //   roughness: 0.1,
+    //   thickness: 2,
+    //   layers: [
+    //     new Depth({
+    //       near: 0.4854,
+    //       far: 0.7661999999999932,
+    //       origin: [-0.4920000000000004, 0.4250000000000003, 0],
+    //       colorA: '#fec5da',
+    //       colorB: '#00b8fe'
+    //     }),
+    //     new Fresnel({
+    //       color: '#fefefe',
+    //       bias: -0.3430000000000002,
+    //       intensity: 3.8999999999999946,
+    //       power: 3.3699999999999903,
+    //       factor: 1.119999999999999,
+    //       mode: 'screen'
+    //     })
+    //   ]
+    // });
+
     const geometry = new SphereGeometry(0.05, 8, 8);
-    const material = new LayerMaterial({
-      color: '#ffffff',
-      lighting: 'physical',
-      transmission: 1,
-      roughness: 0.1,
-      thickness: 2,
-      layers: [
-        new Depth({
-          near: 0.4854,
-          far: 0.7661999999999932,
-          origin: [-0.4920000000000004, 0.4250000000000003, 0],
-          colorA: '#fec5da',
-          colorB: '#00b8fe'
-        }),
-        new Fresnel({
-          color: '#fefefe',
-          bias: -0.3430000000000002,
-          intensity: 3.8999999999999946,
-          power: 3.3699999999999903,
-          factor: 1.119999999999999,
-          mode: 'screen'
-        })
-      ]
-    });
+    const material = new MeshBasicMaterial({color: 'blue'})
 
     this.mesh = new Mesh(geometry, material);
     this.mesh.castShadow = true;
@@ -63,19 +66,19 @@ export default class Bubble extends Object3D {
       });
       this.body.position.set(this.position.x, this.position.y, this.position.z);
       this.entityId = this.body.id;
-
       worldBubbleManager[this.entityId] = this;
 
-      world.addEventListener('beginContact', handleBubbleCollision)
-
+      world.addEventListener('beginContact', handleBubbleCollision);
       world.addBody(this.body);
     }
   }
 
   popEffect() {
     this._gameManager.removeBubble();
+
     this._scene.remove(this.mesh);
     // play the particle pop effect
+    this.mesh.geometry.dispose();
   }
 }
 

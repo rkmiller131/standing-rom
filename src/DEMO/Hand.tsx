@@ -3,7 +3,6 @@ import { useSceneState } from '../ecs/store/SceneState';
 import { useGameState } from '../ecs/store/GameState';
 import { Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
 import HandCollider from './classes/HandCollider';
 
 interface HandProps {
@@ -18,9 +17,9 @@ export default function Hand({ avatar, handedness }: HandProps) {
   const sceneState = useSceneState();
   const gameState = useGameState();
   const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
-  const poppedBubbles = useRef<Set<string>>(new Set());
 
   const handCollider = new HandCollider(handedness);
+  const poppedBubbles = handCollider.poppedTargets;
 
   useFrame((_state, delta) => {
     if (sceneLoaded && avatar.current){
@@ -33,25 +32,22 @@ export default function Hand({ avatar, handedness }: HandProps) {
       currentPosition.setFromMatrixPosition(handNodeWorld)
 
       if (currentPosition && handCollider.body) {
-        handCollider.body.position.set(currentPosition.x, currentPosition.y, currentPosition.z)
+        handCollider.body.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
       }
 
-      // NOTE -- currently not calculating velocity, just testing lag fix
       // Calculate velocity only if time difference is greater than zero (so no divide by 0 or super small values)
-      if (poppedBubbles.current.size > 0 && delta > 0.001) {
+      if (poppedBubbles.size > 0 && delta > 0.001) {
         const distance = currentPosition.clone().sub(previousPosition);
 
         const velocityVector = distance.clone().divideScalar(delta);
         velocityVector.normalize();
         previousPosition.copy(currentPosition);
 
-        if (poppedBubbles.current.size > 0) {
-          poppedBubbles.current.forEach(() => {
-            const velocity = (Math.abs(velocityVector.x) + Math.abs(velocityVector.y) + Math.abs(velocityVector.z)) / 3;
-            gameState.popBubble(velocity);
-          });
-          poppedBubbles.current.clear();
-        }
+        poppedBubbles.forEach(() => {
+          const velocity = (Math.abs(velocityVector.x) + Math.abs(velocityVector.y) + Math.abs(velocityVector.z)) / 3;
+          gameState.popBubble(velocity);
+        })
+        poppedBubbles.clear();
       }
     }
   });
