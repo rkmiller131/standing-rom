@@ -83,7 +83,11 @@ export default function generateBubbles(reps: number, spawnSide: 'right' | 'left
       active: false
     }
 
-    bubbles.push(bubbleEntity);
+    if (spawnSide === 'crossL') {
+      bubbles.unshift(bubbleEntity); // hot fix; these need to be in reverse order for this edge case
+    } else {
+      bubbles.push(bubbleEntity);
+    }
   }
   return bubbles;
 }
