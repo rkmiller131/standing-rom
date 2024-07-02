@@ -86,7 +86,7 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
             gameState.levels[0].bubbleEntities[0].active.set(true);
             ECS.world.add({
               bubble: {
-                age: 0,
+                age: bubbleEntity.bubble!.age,
                 spawnPosition: bubbleEntity.bubble!.spawnPosition,
                 active: true
               }
