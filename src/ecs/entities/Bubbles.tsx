@@ -3,7 +3,7 @@ import { useEntities } from 'miniplex-react';
 import BubbleEntity from './BubbleEntity';
 
 export const Bubbles = () => {
-  // query the world for everything that has a 'bubble' tag or component
+  // query the world for everything that has a 'bubble' tag or related components
   const entities = useEntities(ECS.world.with('bubble'));
   return (
     <>

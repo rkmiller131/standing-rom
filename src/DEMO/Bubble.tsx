@@ -62,11 +62,11 @@ const Bubble = forwardRef((
       ) : (
         <mesh position={position}>
           <Sphere ref={ref} args={[0.05, 8, 8]}>
-            <meshStandardMaterial color='blue' />
+            <meshStandardMaterial color={active ? 'green' : 'blue'} />
           </Sphere>
         </mesh>
       )}
-      {!active && <SphereCollider
+      {active && <SphereCollider
         onAttachRefs={attachRefs}
         position={position}
         onCollideBegin={onCollideBegin}

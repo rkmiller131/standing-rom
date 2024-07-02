@@ -1,7 +1,7 @@
 import { hookstate, useHookstate } from '@hookstate/core';
 import { GameType } from './types';
 import getGameSetup from '../helpers/getGameSetup';
-import { ECS } from '../World';
+import { ECS, worldBubbleIds } from '../World';
 
 const initialState: GameType = hookstate({
   levels: [],
@@ -24,13 +24,16 @@ export const useGameState = () => {
       ECS.world.clear();
       getGameSetup().then((results) => gameState.set(results));
     },
-    popBubble: (velocity: number) => {
+    popBubble: (velocity: number, playerPopped: boolean) => {
+      // remove the bubble from game state
       const bubblesInPlay = gameState.levels[0].bubbleEntities.get({ noproxy: true }).slice(1);
       gameState.levels[0].bubbleEntities.set(bubblesInPlay);
+      worldBubbleIds.splice(0, 1);
 
-      // future: add an extra param for playerPopped and only do this step if player popped
-      gameState.score.popped.set((prev) => prev + 1);
-      gameState.score.poppedVelocities.merge([velocity]);
+      if (playerPopped) {
+        gameState.score.popped.set((prev) => prev + 1);
+        gameState.score.poppedVelocities.merge([velocity]);
+      }
     },
     toggleEndGame: () => {
       ECS.world.clear();

@@ -63,7 +63,7 @@ export default function Hand({ avatar, handedness }: HandProps) {
         if (poppedBubbles.current.size > 0) {
           poppedBubbles.current.forEach(() => {
             const velocity = (Math.abs(velocityVector.x) + Math.abs(velocityVector.y) + Math.abs(velocityVector.z)) / 3;
-            gameState.popBubble(velocity);
+            gameState.popBubble(velocity, true);
           });
           poppedBubbles.current.clear();
         }

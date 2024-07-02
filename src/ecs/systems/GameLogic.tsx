@@ -36,7 +36,6 @@ export default function GameLogic({ avatar }: GameLogicProps) {
       // remove the set from the levels array
       const setsInPlay = gameState.levels.get({ noproxy: true }).slice(1);
       gameState.levels.set(setsInPlay);
-      // since all we have are bubbles, and each bubble is added per set, clear the whole world I guess.
       ECS.world.clear();
     }
   }, [firstBubbleInSet])
