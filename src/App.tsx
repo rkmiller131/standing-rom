@@ -54,11 +54,11 @@ export default function App() {
   }, [holisticLoaded, sceneState.environmentLoaded]);
 
   return (
-    <main id="app-container">
+    <>
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       {!sceneState.selectedEnvironment.get({ noproxy: true }) && <SetupScreen />}
       {/* Once the environment has been selected from setup screen, start rendering the mocap */}
-      {sceneState.selectedEnvironment.get({ noproxy: true }) && (
+      {sceneState.environmentLoaded.get({ noproxy: true }) && (
         <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
       )}
       {/* Loading screen is always up (underneath) until scene has fully loaded */}
@@ -66,26 +66,24 @@ export default function App() {
 
       {/* 3D Canvas */}
       <Suspense fallback={null}>
-        <div className="canvas-container">
-          <Renderer>
-            {sceneState.selectedEnvironment.get({ noproxy: true }) && <Environment/>}
-            <GameInfo />
-            <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-            <CameraAnimations />
+        <Renderer>
+          {sceneState.selectedEnvironment.get({ noproxy: true }) && <Environment/>}
+          <GameInfo />
+          <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+          <CameraAnimations />
 
-            {sceneState.sceneLoaded.get({ noproxy: true }) && (
-              <>
-                <Physics gravity={[0, 0, 0]}>
-                  <AvatarHandColliders avatar={avatar} />
-                  <Bubbles />
-                </Physics>
-                {/* All logic, including side effects and the animation frame loop system */}
-                <GameLogic avatar={avatar} />
-              </>
-            )}
-          </Renderer>
-        </div>
+          {sceneState.sceneLoaded.get({ noproxy: true }) && (
+            <>
+              <Physics gravity={[0, 0, 0]}>
+                <AvatarHandColliders avatar={avatar} />
+                <Bubbles />
+              </Physics>
+              {/* All logic, including side effects and the animation frame loop system */}
+              <GameLogic avatar={avatar} />
+            </>
+          )}
+        </Renderer>
       </Suspense>
-    </main>
+    </>
   );
 }

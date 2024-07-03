@@ -26,7 +26,7 @@ export default function GameInfo() {
   }, [gameState.score, sceneState.sceneLoaded]);
 
   return (
-    <Html position={[-2, 2.2, -2]}>
+    <Html position={[-2, 2.2, -2]} zIndexRange={[0, 1]}>
       <div
         style={{
           backgroundColor: '#ffffff80',
@@ -36,7 +36,7 @@ export default function GameInfo() {
           height: '250px',
           padding: '10px',
           borderRadius: '5px',
-          color: 'black',
+          color: 'black'
         }}
       >
         <h2>Raw Game Information</h2>

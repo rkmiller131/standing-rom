@@ -9,6 +9,7 @@ import { VRM } from '../../interfaces/THREE_Interface';
 import { useSceneState } from '../ecs/store/SceneState';
 
 import '../css/Mocap.css';
+import SlidingInfo from './SlidingInfo';
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;
@@ -45,7 +46,6 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
 
   useEffect(() => {
     if (holistic) return;
-    // grab the video stream from client webcam
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
         .getUserMedia({ video: true })
@@ -104,16 +104,19 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   }, [device]);
 
   return (
-    <div id="mocap-container" className={device}>
-      <video
-        id="webcam-stream"
-        ref={videoRef}
-        width="100%"
-        height="100%"
-        muted
-        playsInline
-      ></video>
-      <canvas id="landmark-guides" ref={landmarkCanvasRef} />
+    <div className="post-setup-screen">
+      <SlidingInfo />
+      <div id="mocap-container" className={device}>
+        <video
+          id="webcam-stream"
+          ref={videoRef}
+          width="100%"
+          height="100%"
+          muted
+          playsInline
+        ></video>
+        <canvas id="landmark-guides" ref={landmarkCanvasRef} />
+      </div>
     </div>
   );
 }

@@ -10,14 +10,14 @@ export default function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (sceneState.sceneLoaded.get({ noproxy: true })) {
+    if (sceneState.environmentLoaded.get({ noproxy: true })) {
       setIsLoading(false);
       setTimeout(() => {
         console.log('Closing Loading Screen...');
         unmountComponent = true;
       }, 1000);
     }
-  }, [sceneState.sceneLoaded]);
+  }, [sceneState.environmentLoaded]);
 
   if (unmountComponent) return null;
 
@@ -25,7 +25,7 @@ export default function LoadingScreen() {
     <div id="loading-screen" className={!isLoading ? 'fade-out' : ''}>
       <div className="loading-spinner">
         Loading
-        <span></span>
+        <span className="loading-text"></span>
       </div>
     </div>
   );
