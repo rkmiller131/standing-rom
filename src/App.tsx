@@ -16,6 +16,7 @@ import AvatarHandColliders from './DEMO/AvatarHandColliders';
 import { Bubbles } from './ecs/entities/Bubbles';
 
 import './css/App.css';
+import CameraAnimations from './DEMO/CameraAnimations';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 
@@ -70,6 +71,7 @@ export default function App() {
             {sceneState.selectedEnvironment.get({ noproxy: true }) && <Environment/>}
             <GameInfo />
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+            <CameraAnimations />
 
             {sceneState.sceneLoaded.get({ noproxy: true }) && (
               <>

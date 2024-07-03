@@ -72,7 +72,6 @@ const SphereCollider = ({
   onCollideBegin,
   onCollideEnd
 }: SphereColliderComponentProps) => {
-  console.log('~~sphere collider rendered');
 
   const collisionFilterGroup = 1 << 2 // Bubbles assigned to group 4 (2^2)
   const collisionFilterMask = (1 << 0) | (1 << 1) // Allow interaction with hands (group 1 and 2)
