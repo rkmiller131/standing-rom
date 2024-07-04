@@ -37,8 +37,7 @@ export type GameType = {
 export type SceneType = {
   sceneLoaded: boolean;
   environmentLoaded: boolean;
-  calibrationRunning: boolean;
+  gameRunning: boolean;
   device: 'Desktop' | 'Tablet' | 'Mobile';
   selectedEnvironment: 'Indoor Office' | 'Outdoors' | '';
-  // gameIsRunning: boolean;
 };

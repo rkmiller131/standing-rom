@@ -11,15 +11,13 @@ interface RenderLoopProps {
   avatar: React.RefObject<VRM>;
 }
 
-let gameEnded = false;
-
 export default function RenderLoop({ avatar }: RenderLoopProps) {
   const clock = useRef(new Clock());
   const gameState = useGameState();
   const sceneState = useSceneState();
 
   useFrame((_state, delta) => {
-    if (gameEnded) return;
+    if (gameState.gameOver.get({ noproxy: true })) return;
     const elapsedTime = clock.current.getElapsedTime();
 
     // CALCULATE ROM - ARM ANGLES ---------------------------------------------------------------
@@ -51,9 +49,11 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
       clock.current.start();
     }
 
-    // Below executes once per frame
-
-    // SPAWN BUBBLES - GAME LOGIC --------------------------------------------------------
+    /* Below executes once per frame
+       v                           v
+    */
+    // Wait for the countdown to end before the bubbles actually spawn
+    if (!sceneState.gameRunning.get({ noproxy: true })) return;
     const levels = gameState.levels.get({ noproxy: true });
     // constantly check for the first set(level)
     if (levels && levels.length > 0) {
@@ -112,10 +112,11 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
       }
     } else {
       // otherwise if there is no more first set (empty levels array) - game is over!
-      if (!gameEnded) {
-        console.log('~~ THE GAME IS OVER');
-        gameEnded = true;
-        // don't forget to update the global state
+      if (!gameState.gameOver.get({ noproxy: true })) {
+        console.log('GAME OVER');
+        gameState.gameOver.set(true);
+
+        // somthing to trigger a results screen and play again capabilities.
       }
     }
   });

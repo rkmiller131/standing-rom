@@ -17,6 +17,7 @@ import { Bubbles } from './ecs/entities/Bubbles';
 
 import './css/App.css';
 import CameraAnimations from './DEMO/CameraAnimations';
+import CountdownScreen from './ui/CountdownScreen';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 
@@ -49,7 +50,11 @@ export default function App() {
       holisticLoaded &&
       sceneState.environmentLoaded.get({ noproxy: true })
     ) {
-      sceneState.sceneLoaded.set(true);
+      const transitionDelay = setTimeout(() => {
+        sceneState.sceneLoaded.set(true);
+      }, 3000) // delay to see avatar in calibration before game officially starts
+
+      return () => clearTimeout(transitionDelay)
     }
   }, [holisticLoaded, sceneState.environmentLoaded]);
 
@@ -63,6 +68,8 @@ export default function App() {
       )}
       {/* Loading screen is always up (underneath) until scene has fully loaded */}
       <LoadingScreen />
+
+      {sceneState.sceneLoaded.get({ noproxy: true }) && <CountdownScreen/>}
 
       {/* 3D Canvas */}
       <Suspense fallback={null}>

@@ -1,28 +1,49 @@
 import { gsap } from 'gsap';
 import { useEffect } from 'react';
+import { useSceneState } from '../ecs/store/SceneState';
 
 let mounted = false;
 
 export default function SlidingInfo() {
+  const sceneState = useSceneState();
+  const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
 
   useEffect(() => {
-    if (mounted) return;
-    gsap.fromTo('#sliding-info-container',
-      {
-        transform: 'translateX(-200%)',
-        width: '0%',
-        autoAlpha: 0
-      },
-      {
-        duration: 1,
-        transform: 'translateX(0)',
-        width: '40%',
-        minWidth: 'calc(4% + 450px)',
-        autoAlpha: 1
-      }
-    )
-    mounted = true;
-  }, [])
+    if (!mounted) {
+      gsap.fromTo('#sliding-info-container',
+        {
+          transform: 'translateX(-200%)',
+          width: '0%',
+          autoAlpha: 0
+        },
+        {
+          duration: 1,
+          transform: 'translateX(0)',
+          width: '40%',
+          minWidth: 'calc(4% + 450px)',
+          autoAlpha: 1
+        }
+      )
+      mounted = true;
+    }
+
+    if (sceneLoaded) {
+      gsap.fromTo('#sliding-info-container',
+        {
+          transform: 'translateX(0)',
+          width: '40%',
+          minWidth: 'calc(4% + 450px)',
+          autoAlpha: 1
+        },
+        {
+          transform: 'translateX(-200%)',
+          width: '0%',
+          autoAlpha: 0,
+          duration: 3
+        }
+      )
+    }
+  }, [sceneLoaded])
 
   return (
     <div id="sliding-info-container">

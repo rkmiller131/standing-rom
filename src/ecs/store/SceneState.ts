@@ -4,10 +4,9 @@ import { SceneType } from './types';
 const initialState: SceneType = hookstate({
   sceneLoaded: false,
   environmentLoaded: false,
-  calibrationRunning: false,
+  gameRunning: false,
   device: 'Desktop',
-  selectedEnvironment: '',
-  // gameIsRunning: false
+  selectedEnvironment: ''
 });
 
 export const useSceneState = () => {
