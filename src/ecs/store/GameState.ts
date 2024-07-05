@@ -11,6 +11,7 @@ const initialState: GameType = hookstate({
     maxLeftArmAngle: 0,
     maxRightArmAngle: 0,
     poppedVelocities: [],
+    currentStreak: 0
   },
   gameOver: false,
 });
@@ -33,6 +34,9 @@ export const useGameState = () => {
       if (playerPopped) {
         gameState.score.popped.set((prev) => prev + 1);
         gameState.score.poppedVelocities.merge([velocity]);
+        gameState.score.currentStreak.set((prev) => prev + 1);
+      } else {
+        gameState.score.currentStreak.set(0);
       }
     },
     toggleEndGame: () => {

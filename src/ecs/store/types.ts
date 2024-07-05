@@ -26,6 +26,7 @@ export type ScoreType = {
   maxLeftArmAngle: number;
   maxRightArmAngle: number;
   poppedVelocities: number[];
+  currentStreak: number;
 };
 
 export type GameType = {

@@ -5,7 +5,6 @@ import { useGameState } from '../store/GameState';
 import RenderLoop from './RenderLoop';
 import { Bubble } from '../store/types';
 import { ECS } from '../World';
-import { useThree } from '@react-three/fiber';
 
 interface GameLogicProps {
   avatar: React.RefObject<VRM>;
@@ -16,10 +15,6 @@ let firstBubbleInSet: null | Bubble;
 
 export default function GameLogic({ avatar }: GameLogicProps) {
   const gameState = useGameState();
-  // const { camera } = useThree();
-
-  // console.log('camera position is ', camera.position)
-  // console.log('camera rotation is ', camera.rotation)
 
   if (gameIsSetup && gameState.levels.length) {
     firstBubbleInSet = gameState.levels[0].bubbleEntities[0].get({ noproxy: true });

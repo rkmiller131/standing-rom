@@ -2,7 +2,6 @@
 import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
 import Mocap from './mocap/Mocap';
 import Avatar from './avatar/Avatar';
-import UbiquitySVG from './assets/ubiquity.svg';
 import LoadingScreen from './ui/LoadingScreen';
 import GameLogic from './ecs/systems/GameLogic';
 import { useSceneState } from './ecs/store/SceneState';
@@ -18,6 +17,7 @@ import { Bubbles } from './ecs/entities/Bubbles';
 import './css/App.css';
 import CameraAnimations from './DEMO/CameraAnimations';
 import CountdownScreen from './ui/CountdownScreen';
+import ScoreDisplay from './ui/ScoreDisplay';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 
@@ -60,7 +60,6 @@ export default function App() {
 
   return (
     <>
-      <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
       {!sceneState.selectedEnvironment.get({ noproxy: true }) && <SetupScreen />}
       {/* Once the environment has been selected from setup screen, start rendering the mocap */}
       {sceneState.environmentLoaded.get({ noproxy: true }) && (
@@ -70,6 +69,7 @@ export default function App() {
       <LoadingScreen />
 
       {sceneState.sceneLoaded.get({ noproxy: true }) && <CountdownScreen/>}
+      <ScoreDisplay />
 
       {/* 3D Canvas */}
       <Suspense fallback={null}>

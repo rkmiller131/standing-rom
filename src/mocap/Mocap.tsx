@@ -7,9 +7,9 @@ import { Camera } from '@mediapipe/camera_utils';
 import { animateVRM } from '../avatar/helpers/avatarAnimator';
 import { VRM } from '../../interfaces/THREE_Interface';
 import { useSceneState } from '../ecs/store/SceneState';
+import SlidingInfo from '../ui/SlidingInfo';
 
 import '../css/Mocap.css';
-import SlidingInfo from './SlidingInfo';
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;

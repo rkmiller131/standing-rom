@@ -10,12 +10,6 @@ html, body, #root {
   overflow: hidden;
 }
 
-.uvx-logo {
-  position: fixed;
-  margin: 2%;
-  z-index: 1;
-}
-
 /* the .webgl class is assigned to the canvas by Three.js */
 .webgl {
   position: fixed;
