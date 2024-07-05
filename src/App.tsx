@@ -7,17 +7,16 @@ import GameLogic from './ecs/systems/GameLogic';
 import { useSceneState } from './ecs/store/SceneState';
 import { VRM } from '../interfaces/THREE_Interface';
 import checkUserDevice from './ecs/helpers/checkUserDevice';
-import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
 import { Physics } from '../interfaces/CANNON_Interface';
 import AvatarHandColliders from './DEMO/AvatarHandColliders';
 import { Bubbles } from './ecs/entities/Bubbles';
-
-import './css/App.css';
 import CameraAnimations from './DEMO/CameraAnimations';
 import CountdownScreen from './ui/CountdownScreen';
 import ScoreDisplay from './ui/ScoreDisplay';
+
+import './css/App.css';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 
@@ -75,7 +74,6 @@ export default function App() {
       <Suspense fallback={null}>
         <Renderer>
           {sceneState.selectedEnvironment.get({ noproxy: true }) && <Environment/>}
-          <GameInfo />
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           <CameraAnimations />
 
