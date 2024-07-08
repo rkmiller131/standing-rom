@@ -5,6 +5,7 @@ import Avatar from './avatar/Avatar';
 import LoadingScreen from './ui/LoadingScreen';
 import GameLogic from './ecs/systems/GameLogic';
 import { useSceneState } from './ecs/store/SceneState';
+import { useGameState } from './ecs/store/GameState';
 import { VRM } from '../interfaces/THREE_Interface';
 import checkUserDevice from './ecs/helpers/checkUserDevice';
 import SetupScreen from './ui/SetupScreen';
@@ -15,6 +16,7 @@ import { Bubbles } from './ecs/entities/Bubbles';
 import CameraAnimations from './DEMO/CameraAnimations';
 import CountdownScreen from './ui/CountdownScreen';
 import ScoreDisplay from './ui/ScoreDisplay';
+import ResultsScreen from './ui/ResultsScreen';
 
 import './css/App.css';
 
@@ -34,6 +36,7 @@ const Renderer = lazy(() => import('./renderer/Renderer'));
 
 export default function App() {
   const sceneState = useSceneState();
+  const gameState = useGameState();
   sceneState.device.set(checkUserDevice());
 
   const [holisticLoaded, setHolisticLoaded] = useState(false);
@@ -69,6 +72,8 @@ export default function App() {
 
       {sceneState.sceneLoaded.get({ noproxy: true }) && <CountdownScreen/>}
       <ScoreDisplay />
+
+      {gameState.gameOver.get({ noproxy: true }) && <ResultsScreen />}
 
       {/* 3D Canvas */}
       <Suspense fallback={null}>

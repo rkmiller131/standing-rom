@@ -1,0 +1,64 @@
+import calcAverageVelocity from '../ecs/helpers/calcAverageVelocity';
+import { useGameState } from '../ecs/store/GameState';
+
+import '../css/ResultsScreen.css';
+
+export default function ResultsScreen() {
+    const gameState = useGameState();
+    const maxRightArmAngle = gameState.score.maxRightArmAngle.get({ noproxy: true });
+    const maxLeftArmAngle = gameState.score.maxLeftArmAngle.get({ noproxy: true });
+    const popped = gameState.score.popped.get({ noproxy: true });
+    const totalBubbles = gameState.score.totalBubbles.get({ noproxy: true });
+    const avgVelocity = calcAverageVelocity(gameState.score.poppedVelocities.get({ noproxy: true }).slice());
+    const percentCompletion = Math.round((popped / totalBubbles) * 100);
+
+    const handleSubmit = () => {
+        const results = {
+          datePlayed: new Date().toISOString().slice(0, 19),
+          percentCompletion,
+          bubblesPopped: popped,
+          avgVelocity: Number(avgVelocity),
+          maxLeftAngle: maxLeftArmAngle,
+          maxRightAngle: maxRightArmAngle,
+          completed: true
+        }
+
+        // submit to the backend, then redirect to the uvx dashboard
+        console.log('results have been sent! ', results);
+    }
+
+    return (
+        <>
+            <div className="results-screen">
+                <div className="blendHue" />
+                <div className="results-data-container">
+                    <h2>Congratulations!</h2>
+
+                    <div className="results-data">
+                        <div className="results-data-item">
+                            <span>AVERAGE POPPING VELOCITY</span>
+                            <span className="results-data-metric">{`${avgVelocity}m/s`}</span>
+                        </div>
+                        <div className="results-data-item">
+                            <span>MAX RIGHT ARM ANGLE</span>
+                            <span className="results-data-metric">{`${maxRightArmAngle}°`}</span>
+                        </div>
+                        <div className="results-data-item">
+                            <span>MAX LEFT ARM ANGLE</span>
+                            <span className="results-data-metric">{`${maxLeftArmAngle}°`}</span>
+                        </div>
+                        <div className="results-data-item">
+                            <span>FINAL SCORE</span>
+                            <span className="results-data-metric">{`${popped}/${totalBubbles}`}</span>
+                        </div>
+                    </div>
+                    {/* make sure these buttons are only available to the patient to press */}
+                    <div className="results-button-container">
+                        <button>Try Again</button>
+                        <button onClick={handleSubmit}>Submit Results</button>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
