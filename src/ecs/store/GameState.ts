@@ -43,6 +43,9 @@ export const useGameState = () => {
       ECS.world.clear();
       gameState.gameOver.set((prev) => !prev);
     },
+    reset: () => {
+      gameState.set(initialState);
+    }
   };
 };
 

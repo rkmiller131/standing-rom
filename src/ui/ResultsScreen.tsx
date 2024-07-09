@@ -3,8 +3,13 @@ import { useGameState } from '../ecs/store/GameState';
 
 import '../css/ResultsScreen.css';
 
-export default function ResultsScreen() {
+interface ResultsScreenProps {
+    handleReplay: () => void;
+}
+
+export default function ResultsScreen({ handleReplay }: ResultsScreenProps) {
     const gameState = useGameState();
+
     const maxRightArmAngle = gameState.score.maxRightArmAngle.get({ noproxy: true });
     const maxLeftArmAngle = gameState.score.maxLeftArmAngle.get({ noproxy: true });
     const popped = gameState.score.popped.get({ noproxy: true });
@@ -23,8 +28,10 @@ export default function ResultsScreen() {
           completed: true
         }
 
-        // submit to the backend, then redirect to the uvx dashboard
+        // For now, just console logging results.
+        // Submit to the backend, then redirect to the uvx dashboard
         console.log('results have been sent! ', results);
+        window.location.href = 'https://www.ubiquityvx.com/';
     }
 
     return (
@@ -54,7 +61,7 @@ export default function ResultsScreen() {
                     </div>
                     {/* make sure these buttons are only available to the patient to press */}
                     <div className="results-button-container">
-                        <button>Try Again</button>
+                        <button onClick={handleReplay}>Try Again</button>
                         <button onClick={handleSubmit}>Submit Results</button>
                     </div>
                 </div>

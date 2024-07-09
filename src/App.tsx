@@ -40,11 +40,25 @@ export default function App() {
   sceneState.device.set(checkUserDevice());
 
   const [holisticLoaded, setHolisticLoaded] = useState(false);
+  const [rerenderKey, setRerenderKey] = useState(0);
   const avatar = useRef<VRM | null>(null);
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
   };
+
+  // order matters! map the path from start to finish and essentially reverse un-do it all in the reset.
+  const handleReplay = () => {
+    // sceneState.reset();
+    // gameState.reset();
+    // setHolisticLoaded(false);
+    setRerenderKey((prev) => prev + 1);
+    gameState.gameOver.set(false);
+    sceneState.gameRunning.set(false);
+    setHolisticLoaded(false);
+    sceneState.sceneLoaded.set(false);
+    sceneState.environmentLoaded.set(false);
+  }
 
   useLayoutEffect(() => {
     if (
@@ -71,25 +85,25 @@ export default function App() {
       <LoadingScreen />
 
       {sceneState.sceneLoaded.get({ noproxy: true }) && <CountdownScreen/>}
-      <ScoreDisplay />
+      <ScoreDisplay key={rerenderKey}/>
 
-      {gameState.gameOver.get({ noproxy: true }) && <ResultsScreen />}
+      {gameState.gameOver.get({ noproxy: true }) && <ResultsScreen handleReplay={handleReplay}/>}
 
       {/* 3D Canvas */}
       <Suspense fallback={null}>
         <Renderer>
           {sceneState.selectedEnvironment.get({ noproxy: true }) && <Environment/>}
-          <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+          <Avatar setAvatarModel={setAvatarModel} avatar={avatar}/>
           <CameraAnimations />
 
           {sceneState.sceneLoaded.get({ noproxy: true }) && (
             <>
               <Physics gravity={[0, 0, 0]}>
-                <AvatarHandColliders avatar={avatar} />
+                <AvatarHandColliders avatar={avatar}/>
                 <Bubbles />
               </Physics>
               {/* All logic, including side effects and the animation frame loop system */}
-              <GameLogic avatar={avatar} />
+              <GameLogic avatar={avatar}/>
             </>
           )}
         </Renderer>

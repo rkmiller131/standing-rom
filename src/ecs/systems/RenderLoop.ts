@@ -114,9 +114,7 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
       // otherwise if there is no more first set (empty levels array) - game is over!
       if (!gameState.gameOver.get({ noproxy: true })) {
         console.log('GAME OVER');
-        gameState.gameOver.set(true);
-
-        // somthing to trigger a results screen and play again capabilities.
+        gameState.toggleEndGame();
       }
     }
   });

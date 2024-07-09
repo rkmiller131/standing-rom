@@ -14,5 +14,11 @@ export const useSceneState = () => {
 
   return {
     ...sceneState,
+    reset: () => {
+      // sceneState.sceneLoaded.set(false);
+      // sceneState.environmentLoaded.set(false);
+      // sceneState.gameRunning.set(false);
+      sceneState.set(initialState);
+    }
   };
 };
