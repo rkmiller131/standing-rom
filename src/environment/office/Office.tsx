@@ -1,5 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { gltfLoader as loader, dracoLoader, GLTF } from '../../../interfaces/THREE_Interface';
+import {
+  gltfLoader as loader,
+  dracoLoader,
+  GLTF,
+} from '../../../interfaces/THREE_Interface';
 import { Suspense, useEffect, useState } from 'react';
 import debounce from '../../ecs/helpers/debounce';
 import updateShadows from './lights/helpers/updateShadows';
@@ -24,7 +28,7 @@ export default function Office({
     loader.setDRACOLoader(dracoLoader);
 
     loader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/office2.glb?v=1714510499834',
+      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/officeDoor-transformed.glb?v=1720632603947',
       (gltf) => {
         setEnvironmentModel(gltf);
         updateShadows(gltf);
