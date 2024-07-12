@@ -40,25 +40,11 @@ export default function App() {
   sceneState.device.set(checkUserDevice());
 
   const [holisticLoaded, setHolisticLoaded] = useState(false);
-  const [rerenderKey, setRerenderKey] = useState(0);
   const avatar = useRef<VRM | null>(null);
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
   };
-
-  // order matters! map the path from start to finish and essentially reverse un-do it all in the reset.
-  const handleReplay = () => {
-    // sceneState.reset();
-    // gameState.reset();
-    // setHolisticLoaded(false);
-    setRerenderKey((prev) => prev + 1);
-    gameState.gameOver.set(false);
-    sceneState.gameRunning.set(false);
-    setHolisticLoaded(false);
-    sceneState.sceneLoaded.set(false);
-    sceneState.environmentLoaded.set(false);
-  }
 
   useLayoutEffect(() => {
     if (
@@ -85,9 +71,9 @@ export default function App() {
       <LoadingScreen />
 
       {sceneState.sceneLoaded.get({ noproxy: true }) && <CountdownScreen/>}
-      <ScoreDisplay key={rerenderKey}/>
+      <ScoreDisplay/>
 
-      {gameState.gameOver.get({ noproxy: true }) && <ResultsScreen handleReplay={handleReplay}/>}
+      {gameState.gameOver.get({ noproxy: true }) && <ResultsScreen/>}
 
       {/* 3D Canvas */}
       <Suspense fallback={null}>
@@ -103,7 +89,7 @@ export default function App() {
                 <Bubbles />
               </Physics>
               {/* All logic, including side effects and the animation frame loop system */}
-              <GameLogic avatar={avatar}/>
+              {!gameState.gameOver.get({ noproxy: true }) && <GameLogic avatar={avatar}/>}
             </>
           )}
         </Renderer>

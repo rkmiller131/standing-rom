@@ -38,6 +38,11 @@ export default function GameLogic({ avatar }: GameLogicProps) {
       gameState.levels.set(setsInPlay);
       ECS.world.clear();
     }
+
+    if (gameState.gameOver.get({ noproxy: true })) {
+      gameIsSetup = false;
+    }
+
   }, [firstBubbleInSet])
 
   return gameIsSetup ? <RenderLoop avatar={avatar} /> : null;

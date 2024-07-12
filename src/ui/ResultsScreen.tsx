@@ -3,11 +3,7 @@ import { useGameState } from '../ecs/store/GameState';
 
 import '../css/ResultsScreen.css';
 
-interface ResultsScreenProps {
-    handleReplay: () => void;
-}
-
-export default function ResultsScreen({ handleReplay }: ResultsScreenProps) {
+export default function ResultsScreen() {
     const gameState = useGameState();
 
     const maxRightArmAngle = gameState.score.maxRightArmAngle.get({ noproxy: true });
@@ -32,6 +28,18 @@ export default function ResultsScreen({ handleReplay }: ResultsScreenProps) {
         // Submit to the backend, then redirect to the uvx dashboard
         console.log('results have been sent! ', results);
         window.location.href = 'https://www.ubiquityvx.com/';
+    }
+
+    const handleReplay = async () => {
+        await caches.keys().then((names) => {
+            return Promise.all(names.map((name) => {
+                return caches.delete(name)
+            }))
+        });
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000)
     }
 
     return (
