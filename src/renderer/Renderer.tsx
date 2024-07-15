@@ -28,11 +28,19 @@ export default function Renderer({ children }: RendererProps) {
     <Canvas
       shadows
       camera={{
-        position: [0, 1, 2],
+        position: [
+          -0.3737060168782445,
+          1.3687468948616854,
+          -1.8720478493827206
+        ],
         fov: 50,
         near: 0.5,
         far: 120,
-        rotation: [0, 0, 0],
+        rotation: [
+          -2.860051628191954,
+          -0.4493997502356422,
+          -3.016601731860828
+        ],
       }}
       gl={{ powerPreference: 'high-performance' }}
     >
@@ -44,11 +52,19 @@ export default function Renderer({ children }: RendererProps) {
     <Canvas
       shadows
       camera={{
-        position: [0, 1, 2.5],
+        position: [
+          -0.3737060168782445,
+          1.3687468948616854,
+          -1.8720478493827206
+        ],
         fov: 40,
         near: 0.5,
         far: 120,
-        rotation: [0, 0, 0],
+        rotation: [
+          -2.860051628191954,
+          -0.4493997502356422,
+          -3.016601731860828
+        ],
       }}
       gl={{ powerPreference: 'low-power', antialias: false }}
     >
@@ -57,3 +73,8 @@ export default function Renderer({ children }: RendererProps) {
     </Canvas>
   );
 }
+
+
+// starting camera position for calibration
+// camera rotation is  _Euler{isEuler: true, _x: -2.860051628191954, _y: -0.4493997502356422, _z: -3.016601731860828, _order: 'XYZ',…}
+// GameLogic.tsx:21 camera position is  _Vector3{x: -0.3737060168782445, y: 1.3687468948616854, z: -1.8720478493827206, _gsap: GSCache2}

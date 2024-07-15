@@ -4,9 +4,9 @@ import { SceneType } from './types';
 const initialState: SceneType = hookstate({
   sceneLoaded: false,
   environmentLoaded: false,
+  gameRunning: false,
   device: 'Desktop',
-  selectedEnvironment: '',
-  // gameIsRunning: false
+  selectedEnvironment: ''
 });
 
 export const useSceneState = () => {
@@ -14,5 +14,11 @@ export const useSceneState = () => {
 
   return {
     ...sceneState,
+    reset: () => {
+      // sceneState.sceneLoaded.set(false);
+      // sceneState.environmentLoaded.set(false);
+      // sceneState.gameRunning.set(false);
+      sceneState.set(initialState);
+    }
   };
 };

@@ -19,6 +19,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   }, 100);
 
   useEffect(() => {
+    if (avatarLoaded) return;
     loader.register((parser) => {
       return new VRMLoaderPlugin(parser);
     });

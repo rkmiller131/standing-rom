@@ -1,6 +1,55 @@
+.post-setup-screen {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+#sliding-info-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: black;
+  padding: 2%;
+  width: 40%;
+  /* mocap screen is 450px in desktop and Tablet */
+  min-width: calc(4% + 450px);
+  height: 100%;
+  background: #0ED8A5;
+}
+
+.sliding-info-content {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  height: calc(96% - 300px);
+}
+
+.uvx-text-logo {
+  padding: 0.5rem;
+  background: white;
+  width: fit-content;
+}
+
+.accent-label {
+  color: blue;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.sliding-info-instructions {
+  margin-top: 0.5rem;
+}
+
+.img-placeholder {
+  background: white;
+  height: 100%;
+}
+
 #mocap-container {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
 }
 
 .Desktop {

@@ -2,21 +2,23 @@
 import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
 import Mocap from './mocap/Mocap';
 import Avatar from './avatar/Avatar';
-import UbiquitySVG from './assets/ubiquity.svg';
 import LoadingScreen from './ui/LoadingScreen';
 import GameLogic from './ecs/systems/GameLogic';
 import { useSceneState } from './ecs/store/SceneState';
+import { useGameState } from './ecs/store/GameState';
 import { VRM } from '../interfaces/THREE_Interface';
 import checkUserDevice from './ecs/helpers/checkUserDevice';
-import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
 import { Physics } from '../interfaces/CANNON_Interface';
 import AvatarHandColliders from './DEMO/AvatarHandColliders';
 import { Bubbles } from './ecs/entities/Bubbles';
+import CameraAnimations from './DEMO/CameraAnimations';
+import CountdownScreen from './ui/CountdownScreen';
+import ScoreDisplay from './ui/ScoreDisplay';
+import ResultsScreen from './ui/ResultsScreen';
 
 import './css/App.css';
-import CameraAnimations from './DEMO/CameraAnimations';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 
@@ -34,6 +36,7 @@ const Renderer = lazy(() => import('./renderer/Renderer'));
 
 export default function App() {
   const sceneState = useSceneState();
+  const gameState = useGameState();
   sceneState.device.set(checkUserDevice());
 
   const [holisticLoaded, setHolisticLoaded] = useState(false);
@@ -49,43 +52,48 @@ export default function App() {
       holisticLoaded &&
       sceneState.environmentLoaded.get({ noproxy: true })
     ) {
-      sceneState.sceneLoaded.set(true);
+      const transitionDelay = setTimeout(() => {
+        sceneState.sceneLoaded.set(true);
+      }, 3000) // delay to see avatar in calibration before game officially starts
+
+      return () => clearTimeout(transitionDelay)
     }
   }, [holisticLoaded, sceneState.environmentLoaded]);
 
   return (
-    <main id="app-container">
-      <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
+    <>
       {!sceneState.selectedEnvironment.get({ noproxy: true }) && <SetupScreen />}
       {/* Once the environment has been selected from setup screen, start rendering the mocap */}
-      {sceneState.selectedEnvironment.get({ noproxy: true }) && (
+      {sceneState.environmentLoaded.get({ noproxy: true }) && (
         <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
       )}
       {/* Loading screen is always up (underneath) until scene has fully loaded */}
       <LoadingScreen />
 
+      {sceneState.sceneLoaded.get({ noproxy: true }) && <CountdownScreen/>}
+      <ScoreDisplay/>
+
+      {gameState.gameOver.get({ noproxy: true }) && <ResultsScreen/>}
+
       {/* 3D Canvas */}
       <Suspense fallback={null}>
-        <div className="canvas-container">
-          <Renderer>
-            {sceneState.selectedEnvironment.get({ noproxy: true }) && <Environment/>}
-            <GameInfo />
-            <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-            <CameraAnimations />
+        <Renderer>
+          {sceneState.selectedEnvironment.get({ noproxy: true }) && <Environment/>}
+          <Avatar setAvatarModel={setAvatarModel} avatar={avatar}/>
+          <CameraAnimations />
 
-            {sceneState.sceneLoaded.get({ noproxy: true }) && (
-              <>
-                <Physics gravity={[0, 0, 0]}>
-                  <AvatarHandColliders avatar={avatar} />
-                  <Bubbles />
-                </Physics>
-                {/* All logic, including side effects and the animation frame loop system */}
-                <GameLogic avatar={avatar} />
-              </>
-            )}
-          </Renderer>
-        </div>
+          {sceneState.sceneLoaded.get({ noproxy: true }) && (
+            <>
+              <Physics gravity={[0, 0, 0]}>
+                <AvatarHandColliders avatar={avatar}/>
+                <Bubbles />
+              </Physics>
+              {/* All logic, including side effects and the animation frame loop system */}
+              {!gameState.gameOver.get({ noproxy: true }) && <GameLogic avatar={avatar}/>}
+            </>
+          )}
+        </Renderer>
       </Suspense>
-    </main>
+    </>
   );
 }

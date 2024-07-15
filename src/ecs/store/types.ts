@@ -26,6 +26,7 @@ export type ScoreType = {
   maxLeftArmAngle: number;
   maxRightArmAngle: number;
   poppedVelocities: number[];
+  currentStreak: number;
 };
 
 export type GameType = {
@@ -37,7 +38,7 @@ export type GameType = {
 export type SceneType = {
   sceneLoaded: boolean;
   environmentLoaded: boolean;
+  gameRunning: boolean;
   device: 'Desktop' | 'Tablet' | 'Mobile';
   selectedEnvironment: 'Indoor Office' | 'Outdoors' | '';
-  // gameIsRunning: boolean;
 };
