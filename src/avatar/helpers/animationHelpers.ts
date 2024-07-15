@@ -62,11 +62,15 @@ export const rigPosition = (
   if (!Part) {
     return;
   }
+
   const vector = new Vector3(
     position.x * dampener,
     position.y * dampener,
     position.z * dampener,
   );
-  Part.position.lerp(vector, lerpAmount); // interpolate
+
+  console.log('hip position is ', position)
+  console.log('new hip vector position is ', vector)
+  Part.node.position.lerp(vector, lerpAmount); // interpolate
   // Part.position.add(vector)
 };

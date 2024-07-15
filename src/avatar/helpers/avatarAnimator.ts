@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PoseSolver as Pose, HandSolver as Hand } from './solvers'
-import { rigPosition, rigRotation } from './animationHelpers'
+import { rigRotation } from './animationHelpers'
 import { VRM } from '@pixiv/three-vrm';
 
 export const animateVRM = (
@@ -26,23 +26,23 @@ export const animateVRM = (
     riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
       runtime: 'mediapipe',
       video: videoRef.current,
-      enableLegs: false
+      enableLegs: true
     });
 
     // free motion tilting:
-    // rigRotation(vrm, "hips", riggedPose!.Hips.rotation, 0.7);
+    // rigRotation(vrm, 'hips', riggedPose!.Hips.rotation, 0.7);
 
-    rigPosition(
-      vrm,
-      'Hips',
-      {
-        x: -riggedPose!.Hips.position.x, // Reverse direction
-        y: riggedPose!.Hips.position.y + 1, // Add a bit of height
-        z: -riggedPose!.Hips.position.z // Reverse direction
-      },
-      1,
-      0.07
-    );
+    // rigPosition(
+    //   vrm,
+    //   'hips',
+    //   {
+    //     x: -riggedPose!.Hips.position.x, // Reverse direction
+    //     y: riggedPose!.Hips.position.y + 1, // Add a bit of height
+    //     z: -riggedPose!.Hips.position.z // Reverse direction
+    //   },
+    //   1,
+    //   0.07
+    // );
 
     rigRotation(vrm, 'chest', riggedPose!.Spine, 0.25, .3);
     rigRotation(vrm, 'spine', riggedPose!.Spine, 0.45, .3);
@@ -53,10 +53,10 @@ export const animateVRM = (
     rigRotation(vrm, 'leftLowerArm', riggedPose!.LeftLowerArm, 1, .5);
 
     // comment out to lock the legs:
-    // rigRotation(vrm, "leftUpperLeg", riggedPose!.LeftUpperLeg, 1, .3);
-    // rigRotation(vrm, "leftLowerLeg", riggedPose!.LeftLowerLeg, 1, .3);
-    // rigRotation(vrm, "rightUpperLeg", riggedPose!.RightUpperLeg, 1, .3);
-    // rigRotation(vrm, "rightLowerLeg", riggedPose!.RightLowerLeg, 1, .3);
+    // rigRotation(vrm, 'leftUpperLeg', riggedPose!.LeftUpperLeg, 1, .3);
+    // rigRotation(vrm, 'leftLowerLeg', riggedPose!.LeftLowerLeg, 1, .3);
+    // rigRotation(vrm, 'rightUpperLeg', riggedPose!.RightUpperLeg, 1, .3);
+    // rigRotation(vrm, 'rightLowerLeg', riggedPose!.RightLowerLeg, 1, .3);
   }
 
   // Animate Hands
