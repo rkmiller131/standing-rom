@@ -7,8 +7,7 @@ import { useSceneState } from '../ecs/store/SceneState';
 import { CCDIKHelper, TransformControls } from 'three/examples/jsm/Addons.js';
 import { useThree } from '@react-three/fiber';
 import { iks, ikTargets, setupIKSolver } from './helpers/setupIKSolver';
-// import { CCDIKHelper } from 'three/examples/jsm/Addons.js';
-// import { useThree } from '@react-three/fiber';
+
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
   avatar: React.RefObject<VRM>;
@@ -32,9 +31,10 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man-Compressed.vrm?v=1715274436489',
       (gltf) => {
         const vrm = gltf.userData.vrm;
+        console.log('before tranformations, vrm is ', vrm)
         setupIKSolver(vrm);
 
-        const ccdikHelper = new CCDIKHelper(ikTargets.rightArm.armMesh, iks, 0.01);
+        const ccdikHelper = new CCDIKHelper(ikTargets.avatarMesh, iks, 0.01);
         scene.add(ccdikHelper);
 
         const transformControls = new TransformControls(camera, gl.domElement);
@@ -47,6 +47,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
         console.log('ik targets, do we get skeleton target bone? ', ikTargets)
 
         setAvatarModel(vrm);
+        console.log('vrm is now ', vrm)
         setAvatarLoaded(true);
       },
       (progress) => {
