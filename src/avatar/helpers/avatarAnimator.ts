@@ -23,7 +23,7 @@ export const animateVRM = (
 
   // Animate Pose
   if (pose2DLandmarks && pose3DLandmarks) {
-    riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, 
+    riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks,
       { enableLegs: false }, vrm);
 
     // free motion tilting:
@@ -54,7 +54,7 @@ export const animateVRM = (
     //   vrm,
     //   'RightHand',
     //   {
-    //     x: riggedPose!.RightHand.x, 
+    //     x: riggedPose!.RightHand.x,
     //     y: riggedPose!.RightHand.y,
     //     z: riggedPose!.RightHand.z
     //   }
