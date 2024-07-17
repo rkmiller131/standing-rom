@@ -2,6 +2,8 @@
 
 * {
   box-sizing: border-box;
+  font-family: "Barlow Semi Condensed";
+  font-style: italic;
 }
 
 html, body, #root {

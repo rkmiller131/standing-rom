@@ -76,7 +76,7 @@ export default function App() {
 
   return (
     <>
-      {!sceneState.selectedEnvironment.get({ noproxy: true }) && <SetupScreen />}
+      {!sceneState.selectedEnvironment.get({ noproxy: true }) && <SetupScreen  useDefaultStyle/>}
       {/* Once the environment has been selected from setup screen, start rendering the mocap */}
       {sceneState.environmentLoaded.get({ noproxy: true }) && (
         <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />

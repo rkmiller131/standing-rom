@@ -4,6 +4,7 @@
   width: 100%;
   z-index: 3;
   pointer-events: none;
+
 }
 
 #sliding-info-container {
@@ -49,7 +50,8 @@
 
 #mocap-container {
   position: absolute;
-  z-index: 4;
+  z-index: 10;
+  background: white;
 }
 
 .Desktop {

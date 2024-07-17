@@ -38,6 +38,7 @@
   border-radius: var(--border-radius);
   background: var(--section-bg-color);
   padding: 20px 40px;
+  z-index: 2;
 }
 
 .section-title h2 {
@@ -125,3 +126,42 @@
   border-radius: 2rem 2rem;
   cursor: pointer;
 }
+
+.section-title.default-style {
+  text-align: left;
+  display: flex;
+  backdrop-filter: blur(20px);
+
+  padding: 20px;
+  color: white;
+}
+
+.section-title.alternative-style {
+  background-color: transparent;
+  align-items: flex-start;
+  padding: 0;
+  text-align: left;
+  color: black;
+}
+
+#setup.no-background {
+  background: none;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.environment-selection {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 2;
+}
+
