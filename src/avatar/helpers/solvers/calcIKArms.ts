@@ -1,5 +1,6 @@
 // import { Bone } from 'three';
 import { CCDIKSolver } from 'three/examples/jsm/Addons.js'
+import { iks, ikTargets } from '../setupIKSolver';
 
 // const targetBone = new Bone();
 let ikSolver;
@@ -8,9 +9,9 @@ let ikSolver;
 // https://github.com/pickles976/LearningRobotics/blob/main/IK/kinematics_3D/TODO.md
 // https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_ik.html
 
-export function calcIKArms(vrm, ikTargets, ikObj, lm3d) {
+export function calcIKArms(vrm, lm3d) {
     // console.log('lets find the lm3d of the right hand, make a bone out of it ', lm3d[16])
-    if (!vrm.current.scene.skeleton || !lm3d) return;
+    if (!lm3d) return;
     // targetBone.copy(vrm.current.scene.skeleton.bones[22])
     // targetBone.position.x = (lm3d[15].x);
     // targetBone.position.y = (lm3d[15].y);
@@ -18,7 +19,12 @@ export function calcIKArms(vrm, ikTargets, ikObj, lm3d) {
     // ikTargets.avatar.skeleton.bones[0].add(targetBone)
     // ikObj.target = targetBone;
 
-    ikSolver = new CCDIKSolver(ikTargets.avatar, ikObj);
-    // console.log('iksolver returns ', ikSolver)
+    ikSolver = new CCDIKSolver(ikTargets.avatarMesh, iks);
+    console.log('iksolver returns ', ikSolver)
     ikSolver.update();
+    console.log('ik targets are now ', ikTargets)
+    return {
+        rightArmTarget: {},
+        leftArmTarget: {}
+    }
 }

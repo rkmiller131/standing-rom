@@ -7,6 +7,7 @@ import { useSceneState } from '../ecs/store/SceneState';
 import { CCDIKHelper, TransformControls } from 'three/examples/jsm/Addons.js';
 import { useThree } from '@react-three/fiber';
 import { iks, ikTargets, setupIKSolver } from './helpers/setupIKSolver';
+import { SkeletonHelper } from 'three';
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -28,12 +29,13 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man-Compressed.vrm?v=1715274436489',
+      // 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man-Compressed.vrm?v=1715274436489',
+      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/manNoRoll.vrm?v=1721253731150',
       (gltf) => {
         const vrm = gltf.userData.vrm;
-        console.log('before tranformations, vrm is ', vrm)
-        setupIKSolver(vrm);
 
+        setupIKSolver(vrm);
+        console.log('vrm is ', vrm)
         const ccdikHelper = new CCDIKHelper(ikTargets.avatarMesh, iks, 0.01);
         scene.add(ccdikHelper);
 
@@ -44,10 +46,10 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
         transformControls.attach(ikTargets.rightArm.ikTarget);
         scene.add(transformControls);
 
-        console.log('ik targets, do we get skeleton target bone? ', ikTargets)
+        const skeletonHelper = new SkeletonHelper(ikTargets.avatarMesh);
+        scene.add(skeletonHelper)
 
         setAvatarModel(vrm);
-        console.log('vrm is now ', vrm)
         setAvatarLoaded(true);
       },
       (progress) => {

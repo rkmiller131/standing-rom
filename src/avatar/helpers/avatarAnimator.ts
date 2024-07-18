@@ -46,9 +46,9 @@ export const animateVRM = (
 
     // rigRotation(vrm, 'rightUpperArm', riggedPose!.RightUpperArm, 1, .3);
     // rigRotation(vrm, 'rightLowerArm', riggedPose!.RightLowerArm, 1, .5);
-    rigRotation(vrm, 'rightHand', riggedPose!.RightHand, 1, .3)
-    rigRotation(vrm, 'leftUpperArm', riggedPose!.LeftUpperArm, 1, .3);
-    rigRotation(vrm, 'leftLowerArm', riggedPose!.LeftLowerArm, 1, .5);
+    // rigRotation(vrm, 'rightHand', riggedPose!.RightHand, 1, .3)
+    // rigRotation(vrm, 'leftUpperArm', riggedPose!.LeftUpperArm, 1, .3);
+    // rigRotation(vrm, 'leftLowerArm', riggedPose!.LeftLowerArm, 1, .5);
 
     // rigPosition(
     //   vrm,
@@ -95,12 +95,13 @@ export const animateVRM = (
   }
   if (rightHandLandmarks) {
     riggedRightHand = Hand.solve(rightHandLandmarks, 'Right');
-    rigRotation(vrm, 'rightHand', {
-      // Combine Z axis from pose hand and X/Y axis from hand wrist rotation
-      z: riggedRightHand!.RightWrist.z,
-      y: riggedRightHand!.RightWrist.y,
-      x: riggedRightHand!.RightWrist.x
-    }, 1, 0.4);
+    // rigRotation(vrm, 'rightHand', {
+    //   // Combine Z axis from pose hand and X/Y axis from hand wrist rotation
+    //   z: riggedRightHand!.RightWrist.z,
+    //   // z: riggedPose!.RightHand.z,
+    //   y: riggedRightHand!.RightWrist.y,
+    //   x: riggedRightHand!.RightWrist.x
+    // }, 1, 0.4);
     rigRotation(vrm, 'rightRingProximal', riggedRightHand!.RightRingProximal);
     rigRotation(vrm, 'rightRingIntermediate', riggedRightHand!.RightRingIntermediate);
     rigRotation(vrm, 'rightRingDistal', riggedRightHand!.RightRingDistal);

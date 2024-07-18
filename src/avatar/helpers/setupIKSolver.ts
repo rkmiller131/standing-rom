@@ -17,20 +17,32 @@ export const ikTargets = {
 
 export const iks = [{
   target: 59, // change to the live mediapipe landmarks for the right hand 22
-  effector: 43,
+  effector: 43, // right hand
   links: [
     {
-        index: 41,
-        rotationMin: new Vector3( 1.2, - 1.8, - .4 ),
-		    rotationMax: new Vector3( 1.7, - 1.1, .3 )
+        index: 41, // right forearm
+        // rotationMin: new Vector3(0, -2, 0),
+		    // rotationMax: new Vector3(2, 2, 0)
     },
     {
-        index: 39,
-        rotationMin: new Vector3( 1.2, - 1.8, - .4 ),
-		    rotationMax: new Vector3( 1.7, - 1.1, .3 )
+        index: 39, // right shoulder
+        // rotationMin: new Vector3(-1.5, -1, -2),
+		    // rotationMax: new Vector3(1.5, 1, 2)
     },
-  ]
+  ],
+  iteration: 4
 }]
+
+// {
+//   index: 41, // lower right arm
+//   rotationMin: new Vector3(0, 0, -2.5),
+//   rotationMax: new Vector3(0, 0, 0)
+// },
+// {
+//   index: 39, // upper right arm
+//   rotationMin: new Vector3(0, -0.5, 0.8),
+//   rotationMax: new Vector3(0, 0.1, 1.8)
+// },
 
 /*
  root, - for all ik chains, the skinned mesh will be a reconstruction of all avatar meshes, bound to a single skeleton
@@ -74,27 +86,32 @@ function buildSkeletonMesh(vrm: VRM) {
       skinnedMeshes.push(child);
     }
 
-    child.rotation.set(0, 0, 0);
+    // child.rotation.set(0, 0, 0);
 
     // save reference to bones for the right arm chain
-    if (child.name === 'upperarm_r') ikTargets.rightArm.rightUpperArm = child;
+    if (child.name === 'upperarm_r') {
+      ikTargets.rightArm.rightUpperArm = child;
+      ikTargets.rightArm.rightUpperArm.add(targetRightHand);
+      ikTargets.rightArm.ikTarget = targetRightHand; // this is for the transform controls, can delete later
+    }
     if (child.name === 'lowerarm_r') ikTargets.rightArm.rightLowerArm = child;
     if (child.name === 'hand_r') {
       ikTargets.rightArm.rightHand = child;
-      // const rightHandPos = new Vector3().setFromMatrixPosition(child.matrixWorld);
       const rightHandPos = new Vector3(child.position.clone().x, child.position.clone().y, child.position.clone().z); // cringe, I know, I'll fix later
-      targetRightHand.position.set(rightHandPos.x + 0.1, rightHandPos.y, rightHandPos.z);
-      ikTargets.rightArm.rightHand.add(targetRightHand);
-      ikTargets.rightArm.ikTarget = targetRightHand; // this is for the transform controls, can delete later
+      targetRightHand.position.set(rightHandPos.x + 0.5, rightHandPos.y, rightHandPos.z);
     }
     if (child instanceof Bone) bones.push(child);
   })
 
+  console.log('bones array is ', bones)
   const unifiedSkinnedMesh = new SkinnedMesh(combinedGeometry!, combinedMaterial!);
   ikTargets.avatarMesh = unifiedSkinnedMesh;
   const skeleton = new Skeleton(bones);
-  // for some reason, adding the root bone makes the avatar mesh large/not responsive to scale factors
+  // when you add the root bone to the skinned mesh and then bind the skeleton, the transformations of the root bone propagate through the
+  // entire skeleton. So the root bone has a scale of 1, and this is being set as the avatar is loaded, perhaps after being saved to the primitive that gets rendered
+  // with a scale of 0.75, so just hot fix adding that here. Other interesting note: adding root bone stops animateVRM from moving the skelly
+  // skeleton.bones[0].scale.set(0.75, 0.75, 0.75);
   // ikTargets.avatarMesh.add(bones[0]); // root bone for entire mesh (hips)
   ikTargets.avatarMesh.bind(skeleton);
-
+  console.log('ik targets are ', ikTargets)
 }

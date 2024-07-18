@@ -28,17 +28,25 @@ export default function Renderer({ children }: RendererProps) {
     <Canvas
       shadows
       camera={{
-        position: [0, 1, 2],
+        position: [
+          -0.3737060168782445,
+          1.3687468948616854,
+          -1.8720478493827206
+        ],
         fov: 50,
-        near: 1,
+        near: 0.5,
         far: 120,
-        rotation: [0, 0, 0],
+        rotation: [
+          -2.860051628191954,
+          -0.4493997502356422,
+          -3.016601731860828
+        ],
       }}
       gl={{ powerPreference: 'high-performance' }}
     >
       <PixelRatio />
       {children}
-      <OrbitControls />
+      {/* <OrbitControls /> */}
     </Canvas>
   ) : (
     <Canvas

@@ -45,7 +45,8 @@ export default function App() {
     ) {
       sceneState.sceneLoaded.set(true);
     }
-  }, [holisticLoaded, sceneState.sceneLoaded, sceneState.environmentLoaded]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [holisticLoaded, sceneState.environmentLoaded]);
 
   return (
     <main id="app-container">
