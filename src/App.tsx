@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
 import Mocap from './mocap/Mocap';
 import Avatar from './avatar/Avatar';
@@ -10,6 +11,7 @@ import checkUserDevice from './ecs/helpers/checkUserDevice';
 import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
+import useHookstateGetters from './interfaces/Hookstate_Interface';
 
 import './css/App.css';
 
@@ -29,6 +31,7 @@ export default function App() {
   const avatar = useRef<VRM | null>(null);
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDevice());
+  const { environmentLoaded, environmentSelected } = useHookstateGetters();
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
@@ -38,26 +41,24 @@ export default function App() {
     if (
       avatar.current &&
       holisticLoaded &&
-      sceneState.environmentLoaded.get({ noproxy: true })
+      environmentLoaded()
     ) {
       sceneState.sceneLoaded.set(true);
     }
-  }, [holisticLoaded, sceneState.sceneLoaded, sceneState.environmentLoaded]);
+  }, [holisticLoaded, sceneState.environmentLoaded]);
 
   return (
     <main id="app-container">
       {/* UI */}
       <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
-      <SetupScreen />
-      {sceneState.selectedEnvironment.get({ noproxy: true }) && (
-        <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-      )}
+      {!environmentSelected() && <SetupScreen />}
+      {environmentSelected() && (<Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />)}
       <LoadingScreen />
 
       <Suspense fallback={null}>
         <div className="canvas-container">
           <Renderer>
-            <Environment />
+            {environmentSelected() && <Environment />}
             <GameInfo />
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
             <GameLogic avatar={avatar} />
