@@ -9,15 +9,18 @@ import { VRM } from '../../interfaces/THREE_Interface';
 import { useSceneState } from '../ecs/store/SceneState';
 
 import '../css/Mocap.css';
+
 interface MocapProps {
   avatar: React.RefObject<VRM>;
   setHolisticLoaded: (loaded: boolean) => void;
 }
 
+let holistic: Holistic | null = null;
+let holisticLoaded = false;
+
 export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  let holisticLoaded = false;
   const sceneState = useSceneState();
   const device = sceneState.device.get({ noproxy: true });
 
@@ -29,6 +32,8 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
         animateVRM(avatar, results, videoRef);
       }
 
+      // small delay allowing landmarks to draw before saying we've officially loaded
+      // This calls every frame, so have a closure scope to not go in this if block again.
       if (!holisticLoaded) {
         setTimeout(() => {
           setHolisticLoaded(true);
@@ -39,9 +44,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   }
 
   useEffect(() => {
-    let holistic: Holistic | null = null;
-
-    // grab the video stream from client webcam
+    if (holistic) return;
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
         .getUserMedia({ video: true })
@@ -67,7 +70,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
         minTrackingConfidence: 0.7,
         selfieMode: true,
       });
-  
+
       // Pass holistic a callback function to handle streamed video data
       holistic.onResults(onResults);
 
@@ -100,16 +103,18 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   }, [device]);
 
   return (
-    <div id="mocap-container" className={device}>
-      <video
-        id="webcam-stream"
-        ref={videoRef}
-        width="100%"
-        height="100%"
-        muted
-        playsInline
-      ></video>
-      <canvas id="landmark-guides" ref={landmarkCanvasRef} />
+    <div className="post-setup-screen">
+      <div id="mocap-container" className={device}>
+        <video
+          id="webcam-stream"
+          ref={videoRef}
+          width="100%"
+          height="100%"
+          muted
+          playsInline
+        ></video>
+        <canvas id="landmark-guides" ref={landmarkCanvasRef} />
+      </div>
     </div>
   );
 }

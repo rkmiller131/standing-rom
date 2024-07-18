@@ -21,19 +21,28 @@ export const iks = [{
   links: [
     {
         index: 42, // lower right twist bone
+        rotationMin: new Vector3(0, 0, 0),
+        rotationMax: new Vector3(0, 0, 0)
     },
     {
         index: 41, // right forearm
-        rotationMin: new Vector3(0, -2, 0),
-		    rotationMax: new Vector3(2, 2, 0)
+        // rotationMin: new Vector3(-1, -2, 0),
+		    // rotationMax: new Vector3(0, 0.25, 1)
+        // x is twist (supine vs pronated)
+        rotationMin: new Vector3(-1, 0, -1),
+        rotationMax: new Vector3(2, 2, 0)
     },
     {
         index: 40, // upper right twist bone
+        rotationMin: new Vector3(0, 0, 0),
+        rotationMax: new Vector3(0, 0, 0)
     },
     {
         index: 39, // right shoulder
-        rotationMin: new Vector3(-1.5, -1, -2),
-		    rotationMax: new Vector3(1.5, 1, 2)
+        // rotationMin: new Vector3(-1.5, -1, -2),
+		    // rotationMax: new Vector3(1.5, 1, 2)
+        rotationMin: new Vector3(-1, 0, -1),
+        rotationMax: new Vector3(1, 1, 0)
     },
   ],
   iteration: 10
