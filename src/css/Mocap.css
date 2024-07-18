@@ -51,7 +51,11 @@
 #mocap-container {
   position: absolute;
   z-index: 10;
-  background: white;
+  background: gray;
+  border-radius: 25px;
+  margin-left: 10px;
+  overflow: hidden;
+  border: 3px solid white;
 }
 
 .Desktop {
@@ -92,4 +96,71 @@
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+
+#sliding-info {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+
+  overflow: hidden;
+}
+
+.background-video-mocap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  filter: brightness(78%);
+  z-index: 1;
+}
+
+#sliding-info-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  background:transparent; /* optional for better readability of content */
+  padding: 3rem;
+}
+
+.sliding-info-content {
+  color: white;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 60px;
+}
+
+.uvx-text-logo, .sliding-info-game-title, .accent-label, .sliding-info-instructions {
+  margin: 2rem 2rem 2rem 0;
+  font-size: 23px;
+}
+
+.img-placeholder {
+  padding: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+  color: black;
+}
+
+.fade-out {
+  animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
