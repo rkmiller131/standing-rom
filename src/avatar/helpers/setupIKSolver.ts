@@ -20,18 +20,42 @@ export const iks = [{
   effector: 43, // right hand
   links: [
     {
+        index: 42, // lower right twist bone
+    },
+    {
         index: 41, // right forearm
-        // rotationMin: new Vector3(0, -2, 0),
-		    // rotationMax: new Vector3(2, 2, 0)
+        rotationMin: new Vector3(0, -2, 0),
+		    rotationMax: new Vector3(2, 2, 0)
+    },
+    {
+        index: 40, // upper right twist bone
     },
     {
         index: 39, // right shoulder
-        // rotationMin: new Vector3(-1.5, -1, -2),
-		    // rotationMax: new Vector3(1.5, 1, 2)
+        rotationMin: new Vector3(-1.5, -1, -2),
+		    rotationMax: new Vector3(1.5, 1, 2)
     },
   ],
-  iteration: 4
+  iteration: 10
 }]
+
+// export const iks = [{
+//   target: 59, // change to the live mediapipe landmarks for the right hand 22
+//   effector: 43, // right hand
+//   links: [
+//     {
+//         index: 41, // right forearm
+//         rotationMin: new Vector3(0, -2, 0),
+// 		    rotationMax: new Vector3(2, 2, 0)
+//     },
+//     {
+//         index: 39, // right shoulder
+//         rotationMin: new Vector3(-1.5, -1, -2),
+// 		    rotationMax: new Vector3(1.5, 1, 2)
+//     },
+//   ],
+//   iteration: 10
+// }]
 
 // {
 //   index: 41, // lower right arm

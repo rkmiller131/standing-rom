@@ -3,7 +3,7 @@ import { CCDIKSolver } from 'three/examples/jsm/Addons.js'
 import { iks, ikTargets } from '../setupIKSolver';
 
 // const targetBone = new Bone();
-let ikSolver;
+let ikSolver: CCDIKSolver | null = null;
 
 // https://codesandbox.io/p/sandbox/ik-solver-for-three-js-7dh9b?file=%2Fsrc%2Findex.js%3A171%2C1
 // https://github.com/pickles976/LearningRobotics/blob/main/IK/kinematics_3D/TODO.md
@@ -19,7 +19,9 @@ export function calcIKArms(vrm, lm3d) {
     // ikTargets.avatar.skeleton.bones[0].add(targetBone)
     // ikObj.target = targetBone;
 
-    ikSolver = new CCDIKSolver(ikTargets.avatarMesh, iks);
+    if (!ikSolver) {
+        ikSolver = new CCDIKSolver(ikTargets.avatarMesh, iks);
+    }
     console.log('iksolver returns ', ikSolver)
     ikSolver.update();
     console.log('ik targets are now ', ikTargets)
