@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Euler, Quaternion, Vector3 } from 'three';
+import { CCDIKSolver } from 'three/examples/jsm/Addons.js';
 
 // Animate Rotation -----------------------------------------------
 export const rigRotation = (
@@ -39,6 +40,28 @@ export const rigRotation = (
   Part.node.quaternion.slerp(quaternion, lerpAmount); // interpolate
 };
 
+export const rigIKTargetRotation = (
+  ikSolver: CCDIKSolver, 
+  index: number, 
+  rotation = { x: 0, y: 0, z: 0 },
+  dampener = 1,
+  lerpAmount = 0.3
+) => {
+  const targetBone = ikSolver.mesh.skeleton.bones[index];
+  const euler = new Euler(
+    rotation.x * dampener,
+    rotation.y * dampener,
+    rotation.z * dampener
+  )
+  const quaternion = new Quaternion().setFromEuler(euler);
+  targetBone.quaternion.slerp(quaternion, lerpAmount);
+  // targetBone.updateMatrix();
+
+  // if (targetBone.parent) {
+  //   targetBone.parent.updateMatrix();
+  // }
+}
+
 // Animate Position -----------------------------------------------
 export const rigPosition = (
   vrm: any,
@@ -70,3 +93,19 @@ export const rigPosition = (
   Part.position.lerp(vector, lerpAmount); // interpolate
   // Part.position.add(vector)
 };
+
+export const rigIKTargetPosition = (
+  ikSolver: CCDIKSolver, 
+  index: number, 
+  position = { x: 0, y: 0, z: 0 },
+  dampener = 1,
+  lerpAmount = 0.3
+) => {
+  const targetBone = ikSolver.mesh.skeleton.bones[index];
+  const vector = new Vector3(
+    position.x * dampener,
+    position.y * dampener,
+    position.z * dampener
+  )
+  targetBone.position.lerp(vector, lerpAmount);
+}

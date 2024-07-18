@@ -6,8 +6,6 @@ import { calcLegs } from './calcLegs'
 import { LEFT, PI, RIGHT } from './constants'
 import Vector from './utils/vector'
 import { calcIKArms } from './calcIKArms'
-import { iks, ikTargets } from '../setupIKSolver'
-import { VRM } from '@pixiv/three-vrm/types/VRM'
 
 // export const ikTargets = {};
 // export const iks = [{
@@ -41,7 +39,6 @@ export class PoseSolver {
         lm3d: TFVectorPose,
         lm2d: Omit<TFVectorPose, 'z'>,
         { enableLegs = true }: Partial<IPoseSolveOptions> = {},
-        vrm: VRM
     ): TPose | undefined {
         if (!lm3d && !lm2d) {
             console.error('Need both World Pose and Pose Landmarks');
@@ -49,7 +46,7 @@ export class PoseSolver {
         }
 
         const Arms = calcArms(lm3d);
-        calcIKArms(vrm, lm3d);
+        calcIKArms(Arms.Hand.r);
         const Hips = calcHips(lm3d, lm2d);
         const Legs = enableLegs ? calcLegs(lm3d) : null;
 

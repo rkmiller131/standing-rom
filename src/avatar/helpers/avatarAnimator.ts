@@ -23,8 +23,7 @@ export const animateVRM = (
 
   // Animate Pose
   if (pose2DLandmarks && pose3DLandmarks) {
-    riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks,
-      { enableLegs: false }, vrm);
+    riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, { enableLegs: false });
 
     // free motion tilting:
     // rigRotation(vrm, "hips", riggedPose!.Hips.rotation, 0.7);
@@ -72,8 +71,8 @@ export const animateVRM = (
     riggedLeftHand = Hand.solve(leftHandLandmarks, 'Left');
     rigRotation(vrm, 'leftHand', {
       // Combine pose rotation Z and hand rotation X Y
-      // z: riggedPose!.LeftHand.z,
-      z: riggedLeftHand!.LeftWrist.z,
+      z: riggedPose!.LeftHand.z,
+      // z: riggedLeftHand!.LeftWrist.z,
       y: riggedLeftHand!.LeftWrist.y,
       x: riggedLeftHand!.LeftWrist.x
     }, 1, 0.4);
@@ -97,8 +96,8 @@ export const animateVRM = (
     riggedRightHand = Hand.solve(rightHandLandmarks, 'Right');
     // rigRotation(vrm, 'rightHand', {
     //   // Combine Z axis from pose hand and X/Y axis from hand wrist rotation
-    //   z: riggedRightHand!.RightWrist.z,
-    //   // z: riggedPose!.RightHand.z,
+    //   // z: riggedRightHand!.RightWrist.z,
+    //   z: riggedPose!.RightHand.z,
     //   y: riggedRightHand!.RightWrist.y,
     //   x: riggedRightHand!.RightWrist.x
     // }, 1, 0.4);
