@@ -16,36 +16,45 @@ export const ikTargets = {
 } as ikTargetTypes;
 
 export const iks = [{
-  target: 59, // change to the live mediapipe landmarks for the right hand 22
+  target: 44, // change to the live mediapipe landmarks for the right hand 59
   effector: 43, // right hand
   links: [
     {
         index: 42, // lower right twist bone
-        rotationMin: new Vector3(0, 0, 0),
-        rotationMax: new Vector3(0, 0, 0)
+        limitation: new Vector3(1, 0, 0),
+        rotationMin: new Vector3(-0.25, 0, 0),
+        rotationMax: new Vector3(0.25, 0, 0)
     },
     {
         index: 41, // right forearm
-        // rotationMin: new Vector3(-1, -2, 0),
-		    // rotationMax: new Vector3(0, 0.25, 1)
         // x is twist (supine vs pronated)
-        rotationMin: new Vector3(-1, 0, -1),
-        rotationMax: new Vector3(2, 2, 0)
+        // rotationMin: new Vector3(0, 0, 0),
+        // rotationMax: new Vector3(0, 0, 0),
+        limitation: new Vector3(0, 1, 0),
+        rotationMin: new Vector3(-1, 0, 0),
+        // rotationMin: new Vector3(-1, 0, -1),
+        rotationMax: new Vector3(2, 3, 0)
     },
     {
         index: 40, // upper right twist bone
-        rotationMin: new Vector3(0, 0, 0),
-        rotationMax: new Vector3(0, 0, 0)
+        limitation: new Vector3(1, 0, 0),
+        rotationMin: new Vector3(-0.25, 0, 0),
+        rotationMax: new Vector3(0.25, 0, 0)
     },
     {
         index: 39, // right shoulder
+        // rotationMin: new Vector3(0, 0, 0),
+        // rotationMax: new Vector3(0, 0, 0)
         // rotationMin: new Vector3(-1.5, -1, -2),
 		    // rotationMax: new Vector3(1.5, 1, 2)
-        rotationMin: new Vector3(-1, 0, -1),
-        rotationMax: new Vector3(1, 1, 0)
+        // rotationMin: new Vector3(-1, 0, -1),
+        // rotationMax: new Vector3(1, 1, 0)
+        // y is forward backward reach with shoulder
+        rotationMin: new Vector3(-1, -1, 0),
+		    rotationMax: new Vector3(1, 2, 0)
     },
   ],
-  iteration: 10
+  iteration: 30
 }]
 
 // export const iks = [{
@@ -65,17 +74,6 @@ export const iks = [{
 //   ],
 //   iteration: 10
 // }]
-
-// {
-//   index: 41, // lower right arm
-//   rotationMin: new Vector3(0, 0, -2.5),
-//   rotationMax: new Vector3(0, 0, 0)
-// },
-// {
-//   index: 39, // upper right arm
-//   rotationMin: new Vector3(0, -0.5, 0.8),
-//   rotationMax: new Vector3(0, 0.1, 1.8)
-// },
 
 /*
  root, - for all ik chains, the skinned mesh will be a reconstruction of all avatar meshes, bound to a single skeleton
@@ -130,10 +128,15 @@ function buildSkeletonMesh(vrm: VRM) {
     if (child.name === 'lowerarm_r') ikTargets.rightArm.rightLowerArm = child;
     if (child.name === 'hand_r') {
       ikTargets.rightArm.rightHand = child;
+
       const rightHandPos = new Vector3(child.position.clone().x, child.position.clone().y, child.position.clone().z); // cringe, I know, I'll fix later
       targetRightHand.position.set(rightHandPos.x + 0.5, rightHandPos.y, rightHandPos.z);
     }
-    if (child instanceof Bone) bones.push(child);
+    // if (child instanceof Bone) bones.push(child);
+    if (child instanceof Bone && child.name !== 'right_hand_target') bones.push(child);
+    if (child.name === 'hand_r'){
+        bones.push(targetRightHand);
+    }
   })
 
   console.log('bones array is ', bones)
@@ -146,5 +149,5 @@ function buildSkeletonMesh(vrm: VRM) {
   // skeleton.bones[0].scale.set(0.75, 0.75, 0.75);
   // ikTargets.avatarMesh.add(bones[0]); // root bone for entire mesh (hips)
   ikTargets.avatarMesh.bind(skeleton);
-  console.log('ik targets are ', ikTargets)
+
 }
