@@ -1,7 +1,7 @@
 // import { Bone } from 'three';
 import { CCDIKSolver } from 'three/examples/jsm/Addons.js'
 import { iks, ikTargets } from '../setupIKSolver';
-import { rigIKTargetPosition, rigIKTargetRotation } from '../animationHelpers';
+import { rigIKTargetRotation } from '../animationHelpers';
 
 // const targetBone = new Bone();
 let ikSolver: CCDIKSolver | null = null;
@@ -15,7 +15,7 @@ export function calcIKArms(rightHand) {
         ikSolver = new CCDIKSolver(ikTargets.avatarMesh, iks);
     }
     // rig the right hand for iktargets
-    rigIKTargetPosition(ikSolver, 44, { x: rightHand.x, y: rightHand.y, z: rightHand.z })
+    rigIKTargetRotation(ikSolver, 44, { x: rightHand.x, y: rightHand.y, z: rightHand.z })
 
     console.log('before ik update ', ikSolver.mesh.skeleton.bones[44])
     ikSolver.update();
