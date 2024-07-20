@@ -30,7 +30,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
     });
     loader.load(
       // 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man-Compressed.vrm?v=1715274436489',
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/manNoRoll.vrm?v=1721253731150',
+      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/manNoRoll.vrm?v=1721481745770',
       (gltf) => {
         const vrm = gltf.userData.vrm;
 

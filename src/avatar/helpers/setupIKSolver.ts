@@ -16,14 +16,16 @@ export const ikTargets = {
 } as ikTargetTypes;
 
 export const iks = [{
-  target: 44, // change to the live mediapipe landmarks for the right hand 59
+  target: 59, // change to the live mediapipe landmarks for the right hand 59 or 44
   effector: 43, // right hand
   links: [
     {
         index: 42, // lower right twist bone
-        limitation: new Vector3(1, 0, 0),
-        rotationMin: new Vector3(-0.25, 0, 0),
-        rotationMax: new Vector3(0.25, 0, 0)
+        rotationMin: new Vector3(0, 0, 0),
+        rotationMax: new Vector3(0, 0, 0),
+        // limitation: new Vector3(1, 0, 0),
+        // rotationMin: new Vector3(-0.25, 0, 0),
+        // rotationMax: new Vector3(0.25, 0, 0)
     },
     {
         index: 41, // right forearm
@@ -37,9 +39,11 @@ export const iks = [{
     },
     {
         index: 40, // upper right twist bone
-        limitation: new Vector3(1, 0, 0),
-        rotationMin: new Vector3(-0.25, 0, 0),
-        rotationMax: new Vector3(0.25, 0, 0)
+        rotationMin: new Vector3(0, 0, 0),
+        rotationMax: new Vector3(0, 0, 0)
+        // limitation: new Vector3(1, 0, 0),
+        // rotationMin: new Vector3(-0.25, 0, 0),
+        // rotationMax: new Vector3(0.25, 0, 0)
     },
     {
         index: 39, // right shoulder
@@ -122,21 +126,24 @@ function buildSkeletonMesh(vrm: VRM) {
     // save reference to bones for the right arm chain
     if (child.name === 'upperarm_r') {
       ikTargets.rightArm.rightUpperArm = child;
-      ikTargets.rightArm.rightUpperArm.add(targetRightHand);
-      ikTargets.rightArm.ikTarget = targetRightHand; // this is for the transform controls, can delete later
+      // ikTargets.rightArm.rightUpperArm.add(targetRightHand);
+      // ikTargets.rightArm.ikTarget = targetRightHand; // this is for the transform controls, can delete later
     }
     if (child.name === 'lowerarm_r') ikTargets.rightArm.rightLowerArm = child;
     if (child.name === 'hand_r') {
       ikTargets.rightArm.rightHand = child;
 
       const rightHandPos = new Vector3(child.position.clone().x, child.position.clone().y, child.position.clone().z); // cringe, I know, I'll fix later
-      targetRightHand.position.set(rightHandPos.x + 0.5, rightHandPos.y, rightHandPos.z);
+      targetRightHand.position.set(rightHandPos.x, rightHandPos.y, rightHandPos.z);
+
+      ikTargets.rightArm.rightHand.add(targetRightHand);
+      ikTargets.rightArm.ikTarget = targetRightHand;
     }
-    // if (child instanceof Bone) bones.push(child);
-    if (child instanceof Bone && child.name !== 'right_hand_target') bones.push(child);
-    if (child.name === 'hand_r'){
-        bones.push(targetRightHand);
-    }
+    if (child instanceof Bone) bones.push(child);
+    // if (child instanceof Bone && child.name !== 'right_hand_target') bones.push(child);
+    // if (child.name === 'hand_r'){
+    //     bones.push(targetRightHand);
+    // }
   })
 
   console.log('bones array is ', bones)
