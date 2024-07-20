@@ -12,11 +12,15 @@ export default function useHookstateGetters() {
 
   // GAME STATE
   const gameOver = () => (gameState.gameOver.get({ noproxy: true }));
+  const getMaxLeftArmAngle = () => (gameState.score.maxLeftArmAngle.get({ noproxy: true }));
+  const getMaxRightArmAngle = () => (gameState.score.maxRightArmAngle.get({ noproxy: true }));
 
   return {
     environmentLoaded,
     environmentSelected,
     sceneLoaded,
-    gameOver
+    gameOver,
+    getMaxLeftArmAngle,
+    getMaxRightArmAngle
   }
 }

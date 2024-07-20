@@ -4,7 +4,7 @@ import { Clock } from 'three';
 import { useGameState } from '../store/GameState';
 import calculateArmAngles from '../../avatar/helpers/calculateArmAngles';
 import { VRM } from '../../THREE_Interface';
-import { useSceneState } from '../store/SceneState';
+import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 
 interface RenderLoopProps {
   avatar: React.RefObject<VRM>;
@@ -13,21 +13,17 @@ interface RenderLoopProps {
 export default function RenderLoop({ avatar }: RenderLoopProps) {
   const clock = useRef(new Clock());
   const gameState = useGameState();
-  const sceneState = useSceneState();
+  const { sceneLoaded, getMaxLeftArmAngle, getMaxRightArmAngle } = useHookstateGetters();
 
   useFrame(() => {
     const elapsedTime = clock.current.getElapsedTime();
 
     if (elapsedTime >= 0.5) {
       // currently starts checking when avatar is in T pose - add an extra && for when game start happens
-      if (sceneState.sceneLoaded.get({ noproxy: true }) && avatar.current) {
+      if (sceneLoaded() && avatar.current) {
         const { leftArmAngle, rightArmAngle } = calculateArmAngles(avatar);
-        const maxLeftArmAngle = gameState.score.maxLeftArmAngle.get({
-          noproxy: true,
-        });
-        const maxRightArmAngle = gameState.score.maxRightArmAngle.get({
-          noproxy: true,
-        });
+        const maxLeftArmAngle = getMaxLeftArmAngle();
+        const maxRightArmAngle = getMaxRightArmAngle();
 
         if (
           leftArmAngle > maxLeftArmAngle &&
