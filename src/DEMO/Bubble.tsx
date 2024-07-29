@@ -1,9 +1,10 @@
 import { LegacyRef, forwardRef, useEffect, useState } from 'react';
-import { Sphere } from '@react-three/drei';
+// import { Sphere } from '@react-three/drei';
 import SphereCollider from '../ecs/components/SphereCollider';
 import { PublicApi } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
 import BubbleParticles from './BubbleParticles';
+import BubbleMaterial from './materials/BubbleMaterial';
 
 // Bubble is wrapped in ECS.Component, which implicitly "fowards" a ref to the Bubble component
 // forwardRef allows this parent to pass a ref directly to this child, as denoted by the child declaring
@@ -60,11 +61,15 @@ const Bubble = forwardRef((
           count={100}
         />
       ) : (
-        <mesh position={position}>
-          <Sphere ref={ref} args={[0.05, 8, 8]}>
-            <meshStandardMaterial color={active ? 'green' : 'blue'} />
-          </Sphere>
-        </mesh>
+        // <mesh position={position}>
+        //   <Sphere ref={ref} args={[0.05, 8, 8]}>
+        //     <meshStandardMaterial color={active ? 'green' : 'blue'} />
+        //   </Sphere>
+        // </mesh>
+        // <mesh position ={position} ref={ref}>
+        //   <BubbleMaterial active={active} position={position}/>
+        // </mesh>
+        <BubbleMaterial active={active} position={position}/>
       )}
       {active && <SphereCollider
         onAttachRefs={attachRefs}
