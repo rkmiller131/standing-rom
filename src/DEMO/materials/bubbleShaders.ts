@@ -15,7 +15,8 @@ export function makeBubbleVertexShader(active: boolean) {
         float height = smoothstep(0.1, 0.9, texture2D(uPattern, position.yz * 0.02 + vec2(uTime)).x);
         vec3 displacedPosition = position + normal * height * 0.1;
 
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(${active ? 'displacedPosition': 'position'}, 1.0);
+        // gl_Position = projectionMatrix * modelViewMatrix * vec4(${active ? 'displacedPosition': 'position'}, 1.0);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `;
   return vertex;
@@ -38,7 +39,8 @@ export function makeBubbleFragShader(active: boolean) {
 
         vec3 baseColor = vec3(smoothFactor, 1.0, smoothFactor);
 
-        vec3 activeColor = vec3(fresnel) * vec3(smoothFactor, 1.0, smoothFactor);
+        // vec3 activeColor = vec3(fresnel) * vec3(smoothFactor, 1.0, smoothFactor);
+        vec3 activeColor = texture2D(uPattern, vUv.xy).xyz;
         vec3 reflectionVector = reflect(-viewDirection, vNormal);
         vec3 envColor = textureCube(envMap, reflectionVector).rgb;
         // vec3 activeColor = mix(vec3(0.2, 1.0, 0.2), envColor, 0.3);

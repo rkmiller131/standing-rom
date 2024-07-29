@@ -1,6 +1,6 @@
 import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
-import { AdditiveBlending, Mesh, ShaderLib, ShaderMaterial, SphereGeometry, TextureLoader, Vector3 } from 'three';
+import { AdditiveBlending, Mesh, RepeatWrapping, ShaderLib, ShaderMaterial, SphereGeometry, TextureLoader, Vector3 } from 'three';
 import { makeBubbleFragShader, makeBubbleVertexShader } from './bubbleShaders';
 
 interface BubbleMaterialProps {
@@ -10,8 +10,12 @@ interface BubbleMaterialProps {
 export default function BubbleMaterial({active, position}: BubbleMaterialProps) {
   const textureLoader = new TextureLoader();
   const bubbleTexture = textureLoader.load(
-    'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/perlinNoise.jfif?v=1721870421632'
+    // 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/perlinNoise.jfif?v=1721870421632'
+    'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/3E95CC_65D9F1_A2E2F6_679BD4-64px.jpeg?v=1722030071519'
   );
+
+  bubbleTexture.wrapT = RepeatWrapping;
+  bubbleTexture.wrapS = RepeatWrapping;
 
   const bubbleRef = useRef<Mesh | null>(null);
   const { scene } = useThree();
@@ -29,7 +33,7 @@ export default function BubbleMaterial({active, position}: BubbleMaterialProps) 
 
   useEffect(() => {
     let bubbleToRemove = null;
-    material.blending = AdditiveBlending;
+    if (!active) material.blending = AdditiveBlending;
     material.uniforms.envMap.value = scene.environment;
     material.needsUpdate = true;
 
