@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useEffect } from 'react';
 import { drawLandmarkGuides } from './landmarkGuides';
-import { Holistic } from '@mediapipe/holistic';
+import { Holistic, Results } from '@mediapipe/holistic';
 import { Camera } from '@mediapipe/camera_utils';
 import { animateVRM } from '../avatar/helpers/avatarAnimator';
 import { VRM } from '../../interfaces/THREE_Interface';
@@ -25,12 +25,12 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   const sceneState = useSceneState();
   const device = sceneState.device.get({ noproxy: true });
 
-  function onResults(results: any) {
+  function onResults(results: Results) {
     if (results.poseLandmarks && results.poseLandmarks.length > 0) {
       drawLandmarkGuides(results, videoRef, landmarkCanvasRef);
 
       if (avatar && avatar.current) {
-        animateVRM(avatar, results, videoRef);
+        animateVRM(avatar, results);
       }
 
       // small delay allowing landmarks to draw before saying we've officially loaded

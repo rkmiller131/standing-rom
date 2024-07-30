@@ -2,32 +2,59 @@
 import { PoseSolver as Pose, HandSolver as Hand } from './solvers'
 import { rigRotation } from './animationHelpers'
 import { VRM } from '@pixiv/three-vrm';
+import { Vector3 } from 'three';
+
+/**
+ * Calculates the exact center between two points in 3D space.
+ * @param {Vector3} pointA First point.
+ * @param {Vector3} pointB Second point.
+ * @returns {Vector3} Center point between pointA and pointB.
+ */
+function calculateCenter(pointA: Vector3, pointB: Vector3): Vector3 {
+  const center = new Vector3();
+
+  // Average the x, y, and z coordinates of the two points
+  center.x = (pointA.x + pointB.x) / 2;
+  center.y = (pointA.y + pointB.y) / 2;
+  center.z = (pointA.z + pointB.z) / 2;
+
+  return center;
+}
 
 export const animateVRM = (
   vrm: React.RefObject<VRM>,
-  results: any,
-  videoRef: React.RefObject<HTMLVideoElement>
+  results: any // mediapipe Results type does not include the 3D coordinates (za) for some reason, so have to type as any
 ) => {
   if (!vrm.current) return;
   // Take the results from Holistic and animate character based on its Pose and Hand Keypoints.
   let riggedPose, riggedLeftHand, riggedRightHand;
 
-  // Pose 3D Landmarks are with respect to Hip distance in meters
+  console.log('results are ', results);
+  const rightHip = results.za[23];
+  const leftHip = results.za[24];
+  const centerHip = calculateCenter(new Vector3(rightHip.x, rightHip.y, rightHip.z), new Vector3(leftHip.x, leftHip.y, leftHip.z));
+  console.log('center hips are ', centerHip);
+  // Pose 3D Landmarks are with respect to the midpoint of the Hip distance in meters
   const pose3DLandmarks = results.za;
-  // Pose 2D landmarks are with respect to videoWidth and videoHeight
+  // Pose 2D landmarks are with respect to videoWidth and videoHeight, normalized
+  // x and y lm coords are normalized between 0.0 and 1.0 by image width (x) and height (y)
+  // z is the lm depth, with depth at the midpoint of the hips as origin. The smaller the value, the
+  // closer the lm is to the camera. The magnitude of z uses the same scale as x.
   const pose2DLandmarks = results.poseLandmarks;
 
-  // need to be flipped b/c stream is mirrored
+  // need to be flipped b/c video stream is mirrored
   const leftHandLandmarks = results.rightHandLandmarks;
   const rightHandLandmarks = results.leftHandLandmarks;
 
   // Animate Pose
   if (pose2DLandmarks && pose3DLandmarks) {
-    riggedPose = Pose.solve(pose3DLandmarks, pose2DLandmarks, {
-      runtime: 'mediapipe',
-      video: videoRef.current,
-      enableLegs: true
-    });
+    riggedPose = Pose.solve(
+      pose3DLandmarks,
+      pose2DLandmarks,
+      { enableLegs: true }
+    );
+
+    if (!riggedPose) return;
 
     // free motion tilting:
     // rigRotation(vrm, 'hips', riggedPose!.Hips.rotation, 0.7);
@@ -44,13 +71,13 @@ export const animateVRM = (
     //   0.07
     // );
 
-    rigRotation(vrm, 'chest', riggedPose!.Spine, 0.25, .3);
-    rigRotation(vrm, 'spine', riggedPose!.Spine, 0.45, .3);
+    rigRotation(vrm, 'chest', riggedPose.Spine, 0.25, .3);
+    rigRotation(vrm, 'spine', riggedPose.Spine, 0.45, .3);
 
-    rigRotation(vrm, 'rightUpperArm', riggedPose!.RightUpperArm, 1, .3);
-    rigRotation(vrm, 'rightLowerArm', riggedPose!.RightLowerArm, 1, .5);
-    rigRotation(vrm, 'leftUpperArm', riggedPose!.LeftUpperArm, 1, .3);
-    rigRotation(vrm, 'leftLowerArm', riggedPose!.LeftLowerArm, 1, .5);
+    rigRotation(vrm, 'rightUpperArm', riggedPose.RightUpperArm, 1, .3);
+    rigRotation(vrm, 'rightLowerArm', riggedPose.RightLowerArm, 1, .5);
+    rigRotation(vrm, 'leftUpperArm', riggedPose.LeftUpperArm, 1, .3);
+    rigRotation(vrm, 'leftLowerArm', riggedPose.LeftLowerArm, 1, .5);
 
     // comment out to lock the legs:
     // rigRotation(vrm, 'leftUpperLeg', riggedPose!.LeftUpperLeg, 1, .3);

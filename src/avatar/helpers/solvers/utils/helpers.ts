@@ -1,3 +1,5 @@
+import { XYZ } from '../Types';
+import Vector from './vector';
 /**
  * Returns a clamped value between min and max values
  * @param {Number} val : transformed value
@@ -298,3 +300,26 @@ export const RestingDefault = {
 //   }
 //   return armPos;
 // }
+
+export function dotBetween2BodySegments(
+  seg1Start: XYZ,
+  seg1End: XYZ,
+  seg2Start: XYZ,
+  seg2End: XYZ
+): number {
+  const seg1S = new Vector(seg1Start);
+  const seg1E = new Vector(seg1End);
+  const seg2S = new Vector(seg2Start);
+  const seg2E = new Vector(seg2End);
+
+  const segmentOne = seg1S.subtract(seg1E);
+  const segmentTwo = seg2S.subtract(seg2E);
+
+  const segmentOneNorm = segmentOne.unit();
+  const segmentTwoNorm = segmentTwo.unit();
+
+  const dotProduct = segmentOneNorm.dot(segmentTwoNorm);
+  // Extract the angle from the dot products - should it be acos or atan?
+  const angle = Math.acos(dotProduct);
+  return Vector.normalizeRadians(angle);
+}

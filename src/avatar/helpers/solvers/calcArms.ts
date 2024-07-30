@@ -1,11 +1,11 @@
 import Vector from './utils/vector'
-import { clamp } from './utils/helpers'
+import { clamp, dotBetween2BodySegments } from './utils/helpers'
 import { Results, Side } from './Types'
 import { RIGHT, LEFT, PI } from './constants'
 
 /**
  * Calculates arm rotation as euler angles
- * @param {Array} lm : array of 3D pose vectors from tfjs or mediapipe
+ * @param {Array} lm : array of 3D pose vectors from mediapipe
  */
 export const calcArms = (lm: Results) => {
     //Pure Rotation Calculations
@@ -13,7 +13,14 @@ export const calcArms = (lm: Results) => {
         r: Vector.findRotation(lm[11], lm[13]),
         l: Vector.findRotation(lm[12], lm[14]),
     };
-    UpperArm.r.y = Vector.angleBetween3DCoords(lm[12], lm[11], lm[13]);
+    console.log('after the upper arm angle was found it is ', UpperArm.r);
+    // sets y to the dot product between opposite shoulder and end of upper arm.
+    // imagine 2 segments: left shoulder to right shoulder and right shoulder to elbow.
+    // In T pose, the dot product between those two should be 1 for y, 0 (perpendicular) for hands at sides/over head
+    // UpperArm.r.y = Vector.angleBetween3DCoords(lm[12], lm[11], lm[13]);
+    // UpperArm.r.z = Vector.angleBetween3DCoords(lm[11], lm[13], lm[23]);
+    UpperArm.r.y = dotBetween2BodySegments(lm[12], lm[11], lm[11], lm[13]);
+    UpperArm.r.z = dotBetween2BodySegments(lm[11], lm[13], lm[11], lm[23]);
     UpperArm.l.y = Vector.angleBetween3DCoords(lm[11], lm[12], lm[14]);
 
     const LowerArm = {

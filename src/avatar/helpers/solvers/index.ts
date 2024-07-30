@@ -16,40 +16,18 @@ export class PoseSolver {
     static calcLegs = calcLegs;
     /**
      * Combines arm, hips, and leg calcs into one method
-     * @param {Array} lm3d : array of 3D pose vectors from tfjs or mediapipe
-     * @param {Array} lm2d : array of 2D pose vectors from tfjs or mediapipe
-     * @param {String} runtime: set as either "tfjs" or "mediapipe"
-     * @param {IPoseSolveOptions} options: options object
+     * @param {Array} lm3d : array of 3D pose vectors from mediapipe
+     * @param {Array} lm2d : array of 2D pose vectors from mediapipe
+     * @param {IPoseSolveOptions} options: options object, currently just 'enableLegs'
      */
     static solve(
         lm3d: TFVectorPose,
         lm2d: Omit<TFVectorPose, 'z'>,
-        { runtime = 'mediapipe', video = null, imageSize = null, enableLegs = true }: Partial<IPoseSolveOptions> = {}
+        { enableLegs = true }: Partial<IPoseSolveOptions> = {}
     ): TPose | undefined {
         if (!lm3d && !lm2d) {
             console.error('Need both World Pose and Pose Landmarks');
             return;
-        }
-
-        // format and normalize values given by tfjs output
-        if (video) {
-            const videoEl = (typeof video === 'string' ? document.querySelector(video) : video) as HTMLVideoElement;
-
-            imageSize = {
-                width: videoEl.videoWidth,
-                height: videoEl.videoHeight,
-            };
-        }
-        if (runtime === 'tfjs' && imageSize) {
-            for (const e of lm3d) {
-                e.visibility = e.score;
-            }
-            for (const e of lm2d) {
-                e.x /= imageSize.width;
-                e.y /= imageSize.height;
-                e.z = 0;
-                e.visibility = e.score;
-            }
         }
 
         const Arms = calcArms(lm3d);
