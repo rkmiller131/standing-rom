@@ -41,19 +41,6 @@ export class PoseSolver {
         const leftFootOffscreen = lm3d[23].y > 0.1 || (lm3d[23].visibility ?? 0) < 0.63 || Hips.Hips.position.z > -0.4;
         const rightFootOffscreen = lm3d[24].y > 0.1 || (lm3d[24].visibility ?? 0) < 0.63 || Hips.Hips.position.z > -0.4;
 
-        // const rightHandTouchingBody =
-        //     lm3d[15].x >= 0.07 && // Lower bound for X
-        //     lm3d[15].x <= 0.13 && // Upper bound for X
-        //     lm3d[15].y >= -0.07 && // Lower bound for Y
-        //     lm3d[15].y <= 0.01 && // Upper bound for Y
-        //     lm3d[15].z >= -0.17 && // Lower bound for Z
-        //     lm3d[15].z <= 0.01; // Upper bound for Z
-        // if (rightHandTouchingBody) {
-        //     console.log('right hand touching hips')
-        //     Arms.UpperArm.r.multiply(0);
-        //     Arms.LowerArm.r = Arms.LowerArm.r.multiply(0);
-        //     Arms.Hand.r = Arms.Hand.r.multiply(0);
-        // }
 
         Arms.UpperArm.l = Arms.UpperArm.l.multiply(leftHandOffscreen ? 0 : 1);
         Arms.UpperArm.l.z = leftHandOffscreen ? RestingDefault.Pose.LeftUpperArm.z : Arms.UpperArm.l.z;
@@ -110,9 +97,11 @@ export class HandSolver {
         ];
         const handRotation = Vector.rollPitchYaw(palm[0], palm[1], palm[2]);
         // handRotation.y = side === LEFT ? handRotation.z - 0.4 : handRotation.z + 0.4;
-        handRotation.y -= side === LEFT ? 0.2 : -0.2
+        // handRotation.y -= side === LEFT ? 0.2 : -0.2
         // handRotation.z = side === LEFT ? handRotation.z - 0.3 : handRotation.z + 0.3;
         // handRotation.y = side === LEFT ? handRotation.y -0.3 : handRotation.y + 0.3
+        handRotation.y = handRotation.z;
+        handRotation.y -= side === LEFT ? 0.2 : -0.2;
 
         let hand: Record<string, unknown> = {};
         hand[side + 'Wrist'] = { x: handRotation.x, y: handRotation.y, z: handRotation.z };
@@ -152,11 +141,11 @@ const rigFingers = (hand: THandUnsafe<typeof side>, side: Side = RIGHT): THand<t
     hand[side + 'Wrist'].x = clamp(hand[side + 'Wrist'].x * 2 * invert, -0.3, 0.3); // twist
     hand[side + 'Wrist'].y = clamp(
         hand[side + 'Wrist'].y * 2.3,
-        side === RIGHT ? -1.6 : -0.6, // -1.2, -0.6
-        side === RIGHT ? 0.6 : 1.6 //0.6,  1.6
+        side === RIGHT ? -1.6 : -0.6, // max -1.2, -0.6
+        side === RIGHT ? 0.6 : 1.6 // min 0.6,  1.6
     );
-    // //                                              *-2.3 * invert
-    hand[side + 'Wrist'].z = hand[side + 'Wrist'].z * 2.3 * invert; //left right
+    //                                             *-2.3 * invert
+    hand[side + 'Wrist'].z = hand[side + 'Wrist'].z * -2.3 * invert; //left right
 
     digits.forEach((e) => {
         segments.forEach((j) => {

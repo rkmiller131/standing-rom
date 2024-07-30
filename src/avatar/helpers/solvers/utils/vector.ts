@@ -357,14 +357,19 @@ export default class Vector {
     return angle / PI;
   }
   static normalizeRadians(radians: number) {
+    // if greater than pi/2, subtract 2pi to wrap around the circle
+    // and bring into the range of [-pi, pi]
     if (radians >= PI / 2) {
       radians -= TWO_PI;
     }
+    // if the angle is less than -pi/2, then ADD two pi
     if (radians <= -PI / 2) {
       radians += TWO_PI;
       radians = PI - radians;
     }
-    //returns normalized values to -1,1
+    // now that we've adjusted the radians to be [-PI, PI],
+    // dividing by PI will produce a value between [-PI/PI, PI/PI]
+    // returns normalized values to -1,1
     return radians / PI;
   }
   static find2DAngle(cx: number, cy: number, ex: number, ey: number) {

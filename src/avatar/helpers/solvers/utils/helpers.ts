@@ -307,19 +307,22 @@ export function dotBetween2BodySegments(
   seg2Start: XYZ,
   seg2End: XYZ
 ): number {
-  const seg1S = new Vector(seg1Start);
-  const seg1E = new Vector(seg1End);
-  const seg2S = new Vector(seg2Start);
-  const seg2E = new Vector(seg2End);
+  const seg1S = new Vector(seg1Start); // right shoulder
+  const seg1E = new Vector(seg1End); // right elbow
+  const seg2S = new Vector(seg2Start); // right shoulder
+  const seg2E = new Vector(seg2End); // right hip
 
+  // With the four points, get 2 vectors
   const segmentOne = seg1S.subtract(seg1E);
   const segmentTwo = seg2S.subtract(seg2E);
 
+  // normalize (divide by the vector's length)
   const segmentOneNorm = segmentOne.unit();
   const segmentTwoNorm = segmentTwo.unit();
 
   const dotProduct = segmentOneNorm.dot(segmentTwoNorm);
-  // Extract the angle from the dot products - should it be acos or atan?
+  // Extract the angle from the dot products
   const angle = Math.acos(dotProduct);
+  // return a value that's within the range of -1, 1
   return Vector.normalizeRadians(angle);
 }

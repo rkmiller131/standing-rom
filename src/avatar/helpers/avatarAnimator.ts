@@ -2,24 +2,24 @@
 import { PoseSolver as Pose, HandSolver as Hand } from './solvers'
 import { rigRotation } from './animationHelpers'
 import { VRM } from '@pixiv/three-vrm';
-import { Vector3 } from 'three';
+// import { Vector3 } from 'three';
 
-/**
- * Calculates the exact center between two points in 3D space.
- * @param {Vector3} pointA First point.
- * @param {Vector3} pointB Second point.
- * @returns {Vector3} Center point between pointA and pointB.
- */
-function calculateCenter(pointA: Vector3, pointB: Vector3): Vector3 {
-  const center = new Vector3();
+// /**
+//  * Calculates the exact center between two points in 3D space.
+//  * @param {Vector3} pointA First point.
+//  * @param {Vector3} pointB Second point.
+//  * @returns {Vector3} Center point between pointA and pointB.
+//  */
+// function calculateCenter(pointA: Vector3, pointB: Vector3): Vector3 {
+//   const center = new Vector3();
 
-  // Average the x, y, and z coordinates of the two points
-  center.x = (pointA.x + pointB.x) / 2;
-  center.y = (pointA.y + pointB.y) / 2;
-  center.z = (pointA.z + pointB.z) / 2;
+//   // Average the x, y, and z coordinates of the two points
+//   center.x = (pointA.x + pointB.x) / 2;
+//   center.y = (pointA.y + pointB.y) / 2;
+//   center.z = (pointA.z + pointB.z) / 2;
 
-  return center;
-}
+//   return center;
+// }
 
 export const animateVRM = (
   vrm: React.RefObject<VRM>,
@@ -29,11 +29,12 @@ export const animateVRM = (
   // Take the results from Holistic and animate character based on its Pose and Hand Keypoints.
   let riggedPose, riggedLeftHand, riggedRightHand;
 
-  console.log('results are ', results);
-  const rightHip = results.za[23];
-  const leftHip = results.za[24];
-  const centerHip = calculateCenter(new Vector3(rightHip.x, rightHip.y, rightHip.z), new Vector3(leftHip.x, leftHip.y, leftHip.z));
-  console.log('center hips are ', centerHip);
+  // console.log('results are ', results);
+  // const rightHip = results.za[23];
+  // const leftHip = results.za[24];
+  // const centerHip = calculateCenter(new Vector3(rightHip.x, rightHip.y, rightHip.z), new Vector3(leftHip.x, leftHip.y, leftHip.z));
+  // console.log('center hips are ', centerHip);
+
   // Pose 3D Landmarks are with respect to the midpoint of the Hip distance in meters
   const pose3DLandmarks = results.za;
   // Pose 2D landmarks are with respect to videoWidth and videoHeight, normalized
@@ -94,7 +95,7 @@ export const animateVRM = (
       z: riggedPose!.LeftHand.z,
       y: riggedLeftHand!.LeftWrist.y,
       x: riggedLeftHand!.LeftWrist.x
-    }, 1, 0.4);
+    }, 0.75, 0.4);
     rigRotation(vrm, 'leftRingProximal', riggedLeftHand!.LeftRingProximal);
     rigRotation(vrm, 'leftRingIntermediate', riggedLeftHand!.LeftRingIntermediate);
     rigRotation(vrm, 'leftRingDistal', riggedLeftHand!.LeftRingDistal);
@@ -118,7 +119,7 @@ export const animateVRM = (
       z: riggedPose!.RightHand.z,
       y: riggedRightHand!.RightWrist.y,
       x: riggedRightHand!.RightWrist.x
-    }, 1, 0.4);
+    }, 0.75, 0.4);
     rigRotation(vrm, 'rightRingProximal', riggedRightHand!.RightRingProximal);
     rigRotation(vrm, 'rightRingIntermediate', riggedRightHand!.RightRingIntermediate);
     rigRotation(vrm, 'rightRingDistal', riggedRightHand!.RightRingDistal);
