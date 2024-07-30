@@ -26,5 +26,4 @@ package-lock.json
 
 # pre-commit hook linting/prettier
 .eslintcache
-husky/
-
+.husky/

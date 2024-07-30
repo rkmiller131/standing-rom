@@ -2,36 +2,27 @@
 import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
 import Mocap from './mocap/Mocap';
 import Avatar from './avatar/Avatar';
-import UbiquitySVG from './assets/ubiquity.svg';
 import LoadingScreen from './ui/LoadingScreen';
 import GameLogic from './ecs/systems/GameLogic';
 import { useSceneState } from './ecs/store/SceneState';
-import { VRM } from './THREE_Interface';
 import checkUserDevice from './ecs/helpers/checkUserDevice';
-import GameInfo from './ui/GameInfo';
 import SetupScreen from './ui/SetupScreen';
 import Environment from './environment/Environment';
 import useHookstateGetters from './interfaces/Hookstate_Interface';
 
 import './css/App.css';
+import { VRM } from '@pixiv/three-vrm';
 
 const Renderer = lazy(() => import('./renderer/Renderer'));
 
-// LEARNING RESOURCES -------------------------------------------------------------------
-// https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js#video
-// https://github.com/google/mediapipe/blob/master/docs/solutions/holistic.md
-// https://glitch.com/edit/#!/kalidokit?path=script.js%3A334%3A0
-// https://codesandbox.io/s/react-three-fiber-vrm-9ryxq?file=/src/index.tsx:2398-2461
-// https://github.com/pixiv/three-vrm/blob/dev/docs/migration-guide-1.0.md
-// https://github.com/superdav42/kalidokit-react/blob/master/src/components/Model.jsx
-// --------------------------------------------------------------------------------------
-
 export default function App() {
+  const sceneState = useSceneState();
+  const { environmentLoaded, environmentSelected } = useHookstateGetters();
+  sceneState.device.set(checkUserDevice());
+
+
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const avatar = useRef<VRM | null>(null);
-  const sceneState = useSceneState();
-  sceneState.device.set(checkUserDevice());
-  const { environmentLoaded, environmentSelected } = useHookstateGetters();
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
@@ -43,28 +34,33 @@ export default function App() {
       holisticLoaded &&
       environmentLoaded()
     ) {
-      sceneState.sceneLoaded.set(true);
+      const transitionDelay = setTimeout(() => {
+        sceneState.sceneLoaded.set(true);
+      }, 2000) // delay to see avatar in calibration before camera spins around and countdown starts.
+
+      return () => clearTimeout(transitionDelay)
     }
   }, [holisticLoaded, sceneState.environmentLoaded]);
 
   return (
-    <main id="app-container">
-      {/* UI */}
-      <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
-      {!environmentSelected() && <SetupScreen />}
-      {environmentSelected() && (<Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />)}
+    <>
+      { !environmentSelected() && <SetupScreen /> }
+      { environmentSelected() && 
+        <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
+      }
       <LoadingScreen />
+      {/* { sceneLoaded() && <CountdownScreen /> } */}
+      {/* <ScoreDisplay /> */}
+      {/* { gameOver() && <ResultsScreen /> } */}
 
       <Suspense fallback={null}>
-        <div className="canvas-container">
-          <Renderer>
-            {environmentSelected() && <Environment />}
-            <GameInfo />
-            <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-            <GameLogic avatar={avatar} />
-          </Renderer>
-        </div>
+        <Renderer>
+          { environmentSelected() && <Environment /> }
+          {/* <GameInfo /> */}
+          <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+          <GameLogic avatar={avatar} />
+        </Renderer>
       </Suspense>
-    </main>
+    </>
   );
 }
