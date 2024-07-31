@@ -6,6 +6,8 @@ export interface OpaqueType<T extends string> {
 
 export type EntityId = OpaqueType<'entity'> & number;
 
+export type EnvironmentSelectionType = 'Outdoors' | 'Indoor Office' | '';
+
 export type Bubble = {
   age: number;
   spawnPosition: Vector3;

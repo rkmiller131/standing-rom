@@ -15,7 +15,7 @@ import Avatar from './components/Avatar';
 import CameraAnimations from './components/CameraAnimations';
 import { Physics } from '@react-three/cannon';
 import GameLogic from './ecs/systems/GameLogic';
-import SetupScreen from './components/ui/SetupScreen';
+import SetupScreen from './components/ui/environment-selection/SetupScreen';
 import LoadingScreen from './components/ui/LoadingScreen';
 import CountdownScreen from './components/ui/CountdownScreen';
 import ScoreDisplay from './components/ui/ScoreDisplay';
@@ -57,7 +57,7 @@ export default function App() {
 
       return () => clearTimeout(transitionDelay)
     }
-  }, [holisticLoaded, sceneState.environmentLoaded]); // see if we can get away with not using the proxy and just using environmentLoaded no invocation. See if the one for device in mocap works.
+  }, [holisticLoaded, sceneState.environmentLoaded]);
 
   return (
     <>

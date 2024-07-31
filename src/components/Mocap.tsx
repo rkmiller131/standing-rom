@@ -1,16 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useEffect } from 'react';
-
+import { useSceneState } from '../hookstate-store/SceneState';
 import { VRM } from '../interfaces/THREE_Interface';
-import { Holistic } from '@mediapipe/holistic';
+import { Holistic, Results } from '@mediapipe/holistic';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawLandmarkGuides } from '../mocap/landmarkGuides';
 import { animateVRM } from '../mocap/avatarAnimation/avatarAnimator';
+import SlidingInfo from './ui/SlidingInfo';
 
 import '../css/Mocap.css';
-import useHookstateGetters from '../interfaces/Hookstate_Interface';
-import SlidingInfo from './ui/SlidingInfo';
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;
@@ -23,10 +21,11 @@ let holisticLoaded = false;
 export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { getUserDevice } = useHookstateGetters();
+  const sceneState = useSceneState();
+  const device = sceneState.device.get({ noproxy: true });
 
   // The event listener for Mediapipe - gets called once per frame
-  function onResults(results: any) {
+  function onResults(results: Results) {
     if (results.poseLandmarks && results.poseLandmarks.length > 0) {
       drawLandmarkGuides(results, videoRef, landmarkCanvasRef);
 
@@ -67,7 +66,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
       });
 
       holistic.setOptions({
-        modelComplexity: getUserDevice() !== 'Desktop' ? 0 : 1,
+        modelComplexity: device !== 'Desktop' ? 0 : 1,
         smoothLandmarks: true,
         minDetectionConfidence: 0.7,
         minTrackingConfidence: 0.7,
@@ -103,12 +102,12 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
       // clean up mediapipe when Mocap unmounts.
       if (holistic) holistic.close();
     };
-  }, [getUserDevice]);
+  }, [device]);
 
   return (
     <div className="post-setup-screen">
       <SlidingInfo />
-      <div id="mocap-container" className={getUserDevice()}>
+      <div id="mocap-container" className={device}>
         <video
           id="webcam-stream"
           ref={videoRef}
@@ -116,7 +115,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           height="100%"
           muted
           playsInline
-        ></video>
+        />
         <canvas id="landmark-guides" ref={landmarkCanvasRef} />
       </div>
     </div>
