@@ -1,0 +1,49 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { gltfLoader as loader, dracoLoader, GLTF } from '../../../interfaces/THREE_Interface';
+import { Suspense, useEffect, useState } from 'react';
+import debounce from '../../../utils/general/debounce';
+import updateShadows from './lights/helpers/updateShadows';
+
+interface OfficeModelProps {
+  setEnvironmentModel: (gltf: GLTF) => void;
+  environment: React.RefObject<GLTF>;
+}
+
+export default function OfficeModel({ setEnvironmentModel, environment }: OfficeModelProps) {
+  const [officeLoaded, setOfficeLoaded] = useState(false);
+
+  const updateProgress = debounce((loadedPercentage) => {
+    console.log('Loading Environment: ', loadedPercentage + '%');
+  }, 100);
+
+  useEffect(() => {
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+    loader.setDRACOLoader(dracoLoader);
+
+    loader.load(
+      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/officeDoor-transformed.glb?v=1720632603947',
+      (gltf) => {
+        setEnvironmentModel(gltf);
+        updateShadows(gltf);
+        setOfficeLoaded(true);
+      },
+      (progress) => {
+        const loadedPercentage = 100 * (progress.loaded / progress.total);
+        updateProgress(loadedPercentage);
+      },
+      (error) => {
+        console.error('Error Loading Environment: ', error);
+      },
+    );
+  }, []);
+
+  return (
+    <Suspense fallback={null}>
+      {officeLoaded && (
+        <>
+          <primitive object={environment.current!.scene} />
+        </>
+      )}
+    </Suspense>
+  );
+}

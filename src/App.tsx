@@ -1,25 +1,42 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
-import Mocap from './mocap/Mocap';
-import Avatar from './avatar/Avatar';
-import LoadingScreen from './ui/LoadingScreen';
-import GameLogic from './ecs/systems/GameLogic';
-import { useSceneState } from './ecs/store/SceneState';
-import checkUserDevice from './ecs/helpers/checkUserDevice';
-import SetupScreen from './ui/SetupScreen';
-import Environment from './environment/Environment';
+import {
+  Suspense,
+  lazy,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react';
+import { VRM } from '@pixiv/three-vrm';
+import { useSceneState } from './hookstate-store/SceneState';
 import useHookstateGetters from './interfaces/Hookstate_Interface';
+import checkUserDevice from './utils/general/checkUserDevice';
+import Mocap from './components/Mocap';
+import Avatar from './components/Avatar';
+import CameraAnimations from './components/CameraAnimations';
+import { Physics } from '@react-three/cannon';
+import GameLogic from './ecs/systems/GameLogic';
+import SetupScreen from './components/ui/SetupScreen';
+import LoadingScreen from './components/ui/LoadingScreen';
+import CountdownScreen from './components/ui/CountdownScreen';
+import ScoreDisplay from './components/ui/ScoreDisplay';
+import ResultsScreen from './components/ui/ResultsScreen';
+import Environment from './components/environment/Environment';
 
 import './css/App.css';
-import { VRM } from '@pixiv/three-vrm';
+import AvatarHandColliders from './components/physics/AvatarHandColliders';
+import { Bubbles } from './ecs/entities/Bubbles';
 
-const Renderer = lazy(() => import('./renderer/Renderer'));
+const Renderer = lazy(() => import('./canvas/Renderer'));
 
 export default function App() {
   const sceneState = useSceneState();
-  const { environmentLoaded, environmentSelected } = useHookstateGetters();
+  const {
+    environmentLoaded,
+    environmentSelected,
+    sceneLoaded,
+    gameOver
+  } = useHookstateGetters();
   sceneState.device.set(checkUserDevice());
-
 
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const avatar = useRef<VRM | null>(null);
@@ -40,25 +57,34 @@ export default function App() {
 
       return () => clearTimeout(transitionDelay)
     }
-  }, [holisticLoaded, sceneState.environmentLoaded]);
+  }, [holisticLoaded, sceneState.environmentLoaded]); // see if we can get away with not using the proxy and just using environmentLoaded no invocation. See if the one for device in mocap works.
 
   return (
     <>
       { !environmentSelected() && <SetupScreen /> }
-      { environmentSelected() && 
+      { environmentLoaded() &&
         <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
       }
       <LoadingScreen />
-      {/* { sceneLoaded() && <CountdownScreen /> } */}
-      {/* <ScoreDisplay /> */}
-      {/* { gameOver() && <ResultsScreen /> } */}
+      { sceneLoaded() && <CountdownScreen /> }
+      <ScoreDisplay />
+      { gameOver() && <ResultsScreen /> }
 
       <Suspense fallback={null}>
         <Renderer>
           { environmentSelected() && <Environment /> }
-          {/* <GameInfo /> */}
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-          <GameLogic avatar={avatar} />
+          <CameraAnimations />
+
+          { sceneLoaded() && (
+            <>
+              <Physics gravity={[0, 0, 0]}>
+                <AvatarHandColliders avatar={avatar} />
+                <Bubbles />
+              </Physics>
+              {!gameOver() && <GameLogic avatar={avatar} />}
+            </>
+          )}
         </Renderer>
       </Suspense>
     </>
