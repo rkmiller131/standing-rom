@@ -8,7 +8,6 @@ import { useSceneState } from '../../../hookstate-store/SceneState';
 const Tree = lazy(() =>
   import('../outdoors/props/Tree').then((module) => ({ default: module.Tree })),
 );
-
 const TreeInstance = lazy(() =>
   import('../outdoors/props/Tree').then((module) => ({
     default: module.TreeInstance,
