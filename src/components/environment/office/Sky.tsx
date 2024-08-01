@@ -6,8 +6,8 @@ const video =
 export default function Sky() {
   const texture = useVideoTexture(video);
   return (
-    <mesh position={[5, 1.2, -8.5]}>
-      <planeGeometry args={[10, 10]} />
+    <mesh position={[6, 0.5, -8.5]}>
+      <planeGeometry args={[12, 12]} />
       <meshBasicMaterial map={texture} toneMapped={false} />
     </mesh>
   );
