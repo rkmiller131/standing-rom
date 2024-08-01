@@ -6,7 +6,6 @@ import { Holistic, Results } from '@mediapipe/holistic';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawLandmarkGuides } from '../mocap/landmarkGuides';
 import { animateVRM } from '../mocap/avatarAnimation/avatarAnimator';
-import SlidingInfo from './ui/SlidingInfo';
 
 import '../css/Mocap.css';
 
@@ -105,8 +104,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   }, [device]);
 
   return (
-    <div className="post-setup-screen">
-      <SlidingInfo />
+    <div id="mocap-screen">
       <div id="mocap-container" className={device}>
         <video
           id="webcam-stream"

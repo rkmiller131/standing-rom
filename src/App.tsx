@@ -7,24 +7,25 @@ import {
   useState
 } from 'react';
 import { VRM } from '@pixiv/three-vrm';
+import { Physics } from '@react-three/cannon';
+import { Bubbles } from './ecs/entities/Bubbles';
+import AvatarHandColliders from './components/physics/AvatarHandColliders';
 import { useSceneState } from './hookstate-store/SceneState';
 import useHookstateGetters from './interfaces/Hookstate_Interface';
 import checkUserDevice from './utils/general/checkUserDevice';
 import Mocap from './components/Mocap';
 import Avatar from './components/Avatar';
+import Environment from './components/environment/Environment';
 import CameraAnimations from './components/CameraAnimations';
-import { Physics } from '@react-three/cannon';
 import GameLogic from './ecs/systems/GameLogic';
 import SetupScreen from './components/ui/environment-selection/SetupScreen';
 import LoadingScreen from './components/ui/LoadingScreen';
 import CountdownScreen from './components/ui/CountdownScreen';
 import ScoreDisplay from './components/ui/ScoreDisplay';
 import ResultsScreen from './components/ui/ResultsScreen';
-import Environment from './components/environment/Environment';
+import SlidingInfo from './components/ui/SlidingInfo';
 
 import './css/App.css';
-import AvatarHandColliders from './components/physics/AvatarHandColliders';
-import { Bubbles } from './ecs/entities/Bubbles';
 
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
@@ -62,12 +63,15 @@ export default function App() {
   return (
     <>
       { !environmentSelected() && <SetupScreen />}
-      { environmentLoaded() &&
-        <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-      }
+      { environmentLoaded() && (
+        <>
+          <SlidingInfo />
+          <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
+        </>
+      )}
       <LoadingScreen />
-      { sceneLoaded() && <CountdownScreen /> }
       <ScoreDisplay />
+      { sceneLoaded() && <CountdownScreen /> }
       { gameOver() && <ResultsScreen /> }
 
       <Suspense fallback={null}>
