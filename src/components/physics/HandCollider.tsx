@@ -23,6 +23,10 @@ export default function HandCollider({
   const gameState = useGameState();
   const poppedBubbles = useRef<Set<string>>(new Set());
 
+  // Audio
+  const audio = new Audio('/bubblePop.mp3');
+  audio.volume = 0.75;
+
   // Collision filter group - both hands are part of the same group
   const collisionFilterGroup = 1 << 0;
 
@@ -34,7 +38,11 @@ export default function HandCollider({
     mass: 1,
     type: 'Kinematic',
     onCollideBegin: (e) => {
+      audio.play();
       poppedBubbles.current.add(e.body.uuid);
+    },
+    onCollideEnd: () => {
+      audio.currentTime = 0;
     },
     args: [0.075],
     collisionFilterGroup,

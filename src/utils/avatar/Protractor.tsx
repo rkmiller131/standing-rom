@@ -40,7 +40,7 @@ export default function Protractor() {
     const curveGeometry = new THREE.BufferGeometry().setFromPoints(
       convertedPoints,
     );
-    const curveMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const curveMaterial = new THREE.LineBasicMaterial({ color: 0x0ed8a5 });
     const curveLine = new THREE.Line(curveGeometry, curveMaterial);
     curveRef.current = curveLine;
 
@@ -55,12 +55,12 @@ export default function Protractor() {
 
     startToOriginLineRef.current = new THREE.Line(
       new THREE.BufferGeometry().setFromPoints([curveStartPoint, origin]),
-      new THREE.LineBasicMaterial({ color: 0xffffff }),
+      new THREE.LineBasicMaterial({ color: 0x0ed8a5 }),
     );
 
     originToEndLineRef.current = new THREE.Line(
       new THREE.BufferGeometry().setFromPoints([origin, curveEndPoint]),
-      new THREE.LineBasicMaterial({ color: 0xffffff }),
+      new THREE.LineBasicMaterial({ color: 0x0ed8a5 }),
     );
 
     const group = new THREE.Group();
@@ -138,7 +138,7 @@ export default function Protractor() {
       <Text
         position={[1, 0.75, 0]}
         scale={0.2}
-        color={new THREE.Color(0.5, 0.2, 0.1)}
+        color={new THREE.Color(0xffffff)}
         characters=".0123456789"
       >
         {angle.toFixed(2) + ' °'}

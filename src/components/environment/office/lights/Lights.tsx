@@ -10,6 +10,10 @@ export default function Lights() {
       <SpotlightWithTarget position={[-1.09, 2.4, 0.67]} lock={[0, -30, 0]} />
       <IncandescentBulb position={[-1, 1.3, -2]} bulbPower="6W" />
       <IncandescentBulb position={[0, 1.3, 1]} bulbPower="6W" />
+      {/* Back Room Light */}
+      <IncandescentBulb position={[0, 1.3, 2.7]} bulbPower="6W" />
+      {/* Lighting the Character */}
+      <IncandescentBulb position={[0, 1.5, -0.75]} bulbPower="4W" />
     </>
   );
 }
