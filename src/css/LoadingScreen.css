@@ -5,11 +5,9 @@
   background: rgba(255, 255, 255, 1);
   background-size: cover;
   background-position: center;
-  color: white;
   pointer-events: none;
   display: flex;
-  align-items: flex-end;
-  z-index: 3;
+  z-index: 2;
   opacity: 1;
   transition: opacity 1s linear;
 }
@@ -18,10 +16,17 @@
   opacity: 0;
 }
 
-.splash-video-overlay {
+.splash-text {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 3% 8%;
 }
 
-.splash-video-overlay video {
+#loading-screen video {
+  width: 100%;
   object-fit: cover;
 }

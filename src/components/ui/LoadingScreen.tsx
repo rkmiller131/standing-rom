@@ -4,6 +4,7 @@ import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 
 import '../../css/LoadingScreen.css';
 import { EnvironmentSelectionType } from '../../hookstate-store/Types';
+import TitleSubtitle from './TitleSubtitle';
 
 let unmountComponent = false;
 type SplashType = {
@@ -43,11 +44,16 @@ export default function LoadingScreen() {
       className={!isLoading ? 'fade-out' : ''}
       style={{ backgroundImage: `url(${splash[selection]})`}}
     >
-      <div className="splash-video-overlay">
-        <video autoPlay loop muted>
-          <source src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/loadingSplashAnimation.webm?v=1722475788192" type="video/mp4"/>
-        </video>
+      <div className="splash-text">
+        <TitleSubtitle
+          accentTitle='Loading...'
+          mainTitle={selection || 'ERROR'}
+        />
+        <img className="uvx-logo loading-logo" alt="UVX Logo" src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/uvxLogoColor.png?v=1722519813838"/>
       </div>
+      <video autoPlay loop muted>
+        <source src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/loadingSplashAnimation.webm?v=1722475788192" type="video/mp4"/>
+      </video>
     </div>
   );
 }

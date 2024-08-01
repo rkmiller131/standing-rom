@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'react';
 import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
 import { useSceneState } from '../../../hookstate-store/SceneState';
 import EnvironmentCard from './EnvironmentCard';
+import TitleSubtitle from '../TitleSubtitle';
 
 import '../../../css/SetupScreen.css';
 
@@ -38,10 +39,11 @@ export default function SetupScreen() {
       <video ref={videoRef} className="setup-screen-bg-video" autoPlay loop muted>
         <source src="https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/BackgroundVid.mp4?v=1722457154866" type="video/mp4"/>
       </video>
-      <div className="select-environment-title">
-        <h3>Choose Your</h3>
-        <h2>Environment</h2>
-      </div>
+      <TitleSubtitle
+        className='select-environment-title'
+        accentTitle='Choose Your'
+        mainTitle='Environment'
+      />
       <div id="environment-cards-container">
         {environments.map((env) =>
           <EnvironmentCard

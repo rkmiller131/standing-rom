@@ -4,6 +4,18 @@
   box-sizing: border-box;
 }
 
+:root {
+  --font-primary: "Barlow Semi Condensed", Arial, sans-serif;
+  --font-weight: 600;
+  --font-style: italic;
+  --font-accent-color: #F9CC35;
+  --uvx-primary: #0ed8a5;
+  --border-radius: 1.5rem;
+  --font-large: 4rem;
+  --font-medium: 2.5rem;
+  --font-small: 1.5rem;
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
@@ -23,15 +35,32 @@ html, body, #root {
   z-index: 0;
 }
 
-@media screen and (max-width: 820px) {
-  .uvx-logo {
-    width: 25%;
-  }
+/* Reusable classes for branding/theme */
+.ui-h3, .ui-h2 {
+  font-family: var(--font-primary);
+  font-style: var(--font-style);
+  font-weight: var(--font-weight);
 }
 
-@media screen and (max-width: 500px) {
-  .uvx-logo {
-    width: 33%;
-    bottom: 0;
-  }
+.ui-h3 {
+  color: var(--font-accent-color);
+  font-size: var(--font-medium);
+  letter-spacing: -1.181px;
+  margin: 0;
+}
+
+.ui-h2 {
+  color: #FFF;
+  font-size: var(--font-large);
+  letter-spacing: -2.009px;
+  margin: 0;
+}
+
+#title-subtitle-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.uvx-logo {
+  height: 2.5rem;
 }
