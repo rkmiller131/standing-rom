@@ -17,33 +17,44 @@
   /* mocap screen is 450px in desktop and Tablet */
   min-width: calc(4% + 450px);
   height: 100%;
-  background: #0ED8A5;
+}
+
+.sliding-info-video {
+  position: absolute;
+  min-width: 100%;
+  min-height: 100%;
+  left: -5%;
 }
 
 .sliding-info-content {
   display: flex;
   flex-direction: column;
   padding: 2%;
-  height: calc(96% - 300px);
+  height: calc(98% - 300px);
 }
 
-.uvx-text-logo {
-  padding: 0.5rem;
-  background: white;
-  width: fit-content;
+.white-logo {
+  width: 50%;
+  margin-bottom: 8%;
 }
 
-.accent-label {
-  color: blue;
-  font-weight: bold;
-  font-size: 1.2rem;
+.sliding-title-override > h2 {
+  font-size: var(--font-medium) !important;
+  margin-bottom: 3%;
 }
 
 .sliding-info-instructions {
-  margin-top: 0.5rem;
+  font-size: var(--font-small);
+  font-family: var(--font-primary);
+  color: white;
 }
 
 .img-placeholder {
-  background: white;
+  margin-top: 3%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: rgb(46, 45, 45);
   height: 100%;
 }

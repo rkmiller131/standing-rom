@@ -5,10 +5,10 @@
 }
 
 :root {
-  --font-primary: "Barlow Semi Condensed", Arial, sans-serif;
+  --font-primary: 'Barlow Semi Condensed', Arial, sans-serif;
   --font-weight: 600;
   --font-style: italic;
-  --font-accent-color: #F9CC35;
+  --font-accent-color: #f9cc35;
   --uvx-primary: #0ed8a5;
   --border-radius: 1.5rem;
   --font-large: 4rem;
@@ -16,7 +16,9 @@
   --font-small: 1.5rem;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -36,7 +38,8 @@ html, body, #root {
 }
 
 /* Reusable classes for branding/theme */
-.ui-h3, .ui-h2 {
+.ui-h3,
+.ui-h2 {
   font-family: var(--font-primary);
   font-style: var(--font-style);
   font-weight: var(--font-weight);
@@ -50,7 +53,7 @@ html, body, #root {
 }
 
 .ui-h2 {
-  color: #FFF;
+  color: #fff;
   font-size: var(--font-large);
   letter-spacing: -2.009px;
   margin: 0;
@@ -63,4 +66,5 @@ html, body, #root {
 
 .uvx-logo {
   height: 2.5rem;
+  width: auto;
 }

@@ -1,6 +1,7 @@
 import { useSceneState } from '../../hookstate-store/SceneState';
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
+import TitleSubtitle from './TitleSubtitle';
 
 import '../../css/SlidingInfo.css'
 
@@ -12,7 +13,7 @@ export default function SlidingInfo() {
 
   useEffect(() => {
     if (!mounted) {
-      gsap.fromTo('.sliding-info-container',
+      gsap.fromTo('#sliding-info-screen',
         {
           transform: 'translateX(-200%)',
           width: '0%',
@@ -21,7 +22,7 @@ export default function SlidingInfo() {
         {
           duration: 1,
           transform: 'translateX(0)',
-          width: '40%',
+          width: '100%',
           minWidth: 'calc(4% + 450px)',
           autoAlpha: 1
         }
@@ -30,10 +31,10 @@ export default function SlidingInfo() {
     }
 
     if (sceneLoaded) {
-      gsap.fromTo('.sliding-info-container',
+      gsap.fromTo('#sliding-info-screen',
         {
           transform: 'translateX(0)',
-          width: '40%',
+          width: '100%',
           minWidth: 'calc(4% + 450px)',
           autoAlpha: 1
         },
@@ -49,13 +50,23 @@ export default function SlidingInfo() {
 
   return (
     <div id="sliding-info-screen">
+      <video className="sliding-info-video" autoPlay loop muted>
+        <source src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/slidingInfoBG.webm?v=1722534406119" type="video/mp4" />
+      </video>
       <div className="sliding-info-container">
         <div className="sliding-info-content">
-          <span className="uvx-text-logo">UVX Text Logo</span>
-          <h2 className="sliding-info-game-title">Standing, Shoulder ROM</h2>
-          <span className="accent-label">Your goal</span>
+          <img
+            className="white-logo"
+            alt="UVX Logo"
+            src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/uvx-logoWhite.png?v=1722535954923"
+          />
+          <TitleSubtitle
+            accentTitle='Bubble Pop'
+            mainTitle='Shoulder ROM, Standing'
+            className='sliding-title-override'
+          />
           <p className="sliding-info-instructions">Here is a paragraph description of how to play the game. Pop all the bubbles with good form! And something scientific related to the exercises document for starting position, movement, etc.</p>
-          <div className="img-placeholder">Pretend I'm an image or gif demo</div>
+          <div className="img-placeholder">Pretend this is an image or GIF demo</div>
         </div>
       </div>
     </div>
