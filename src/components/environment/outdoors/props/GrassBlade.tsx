@@ -165,6 +165,7 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
         );
         const mesh = gltf.scene.children[0];
         if (mesh) {
+          // when at zero, its perfect. Adjustment makes the blades flatten their height for some reason.
           mesh.position.set(0, -0.625, 0);
           if (
             mesh.position.x === 0 &&
