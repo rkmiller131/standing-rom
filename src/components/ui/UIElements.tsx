@@ -9,11 +9,8 @@ const ResultsScreen = lazy(() => import('./ResultsScreen'));
 const ScoreDisplay = lazy(() => import('./ScoreDisplay'));
 
 export default function UIElements() {
-  const {
-    environmentLoaded,
-    sceneLoaded,
-    gameOver
-  } = useHookstateGetters();
+  const { environmentLoaded, sceneLoaded, gameOver } = useHookstateGetters();
+
   return (
     <>
       <SetupScreen />

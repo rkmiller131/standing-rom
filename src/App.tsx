@@ -1,11 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Suspense,
-  lazy,
-  useLayoutEffect,
-  useRef,
-  useState
-} from 'react';
+import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
 import { VRM } from '@pixiv/three-vrm';
 import { Physics } from '@react-three/cannon';
 import { Bubbles } from './ecs/entities/Bubbles';
@@ -22,18 +16,18 @@ import UIElements from './components/ui/UIElements';
 
 import './css/App.css';
 import './utils/preload';
+import Protractor from './utils/avatar/Protractor';
+import ViewControls from './components/ui/ViewControls';
 
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
 export default function App() {
   const sceneState = useSceneState();
-  const {
-    environmentLoaded,
-    environmentSelected,
-    sceneLoaded,
-    gameOver
-  } = useHookstateGetters();
+  const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
+    useHookstateGetters();
   sceneState.device.set(checkUserDevice());
+
+  const [toggled, setToggled] = useState(false);
 
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const avatar = useRef<VRM | null>(null);
@@ -43,28 +37,28 @@ export default function App() {
   };
 
   useLayoutEffect(() => {
-    if (
-      avatar.current &&
-      holisticLoaded &&
-      environmentLoaded()
-    ) {
+    if (avatar.current && holisticLoaded && environmentLoaded()) {
       const transitionDelay = setTimeout(() => {
         sceneState.sceneLoaded.set(true);
-      }, 2000) // delay to see avatar in calibration before camera spins around and countdown starts.
+      }, 2000); // delay to see avatar in calibration before camera spins around and countdown starts.
 
-      return () => clearTimeout(transitionDelay)
+      return () => clearTimeout(transitionDelay);
     }
   }, [holisticLoaded, sceneState.environmentLoaded]);
 
   return (
     <>
       <UIElements />
-      {environmentLoaded() &&
-        <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-      }
+
+      {environmentLoaded() && (
+        <>
+          <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
+          <ViewControls setToggled={setToggled} />
+        </>
+      )}
       <Suspense fallback={null}>
         <Renderer>
-          {environmentSelected() && <Environment /> }
+          {environmentSelected() && <Environment />}
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           <CameraAnimations />
 
@@ -75,6 +69,7 @@ export default function App() {
                 <Bubbles />
               </Physics>
               {!gameOver() && <GameLogic avatar={avatar} />}
+              {toggled && <Protractor />}
             </>
           )}
         </Renderer>
