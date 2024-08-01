@@ -61,7 +61,7 @@ export default function App() {
 
   return (
     <>
-      { !environmentSelected() && <SetupScreen /> }
+      { !environmentSelected() && <SetupScreen />}
       { environmentLoaded() &&
         <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
       }
