@@ -18,12 +18,7 @@ import Avatar from './components/Avatar';
 import Environment from './components/environment/Environment';
 import CameraAnimations from './components/CameraAnimations';
 import GameLogic from './ecs/systems/GameLogic';
-import SetupScreen from './components/ui/environment-selection/SetupScreen';
-import LoadingScreen from './components/ui/LoadingScreen';
-import CountdownScreen from './components/ui/CountdownScreen';
-import ScoreDisplay from './components/ui/ScoreDisplay';
-import ResultsScreen from './components/ui/ResultsScreen';
-import SlidingInfo from './components/ui/SlidingInfo';
+import UIElements from './components/ui/UIElements';
 
 import './css/App.css';
 
@@ -62,25 +57,17 @@ export default function App() {
 
   return (
     <>
-      { !environmentSelected() && <SetupScreen />}
-      { environmentLoaded() && (
-        <>
-          <SlidingInfo />
-          <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-        </>
-      )}
-      <LoadingScreen />
-      <ScoreDisplay />
-      { sceneLoaded() && <CountdownScreen /> }
-      { gameOver() && <ResultsScreen /> }
-
+      <UIElements />
+      {environmentLoaded() &&
+        <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
+      }
       <Suspense fallback={null}>
         <Renderer>
-          { environmentSelected() && <Environment /> }
+          {environmentSelected() && <Environment /> }
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           <CameraAnimations />
 
-          { sceneLoaded() && (
+          {sceneLoaded() && (
             <>
               <Physics gravity={[0, 0, 0]}>
                 <AvatarHandColliders avatar={avatar} />

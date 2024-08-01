@@ -2,7 +2,7 @@ import { useSceneState } from '../../hookstate-store/SceneState';
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 
-import '../../css/SlidingInfo.css';
+import '../../css/SlidingInfo.css'
 
 let mounted = false;
 
@@ -12,7 +12,7 @@ export default function SlidingInfo() {
 
   useEffect(() => {
     if (!mounted) {
-      gsap.fromTo('#sliding-info-container',
+      gsap.fromTo('.sliding-info-container',
         {
           transform: 'translateX(-200%)',
           width: '0%',
@@ -30,7 +30,7 @@ export default function SlidingInfo() {
     }
 
     if (sceneLoaded) {
-      gsap.fromTo('#sliding-info-container',
+      gsap.fromTo('.sliding-info-container',
         {
           transform: 'translateX(0)',
           width: '40%',
