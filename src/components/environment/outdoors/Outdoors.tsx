@@ -2,18 +2,15 @@
 import { Environment } from '@react-three/drei';
 import SceneMap from './props/SceneMap';
 import GrassComponent from './props/GrassBlade';
-import { Tree, TreeInstance } from './props/Tree';
-import { Flower, FlowerInstance } from './props/Flower2';
 import { lazy, useEffect } from 'react';
 import { useSceneState } from '../../../hookstate-store/SceneState';
 
-const Bush = lazy(() =>
-  import('../outdoors/props/Bush').then((module) => ({ default: module.Bush })),
+const Tree = lazy(() =>
+  import('../outdoors/props/Tree').then((module) => ({ default: module.Tree })),
 );
-
-const BushInstance = lazy(() =>
-  import('../outdoors/props/Bush').then((module) => ({
-    default: module.BushInstance,
+const TreeInstance = lazy(() =>
+  import('../outdoors/props/Tree').then((module) => ({
+    default: module.TreeInstance,
   })),
 );
 
@@ -43,18 +40,6 @@ export default function OutdoorScene() {
       <TreeInstance>
         <Tree position={[-3, 0, -1]} rotation={[0, 0, 0]} scale={0.8} />
       </TreeInstance>
-
-      <BushInstance>
-        <Bush position={[2, 0, -2]} rotation={[0, 0, 0]} scale={1} />
-      </BushInstance>
-
-      <FlowerInstance>
-        <Flower
-          position={[2, 0, -1]}
-          rotation={[0, Math.PI / 3, 0]}
-          scale={0.05}
-        />
-      </FlowerInstance>
     </>
   );
 }
