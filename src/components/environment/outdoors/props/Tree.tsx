@@ -1,7 +1,11 @@
 import * as THREE from 'three';
 import React, { useContext, createContext, useState, useEffect } from 'react';
 import { Merged } from '@react-three/drei';
-import { dracoLoader, GLTF, gltfLoader as loader } from '../../../../interfaces/THREE_Interface';
+import {
+  gltfLoader as loader,
+  GLTF,
+  dracoLoader,
+} from '../../../../interfaces/THREE_Interface';
 
 const map =
   'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/tree-transformed.glb?v=1715123611590';

@@ -1,9 +1,8 @@
 import { useThree } from '@react-three/fiber';
-import * as THREE from 'three';
 import { textureLoader } from '../../../../interfaces/THREE_Interface';
+import * as THREE from 'three';
 
-const map =
-  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/meadow_7.jpg?v=1715123525520';
+const map = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/meadow_71.jpg?v=1722542072678';
 
 export default function SceneMap() {
   const { scene } = useThree();
@@ -19,7 +18,7 @@ export default function SceneMap() {
       });
 
       const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(0, 8, 0);
+      mesh.position.set(0, 5, 0);
       mesh.rotation.set(0, Math.PI / 12, 0);
 
       scene.add(mesh);
