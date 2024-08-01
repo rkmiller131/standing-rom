@@ -48,6 +48,7 @@ export default function SlidingInfo() {
     }
   }, [sceneLoaded])
 
+  // NOTE: Will need some sort of instructions modal popup or something - doesn't fit on sliding info panel, but maybe have elsewhere or on a screen before.
   return (
     <div id="sliding-info-screen">
       <video className="sliding-info-video" autoPlay loop muted>
@@ -66,7 +67,6 @@ export default function SlidingInfo() {
             className='sliding-title-override'
           />
           <p className="sliding-info-instructions">Here is a paragraph description of how to play the game. Pop all the bubbles with good form! And something scientific related to the exercises document for starting position, movement, etc.</p>
-          <div className="img-placeholder">Pretend this is an image or GIF demo</div>
         </div>
       </div>
     </div>

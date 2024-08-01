@@ -8,14 +8,43 @@
 
 #mocap-container {
   position: absolute;
+  height: 300px;
+  width: 450px;
   z-index: 4;
+  border-radius: var(--border-radius);
+  background-image: url('https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/grayCalibScreen.png?v=1722555385610');
+}
+
+.calibration-text {
+  position: absolute;
+  padding: 2% 4% 4% 8%;
+  width: max-content;
+  top: -12%;
+  left: 4%;
+  color: white;
+  font-family: var(--font-primary);
+  letter-spacing: 1px;
+}
+
+.calibration-icon {
+  position: absolute;
+  display: flex;
+  top: -12%;
+  left: -5%;
+  width: 18%;
+  z-index: 5;
+}
+
+#mocap-container video {
+  border: 3px solid #FCE187;
+  border-radius: var(--border-radius);
 }
 
 .Desktop {
   width: 450px;
   height: auto;
   bottom: 3%;
-  left: 2%;
+  left: 4%;
 }
 
 .Tablet {
@@ -39,7 +68,7 @@
 
 #webcam-stream {
   object-fit: cover;
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
   transform: scaleX(-1);
 }
 

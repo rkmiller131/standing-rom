@@ -9,6 +9,11 @@ import { animateVRM } from '../mocap/avatarAnimation/avatarAnimator';
 
 import '../css/Mocap.css';
 
+const calibrationIcons = {
+  calibrating: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/yellowCalibIcon.png?v=1722552935123',
+  calibrated: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/blueCalibIcon.png?v=1722553836596'
+}
+
 interface MocapProps {
   avatar: React.RefObject<VRM>;
   setHolisticLoaded: (loaded: boolean) => void;
@@ -106,6 +111,19 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   return (
     <div id="mocap-screen">
       <div id="mocap-container" className={device}>
+
+        <img
+          src={holistic ? calibrationIcons.calibrated : calibrationIcons.calibrating}
+          alt="Calibration Icon"
+          className="calibration-icon"
+        />
+        <span
+          className="calibration-text"
+          style={holistic ? { background: '#3560F9' } : { background: '#F9CC35' }}
+          >
+          {holistic ? 'Calibrated' : 'Calibrating...'}
+        </span>
+
         <video
           id="webcam-stream"
           ref={videoRef}
@@ -113,6 +131,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           height="100%"
           muted
           playsInline
+          style={holistic ? { border: '3px solid #8FE4FF' } : {}}
         />
         <canvas id="landmark-guides" ref={landmarkCanvasRef} />
       </div>
