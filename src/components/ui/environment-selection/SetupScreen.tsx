@@ -3,21 +3,9 @@ import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
 import { useSceneState } from '../../../hookstate-store/SceneState';
 import EnvironmentCard from './EnvironmentCard';
 import TitleSubtitle from '../TitleSubtitle';
+import { environments } from '../../../utils/preload';
 
 import '../../../css/SetupScreen.css';
-
-const environments = [
-  {
-    id: 1,
-    name: 'Outdoors',
-    imgSrc: 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/outdoorEnvCard.png?v=1722462345138'
-  },
-  {
-    id: 2,
-    name: 'Indoor Office',
-    imgSrc: 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/indoorEnvCard.png?v=1722462389853'
-  }
-]
 
 export default function SetupScreen() {
   const sceneState = useSceneState();
