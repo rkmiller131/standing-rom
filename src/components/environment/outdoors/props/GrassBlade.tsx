@@ -204,7 +204,7 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
     if (grassRef.current) {
       const material = grassRef.current?.material as THREE.ShaderMaterial;
       if (material.uniforms) {
-        material.uniforms.uTime.value += clock.getDelta() + 15;
+        material.uniforms.uTime.value += clock.getDelta() + 10;
       }
     }
   });
