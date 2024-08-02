@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import UbiquitySVG from '../../assets/ubiquity.svg';
+import { useEffect, useRef, useState } from 'react';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 import { useGameState } from '../../hookstate-store/GameState';
 
@@ -12,6 +11,8 @@ export default function ScoreDisplay() {
     getCurrentStreak
   } = useHookstateGetters();
   const gameState = useGameState();
+  const bubbleAnimRef = useRef<HTMLVideoElement | null>(null);
+  // const fireAnimRef = useRef<HTMLVideoElement | null>(null);
   const [streaking, setStreaking] = useState(false);
 
   const popped = getPoppedBubbleCount();
@@ -27,13 +28,22 @@ export default function ScoreDisplay() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState.score.currentStreak])
 
+  useEffect(() => {
+    const bubbleAnimation = bubbleAnimRef.current;
+    if (bubbleAnimation) bubbleAnimation.play();
+  }, [gameState.score.popped])
+
   return (
-    <div className="score-ui-container">
-      <img src={UbiquitySVG} alt="Ubiquity Logo" className="uvx-logo" />
-      <div className="score-tracker">
-        <div className="placeholder-bubble-effect" />
-        <span className={streaking ? 'streak-effect score-popped' : 'score-popped'}>{popped}</span> /
-        <span className="score-possible">{total} Bubbles Popped</span>
+    <div id="score-ui-bar">
+      <div className="score-ui-container">
+        <video ref={bubbleAnimRef} muted>
+          <source src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/bubblesPopping.mp4?v=1722621583923" type="video/mp4"/>
+        </video>
+        <div className="score-tracker">
+          <div className="placeholder-bubble-effect" />
+          <span className={streaking ? 'streak-effect score-popped' : 'score-popped'}>{popped}</span> /
+          <span className="score-possible">{total} Bubbles Popped</span>
+        </div>
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ export default function EnvironmentCard ({ imgSrc, name, handleSelection }: Envi
 
         const animateHoverIn = () => {
             gsap.to(element.querySelector('.hover-text'), { autoAlpha: 1, x: 0, duration: 0.5, ease: 'power3.out'});
-            element.style.border = '3px solid #0ed8a5';
+            element.style.border = '4px solid #f9cc35';
         };
 
         const animateHoverOut = () => {

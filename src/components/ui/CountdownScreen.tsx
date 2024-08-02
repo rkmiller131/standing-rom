@@ -26,7 +26,7 @@ export default function CountdownScreen() {
   return (
     <div className="countdown-container">
       <video ref={videoRef} muted>
-        <source src="https://res.cloudinary.com/dnr41r1lq/video/upload/v1720041653/placeholderCountdown_kj3fox.mp4" type="video/mp4" />
+        <source src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/countdown.mp4?v=1722557327156" type="video/mp4" />
       </video>
     </div>
   );

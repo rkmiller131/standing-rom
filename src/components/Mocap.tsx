@@ -111,7 +111,6 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   return (
     <div id="mocap-screen">
       <div id="mocap-container" className={device}>
-
         <img
           src={holistic ? calibrationIcons.calibrated : calibrationIcons.calibrating}
           alt="Calibration Icon"
@@ -123,7 +122,6 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           >
           {holistic ? 'Calibrated' : 'Calibrating...'}
         </span>
-
         <video
           id="webcam-stream"
           ref={videoRef}
