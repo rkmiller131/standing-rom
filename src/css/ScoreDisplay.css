@@ -4,29 +4,47 @@
   display: flex;
   padding: 2% 3%;
   z-index: 1;
-  /* border: 2px solid red; */
 }
 
 .score-ui-container {
+  position: relative;
+  display: flex;
   width: 25%;
 }
 
-.score-ui-container video {
-  width: 25%;
-  mix-blend-mode: lighten;
+.animation {
+  visibility: visible;
+  border: 3px solid var(--uvx-primary);
+  box-shadow: inset 0px 10px 10px rgba(0, 0, 0, 0.5);
+  width: 70px;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.popping-bubble {
+  position: absolute;
+  z-index: 2;
 }
 
 .score-tracker {
+  position: absolute;
+  z-index: -1;
   display: flex;
   align-items: center;
-  background-color: aquamarine;
+  width: 100%;
 }
 
 .placeholder-bubble-effect {
-  height: 60px;
-  width: 75px;
-  background-color: white;
-  margin-right: 3%;
+  height: 70px;
+  width: 20%;
+}
+
+.player-score-container {
+  background-color: aquamarine;
+  width: 100%;
+  padding: 2% 5%;
 }
 
 .score-popped {
