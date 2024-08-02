@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
-import {
-  DirectionalLight,
-  EquirectangularReflectionMapping,
-  TextureLoader,
-} from 'three';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import { DirectionalLight, TextureLoader } from 'three';
 import {
   Lensflare,
   LensflareElement,
@@ -48,16 +43,6 @@ const CustomEnvironmentSunlight: React.FC<CustomEnvironmentProps> = () => {
     light.add(lensflare);
 
     scene.add(light);
-
-    new RGBELoader().load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/meadow_2k.hdr?v=1715123590317',
-      (texture) => {
-        texture.mapping = EquirectangularReflectionMapping;
-        scene.environment = texture;
-        scene.environmentRotation.set(0, Math.PI / 4, 0);
-        scene.background = texture;
-      },
-    );
   }, [scene]);
 
   return null;
