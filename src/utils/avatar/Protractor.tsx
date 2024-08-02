@@ -136,8 +136,8 @@ export default function Protractor() {
   return (
     <>
       <Text
-        position={[1, 0.75, 0]}
-        scale={0.2}
+        position={[0.82, 0.48, 0]}
+        scale={0.1}
         color={new THREE.Color(0xffffff)}
         characters=".0123456789"
       >
