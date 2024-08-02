@@ -71,6 +71,10 @@ export default function Protractor() {
     group.position.set(0.25, 0.5, 0.35);
 
     scene.add(group);
+
+    return () => {
+      scene.remove(group);
+    };
   }, [scene]);
 
   const updateEllipseCurve = (angle: number) => {
