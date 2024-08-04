@@ -2,7 +2,7 @@
   position: fixed;
   width: 100%;
   display: flex;
-  padding: 2% 3%;
+  margin: 2% 3%;
   z-index: 1;
 }
 
@@ -11,6 +11,8 @@
   display: flex;
   min-width: 80px;
   width: 5%;
+  transform: skew(-15deg, 0);
+  background: radial-gradient(#00CAFF, #3560f9);
 }
 
 .bubble-animations video {
@@ -19,9 +21,8 @@
 
 .animation {
   visibility: visible;
-  border: 3px solid white;
-  border-radius: 1.5rem 0 0 1.5rem;
-  box-shadow: inset 0px 10px 10px rgba(0,0,0, 0.3);
+  border: 4px solid white;
+  box-shadow: inset 0px 10px 10px rgba(0, 0, 0, 0.2);
 }
 
 .hide {
@@ -33,48 +34,80 @@
   z-index: 2;
 }
 
-.score-ui-container {
-  position: relative;
-  display: flex;
-  width: 25%;
-}
-
-.score-tracker {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.player-score-container {
-  background-color: aquamarine;
-  width: 100%;
+.player-score {
+  position: absolute;
+  top: -65%;
+  z-index: 3;
   height: 100%;
-  padding: 1rem 2rem;
+  left: calc(2% + 80px); /* The bubble animation is min 80px, but generally 5% width */
 }
 
-.score-popped, .score-possible {
+.player-score video {
+  max-width: 100%;
+  max-height: 150%;
+}
+
+.score-popped, .score-possible, .score-divider {
   color: white;
   font-weight: var(--font-weight);
   font-family: var(--font-primary);
-  margin: 0 2%;
+  margin: 0 3%;
+  text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
 }
+
 .score-popped {
-  font-size: var(--font-medium);
-  z-index: 2;
+  font-size: var(--font-large);
+  position: absolute;
+  top: 115%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.streak-effect {
+  color: orange;
+}
+
+.score-ui-container {
+  display: flex;
+  width: 25%;
+  transform: skew(-15deg, 0);
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+  background: #3ac393;
+}
+
+.score-bg-video {
+  position: absolute;
+  object-fit: contain;
+  width: 100%;
+  mix-blend-mode: color-dodge;
+  z-index: -1;
+}
+
+.score-content {
+  display: flex;
+  align-items: end;
+  padding-left: calc(10% + 80px);
+  padding-bottom: 3%;
+  width: 100%;
+}
+
+.score-divider {
+  margin: 0;
+  font-size: var(--font-small);
 }
 
 .score-possible {
   font-size: var(--font-small);
-  margin-left: 3%;
-}
-
-.streak-effect {
-  background: orange;
+  margin-left: 4%;
 }
 
 @media screen and (max-width: 1250px) {
   .score-ui-container {
     width: 30%;
+  }
+
+  .score-popped {
+    font-size: var(--font-medium);
   }
 
   .player-score-container {
@@ -88,8 +121,8 @@
 }
 
 @media screen and (max-width: 800px) {
-  .score-popped {
-    font-size: var(--font-small);
+  .player-score {
+    height: 90%;
   }
 
   .score-ui-container {

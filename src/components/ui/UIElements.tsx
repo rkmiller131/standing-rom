@@ -6,7 +6,7 @@ import ResultsScreen from './ResultsScreen';
 
 const SlidingInfo = lazy(() => import('./SlidingInfo'));
 const CountdownScreen = lazy(() => import('./CountdownScreen'));
-const ScoreDisplay = lazy(() => import('./ScoreDisplay'));
+const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
 
 export default function UIElements() {
   const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
