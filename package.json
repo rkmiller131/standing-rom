@@ -25,6 +25,7 @@
     "miniplex-react": "^2.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "stats.js": "^0.17.0",
     "three": "0.164.1"
   },
   "devDependencies": {

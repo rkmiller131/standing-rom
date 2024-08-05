@@ -59,28 +59,28 @@ const Bubble = forwardRef((
         />
       ) : (
         <mesh position={position}>
-          <Sphere ref={ref} args={[0.05, 8, 8]}>
+          <Sphere ref={ref} args={[0.05, 112, 112]}>
             {!active ?
               // <meshStandardMaterial color='blue' /> :
               // Temporarily adding a bubble material that can accept either active/inactive property depending on if we
               // want to use it for both (going the pure shader route). Can refactor later to remove unused code in BubbleMaterial.tsx
               <BubbleMaterial active={active} position={position}/> :
               <MeshDistortMaterial
-                attach="material"
-                color="#89CFF0"
-                distort={0.2}
-                speed={3}
-                roughness={0}
-                clearcoat={1}
-                clearcoatRoughness={0.5}
-                metalness={0.4}
-                envMapIntensity={0}
-                transparent
-                opacity={0.8}
-                reflectivity={1}
-                emissive="blue"
-                emissiveIntensity={0.5}
-              />
+                  attach="material"
+                  color="rgba(173, 216, 230)"
+                  distort={0.4}
+                  speed={2}
+                  roughness={0.1}
+                  clearcoat={1}
+                  clearcoatRoughness={1}
+                  metalness={1}
+                  envMapIntensity={0}
+                  transparent
+                  opacity={0.6}
+                  reflectivity={1}
+                  emissive="blue"
+                  emissiveIntensity={0.6}
+        />
             }
           </Sphere>
         </mesh>
