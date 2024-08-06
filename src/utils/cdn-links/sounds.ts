@@ -17,3 +17,19 @@ export const backgroundMusic: { [key: string]: string } = {
   'IndoorOffice': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/OfficeNCS.mp3?v=1715028230989',
   'Outdoors': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/OutdoorBGMusic.mp3?v=1716583481676',
 }
+
+export const gameOverSFX = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/gameOverSFX.mp3?v=1722979032668';
+
+export const announcer: { [key: string]: string } = {
+  'r_lateralRaise': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/rightArmRaise.mp3?v=1722977906863',
+  'l_lateralRaise': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/nowToLeft.mp3?v=1722978163125',
+  'r_frontalRaise': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/rightArmInAFrontalRaise.mp3?v=1722978270639',
+  'l_frontalRaise': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/leftArmFrontalRaise.mp3?v=1722978300276',
+  'r_crossBody': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/rightArmToLeftShoulder.mp3?v=1722978334057',
+  'l_crossBody': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/leftCrossBodyStretch.mp3?v=1722978364244',
+  'countdown': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/countdown.mp3?v=1722978390256',
+  'perfectScore': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/flawlessVictory.mp3?v=1722978437302',
+  'greatScore': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/niceJob.mp3?v=1722978497532',
+  'goodScore': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/heyNotBad.mp3?v=1722978755948',
+  'badScore': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/itsOkYoullGetTheHang.mp3?v=1722978458576'
+}
