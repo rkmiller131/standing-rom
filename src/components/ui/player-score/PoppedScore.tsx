@@ -1,14 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
-import { useGameState } from '../../../hookstate-store/GameState';
 
 export default function PoppedScore() {
   const {
     getPoppedBubbleCount,
     getCurrentStreak
   } = useHookstateGetters();
-  const gameState = useGameState();
   const popped = getPoppedBubbleCount();
   const currentStreak = getCurrentStreak();
   const [streaking, setStreaking] = useState(false);
@@ -19,7 +17,7 @@ export default function PoppedScore() {
     } else {
       setStreaking(false);
     }
-  }, [gameState.score.currentStreak])
+  }, [currentStreak])
 
   return (
     <div className="player-score">

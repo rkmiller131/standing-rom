@@ -6,6 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { VRM } from '@pixiv/three-vrm';
 import { useRef } from 'react';
 import { protractor } from '../../utils/avatar/Protractor';
+import { bubblePopSounds } from '../../utils/sounds';
 
 interface HandColliderProps {
   avatar: React.RefObject<VRM>;
@@ -19,13 +20,12 @@ export default function HandCollider({
   avatar,
   handedness,
 }: HandColliderProps) {
-  const { sceneLoaded } = useHookstateGetters();
+  const {
+    sceneLoaded,
+    getCurrentStreak
+  } = useHookstateGetters();
   const gameState = useGameState();
   const poppedBubbles = useRef<Set<string>>(new Set());
-
-  // Audio
-  const audio = new Audio('/bubblePop.mp3');
-  audio.volume = 0.75;
 
   // Collision filter group - both hands are part of the same group
   const collisionFilterGroup = 1 << 0;
@@ -38,11 +38,12 @@ export default function HandCollider({
     mass: 1,
     type: 'Kinematic',
     onCollideBegin: (e) => {
-      audio.play();
       poppedBubbles.current.add(e.body.uuid);
-    },
-    onCollideEnd: () => {
-      audio.currentTime = 0;
+      const key = getCurrentStreak() >= 5 ? 4 : getCurrentStreak();
+      // Create a new sound on each new collision so that if bubbles are popped rapidly, the sounds can overlap
+      const audio = new Audio(bubblePopSounds[key]);
+      audio.volume = 0.75;
+      audio.play();
     },
     args: [0.075],
     collisionFilterGroup,
