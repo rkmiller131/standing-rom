@@ -7,6 +7,8 @@ import { environments } from '../../../utils/preload';
 
 import '../../../css/SetupScreen.css';
 
+const selectSFX = new Audio('https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/UI_ChoiceSelect.mp3?v=1722902825876');
+
 export default function SetupScreen() {
   const sceneState = useSceneState();
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -16,6 +18,7 @@ export default function SetupScreen() {
     (environment: EnvironmentSelectionType) => {
       sceneState.selectedEnvironment.set(environment);
       setSubmitted(true);
+      selectSFX.play();
     },
     [sceneState],
   );
