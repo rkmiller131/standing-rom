@@ -10,6 +10,7 @@ import {
   Lensflare,
   LensflareElement,
 } from 'three/examples/jsm/objects/Lensflare.js';
+import { lensFlares, meadowHDR } from '../../../../utils/cdn-links/environmentAssets';
 
 interface CustomEnvironmentProps {}
 
@@ -25,18 +26,10 @@ const CustomEnvironmentSunlight: React.FC<CustomEnvironmentProps> = () => {
     // scene.add(directionalLightHelper);
 
     const textureLoader = new TextureLoader();
-    const textureFlare0 = textureLoader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlare3.png?v=1716574560336',
-    );
-    const textureFlare1 = textureLoader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlarel1.png?v=1716574556548',
-    );
-    const textureFlare2 = textureLoader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlareE1.png?v=1716574563228',
-    );
-    const textureFlare3 = textureLoader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlareE2.png?v=1716574552655',
-    );
+    const textureFlare0 = textureLoader.load(lensFlares['textFlare0']);
+    const textureFlare1 = textureLoader.load(lensFlares['textFlare1']);
+    const textureFlare2 = textureLoader.load(lensFlares['textFlare2']);
+    const textureFlare3 = textureLoader.load(lensFlares['textFlare3']);
 
     const lensflare = new Lensflare();
     lensflare.addElement(new LensflareElement(textureFlare0, 1000, 0));
@@ -50,7 +43,7 @@ const CustomEnvironmentSunlight: React.FC<CustomEnvironmentProps> = () => {
     scene.add(light);
 
     new RGBELoader().load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/meadow_2k.hdr?v=1715123590317',
+      meadowHDR,
       (texture) => {
         texture.mapping = EquirectangularReflectionMapping;
         scene.environment = texture;

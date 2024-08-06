@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSceneState } from '../../hookstate-store/SceneState';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 import TitleSubtitle from './TitleSubtitle';
-import { splash } from '../../utils/preload';
+import { splash, uvxLogos } from '../../utils/cdn-links/images';
+import { loadingSplashAnimation } from '../../utils/cdn-links/motionGraphics';
 
 import '../../css/LoadingScreen.css';
 
@@ -44,11 +45,11 @@ export default function LoadingScreen() {
         <img
           className="uvx-logo loading-logo"
           alt="UVX Logo"
-          src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/uvxLogoColor.png?v=1722519813838"
+          src={uvxLogos['uvxColor']}
         />
       </div>
       <video autoPlay loop muted>
-        <source src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/loadingSplashAnimation.webm?v=1722475788192" type="video/mp4"/>
+        <source src={loadingSplashAnimation} type="video/mp4"/>
       </video>
     </div>
   );

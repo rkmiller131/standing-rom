@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
+import { backgroundMusic } from '../../../../utils/cdn-links/sounds';
 import {
   SphereGeometry,
   Mesh,
@@ -13,8 +14,7 @@ import {
   audioListener as listener
 } from '../../../../interfaces/THREE_Interface';
 
-const songPath =
-  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/OfficeNCS.mp3?v=1715028230989';
+const songPath = backgroundMusic['IndoorOffice'];
 
 export default function Sound() {
   const { camera, scene } = useThree();

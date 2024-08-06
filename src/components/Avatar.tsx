@@ -4,6 +4,7 @@ import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../interfaces/THREE_
 import { setupAvatarProportions } from '../utils/avatar/setupAvatarProportions';
 import useHookstateGetters from '../interfaces/Hookstate_Interface';
 import debounce from '../utils/general/debounce';
+import { avatarModel } from '../utils/cdn-links/models';
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -25,7 +26,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Man-Compressed.vrm?v=1715274436489',
+      avatarModel,
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setupAvatarProportions(vrm);

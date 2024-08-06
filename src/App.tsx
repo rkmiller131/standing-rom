@@ -15,20 +15,23 @@ import GameLogic from './ecs/systems/GameLogic';
 import UIElements from './components/ui/UIElements';
 
 import './css/App.css';
-import './utils/preload';
+
 import Protractor from './utils/avatar/Protractor';
 import ViewControls from './components/ui/ViewControls';
 
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
 export default function App() {
+  const {
+    environmentLoaded,
+    environmentSelected,
+    sceneLoaded,
+    gameOver
+  } = useHookstateGetters();
   const sceneState = useSceneState();
-  const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
-    useHookstateGetters();
   sceneState.device.set(checkUserDevice());
 
   const [toggled, setToggled] = useState(false);
-
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const avatar = useRef<VRM | null>(null);
 

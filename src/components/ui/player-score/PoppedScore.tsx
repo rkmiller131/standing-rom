@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
+import { scoreDisplay } from '../../../utils/cdn-links/motionGraphics';
 
 export default function PoppedScore() {
   const {
@@ -22,7 +23,7 @@ export default function PoppedScore() {
   return (
     <div className="player-score">
       <video loop autoPlay muted className={`${streaking ? 'streaking-fire' : 'hide'}`}>
-        <source src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/FireCropped.webm?v=1722715823727" type="video/webm"/>
+        <source src={scoreDisplay['fire']} type="video/webm"/>
       </video>
       <span className={streaking ? 'streak-effect score-popped' : 'score-popped'}>
           {popped}

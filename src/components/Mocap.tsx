@@ -6,7 +6,7 @@ import { Holistic, Results } from '@mediapipe/holistic';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawLandmarkGuides } from '../mocap/landmarkGuides';
 import { animateVRM } from '../mocap/avatarAnimation/avatarAnimator';
-import { calibrationIcons } from '../utils/preload';
+import { calibrationIcons } from '../utils/cdn-links/images';
 
 import '../css/Mocap.css';
 

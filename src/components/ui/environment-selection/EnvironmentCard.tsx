@@ -1,4 +1,5 @@
 import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
+import { uiInteractions } from '../../../utils/cdn-links/sounds';
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 
@@ -35,7 +36,7 @@ export default function EnvironmentCard ({ imgSrc, name, handleSelection }: Envi
         const animateHoverIn = () => {
             gsap.to(element.querySelector('.hover-text'), { autoAlpha: 1, x: 0, duration: 0.5, ease: 'power3.out'});
             element.style.border = '4px solid #f9cc35';
-            const hoverSFX = new Audio('https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/UI_ChoiceHover.mp3?v=1722902822127');
+            const hoverSFX = new Audio(uiInteractions['choiceHover']);
             hoverSFX.play();
         };
 

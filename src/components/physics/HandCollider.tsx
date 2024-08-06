@@ -6,7 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { VRM } from '@pixiv/three-vrm';
 import { useRef } from 'react';
 import { protractor } from '../../utils/avatar/Protractor';
-import { bubblePopSounds } from '../../utils/sounds';
+import { bubblePopSounds } from '../../utils/cdn-links/sounds';
 
 interface HandColliderProps {
   avatar: React.RefObject<VRM>;

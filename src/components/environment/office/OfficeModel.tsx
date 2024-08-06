@@ -3,6 +3,7 @@ import { gltfLoader as loader, dracoLoader, GLTF } from '../../../interfaces/THR
 import { Suspense, useEffect, useState } from 'react';
 import debounce from '../../../utils/general/debounce';
 import updateShadows from './lights/helpers/updateShadows';
+import { officeModel } from '../../../utils/cdn-links/models';
 
 interface OfficeModelProps {
   setEnvironmentModel: (gltf: GLTF) => void;
@@ -21,7 +22,7 @@ export default function OfficeModel({ setEnvironmentModel, environment }: Office
     loader.setDRACOLoader(dracoLoader);
 
     loader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/officeDoor-transformed.glb?v=1720632603947',
+      officeModel,
       (gltf) => {
         setEnvironmentModel(gltf);
         updateShadows(gltf);
