@@ -17,7 +17,7 @@
 
 .calibration-text {
   position: absolute;
-  padding: 2% 4% 4% 8%;
+  padding: 2% 5% 2% 8%;
   width: max-content;
   top: -12%;
   left: 4%;
@@ -33,11 +33,6 @@
   left: -5%;
   width: 18%;
   z-index: 5;
-}
-
-#mocap-container video {
-  border: 3px solid #FCE187;
-  border-radius: var(--border-radius);
 }
 
 .Desktop {

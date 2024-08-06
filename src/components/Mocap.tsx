@@ -6,13 +6,9 @@ import { Holistic, Results } from '@mediapipe/holistic';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawLandmarkGuides } from '../mocap/landmarkGuides';
 import { animateVRM } from '../mocap/avatarAnimation/avatarAnimator';
+import { calibrationIcons } from '../utils/preload';
 
 import '../css/Mocap.css';
-
-const calibrationIcons = {
-  calibrating: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/yellowCalibIcon.png?v=1722552935123',
-  calibrated: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/blueCalibIcon.png?v=1722553836596'
-}
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;
@@ -38,8 +34,6 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
       }
 
       // Small delay allowing landmarks to draw before saying we've officially loaded
-      // Note, this causes a slight stutter. Could refactor later to perform a scope closure
-      // check inside the drawLandmarks function itself
       if (!holisticLoaded) {
         setTimeout(() => {
           setHolisticLoaded(true);
@@ -110,15 +104,25 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
 
   return (
     <div id="mocap-screen">
-      <div id="mocap-container" className={device}>
+      <div
+        id="mocap-container"
+        className={device}
+        style={holistic ?
+          { boxShadow: '0 0 21px 0px #48abe0' } :
+          { boxShadow: '0 0 21px 0px #FCE187' }}
+      >
         <img
-          src={holistic ? calibrationIcons.calibrated : calibrationIcons.calibrating}
+          src={holistic ?
+            calibrationIcons.calibrated :
+            calibrationIcons.calibrating}
           alt="Calibration Icon"
           className="calibration-icon"
         />
         <span
           className="calibration-text"
-          style={holistic ? { background: '#3560F9' } : { background: '#F9CC35' }}
+          style={holistic ?
+            { background: '#3560F9' } :
+            { background: '#F9CC35' }}
           >
           {holistic ? 'Calibrated' : 'Calibrating...'}
         </span>
@@ -129,7 +133,9 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           height="100%"
           muted
           playsInline
-          style={holistic ? { border: '3px solid #8FE4FF' } : {}}
+          style={holistic ?
+            { border: '3px solid #8FE4FF' } :
+            { border: '3px solid #f3d162' }}
         />
         <canvas id="landmark-guides" ref={landmarkCanvasRef} />
       </div>

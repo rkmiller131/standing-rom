@@ -1,5 +1,5 @@
 import { LegacyRef, forwardRef, useEffect, useState } from 'react';
-import { Sphere } from '@react-three/drei';
+import { MeshDistortMaterial, Sphere } from '@react-three/drei';
 import BubbleCollider from '../physics/BubbleCollider';
 import { PublicApi } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
@@ -19,9 +19,6 @@ interface BubbleProps {
   position: Vector3;
   active: boolean;
 }
-
-// FUTURE TODOS FOR POLISH
-// add sound when bubble pops
 
 const Bubble = forwardRef((
   { position, active }: BubbleProps,
@@ -62,7 +59,25 @@ const Bubble = forwardRef((
       ) : (
         <mesh position={position}>
           <Sphere ref={ref} args={[0.05, 8, 8]}>
-            <meshStandardMaterial color={active ? 'green' : 'blue'} />
+            {!active ?
+              <meshStandardMaterial color='blue' /> :
+              <MeshDistortMaterial
+                attach="material"
+                color="#89CFF0"
+                distort={0.2}
+                speed={3}
+                roughness={0}
+                clearcoat={1}
+                clearcoatRoughness={0.5}
+                metalness={0.4}
+                envMapIntensity={0}
+                transparent
+                opacity={0.8}
+                reflectivity={1}
+                emissive="blue"
+                emissiveIntensity={0.5}
+              />
+            }
           </Sphere>
         </mesh>
       )}
@@ -76,34 +91,3 @@ const Bubble = forwardRef((
 });
 
 export default Bubble;
-
-
-// ---------- OLD LAMINA MATERIAL FOR REFERENCE - Too heavy, caused lag: ----------------
-        // <mesh position={position}>
-        //   <Sphere castShadow ref={ref} args={[0.05, 8, 8]}>
-        //     <LayerMaterial
-        //       color={'#ffffff'}
-        //       lighting={'physical'}
-        //       transmission={1}
-        //       roughness={0.1}
-        //       thickness={2}
-        //     >
-        //       <Depth
-        //         near={0.4854}
-        //         far={0.7661999999999932}
-        //         origin={[-0.4920000000000004, 0.4250000000000003, 0]}
-        //         // green active, regular bubble color not active
-        //         colorA={active ? '#9effb1' : '#fec5da'}
-        //         colorB={active ? '#04781a' : '#00b8fe'}
-        //       />
-        //       <Fresnel
-        //         color={'#fefefe'}
-        //         bias={-0.3430000000000002}
-        //         intensity={1}
-        //         power={3.3699999999999903}
-        //         factor={1.119999999999999}
-        //         mode={'screen'}
-        //       />
-        //     </LayerMaterial>
-        //   </Sphere>
-        // </mesh>

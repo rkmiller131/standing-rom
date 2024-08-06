@@ -67,4 +67,5 @@ body,
 .uvx-logo {
   height: 2.5rem;
   width: auto;
+  z-index: 2;
 }

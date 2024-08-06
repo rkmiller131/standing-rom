@@ -4,10 +4,10 @@ type SplashType = {
     [key in EnvironmentSelectionType]: string
 }
 
-// For the loading screen background splash
+// For the loading screen background splash - kept in /public for faster load times
 export const splash: SplashType = {
-    'Indoor Office': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/OfficeSplash.png?v=1722528887283',
-    'Outdoors': 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/OutdoorSplash.png?v=1722473814520',
+    'Indoor Office': '/OfficeSplash.webp',
+    'Outdoors': '/OutdoorSplash.webp',
     '': 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/loadingStill.JPG?v=1722473502361'
 }
 
@@ -24,3 +24,9 @@ export const environments = [
         imgSrc: 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/indoorEnvCard.png?v=1722462389853'
     }
 ];
+
+// For the mocap webcamera feed
+export const calibrationIcons = {
+    calibrating: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/yellowCalibIcon.png?v=1722552935123',
+    calibrated: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/blueCalibIcon.png?v=1722553836596'
+}
