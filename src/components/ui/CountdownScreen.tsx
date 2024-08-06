@@ -20,7 +20,7 @@ export default function CountdownScreen() {
 
     const timer = setTimeout(() => {
       sceneState.gameRunning.set(true);
-    }, 4500); // the video duration
+    }, 3000); // the video duration
 
     return () => clearTimeout(timer);
   // eslint-disable-next-line react-hooks/exhaustive-deps
