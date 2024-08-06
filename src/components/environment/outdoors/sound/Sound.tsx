@@ -12,9 +12,9 @@ import {
   audioLoader,
   audioListener as listener,
 } from '../../../../interfaces/THREE_Interface';
+import { backgroundMusic } from '../../../../utils/cdn-links/sounds';
 
-const songPath =
-  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/OutdoorBGMusic.mp3?v=1716583481676';
+const songPath = backgroundMusic['Outdoors'];
 
 export default function Sound() {
   const { camera, scene } = useThree();

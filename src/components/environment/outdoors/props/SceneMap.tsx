@@ -1,9 +1,9 @@
 import { useThree } from '@react-three/fiber';
 import { textureLoader } from '../../../../interfaces/THREE_Interface';
 import * as THREE from 'three';
+import { meadowMap } from '../../../../utils/cdn-links/environmentAssets';
 
-const map =
-  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/meadow_71.jpg?v=1722542072678';
+const map = meadowMap;
 
 export default function SceneMap() {
   const { scene } = useThree();

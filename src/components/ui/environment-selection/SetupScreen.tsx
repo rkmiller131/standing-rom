@@ -1,13 +1,15 @@
 import { useState, useCallback, useRef } from 'react';
 import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
 import { useSceneState } from '../../../hookstate-store/SceneState';
+import { uiInteractions } from '../../../utils/cdn-links/sounds';
+import { environmentCards } from '../../../utils/cdn-links/images';
 import EnvironmentCard from './EnvironmentCard';
 import TitleSubtitle from '../TitleSubtitle';
-import { environments } from '../../../utils/preload';
+import { setupBG } from '../../../utils/cdn-links/motionGraphics';
 
 import '../../../css/SetupScreen.css';
 
-const selectSFX = new Audio('https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/UI_ChoiceSelect.mp3?v=1722902825876');
+const selectSFX = new Audio(uiInteractions['choiceSelect']);
 
 export default function SetupScreen() {
   const sceneState = useSceneState();
@@ -28,7 +30,7 @@ export default function SetupScreen() {
   return (
     <div id="setup">
       <video ref={videoRef} className="setup-screen-bg-video" autoPlay loop muted>
-        <source src="https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/BackgroundVid.mp4?v=1722457154866" type="video/mp4"/>
+        <source src={setupBG} type="video/mp4"/>
       </video>
       <TitleSubtitle
         className='select-environment-title'
@@ -36,7 +38,7 @@ export default function SetupScreen() {
         mainTitle='Environment'
       />
       <div id="environment-cards-container">
-        {environments.map((env) =>
+        {environmentCards.map((env) =>
           <EnvironmentCard
             name={env.name}
             imgSrc={env.imgSrc}

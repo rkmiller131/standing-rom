@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
+import { baseBGAnimation } from '../../../utils/cdn-links/motionGraphics';
 
 export default function PossibleScore() {
   const { getTotalBubbleCount, getPoppedBubbleCount } = useHookstateGetters();
@@ -16,7 +17,7 @@ export default function PossibleScore() {
   return (
     <div className="score-ui-container">
       <video autoPlay muted loop className="score-bg-video">
-        <source src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/ScoreBGAnimation.mp4?v=1722725388497" type="video/mp4"/>
+        <source src={baseBGAnimation} type="video/mp4"/>
       </video>
       <div className="score-content">
         <div className="score-possible-container">

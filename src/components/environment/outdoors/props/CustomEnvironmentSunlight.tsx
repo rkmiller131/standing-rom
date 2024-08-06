@@ -1,10 +1,19 @@
 import React, { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
-import { DirectionalLight, TextureLoader } from 'three';
+import {
+  DirectionalLight,
+  EquirectangularReflectionMapping,
+  TextureLoader,
+} from 'three';
 import {
   Lensflare,
   LensflareElement,
 } from 'three/examples/jsm/objects/Lensflare.js';
+import {
+  lensFlares,
+  meadowHDR,
+} from '../../../../utils/cdn-links/environmentAssets';
+import { RGBELoader } from 'three/examples/jsm/Addons.js';
 
 interface CustomEnvironmentProps {}
 
@@ -20,18 +29,10 @@ const CustomEnvironmentSunlight: React.FC<CustomEnvironmentProps> = () => {
     // scene.add(directionalLightHelper);
 
     const textureLoader = new TextureLoader();
-    const textureFlare0 = textureLoader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlare3.png?v=1716574560336',
-    );
-    const textureFlare1 = textureLoader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlarel1.png?v=1716574556548',
-    );
-    const textureFlare2 = textureLoader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlareE1.png?v=1716574563228',
-    );
-    const textureFlare3 = textureLoader.load(
-      'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlareE2.png?v=1716574552655',
-    );
+    const textureFlare0 = textureLoader.load(lensFlares['textFlare0']);
+    const textureFlare1 = textureLoader.load(lensFlares['textFlare1']);
+    const textureFlare2 = textureLoader.load(lensFlares['textFlare2']);
+    const textureFlare3 = textureLoader.load(lensFlares['textFlare3']);
 
     const lensflare = new Lensflare();
     lensflare.addElement(new LensflareElement(textureFlare0, 1000, 0));
@@ -43,6 +44,13 @@ const CustomEnvironmentSunlight: React.FC<CustomEnvironmentProps> = () => {
     light.add(lensflare);
 
     scene.add(light);
+
+    new RGBELoader().load(meadowHDR, (texture) => {
+      texture.mapping = EquirectangularReflectionMapping;
+      scene.environment = texture;
+      scene.environmentRotation.set(0, Math.PI / 4, 0);
+      scene.background = texture;
+    });
   }, [scene]);
 
   return null;

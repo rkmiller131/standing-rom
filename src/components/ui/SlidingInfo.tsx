@@ -2,6 +2,8 @@ import { useSceneState } from '../../hookstate-store/SceneState';
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import TitleSubtitle from './TitleSubtitle';
+import { slidingInfoBG } from '../../utils/cdn-links/motionGraphics';
+import { uvxLogos } from '../../utils/cdn-links/images';
 
 import '../../css/SlidingInfo.css'
 
@@ -52,14 +54,14 @@ export default function SlidingInfo() {
   return (
     <div id="sliding-info-screen">
       <video className="sliding-info-video" autoPlay loop muted>
-        <source src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/slidingInfoBG.webm?v=1722534406119" type="video/mp4" />
+        <source src={slidingInfoBG} type="video/webm" />
       </video>
       <div className="sliding-info-container">
         <div className="sliding-info-content">
           <img
             className="white-logo"
             alt="UVX Logo"
-            src="https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/uvx-logoWhite.png?v=1722535954923"
+            src={uvxLogos['uvxWhite']}
           />
           <TitleSubtitle
             accentTitle='Bubble Pop'

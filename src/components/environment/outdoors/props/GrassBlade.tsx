@@ -3,6 +3,8 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { gltfLoader as loader } from '../../../../interfaces/THREE_Interface';
 import { grassVertexShader } from '../shaders/grassVertexShader';
 import { grassFragmentShader } from '../shaders/grassFragmentShader';
+import { cloudMap } from '../../../../utils/cdn-links/environmentAssets';
+import { groundPlane } from '../../../../utils/cdn-links/models';
 
 import * as THREE from 'three';
 
@@ -22,8 +24,6 @@ function interpolate(
   return ((val - oldMin) * (newMax - newMin)) / (oldMax - oldMin) + newMin;
 }
 
-const cloudMap =
-  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/cloud.jpg?v=1716582328055';
 
 let cloudTexture: THREE.Texture | null = null;
 
@@ -156,7 +156,7 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
     const loadModel = async () => {
       try {
         const gltf = await loader.loadAsync(
-          'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/GroundPlane.gltf?v=1722544682860',
+          groundPlane,
           (event) => {
             console.log(
               `Loading Ground Plane: ${(event.loaded / event.total) * 100}%`,

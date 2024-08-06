@@ -6,9 +6,7 @@ import {
   GLTF,
   dracoLoader,
 } from '../../../../interfaces/THREE_Interface';
-
-const map =
-  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/tree-transformed.glb?v=1715123611590';
+import { treeModel } from '../../../../utils/cdn-links/models';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -40,7 +38,7 @@ export function TreeInstance({
     loader.setDRACOLoader(dracoLoader);
     const loadModel = async () => {
       try {
-        const gltf = await loader.loadAsync(map, (event) => {
+        const gltf = await loader.loadAsync(treeModel, (event) => {
           console.log(`Loading Tree: ${(event.loaded / event.total) * 100}%`);
         });
         // Extract nodes directly from the loaded GLTF object
