@@ -20,10 +20,7 @@ export default function HandCollider({
   avatar,
   handedness,
 }: HandColliderProps) {
-  const {
-    sceneLoaded,
-    getCurrentStreak
-  } = useHookstateGetters();
+  const { sceneLoaded, getCurrentStreak } = useHookstateGetters();
   const gameState = useGameState();
   const poppedBubbles = useRef<Set<string>>(new Set());
 
@@ -50,7 +47,7 @@ export default function HandCollider({
     collisionFilterMask,
   }));
 
-  useFrame((_state, delta) => {
+  useFrame(({ clock }) => {
     if (sceneLoaded() && avatar.current) {
       const handNodeWorld =
         handedness === 'right'
@@ -84,32 +81,60 @@ export default function HandCollider({
       if (!shoulderPos) return;
       const shoulderFinal = shoulderP.setFromMatrixPosition(shoulderPos);
 
+      const wristL = new Vector3();
+      const wristPl =
+        avatar.current.humanoid.humanBones.leftHand?.node.matrixWorld;
+      if (!wristPl) return;
+      const wristFl = wristL.setFromMatrixPosition(wristPl);
+
+      const shoulderL = new Vector3();
+      const shoulderPl =
+        avatar.current.humanoid.humanBones.leftShoulder?.node.matrixWorld;
+      if (!shoulderPl) return;
+      const shoulderFl = shoulderL.setFromMatrixPosition(shoulderPl);
+
       protractor(
         [wristFinal.x, wristFinal.y, wristFinal.z],
         [shoulderFinal.x, shoulderFinal.y, shoulderFinal.z],
+        [wristFl.x, wristFl.y, wristFl.z],
+        [shoulderFl.x, shoulderFl.y, shoulderFl.z],
       );
       // --------------------------------------------------------------------------
 
-      // Calculate velocity only if time difference is greater than zero (so no divide by 0 or super small values)
-      if (poppedBubbles.current.size > 0 && delta > 0.001) {
-        const distance = currentPosition.clone().sub(previousPosition);
+      // const delta = clock.getDelta();
 
-        const velocityVector = distance.clone().divideScalar(delta);
-        velocityVector.normalize();
-        previousPosition.copy(currentPosition);
+      // let prevPosition = new Vector3(0.27, 0.7, 0.07); // set to the normal rest position of the hand to start
 
-        if (poppedBubbles.current.size > 0) {
-          poppedBubbles.current.forEach(() => {
-            const velocity =
-              (Math.abs(velocityVector.x) +
-                Math.abs(velocityVector.y) +
-                Math.abs(velocityVector.z)) /
-              3;
-            gameState.popBubble(velocity, true);
-          });
-          poppedBubbles.current.clear();
-        }
-      }
+      // const rightHand = new Vector3();
+      // const rightHandPos =
+      //   avatar.current.humanoid.humanBones.rightMiddleProximal?.node
+      //     .matrixWorld;
+      // if (!rightHandPos) return;
+
+      // const rightFinal = rightHand.setFromMatrixPosition(rightHandPos);
+
+      // // console.log('current position', rightFinal);
+
+      // // Calculate distance between current and previous positions
+      // const distance = prevPosition.distanceTo(rightFinal);
+
+      // console.log('Distance:', distance);
+
+      // // Compute velocity
+      // const velocity = distance / delta;
+
+      // console.log('Velocity:', velocity);
+
+      // Update prevPosition for the next frame
+      // prevPosition.copy(rightFinal);
+
+      // if (poppedBubbles.current.size > 0) {
+      //   poppedBubbles.current.forEach(() => {
+
+      //     // gameState.popBubble(velocity, true);
+      //   });
+      //   poppedBubbles.current.clear();
+      // }
     }
   });
 

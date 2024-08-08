@@ -1,140 +1,64 @@
-import { useFrame, useThree } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { useState } from 'react';
 import * as THREE from 'three';
 import { Text } from '@react-three/drei';
 
-var wristGlobal: [number, number, number] = [0, 0, 0];
-var shoulderGlobal: [number, number, number] = [0, 0, 0];
+var rightWristGlobal: [number, number, number] = [0, 0, 0];
+var rightShoulderGlobal: [number, number, number] = [0, 0, 0];
+
+var leftWristGlobal: [number, number, number] = [0, 0, 0];
+var leftShoulderGlobal: [number, number, number] = [0, 0, 0];
 
 export function protractor(
-  wristPos: [number, number, number],
-  shoulder: [number, number, number],
+  wristPosR: [number, number, number],
+  shoulderR: [number, number, number],
+  wristPosL: [number, number, number],
+  shoulderL: [number, number, number],
 ) {
-  wristGlobal = wristPos;
-  shoulderGlobal = shoulder;
+  rightWristGlobal = wristPosR;
+  rightShoulderGlobal = shoulderR;
+  leftWristGlobal = wristPosL;
+  leftShoulderGlobal = shoulderL;
 }
 
 export default function Protractor() {
-  const { scene } = useThree();
-  const curveRef = useRef<THREE.Line | null>(null);
-  const startToOriginLineRef = useRef<THREE.Line | null>(null);
-  const originToEndLineRef = useRef<THREE.Line | null>(null);
-  const [angle, setAngle] = useState(0);
+  const [angleR, setAngleR] = useState(0);
+  const [angleL, setAngleL] = useState(0);
   const hipPosition = new THREE.Vector3(0, 0.75, 0);
 
-  useEffect(() => {
-    const ellipseCurve = new THREE.EllipseCurve(
-      0,
-      0,
-      1,
-      1,
-      0,
-      2 * Math.PI,
-      false,
-      0,
-    );
-    const curvePoints = ellipseCurve.getPoints(50);
-    const convertedPoints = curvePoints.map(
-      (p) => new THREE.Vector3(p.x, p.y, 0),
-    );
-    const curveGeometry = new THREE.BufferGeometry().setFromPoints(
-      convertedPoints,
-    );
-    const curveMaterial = new THREE.LineBasicMaterial({ color: 0x0ed8a5 });
-    const curveLine = new THREE.Line(curveGeometry, curveMaterial);
-    curveRef.current = curveLine;
-
-    curveRef.current.rotation.set(0, 0, Math.PI / 2);
-    curveRef.current.rotation.set(Math.PI, Math.PI, Math.PI);
-    curveRef.current.scale.set(0.25, 0.25, 0.25);
-
-    // Lines from origin to start and from origin to end
-    const curveStartPoint = convertedPoints[0]; // Start point of the curve
-    const curveEndPoint = convertedPoints[convertedPoints.length - 1]; // End point of the curve
-    const origin = new THREE.Vector3(0, 0, 0); // Origin
-
-    startToOriginLineRef.current = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([curveStartPoint, origin]),
-      new THREE.LineBasicMaterial({ color: 0x0ed8a5 }),
-    );
-
-    originToEndLineRef.current = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([origin, curveEndPoint]),
-      new THREE.LineBasicMaterial({ color: 0x0ed8a5 }),
-    );
-
-    const group = new THREE.Group();
-    group.add(startToOriginLineRef.current);
-    group.add(originToEndLineRef.current);
-    group.add(curveRef.current);
-
-    group.position.set(0.25, 0.5, 0.35);
-
-    scene.add(group);
-
-    return () => {
-      scene.remove(group);
-    };
-  }, [scene]);
-
-  const updateEllipseCurve = (angle: number) => {
-    if (curveRef.current) {
-      const curve = new THREE.EllipseCurve(
-        0,
-        0,
-        1,
-        1,
-        0,
-        angle * (Math.PI / 180),
-        false,
-        0,
-      );
-      const curvePoints = curve.getPoints(20);
-      const convertedPoints = curvePoints.map(
-        (p) => new THREE.Vector3(p.x, p.y, 0),
-      );
-      curveRef.current.geometry.setFromPoints(convertedPoints);
-
-      // Update lines
-      if (startToOriginLineRef.current && originToEndLineRef.current) {
-        startToOriginLineRef.current.geometry.setFromPoints([
-          convertedPoints[0],
-          new THREE.Vector3(0, 0, 0),
-        ]);
-        originToEndLineRef.current.geometry.setFromPoints([
-          new THREE.Vector3(0, 0, 0),
-          convertedPoints[convertedPoints.length - 1],
-        ]);
-      }
-    }
-  };
-
   useFrame(() => {
-    if (
-      !curveRef.current ||
-      !startToOriginLineRef.current ||
-      !originToEndLineRef.current
-    )
-      return;
-
-    const wristPosition = new THREE.Vector3(...wristGlobal);
-    const shoulderPosition = new THREE.Vector3(...shoulderGlobal);
+    const wristPositionR = new THREE.Vector3(...rightWristGlobal);
+    const shoulderPositionR = new THREE.Vector3(...rightShoulderGlobal);
+    const wristPositionL = new THREE.Vector3(...leftWristGlobal);
+    const shoulderPositionL = new THREE.Vector3(...leftShoulderGlobal);
 
     // Calculate vectors
-    const wristShoulderVector = wristPosition
+    const wristShoulderVectorR = wristPositionR
       .clone()
-      .sub(shoulderPosition)
+      .sub(shoulderPositionR)
       .normalize();
-    const shoulderHipVector = hipPosition
+    const shoulderHipVectorR = hipPosition
       .clone()
-      .sub(shoulderPosition)
+      .sub(shoulderPositionR)
+      .normalize();
+
+    const calculatedAngleR =
+      Math.acos(wristShoulderVectorR.dot(shoulderHipVectorR)) * (180 / Math.PI);
+    setAngleR(calculatedAngleR);
+
+    // Calculate vectors
+    const wristShoulderVectorL = wristPositionL
+      .clone()
+      .sub(shoulderPositionL)
+      .normalize();
+    const shoulderHipVectorL = hipPosition
+      .clone()
+      .sub(shoulderPositionL)
       .normalize();
 
     const calculatedAngle =
-      Math.acos(wristShoulderVector.dot(shoulderHipVector)) * (180 / Math.PI);
-    setAngle(calculatedAngle);
-
-    updateEllipseCurve(calculatedAngle);
+      Math.acos(wristShoulderVectorL.dot(shoulderHipVectorL)) * (180 / Math.PI);
+    setAngleL(calculatedAngle);
   });
 
   return (
@@ -145,7 +69,15 @@ export default function Protractor() {
         color={new THREE.Color(0xffffff)}
         characters=".0123456789"
       >
-        {angle.toFixed(2) + ' °'}
+        {'Right: ' + angleR.toFixed(2) + ' °'}
+      </Text>
+      <Text
+        position={[0.82, 0.68, 0]}
+        scale={0.1}
+        color={new THREE.Color(0xffffff)}
+        characters=".0123456789"
+      >
+        {'Left: ' + angleL.toFixed(2) + ' °'}
       </Text>
     </>
   );
