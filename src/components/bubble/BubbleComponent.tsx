@@ -1,31 +1,23 @@
 import { LegacyRef, forwardRef, useEffect, useState } from 'react';
-import { MeshDistortMaterial, Sphere } from '@react-three/drei';
+import { ShaderMaterial, Color } from 'three';
+import { Sphere } from '@react-three/drei';
 import BubbleCollider from '../physics/BubbleCollider';
 import { PublicApi } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
 import BubbleParticles from './particle-effect/BubbleParticles';
-
-// Bubble is wrapped in ECS.Component, which implicitly "fowards" a ref to the Bubble component
-// forwardRef allows this parent to pass a ref directly to this child, as denoted by the child declaring
-// forwardRef; it's kind of like: "I got a ref prop from ECS.Component"
-// This passed down ref's purpose is to attach to the visual mesh component (sphere) AND the physics collider ref and api extracted from useSphere.
-// The ref parameter in the Bubble component's function signature is automatically handled by forwardRef, allowing ECS.Component to pass to it.
-// The Bubble component who receives this ref then passes it to SphereCollider via the onAttachRefs callback, which allows the collider
-// to attach the physics api to the ref, linking the visual mesh with the physics simulation.
-
-// Note - if ever adapted to React 19, this forwarding ref pattern will be obsolete
+import { BubbleShader } from './shaders/BubbleShader'; // Ensure the correct import path
 
 interface BubbleProps {
   position: Vector3;
   active: boolean;
 }
 
-const Bubble = forwardRef((
+const BubbleComponent = forwardRef((
   { position, active }: BubbleProps,
   ref: LegacyRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>
 ) => {
   const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
-  const [bubblePopped, setBubblePopped] = useState(false);
+  const [isBubblePopped, setIsBubblePopped] = useState(false);
 
   const attachRefs = (colliderApi: PublicApi) => {
     if (colliderApi) {
@@ -34,23 +26,33 @@ const Bubble = forwardRef((
   }
 
   useEffect(() => {
-    if (bubblePopped && physicsApi) {
-      // can't destroy cannon collider, so just move it far away
+    if (isBubblePopped && physicsApi) {
       physicsApi.position.set(
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10)
-      )
+      );
     }
-  }, [bubblePopped, physicsApi])
+  }, [isBubblePopped, physicsApi]);
 
   const onCollideBegin = () => {
-    setBubblePopped(true);
+    setIsBubblePopped(true);
   };
+
+  const bubbleMaterial = new ShaderMaterial({
+    vertexShader: BubbleShader.vertexShader,
+    fragmentShader: BubbleShader.fragmentShader,
+    uniforms: {
+      ...BubbleShader.uniforms,
+      color: { value: new Color(0x88cfff) }, // Adjust color to be brighter
+      opacity: { value: 0.5 }, // Increase opacity
+    },
+    transparent: true,
+  });
 
   return (
     <>
-      {bubblePopped ? (
+      {isBubblePopped ? (
         <BubbleParticles
           position={[position.x, position.y + 0.1, position.z]}
           radius={0.1}
@@ -59,25 +61,11 @@ const Bubble = forwardRef((
       ) : (
         <mesh position={position}>
           <Sphere ref={ref} args={[0.05, 112, 112]}>
-            {!active ?
-              <meshStandardMaterial color='blue' /> :
-              <MeshDistortMaterial
-                  attach="material"
-                  color="rgba(173, 216, 230)"
-                  distort={0.4}
-                  speed={2}
-                  roughness={0.1}
-                  clearcoat={1}
-                  clearcoatRoughness={1}
-                  metalness={1}
-                  envMapIntensity={0}
-                  transparent
-                  opacity={0.6}
-                  reflectivity={1}
-                  emissive="blue"
-                  emissiveIntensity={0.6}
-        />
-            }
+            {!active ? (
+              <meshStandardMaterial color='blue' />
+            ) : (
+              <primitive attach="material" object={bubbleMaterial} />
+            )}
           </Sphere>
         </mesh>
       )}
@@ -90,4 +78,4 @@ const Bubble = forwardRef((
   );
 });
 
-export default Bubble;
+export default BubbleComponent;
