@@ -10,7 +10,7 @@ export default function ViewControls() {
     <div className="view-ui-container">
       <div>
         <button className="view-button" onClick={() => setShow(!show)}>
-          {show ? 'Hide' : 'Show'}
+          {show ? 'Hide Measure' : 'Show Measure'}
         </button>
         {show && <Protractor />}
       </div>

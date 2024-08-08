@@ -68,8 +68,8 @@ export default function Protractor() {
   return (
     <>
       <div>
-        <p>Right: {angleR.toFixed(2)} °</p>
-        <p>Left: {angleL.toFixed(2)} °</p>
+        <p style={{ color: 'white' }}>Right: {angleR.toFixed(2)} °</p>
+        <p style={{ color: 'white' }}>Left: {angleL.toFixed(2)} °</p>
       </div>
     </>
   );

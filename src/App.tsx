@@ -16,8 +16,6 @@ import UIElements from './components/ui/UIElements';
 
 import './css/App.css';
 
-import ViewControls from './components/ui/ViewControls';
-
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
 export default function App() {
@@ -50,7 +48,6 @@ export default function App() {
       {environmentLoaded() && (
         <>
           <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-          <ViewControls />
         </>
       )}
       <Suspense fallback={null}>

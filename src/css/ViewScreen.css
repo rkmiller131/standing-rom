@@ -11,9 +11,9 @@
   justify-content: center;
   pointer-events: all;
   z-index: 3;
-  padding: 5%;
+  margin: 20px;
+  padding: 10px 20px;
   transition: all 5s ease-in-out;
-  backdrop-filter: blur(50px);
 }
 
 .view-button {
