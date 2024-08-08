@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import TitleSubtitle from './TitleSubtitle';
 import { slidingInfoBG } from '../../utils/cdn-links/motionGraphics';
 import { uvxLogos } from '../../utils/cdn-links/images';
+import { announcer } from '../../utils/cdn-links/sounds';
 
 import '../../css/SlidingInfo.css'
 
@@ -29,6 +30,9 @@ export default function SlidingInfo() {
           autoAlpha: 1
         }
       )
+      const audio = new Audio(announcer['getCalibrated']);
+      audio.volume = 0.75;
+      audio.play();
       mounted = true;
     }
 

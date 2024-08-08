@@ -7,6 +7,7 @@ import { Camera } from '@mediapipe/camera_utils';
 import { drawLandmarkGuides } from '../mocap/landmarkGuides';
 import { animateVRM } from '../mocap/avatarAnimation/avatarAnimator';
 import { calibrationIcons } from '../utils/cdn-links/images';
+import { announcer } from '../utils/cdn-links/sounds';
 
 import '../css/Mocap.css';
 
@@ -36,6 +37,9 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
       // Small delay allowing landmarks to draw before saying we've officially loaded
       if (!holisticLoaded) {
         setTimeout(() => {
+          const audio = new Audio(announcer['getReady']);
+          audio.volume = 0.75;
+          audio.play();
           setHolisticLoaded(true);
         }, 2000);
         holisticLoaded = true;

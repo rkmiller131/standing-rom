@@ -1,5 +1,6 @@
-import '../../css/UVXBrandWatermark.css';
 import { uvxLogos } from '../../utils/cdn-links/images';
+
+import '../../css/UVXBrandWatermark.css';
 
 export default function UVXBrandWatermark() {
   return (
