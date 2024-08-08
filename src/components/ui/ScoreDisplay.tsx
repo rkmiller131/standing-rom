@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 import { useGameState } from '../../hookstate-store/GameState';
-import Stats from 'stats.js'; // Import stats.js
+import Stats from 'stats.js';
 
 import '../../css/ScoreDisplay.css';
 
@@ -16,7 +16,7 @@ export default function ScoreDisplay() {
   const idleAnimRef = useRef<HTMLVideoElement | null>(null);
   const [streaking, setStreaking] = useState(false);
   const [idleVisibility, setIdleVisibility] = useState(true);
-  const [stats] = useState(() => new Stats()); // Initialize stats.js
+  const [stats] = useState(() => new Stats());
 
   const popped = getPoppedBubbleCount();
   const total = getTotalBubbleCount();

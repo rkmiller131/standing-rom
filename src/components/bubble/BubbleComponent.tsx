@@ -21,12 +21,12 @@ interface BubbleProps {
   active: boolean;
 }
 
-const Bubble = forwardRef((
+const BubbleComponent = forwardRef((
   { position, active }: BubbleProps,
   ref: LegacyRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>
 ) => {
   const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
-  const [bubblePopped, setBubblePopped] = useState(false);
+  const [isBubblePopped, setIsBubblePopped] = useState(false);
 
   const attachRefs = (colliderApi: PublicApi) => {
     if (colliderApi) {
@@ -35,23 +35,22 @@ const Bubble = forwardRef((
   }
 
   useEffect(() => {
-    if (bubblePopped && physicsApi) {
-      // can't destroy cannon collider, so just move it far away
+    if (isBubblePopped && physicsApi) {
       physicsApi.position.set(
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10)
-      )
+      );
     }
-  }, [bubblePopped, physicsApi])
+  }, [isBubblePopped, physicsApi]);
 
   const onCollideBegin = () => {
-    setBubblePopped(true);
+    setIsBubblePopped(true);
   };
 
   return (
     <>
-      {bubblePopped ? (
+      {isBubblePopped ? (
         <BubbleParticles
           position={[position.x, position.y + 0.1, position.z]}
           radius={0.1}
@@ -94,4 +93,4 @@ const Bubble = forwardRef((
   );
 });
 
-export default Bubble;
+export default BubbleComponent;
