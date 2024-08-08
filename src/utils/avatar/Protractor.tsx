@@ -60,7 +60,7 @@ export default function Protractor() {
         Math.acos(wristShoulderVectorL.dot(shoulderHipVectorL)) *
         (180 / Math.PI);
       setAngleL(calculatedAngle);
-    }, 1000 / 30);
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, []);

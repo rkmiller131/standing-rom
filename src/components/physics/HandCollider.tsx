@@ -101,40 +101,14 @@ export default function HandCollider({
       );
       // --------------------------------------------------------------------------
 
-      // const delta = clock.getDelta();
+      // compute velocity
 
-      // let prevPosition = new Vector3(0.27, 0.7, 0.07); // set to the normal rest position of the hand to start
-
-      // const rightHand = new Vector3();
-      // const rightHandPos =
-      //   avatar.current.humanoid.humanBones.rightMiddleProximal?.node
-      //     .matrixWorld;
-      // if (!rightHandPos) return;
-
-      // const rightFinal = rightHand.setFromMatrixPosition(rightHandPos);
-
-      // // console.log('current position', rightFinal);
-
-      // // Calculate distance between current and previous positions
-      // const distance = prevPosition.distanceTo(rightFinal);
-
-      // console.log('Distance:', distance);
-
-      // // Compute velocity
-      // const velocity = distance / delta;
-
-      // console.log('Velocity:', velocity);
-
-      // Update prevPosition for the next frame
-      // prevPosition.copy(rightFinal);
-
-      // if (poppedBubbles.current.size > 0) {
-      //   poppedBubbles.current.forEach(() => {
-
-      //     // gameState.popBubble(velocity, true);
-      //   });
-      //   poppedBubbles.current.clear();
-      // }
+      if (poppedBubbles.current.size > 0) {
+        poppedBubbles.current.forEach(() => {
+          gameState.popBubble(0.2, true);
+        });
+        poppedBubbles.current.clear();
+      }
     }
   });
 
