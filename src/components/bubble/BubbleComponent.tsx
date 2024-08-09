@@ -1,7 +1,7 @@
-import { LegacyRef, forwardRef, useEffect, useState } from 'react';
+import { LegacyRef, forwardRef, useState } from 'react';
 import { MeshDistortMaterial, Sphere } from '@react-three/drei';
-import BubbleCollider from '../physics/BubbleCollider';
-import { PublicApi } from '@react-three/cannon';
+// import BubbleCollider from '../physics/BubbleCollider';
+// import { PublicApi } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
 import BubbleParticles from './particle-effect/BubbleParticles';
 import BubbleMaterial from './materials/BubbleMaterial';
@@ -25,28 +25,20 @@ const Bubble = forwardRef((
   { position, active }: BubbleProps,
   ref: LegacyRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>
 ) => {
-  const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
   const [bubblePopped, setBubblePopped] = useState(false);
 
-  const attachRefs = (colliderApi: PublicApi) => {
-    if (colliderApi) {
-      setPhysicsApi(colliderApi);
-    }
-  }
-
-  useEffect(() => {
-    if (bubblePopped && physicsApi) {
-      // can't destroy cannon collider, so just move it far away
-      physicsApi.position.set(
-        (Math.floor(Math.random() * 11) + 10),
-        (Math.floor(Math.random() * 11) + 10),
-        (Math.floor(Math.random() * 11) + 10)
-      )
-    }
-  }, [bubblePopped, physicsApi])
-
-  const onCollideBegin = () => {
+  const onCollideBegin = ({ bodyB }: { bodyB: Body }) => {
     setBubblePopped(true);
+    const bubbleId = bodyB.id;
+    const bubble = worldBubbleManager[bubbleId];
+    if (bubble) {
+      delete worldBubbleManager[bubbleId];
+      // you can't remove a body immediately when a collide event fires bc physics
+      // simulation hasn't finished that frame yet, so setTimeout to remove in between frames:
+      setTimeout(() => {
+        world.removeBody(bodyB);
+      }, 0)
+    }
   };
 
   return (
@@ -85,10 +77,9 @@ const Bubble = forwardRef((
           </Sphere>
         </mesh>
       )}
-      {active && <BubbleCollider
-        onAttachRefs={attachRefs}
+      {active && <BubbleCollider2
         position={position}
-        onCollideBegin={onCollideBegin}
+        handleBubbleCollision={onCollideBegin}
       />}
     </>
   );
