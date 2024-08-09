@@ -20,10 +20,7 @@ export default function HandCollider({
   avatar,
   handedness,
 }: HandColliderProps) {
-  const {
-    sceneLoaded,
-    getCurrentStreak
-  } = useHookstateGetters();
+  const { sceneLoaded, getCurrentStreak } = useHookstateGetters();
   const gameState = useGameState();
   const poppedBubbles = useRef<Set<string>>(new Set());
 
@@ -50,7 +47,7 @@ export default function HandCollider({
     collisionFilterMask,
   }));
 
-  useFrame((_state, delta) => {
+  useFrame(({ clock }) => {
     if (sceneLoaded() && avatar.current) {
       const handNodeWorld =
         handedness === 'right'
@@ -84,31 +81,33 @@ export default function HandCollider({
       if (!shoulderPos) return;
       const shoulderFinal = shoulderP.setFromMatrixPosition(shoulderPos);
 
+      const wristL = new Vector3();
+      const wristPl =
+        avatar.current.humanoid.humanBones.leftHand?.node.matrixWorld;
+      if (!wristPl) return;
+      const wristFl = wristL.setFromMatrixPosition(wristPl);
+
+      const shoulderL = new Vector3();
+      const shoulderPl =
+        avatar.current.humanoid.humanBones.leftShoulder?.node.matrixWorld;
+      if (!shoulderPl) return;
+      const shoulderFl = shoulderL.setFromMatrixPosition(shoulderPl);
+
       protractor(
         [wristFinal.x, wristFinal.y, wristFinal.z],
         [shoulderFinal.x, shoulderFinal.y, shoulderFinal.z],
+        [wristFl.x, wristFl.y, wristFl.z],
+        [shoulderFl.x, shoulderFl.y, shoulderFl.z],
       );
       // --------------------------------------------------------------------------
 
-      // Calculate velocity only if time difference is greater than zero (so no divide by 0 or super small values)
-      if (poppedBubbles.current.size > 0 && delta > 0.001) {
-        const distance = currentPosition.clone().sub(previousPosition);
+      // compute velocity
 
-        const velocityVector = distance.clone().divideScalar(delta);
-        velocityVector.normalize();
-        previousPosition.copy(currentPosition);
-
-        if (poppedBubbles.current.size > 0) {
-          poppedBubbles.current.forEach(() => {
-            const velocity =
-              (Math.abs(velocityVector.x) +
-                Math.abs(velocityVector.y) +
-                Math.abs(velocityVector.z)) /
-              3;
-            gameState.popBubble(velocity, true);
-          });
-          poppedBubbles.current.clear();
-        }
+      if (poppedBubbles.current.size > 0) {
+        poppedBubbles.current.forEach(() => {
+          gameState.popBubble(0.2, true);
+        });
+        poppedBubbles.current.clear();
       }
     }
   });

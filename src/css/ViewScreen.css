@@ -1,8 +1,8 @@
 .view-ui-container {
   display: flex;
   position: fixed;
-  bottom: 0;
-  right: 0;
+  bottom: 10px;
+  right: 10px;
   width: 100px;
   height: 80px;
   color: #0ed8a5;
@@ -11,6 +11,7 @@
   justify-content: center;
   pointer-events: all;
   z-index: 3;
+  transition: all 0.1s ease-in-out;
   padding: 5%;
   transition: all 5s ease-in-out;
   backdrop-filter: blur(50px);

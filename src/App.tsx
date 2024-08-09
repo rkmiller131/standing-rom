@@ -16,22 +16,14 @@ import UIElements from './components/ui/UIElements';
 
 import './css/App.css';
 
-import Protractor from './utils/avatar/Protractor';
-import ViewControls from './components/ui/ViewControls';
-
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
 export default function App() {
-  const {
-    environmentLoaded,
-    environmentSelected,
-    sceneLoaded,
-    gameOver
-  } = useHookstateGetters();
+  const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
+    useHookstateGetters();
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDevice());
 
-  const [toggled, setToggled] = useState(false);
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const avatar = useRef<VRM | null>(null);
 
@@ -56,7 +48,6 @@ export default function App() {
       {environmentLoaded() && (
         <>
           <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-          <ViewControls setToggled={setToggled} />
         </>
       )}
       <Suspense fallback={null}>
@@ -72,7 +63,6 @@ export default function App() {
                 <Bubbles />
               </Physics>
               {!gameOver() && <GameLogic avatar={avatar} />}
-              {toggled && <Protractor />}
             </>
           )}
         </Renderer>

@@ -11,7 +11,7 @@ export default function SceneMap() {
   textureLoader
     .loadAsync(map)
     .then((texture) => {
-      const geometry = new THREE.SphereGeometry(50, 60, 40);
+      const geometry = new THREE.SphereGeometry(50, 16, 16);
 
       const material = new THREE.MeshBasicMaterial({
         map: texture,
@@ -19,7 +19,7 @@ export default function SceneMap() {
       });
 
       const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(0, 5, 0);
+      mesh.position.set(0, 0, 0);
       mesh.rotation.set(0, Math.PI / 12, 0);
 
       scene.add(mesh);

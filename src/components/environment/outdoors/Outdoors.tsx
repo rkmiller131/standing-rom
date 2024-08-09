@@ -30,15 +30,20 @@ export default function OutdoorScene() {
 
   return (
     <>
-      <GrassComponent size={50} count={50000} />
+      <GrassComponent size={25} count={30000} />
 
       <Suspense fallback={null}>
-        <ambientLight intensity={1} />
+        <ambientLight intensity={2.5} />
+
         <CustomEnvironmentSunlight />
         <SceneMap />
 
         <TreeInstance>
-          <Tree position={[-3, 0, -1]} rotation={[0, 0, 0]} scale={0.8} />
+          <Tree
+            position={[5, 0, -5]}
+            rotation={[0, Math.PI / 2, 0]}
+            scale={0.8}
+          />
         </TreeInstance>
         <Sound />
       </Suspense>

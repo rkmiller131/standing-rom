@@ -5,6 +5,7 @@ import LoadingScreen from './LoadingScreen';
 import ResultsScreen from './ResultsScreen';
 import UVXBrandWatermark from './UVXBrandWatermark';
 import LiveSocials from './socials/LiveSocials';
+import ViewControls from './ViewControls';
 
 const SlidingInfo = lazy(() => import('./SlidingInfo'));
 const CountdownScreen = lazy(() => import('./CountdownScreen'));
@@ -24,6 +25,7 @@ export default function UIElements() {
           <>
             <SlidingInfo />
             <LiveSocials />
+            <ViewControls />
           </>
         )}
         {sceneLoaded() && <CountdownScreen />}
