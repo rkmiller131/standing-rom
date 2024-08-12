@@ -35,7 +35,7 @@ export default function Renderer({ children }: RendererProps) {
         ],
         fov: 50,
         near: 0.5,
-        far: 120,
+        far: 75,
         rotation: [
           -2.860051628191954,
           -0.4493997502356422,
@@ -59,7 +59,7 @@ export default function Renderer({ children }: RendererProps) {
         ],
         fov: 40,
         near: 0.5,
-        far: 120,
+        far: 75,
         rotation: [
           -2.860051628191954,
           -0.4493997502356422,
