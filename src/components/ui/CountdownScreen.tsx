@@ -6,6 +6,9 @@ import { announcer } from '../../utils/cdn-links/sounds';
 
 import '../../css/CountdownScreen.css';
 
+const audio = new Audio(announcer['countdown']);
+audio.volume = 0.75;
+
 export default function CountdownScreen() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { gameRunning } = useHookstateGetters();
@@ -13,14 +16,14 @@ export default function CountdownScreen() {
 
   useEffect(() => {
     const videoElement = videoRef.current;
-    const audio = new Audio(announcer['countdown']);
-    audio.volume = 0.75;
-    audio.play();
-    videoElement!.play();
+    if (videoElement) {
+      audio.play();
+      videoElement.play();
+    }
 
     const timer = setTimeout(() => {
       sceneState.gameRunning.set(true);
-    }, 3000); // the video duration
+    }, 4000); // the video duration
 
     return () => clearTimeout(timer);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -30,8 +33,8 @@ export default function CountdownScreen() {
 
   return (
     <div className="countdown-container">
-      <video ref={videoRef} muted>
-        <source src={countdownScreen} type="video/mp4" />
+      <video ref={videoRef}>
+        <source src={countdownScreen} type="video/webm" />
       </video>
     </div>
   );
