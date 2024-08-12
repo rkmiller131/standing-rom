@@ -103,9 +103,37 @@ export default function HandCollider({
 
       // compute velocity
 
+      let frame = 0;
+      let velocity = new Vector3();
+      let avgV = 0;
+      const time = clock.getElapsedTime();
+
+      if (frame === 0) {
+        previousPosition.copy(currentPosition);
+      }
+
+      if (frame > 0) {
+        const deltaTime = time - frame;
+
+        velocity = currentPosition
+          .clone()
+          .sub(previousPosition)
+          .divideScalar(deltaTime);
+
+        console.log('Velocity Vector: ', velocity);
+
+        avgV =
+          (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
+          3;
+
+        console.log('Average Velocity: ', avgV);
+      }
+
+      frame += 1;
+
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
-          gameState.popBubble(0.2, true);
+          gameState.popBubble(avgV, true);
         });
         poppedBubbles.current.clear();
       }
