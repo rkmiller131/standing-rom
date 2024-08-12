@@ -17,8 +17,8 @@ export default function CountdownScreen() {
   useEffect(() => {
     const videoElement = videoRef.current;
     if (videoElement) {
-      audio.play();
       videoElement.play();
+      audio.play();
     }
 
     const timer = setTimeout(() => {
