@@ -16,6 +16,12 @@ interface HandColliderProps {
 const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
+let velocity = new Vector3();
+let frame = 0;
+let avgV = 0;
+let lastTime = (performance.now() / 1000).toFixed(0) as unknown as number;
+let dt = 0;
+
 export default function HandCollider({
   avatar,
   handedness,
@@ -47,7 +53,7 @@ export default function HandCollider({
     collisionFilterMask,
   }));
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     if (sceneLoaded() && avatar.current) {
       const handNodeWorld =
         handedness === 'right'
@@ -103,33 +109,35 @@ export default function HandCollider({
 
       // compute velocity
 
-      let frame = 0;
-      let velocity = new Vector3();
-      let avgV = 0;
-      const time = clock.getElapsedTime();
+      const time = (performance.now() / 1000).toFixed(0) as unknown as number;
 
-      if (frame === 0) {
-        previousPosition.copy(currentPosition);
+      console.log('Time & Frame', time, frame);
+
+      dt = time - lastTime;
+
+      if (dt < 0.0167) {
+        dt = 0.0167;
+      } else if (dt > 0.1) {
+        dt = 0.1;
       }
 
-      if (frame > 0) {
-        const deltaTime = time - frame;
+      lastTime = time;
 
-        velocity = currentPosition
-          .clone()
-          .sub(previousPosition)
-          .divideScalar(deltaTime);
+      console.log('Delta Time: ', dt);
 
-        console.log('Velocity Vector: ', velocity);
+      frame++;
 
-        avgV =
-          (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
-          3;
+      previousPosition.copy(wristFinal);
 
-        console.log('Average Velocity: ', avgV);
-      }
+      velocity = wristFinal.clone().sub(previousPosition).divideScalar(dt);
 
-      frame += 1;
+      // console.log('Velocity Vector: ', velocity);
+
+      avgV =
+        (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
+        3;
+
+      // console.log('Average Velocity: ', avgV);
 
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
