@@ -111,7 +111,7 @@ export default function HandCollider({
 
       const time = (performance.now() / 1000).toFixed(0) as unknown as number;
 
-      console.log('Time & Frame', time, frame);
+      // console.log('Time & Frame', time, frame);
 
       dt = time - lastTime;
 
@@ -123,25 +123,27 @@ export default function HandCollider({
 
       lastTime = time;
 
-      console.log('Delta Time: ', dt);
+      // console.log('Delta Time: ', dt);
 
       frame++;
 
-      previousPosition.copy(wristFinal);
-
       velocity = wristFinal.clone().sub(previousPosition).divideScalar(dt);
 
-      // console.log('Velocity Vector: ', velocity);
+      console.log('Velocity Vector: ', velocity);
 
       avgV =
         (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
         3;
 
-      // console.log('Average Velocity: ', avgV);
+      previousPosition.copy(wristFinal);
+
+      console.log('Average Velocity: ', avgV);
 
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
-          gameState.popBubble(avgV, true);
+          if (avgV !== 0) {
+            gameState.popBubble(avgV, true);
+          }
         });
         poppedBubbles.current.clear();
       }
