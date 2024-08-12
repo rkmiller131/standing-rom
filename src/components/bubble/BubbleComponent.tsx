@@ -4,6 +4,7 @@ import BubbleCollider from '../physics/BubbleCollider';
 import { PublicApi } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
 import BubbleParticles from './particle-effect/BubbleParticles';
+import BubbleMaterial from './materials/BubbleMaterial';
 
 // Bubble is wrapped in ECS.Component, which implicitly "fowards" a ref to the Bubble component
 // forwardRef allows this parent to pass a ref directly to this child, as denoted by the child declaring
@@ -60,7 +61,10 @@ const Bubble = forwardRef((
         <mesh position={position}>
           <Sphere ref={ref} args={[0.05, 8, 8]}>
             {!active ?
-              <meshStandardMaterial color='blue' /> :
+              // <meshStandardMaterial color='blue' /> :
+              // Temporarily adding a bubble material that can accept either active/inactive property depending on if we
+              // want to use it for both (going the pure shader route). Can refactor later to remove unused code in BubbleMaterial.tsx
+              <BubbleMaterial active={active} position={position}/> :
               <MeshDistortMaterial
                 attach="material"
                 color="#89CFF0"
