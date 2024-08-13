@@ -1,18 +1,14 @@
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
 import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 import { faTachometerAlt, faDraftingCompass, faChartLine } from '@fortawesome/free-solid-svg-icons';
-
-import '../../../css/ResultsScreen.css';
-
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import AchievementItem from './AchievementItem';
 import StatItem from './StatItem';
 
+import '../../../css/ResultsScreen.css';
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
-
-export const baseBGAnimation = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/ScoreBGAnimation.mp4?v=1722725388497';
 
 // FAKE DATABASE DATA MOCK - WOULD HAVE A TABLE/COLLECTION FOR ACHIEVEMENTS - A UTIL FUNCTION TODO IN UTILS > HTTP
 // fake return value would be something like:
@@ -35,6 +31,30 @@ const shoulderROMAchievements: AchievementType[] = [
   },
 ]
 
+// THIS WOULD ALSO BE RETRIEVED FROM DB AND SET UP IN ITS OWN GRAPH COMPONENT (Separate Line graph into own file, do an http get and create the graph)
+const lastFiveResults = [
+  { date: '2024-08-08', score: 85 },
+  { date: '2024-08-09', score: 78 },
+  { date: '2024-08-10', score: 92 },
+  { date: '2024-08-11', score: 88 },
+  { date: '2024-08-12', score: 95 },
+];
+
+const labels = lastFiveResults.map(result => result.date);
+const data = {
+  labels,
+  datasets: [
+    {
+      label: 'Scores',
+      data: lastFiveResults.map(result => result.score),
+      borderColor: 'rgba(68, 243, 182, 1)',
+      backgroundColor: 'rgba(68, 243, 182, 0.2)',
+      fill: true,
+      tension: 0.4,
+    },
+  ],
+};
+
 export default function ResultsScreen() {
   const {
     getMaxRightArmAngle,
@@ -43,7 +63,6 @@ export default function ResultsScreen() {
     getTotalBubbleCount,
     getPoppedVelocities,
     getCurrentStreak,
-    gameOver
   } = useHookstateGetters();
 
   const maxRightArmAngle = getMaxRightArmAngle();
@@ -70,30 +89,6 @@ export default function ResultsScreen() {
     return gotAchievement;
   }
 
-  const lastFiveResults = [
-    { date: '2024-08-08', score: 85 },
-    { date: '2024-08-09', score: 78 },
-    { date: '2024-08-10', score: 92 },
-    { date: '2024-08-11', score: 88 },
-    { date: '2024-08-12', score: 95 },
-  ];
-
-  const labels = lastFiveResults.map(result => result.date);
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Scores',
-        data: lastFiveResults.map(result => result.score),
-        borderColor: 'rgba(68, 243, 182, 1)',
-        backgroundColor: 'rgba(68, 243, 182, 0.2)',
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  };
-
-
   let medal;
   if (percentCompletion >= 90) {
     medal = 'goldMedal.png';
@@ -102,6 +97,8 @@ export default function ResultsScreen() {
   } else {
     medal = 'bronzeMedal.png';
   }
+
+  // TODO: ADD BUTTONS FOR GOING TO NEXT GAME OR TRYING AGAIN
 
   const handleSubmit = () => {
     const results = {
@@ -113,9 +110,9 @@ export default function ResultsScreen() {
       maxRightAngle: maxRightArmAngle,
       completed: true,
       achievements: {
-        precisionPopper: precisionPopperAchieved,
-        speedDemon: 100,
-        bubbleBurstBonanza: bubbleBurstBonanzaAchieved,
+        precisionPopper: playerGotAchievement('Precision Popper'),
+        speedDemon: playerGotAchievement('Speed Demon'),
+        bubbleBurstBonanza: playerGotAchievement('Bubble Burst Bonanza'),
       }
     };
 
@@ -161,9 +158,6 @@ export default function ResultsScreen() {
             <StatItem icon={faChartLine} description="Final Score" metric={`${popped}/${totalBubbles}`}/>
           </div>
         </div>
-        {/* <div className="results-graph-container">
-          <Line data={data} options={{ responsive: true, plugins: { legend: { display: false } } }} />
-        </div> */}
         <div className="results-graph-container results-ui-box">
           <Line data={data} options={{ responsive: true, plugins: { legend: { display: false }} }}/>
         </div>
