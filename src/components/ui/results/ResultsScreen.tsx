@@ -137,7 +137,7 @@ export default function ResultsScreen() {
 
   return (
     <div id="results-screen">
-      <div className="achievement-container">
+      <div className="achievement-container results-ui-box">
         {shoulderROMAchievements.map((award) => {
           const unlocked = playerGotAchievement(award.title);
           return (
