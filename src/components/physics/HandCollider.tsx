@@ -16,6 +16,12 @@ interface HandColliderProps {
 const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
+let velocity = new Vector3();
+let frame = 0;
+let avgV = 0;
+let lastTime = (performance.now() / 1000).toFixed(0) as unknown as number;
+let dt = 0;
+
 export default function HandCollider({
   avatar,
   handedness,
@@ -47,7 +53,7 @@ export default function HandCollider({
     collisionFilterMask,
   }));
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     if (sceneLoaded() && avatar.current) {
       const handNodeWorld =
         handedness === 'right'
@@ -103,9 +109,41 @@ export default function HandCollider({
 
       // compute velocity
 
+      const time = (performance.now() / 1000).toFixed(0) as unknown as number;
+
+      // console.log('Time & Frame', time, frame);
+
+      dt = time - lastTime;
+
+      if (dt < 0.0167) {
+        dt = 0.0167;
+      } else if (dt > 0.1) {
+        dt = 0.1;
+      }
+
+      lastTime = time;
+
+      // console.log('Delta Time: ', dt);
+
+      frame++;
+
+      velocity = wristFinal.clone().sub(previousPosition).divideScalar(dt);
+
+      console.log('Velocity Vector: ', velocity);
+
+      avgV =
+        (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
+        3;
+
+      previousPosition.copy(wristFinal);
+
+      console.log('Average Velocity: ', avgV);
+
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
-          gameState.popBubble(0.2, true);
+          if (avgV !== 0) {
+            gameState.popBubble(avgV, true);
+          }
         });
         poppedBubbles.current.clear();
       }
