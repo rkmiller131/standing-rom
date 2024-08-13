@@ -16,8 +16,11 @@ const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
 let velocity = new Vector3();
+let fpsStartTime = performance.now();
+let fps = 0;
+let frame = 0;
 let avgV = 0;
-let lastTime = (performance.now() / 1000).toFixed(0) as unknown as number;
+// let lastTime = (performance.now() / 1000).toFixed(0) as unknown as number;
 let dt = 0;
 
 export default function HandCollider({
@@ -84,7 +87,23 @@ export default function HandCollider({
 
       const time = (performance.now() / 1000).toFixed(0) as unknown as number;
 
-      dt = time - lastTime;
+      frame++;
+
+      // On execution FPS
+      if (time - fpsStartTime >= 1000) {
+        fps = frame / ((time - fpsStartTime) / 1000); // Calculate FPS
+        fpsStartTime = time; // Reset start time
+        frame = 0; // Reset frame count
+
+        console.log(`Current FPS: ${fps.toFixed(2)}`);
+      }
+
+      //naive delta
+      // dt = time - lastTime;
+
+      // actual delta
+      const actualDt = 1 / fps;
+      dt = actualDt;
 
       if (dt < 0.0167) {
         dt = 0.0167;
@@ -92,7 +111,7 @@ export default function HandCollider({
         dt = 0.1;
       }
 
-      lastTime = time;
+      // lastTime = time;
 
       velocity = wristFinal.clone().sub(previousPosition).divideScalar(dt);
 
@@ -102,13 +121,15 @@ export default function HandCollider({
 
       previousPosition.copy(wristFinal);
 
-      if (avgV > 0.001) {
-        console.log('Average Velocity: ', avgV);
+      if (avgV > 0.01) {
+        avgV = 0;
       }
+
+      console.log('Velocity:', avgV);
 
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
-          if (avgV > 0.001) {
+          if (avgV !== 0) {
             const format = avgV.toFixed(1) as unknown as number;
             gameState.popBubble(format, true);
           }
