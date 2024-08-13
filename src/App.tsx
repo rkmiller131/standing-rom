@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     <>
-      <UIElements />
+      <UIElements avatar={avatar} />
 
       {environmentLoaded() && (
         <>

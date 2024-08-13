@@ -17,6 +17,10 @@
   backdrop-filter: blur(50px);
 }
 
+.view-ui-buffer {
+  padding: 1%;
+}
+
 .view-button {
   background-color: #0ed8a5;
   color: #fff;
@@ -33,4 +37,11 @@
   background-color: #0ed8a5;
   color: #fff;
   transform: scale(1.1);
+}
+
+.vbt {
+  color: white;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
 }

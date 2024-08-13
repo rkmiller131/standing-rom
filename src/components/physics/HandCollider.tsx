@@ -5,7 +5,6 @@ import { Mesh, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
 import { VRM } from '@pixiv/three-vrm';
 import { useRef } from 'react';
-import { protractor } from '../../utils/avatar/Protractor';
 import { bubblePopSounds } from '../../utils/cdn-links/sounds';
 
 interface HandColliderProps {
@@ -15,6 +14,14 @@ interface HandColliderProps {
 
 const previousPosition = new Vector3();
 const currentPosition = new Vector3();
+
+let velocity = new Vector3();
+let fpsStartTime = performance.now();
+let fps = 0;
+let frame = 0;
+let avgV = 0;
+// let lastTime = (performance.now() / 1000).toFixed(0) as unknown as number;
+let dt = 0;
 
 export default function HandCollider({
   avatar,
@@ -47,7 +54,7 @@ export default function HandCollider({
     collisionFilterMask,
   }));
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     if (sceneLoaded() && avatar.current) {
       const handNodeWorld =
         handedness === 'right'
@@ -74,38 +81,56 @@ export default function HandCollider({
         avatar.current.humanoid.humanBones.rightHand?.node.matrixWorld;
       if (!wristPos) return;
       const wristFinal = wristP.setFromMatrixPosition(wristPos);
-
-      const shoulderP = new Vector3();
-      const shoulderPos =
-        avatar.current.humanoid.humanBones.rightShoulder?.node.matrixWorld;
-      if (!shoulderPos) return;
-      const shoulderFinal = shoulderP.setFromMatrixPosition(shoulderPos);
-
-      const wristL = new Vector3();
-      const wristPl =
-        avatar.current.humanoid.humanBones.leftHand?.node.matrixWorld;
-      if (!wristPl) return;
-      const wristFl = wristL.setFromMatrixPosition(wristPl);
-
-      const shoulderL = new Vector3();
-      const shoulderPl =
-        avatar.current.humanoid.humanBones.leftShoulder?.node.matrixWorld;
-      if (!shoulderPl) return;
-      const shoulderFl = shoulderL.setFromMatrixPosition(shoulderPl);
-
-      protractor(
-        [wristFinal.x, wristFinal.y, wristFinal.z],
-        [shoulderFinal.x, shoulderFinal.y, shoulderFinal.z],
-        [wristFl.x, wristFl.y, wristFl.z],
-        [shoulderFl.x, shoulderFl.y, shoulderFl.z],
-      );
       // --------------------------------------------------------------------------
 
       // compute velocity
 
+      const time = (performance.now() / 1000).toFixed(0) as unknown as number;
+
+      frame++;
+
+      // On execution FPS
+      if (time - fpsStartTime >= 1000) {
+        fps = frame / ((time - fpsStartTime) / 1000); // Calculate FPS
+        fpsStartTime = time; // Reset start time
+        frame = 0; // Reset frame count
+
+        console.log(`Current FPS: ${fps.toFixed(2)}`);
+      }
+
+      //naive delta
+      // dt = time - lastTime;
+
+      // actual delta
+      const actualDt = 1 / fps;
+      dt = actualDt;
+
+      if (dt < 0.0167) {
+        dt = 0.0167;
+      } else if (dt > 0.1) {
+        dt = 0.1;
+      }
+
+      // lastTime = time;
+
+      velocity = wristFinal.clone().sub(previousPosition).divideScalar(dt);
+
+      avgV =
+        (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
+        3;
+
+      previousPosition.copy(wristFinal);
+
+      if (avgV > 0.01) {
+        console.log('Velocity:', avgV);
+      }
+
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
-          gameState.popBubble(0.2, true);
+          if (avgV !== 0 || avgV > 0.01) {
+            const format = avgV.toFixed(1) as unknown as number;
+            gameState.popBubble(format, true);
+          }
         });
         poppedBubbles.current.clear();
       }
