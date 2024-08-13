@@ -5,12 +5,15 @@ import {
   EquirectangularReflectionMapping,
   TextureLoader,
 } from 'three';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import {
   Lensflare,
   LensflareElement,
 } from 'three/examples/jsm/objects/Lensflare.js';
-import { lensFlares, meadowHDR } from '../../../../utils/cdn-links/environmentAssets';
+import {
+  lensFlares,
+  meadowHDR,
+} from '../../../../utils/cdn-links/environmentAssets';
+import { RGBELoader } from 'three/examples/jsm/Addons.js';
 
 interface CustomEnvironmentProps {}
 
@@ -42,15 +45,12 @@ const CustomEnvironmentSunlight: React.FC<CustomEnvironmentProps> = () => {
 
     scene.add(light);
 
-    new RGBELoader().load(
-      meadowHDR,
-      (texture) => {
-        texture.mapping = EquirectangularReflectionMapping;
-        scene.environment = texture;
-        scene.environmentRotation.set(0, Math.PI / 4, 0);
-        scene.background = texture;
-      },
-    );
+    new RGBELoader().load(meadowHDR, (texture) => {
+      texture.mapping = EquirectangularReflectionMapping;
+      scene.environment = texture;
+      scene.environmentRotation.set(0, Math.PI / 4, 0);
+      scene.background = texture;
+    });
   }, [scene]);
 
   return null;

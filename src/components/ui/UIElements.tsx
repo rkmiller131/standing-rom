@@ -4,11 +4,12 @@ import SetupScreen from './environment-selection/SetupScreen';
 import LoadingScreen from './LoadingScreen';
 import ResultsScreen from './ResultsScreen';
 import UVXBrandWatermark from './UVXBrandWatermark';
-import LiveSocials from './socials/LiveSocials';
+import ViewControls from './ViewControls';
+import CountdownScreen from './CountdownScreen';
 
 const SlidingInfo = lazy(() => import('./SlidingInfo'));
-const CountdownScreen = lazy(() => import('./CountdownScreen'));
 const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
+const LiveSocials = lazy(() => import('./socials/LiveSocials'));
 
 export default function UIElements() {
   const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
@@ -24,6 +25,7 @@ export default function UIElements() {
           <>
             <SlidingInfo />
             <LiveSocials />
+            <ViewControls />
           </>
         )}
         {sceneLoaded() && <CountdownScreen />}

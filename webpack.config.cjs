@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const bundleAnalyzer = new BundleAnalyzerPlugin();
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
@@ -29,7 +30,7 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       {
-        test: /\.svg$/,
+        test: /\.(svg|webp)$/,
         include: [
           path.resolve(__dirname, 'src/assets'),
           path.resolve(__dirname, 'public'),
@@ -71,7 +72,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.mp4$/,
+        test: /\.(mp4|webm)$/i,
         use: [
           {
             loader: 'file-loader',
@@ -95,6 +96,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
       chunkFilename: '[id].[contenthash].css',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public', to: '' }, // Copies everything from 'public' to 'dist'
+      ],
     }),
   ],
   optimization: {

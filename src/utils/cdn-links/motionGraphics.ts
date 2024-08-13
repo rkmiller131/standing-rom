@@ -8,7 +8,7 @@ export const bubbleAnimations: { [key: string]: string } = {
 }
 
 // COUNTDOWN SCREEN
-export const countdownScreen = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/countdown.mp4?v=1722557327156';
+export const countdownScreen = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/countdownNoAudio.webm?v=1723486422600';
 
 // ENVIRONMENT SELECTION SETUP SCREEN
 export const setupBG = 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/BackgroundVid.mp4?v=1722457154866';
@@ -18,8 +18,7 @@ export const loadingSplashAnimation = 'https://cdn.glitch.global/22bbb2b4-7775-4
 
 // SCORE DISPLAY
 export const scoreDisplay: { [key: string]: string } = {
-  'fire': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/FireCropped.webm?v=1722715823727',
-
+  'fire': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/fireCropped.webm?v=1723242414359',
 }
 
 // SLIDING INFO

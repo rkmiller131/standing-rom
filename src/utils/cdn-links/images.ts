@@ -12,12 +12,12 @@ export const environmentCards = [
     {
         id: 1,
         name: 'Outdoors', // The hover text content
-        imgSrc: 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/outdoorEnvCard.png?v=1722462345138'
+        imgSrc: '/outdoorEnvCard.webp',
     },
     {
         id: 2,
         name: 'Indoor Office',
-        imgSrc: 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/indoorEnvCard.png?v=1722462389853'
+        imgSrc: '/indoorEnvCard.webp',
     }
 ];
 
