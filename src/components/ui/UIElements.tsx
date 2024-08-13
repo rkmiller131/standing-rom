@@ -6,12 +6,17 @@ import ResultsScreen from './ResultsScreen';
 import UVXBrandWatermark from './UVXBrandWatermark';
 import ViewControls from './ViewControls';
 import CountdownScreen from './CountdownScreen';
+import { VRM } from '@pixiv/three-vrm';
 
 const SlidingInfo = lazy(() => import('./SlidingInfo'));
 const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
 const LiveSocials = lazy(() => import('./socials/LiveSocials'));
 
-export default function UIElements() {
+interface UIProps {
+  avatar: React.RefObject<VRM>;
+}
+
+export default function UIElements({ avatar }: UIProps) {
   const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
     useHookstateGetters();
   return (
@@ -25,7 +30,7 @@ export default function UIElements() {
           <>
             <SlidingInfo />
             <LiveSocials />
-            <ViewControls />
+            <ViewControls avatar={avatar} />
           </>
         )}
         {sceneLoaded() && <CountdownScreen />}

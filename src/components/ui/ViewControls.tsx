@@ -2,8 +2,13 @@ import { useState } from 'react';
 
 import '../../css/ViewScreen.css';
 import Protractor from '../../utils/avatar/Protractor';
+import { VRM } from '@pixiv/three-vrm';
 
-export default function ViewControls() {
+interface ViewProps {
+  avatar: React.RefObject<VRM>;
+}
+
+export default function ViewControls({ avatar }: ViewProps) {
   const [show, setShow] = useState(false);
 
   return (
@@ -12,7 +17,7 @@ export default function ViewControls() {
         <button className="view-button" onClick={() => setShow(!show)}>
           {show ? 'Hide Measure' : 'Show Measure'}
         </button>
-        {show && <Protractor />}
+        {show && <Protractor avatar={avatar} />}
       </div>
     </div>
   );
