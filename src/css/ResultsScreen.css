@@ -16,12 +16,16 @@
   backdrop-filter: grayscale(100%);
 }
 
+/* All of the boxes can share a class */
+.results-ui-box {
+  background-color: hsla(0, 0%, 0%, 0.8);
+  border-radius: var(--border-radius);
+}
+
 .achievement-container {
   display: flex;
   flex-direction: column;
   padding: 2%;
-  border-radius: var(--border-radius);
-  border: 2px solid red;
 }
 
 .achievement-container::before{
@@ -40,6 +44,10 @@
   color: white;
   font-size: 2rem;
   margin-bottom: 25px;
+}
+
+#achievement-item input[type="checkbox"] {
+  transform: scale(2.5);
 }
 
 .achievement-content {
@@ -226,10 +234,6 @@ button {
   margin-top: 2px;
 }
 
-.achievement-item input[type="checkbox"] {
-  margin-right: 25px;
-  transform: scale(2.5);
-}
 
 
 @keyframes growMedal {
