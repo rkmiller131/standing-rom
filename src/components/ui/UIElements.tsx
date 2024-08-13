@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 import SetupScreen from './environment-selection/SetupScreen';
 import LoadingScreen from './LoadingScreen';
-import ResultsScreen from './ResultsScreen';
+import ResultsScreen from './results/ResultsScreen';
 import UVXBrandWatermark from './UVXBrandWatermark';
 import ViewControls from './ViewControls';
 import CountdownScreen from './CountdownScreen';

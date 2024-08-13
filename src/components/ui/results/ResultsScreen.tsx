@@ -1,17 +1,39 @@
-import useHookstateGetters from '../../interfaces/Hookstate_Interface';
-import calcAverageVelocity from '../../utils/math/calcAverageVelocity';
+import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
+import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faDraftingCompass, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
-import '../../css/ResultsScreen.css';
+import '../../../css/ResultsScreen.css';
 
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import AchievementItem from './AchievementItem';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 
 export const baseBGAnimation = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/ScoreBGAnimation.mp4?v=1722725388497';
+
+// FAKE DATABASE DATA MOCK - WOULD HAVE A TABLE/COLLECTION FOR ACHIEVEMENTS - A UTIL FUNCTION TODO IN UTILS > HTTP
+// fake return value would be something like:
+export type AchievementType = {
+  title: string;
+  description: string;
+}
+const shoulderROMAchievements: AchievementType[] = [
+  {
+    title: 'Precision Popper',
+    description: 'Pop 95% or more bubbles'
+  },
+  {
+    title: 'Speed Demon',
+    description: 'Complete within the time limit'
+  },
+  {
+    title: 'Bubble Burst Bonanza',
+    description: 'Pop 10 bubbles in 5 seconds'
+  },
+]
 
 export default function ResultsScreen() {
   const {
@@ -32,9 +54,21 @@ export default function ResultsScreen() {
   const avgVelocity = calcAverageVelocity(getPoppedVelocities().slice());
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
 
-  const precisionPopperAchieved = percentCompletion >= 95;
-  const speedDemonAchieved = precisionPopperAchieved;
-  const bubbleBurstBonanzaAchieved = checkBurstCombo(getPoppedVelocities(), getCurrentStreak());
+  function playerGotAchievement(title: string) {
+    let gotAchievement = false;
+    if (title === 'Precision Popper') {
+      gotAchievement = percentCompletion >= 95;
+    }
+    if (title === 'Speed Demon') {
+      // implement a timing achievement here later.
+      gotAchievement = percentCompletion >= 95;
+    }
+    if (title === 'Bubble Burst Bonanza') {
+      // refactor later for maybe max streak?
+      gotAchievement = getCurrentStreak() >= 10;
+    }
+    return gotAchievement;
+  }
 
   const lastFiveResults = [
     { date: '2024-08-08', score: 85 },
@@ -102,9 +136,19 @@ export default function ResultsScreen() {
   };
 
   return (
-    <div>
-      <div className="screen-container">
-        <div className="box1">
+    <div id="results-screen">
+      <div className="achievement-container">
+        {shoulderROMAchievements.map((award) => {
+          const unlocked = playerGotAchievement(award.title);
+          return (
+            <AchievementItem
+              achievement={award}
+              achievementUnlocked={unlocked}
+              key={award.title}
+            />
+          )
+        })}
+        {/* <div className="box1">
           <div className='results-text-bg'>
             <h1 className="results-text">ACHIEVEMENTS</h1>
           </div>
@@ -186,12 +230,8 @@ export default function ResultsScreen() {
             </div>
           </div>
           <div className="logo-container"></div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
-}
-
-function checkBurstCombo(velocities, currentStreak) {
-  return currentStreak >= 10;
 }
