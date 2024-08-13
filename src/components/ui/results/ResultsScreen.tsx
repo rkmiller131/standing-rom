@@ -161,63 +161,13 @@ export default function ResultsScreen() {
             <StatItem icon={faChartLine} description="Final Score" metric={`${popped}/${totalBubbles}`}/>
           </div>
         </div>
-      </div>
-
-        {/* <div className="box-container">
-          <div className='congrats-text-bg'>
-            <h1 className="congrats-text">Congratulations!</h1>
-          </div>
-          <div className="box2">
-            <div className='badge-container'>
-              <div className='badge'>
-                <img src={medal} alt="Medal" className="medal-img" />
-              </div>
-              <div className="stats-container">
-                <div className="stat-item">
-                  <div className="icon-badge">
-                    <FontAwesomeIcon icon={faTachometerAlt} size="1x" />
-                  </div>
-                  <div className="stat-desc">Average velocity of popped bubbles</div>
-                  <p>0.45 m/s</p>
-                </div>
-
-                <div className="stat-item">
-                  <div className="icon-badge">
-                    <FontAwesomeIcon icon={faDraftingCompass} size="1x" />
-                  </div>
-                  <div className="stat-desc">Maximum right arm angle</div>
-                  <p>86°</p>
-                </div>
-
-                <div className="stat-item">
-                  <div className="icon-badge">
-                    <FontAwesomeIcon icon={faDraftingCompass} size="1x" />
-                  </div>
-
-                  <div className="stat-desc">Maximum left arm angle</div>
-                  <p>82°</p>
-                </div>
-
-                <div className="stat-item">
-                  <div className="icon-badge">
-                    <FontAwesomeIcon icon={faChartLine} size="1x" />
-                  </div>
-                  <div className="stat-desc">Bubbles popped out of total bubbles</div>
-                  <p>20/50</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="box-row">
-            <div className='stats-text-bg'>
-            </div>
-            <div className="box4">
-              <h1 className='box4-title'>Recent Performance Trends</h1>
-              <Line data={data} options={{ responsive: true, plugins: { legend: { display: false } } }} />
-            </div>
-          </div>
-          <div className="logo-container"></div>
+        {/* <div className="results-graph-container">
+          <Line data={data} options={{ responsive: true, plugins: { legend: { display: false } } }} />
         </div> */}
+        <div className="results-graph-container results-ui-box">
+          <Line data={data} options={{ responsive: true, plugins: { legend: { display: false }} }}/>
+        </div>
+      </div>
     </div>
   );
 }
