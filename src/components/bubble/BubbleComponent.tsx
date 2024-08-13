@@ -21,12 +21,12 @@ interface BubbleProps {
   active: boolean;
 }
 
-const BubbleComponent = forwardRef((
+const Bubble = forwardRef((
   { position, active }: BubbleProps,
   ref: LegacyRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>
 ) => {
   const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
-  const [isBubblePopped, setIsBubblePopped] = useState(false);
+  const [bubblePopped, setBubblePopped] = useState(false);
 
   const attachRefs = (colliderApi: PublicApi) => {
     if (colliderApi) {
@@ -35,22 +35,23 @@ const BubbleComponent = forwardRef((
   }
 
   useEffect(() => {
-    if (isBubblePopped && physicsApi) {
+    if (bubblePopped && physicsApi) {
+      // can't destroy cannon collider, so just move it far away
       physicsApi.position.set(
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10)
-      );
+      )
     }
-  }, [isBubblePopped, physicsApi]);
+  }, [bubblePopped, physicsApi])
 
   const onCollideBegin = () => {
-    setIsBubblePopped(true);
+    setBubblePopped(true);
   };
 
   return (
     <>
-      {isBubblePopped ? (
+      {bubblePopped ? (
         <BubbleParticles
           position={[position.x, position.y + 0.1, position.z]}
           radius={0.1}
@@ -58,28 +59,28 @@ const BubbleComponent = forwardRef((
         />
       ) : (
         <mesh position={position}>
-          <Sphere ref={ref} args={[0.05, 112, 112]}>
+          <Sphere ref={ref} args={[0.05, 8, 8]}>
             {!active ?
               // <meshStandardMaterial color='blue' /> :
               // Temporarily adding a bubble material that can accept either active/inactive property depending on if we
               // want to use it for both (going the pure shader route). Can refactor later to remove unused code in BubbleMaterial.tsx
               <BubbleMaterial active={active} position={position}/> :
               <MeshDistortMaterial
-                  attach="material"
-                  color="rgba(173, 216, 230)"
-                  distort={0.4}
-                  speed={2}
-                  roughness={0.1}
-                  clearcoat={1}
-                  clearcoatRoughness={1}
-                  metalness={1}
-                  envMapIntensity={0}
-                  transparent
-                  opacity={0.6}
-                  reflectivity={1}
-                  emissive="blue"
-                  emissiveIntensity={0.6}
-        />
+                attach="material"
+                color="#89CFF0"
+                distort={0.2}
+                speed={3}
+                roughness={0}
+                clearcoat={1}
+                clearcoatRoughness={0.5}
+                metalness={0.4}
+                envMapIntensity={0}
+                transparent
+                opacity={0.8}
+                reflectivity={1}
+                emissive="blue"
+                emissiveIntensity={0.5}
+              />
             }
           </Sphere>
         </mesh>
@@ -93,4 +94,4 @@ const BubbleComponent = forwardRef((
   );
 });
 
-export default BubbleComponent;
+export default Bubble;
