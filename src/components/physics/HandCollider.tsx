@@ -15,14 +15,6 @@ interface HandColliderProps {
 const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
-let velocity = new Vector3();
-let fpsStartTime = performance.now();
-let fps = 0;
-let frame = 0;
-let avgV = 0;
-// let lastTime = (performance.now() / 1000).toFixed(0) as unknown as number;
-let dt = 0;
-
 export default function HandCollider({
   avatar,
   handedness,
@@ -54,7 +46,7 @@ export default function HandCollider({
     collisionFilterMask,
   }));
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (sceneLoaded() && avatar.current) {
       const handNodeWorld =
         handedness === 'right'
@@ -85,55 +77,9 @@ export default function HandCollider({
 
       // compute velocity
 
-      const time = (performance.now() / 1000).toFixed(0) as unknown as number;
-
-      frame++;
-
-      // On execution FPS
-      if (time - fpsStartTime >= 1000) {
-        fps = frame / ((time - fpsStartTime) / 1000); // Calculate FPS
-        fpsStartTime = time; // Reset start time
-        frame = 0; // Reset frame count
-
-        console.log(`Current FPS: ${fps.toFixed(2)}`);
-      }
-
-      //naive delta
-      // dt = time - lastTime;
-
-      // actual delta
-      const actualDt = 1 / fps;
-      dt = actualDt;
-
-      if (dt < 0.0167) {
-        dt = 0.0167;
-      } else if (dt > 0.1) {
-        dt = 0.1;
-      }
-
-      // lastTime = time;
-
-      velocity = wristFinal.clone().sub(previousPosition).divideScalar(dt);
-
-      avgV =
-        (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
-        3;
-
-      previousPosition.copy(wristFinal);
-
-      if (avgV >= 1) {
-        avgV = 1;
-      }
-
-      if (avgV <= 0.05) {
-        avgV = 0.05;
-      }
-
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
-          const format = avgV.toFixed(1) as unknown as number;
-          console.log('Velocity:', format);
-          gameState.popBubble(format, true);
+          gameState.popBubble(0.2, true);
         });
         poppedBubbles.current.clear();
       }
