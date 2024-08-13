@@ -9,6 +9,8 @@ import GameControlButtons from './Buttons'
 
 import '../../../css/ResultsScreen.css';
 
+import '../../../css/ResultsScreen.css';
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 // FAKE DATABASE DATA MOCK - WOULD HAVE A TABLE/COLLECTION FOR ACHIEVEMENTS - A UTIL FUNCTION TODO IN UTILS > HTTP
