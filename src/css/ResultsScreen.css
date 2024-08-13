@@ -40,7 +40,6 @@
 .achievement-container {
   display: flex;
   flex-direction: column;
-  flex-basis: 30%;
 }
 
 .achievement-container::before{
@@ -58,12 +57,12 @@
   display: flex;
   gap: 25px;
   color: white;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: 25px;
 }
 
 #achievement-item input[type="checkbox"] {
-  transform: scale(2.5);
+  transform: scale(2);
 }
 
 .achievement-content {
@@ -78,23 +77,24 @@
 
 .achievement-description {
   color: rgb(214, 207, 207);
-  font-size: var(--font-small);
+  font-size: 1rem;
 }
 
 /* RIGHT SIDE */
 .results-summary {
   display: flex;
   flex-direction: column;
-  flex-basis: 60%;
+  flex-basis: 70%;
+  gap: 1rem;
 }
 
 .results-summary::before{
   content: "Congratulations!";
   position: absolute;
   z-index: 5;
-  margin-top: -5rem;
+  margin-top: -3.5rem;
   padding: 5px 10px;
-  font-size: var(--font-large);
+  font-size: 3rem;
   font-weight: var(--font-weight);
   font-style: italic;
   color: white;
@@ -111,7 +111,7 @@
 .medal-img {
   width: 200px;
   height: 200px;
-  animation: growMedal 0.5s linear;
+  animation: growMedal 0.75s linear;
 }
 
 .stats-container {
@@ -124,13 +124,12 @@
 .stat-item {
   display: flex;
   align-items: center;
+  gap: 20px;
   background-color: black;
   border-radius: var(--border-radius);
-  padding: 20px;
-  margin: 3%;
+  padding: 2%;
   border: 2px solid var(--font-accent-color);
-  gap: 20px;
-  width: 300px;
+  margin-top: 10px;
 }
 
 .stat {
@@ -150,101 +149,27 @@
   font-size: 2rem;
 }
 
+.results-graph-container {
+  display: flex;
+  max-height: 350px;
+  justify-content: center;
+  align-items: center;
+}
+
+.results-graph-container::before {
+  content: "Recent Performance Trends";
+  position: absolute;
+  display: flex;
+  color: white;
+  align-self: flex-start;
+}
+
 button {
   background-color: var(--uvx-primary);
   border-radius: var(--border-radius);
   font-family: var(--font-primary);
   font-weight: var(--font-weight);
   font-size: var(--font-medium);
-}
-
-.results-text-bg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  height: 8%;
-  width: 18%;
-  margin-top: -2.5rem;
-  border-radius: 15px;
-}
-
-.results-text {
-  text-align: center;
-  font-size: 3vw;
-  color: #44F3B6;
-  text-shadow: 3px 3px 6px black;
-  width: 100%;
-}
-
-.stats-text-bg {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  width: 13.5%;
-  margin-bottom: 0;
-}
-
-.stats-text {
-  text-align: center;
-  margin-top: 1rem;
-  font-size: 3vw;
-  color: #44F3B6;
-  text-shadow: 3px 3px 6px black;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-.box-container {
-  width: 55%;
-  height: auto;
-  justify-content: center;
-  align-items: center;
-  z-index: 99;
-}
-
-.box-row {
-  height: auto;
-  width: 100%;
-  display: flex;
-}
-
-.box1 {
-  width: 20%;
-  height: 45vh;
-  margin-right: 30px;
-  display: flex;
-  align-items: center;
-  align-items: flex-start;
-  justify-content: left;
-  flex-direction: column;
-}
-
-.box2 {
-  width: 100%;
-  height: 30vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.text-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.top-line-results-text {
-  font-size: 30px;
-  font-weight: bold;
-  color: white;
-}
-
-.bottom-line-results-text {
-  font-size: 16px;
-  color: lightgray;
-  margin-top: 2px;
 }
 
 
@@ -264,56 +189,8 @@ button {
   }
 }
 
-
-
-
-.box3 {
-  width: 100%;
-  height: 40vh;
-  margin-right: 30px;
-}
-
-.box4 {
-  display: flex;
-  justify-content: center;
-  align-items: top;
-  width: 100%;
-  height: 40vh;
-}
-
-.box4-title {
-  position: fixed;
-  margin-top: 0.5rem;
-  color: white;
-}
-
-.box4-text {
-  font-size: 1.5rem;
-  color: white;
-}
-
-
-.icon-badge {
-  height: 4rem;
-  width: 4rem;
-  border-radius: 50%;
-  margin-right: 15px;
-  color: #44F3B6;
-  font-weight: bold;
-  font-size: 3rem;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-}
-
-
-
-@media (max-width: 768px) {
-  .results-text, .congrats-text, .stats-text {
-    font-size: 5vw;
-  }
-
-  .box1, .box2, .box3, .box4 {
-    height: auto;
+@media screen and (max-width: 750px) {
+  #results-screen {
+    flex-direction: column-reverse;
   }
 }
