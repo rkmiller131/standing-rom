@@ -122,14 +122,12 @@ export default function HandCollider({
       previousPosition.copy(wristFinal);
 
       if (avgV > 0.01) {
-        avgV = 0;
+        console.log('Velocity:', avgV);
       }
-
-      console.log('Velocity:', avgV);
 
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
-          if (avgV !== 0) {
+          if (avgV !== 0 || avgV > 0.01) {
             const format = avgV.toFixed(1) as unknown as number;
             gameState.popBubble(format, true);
           }
