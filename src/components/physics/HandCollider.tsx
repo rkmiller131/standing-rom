@@ -73,6 +73,7 @@ export default function HandCollider({
         avatar.current.humanoid.humanBones.rightHand?.node.matrixWorld;
       if (!wristPos) return;
       const wristFinal = wristP.setFromMatrixPosition(wristPos);
+
       // --------------------------------------------------------------------------
 
       // compute velocity

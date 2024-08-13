@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import calcArmAngles from '../math/calcArmAngles';
 import { VRM } from '@pixiv/three-vrm';
 
-import '../../css/ViewScreen.css';
-
 interface ProProps {
   avatar: React.RefObject<VRM>;
 }
 
+export default function Protractor({ avatar }: ProProps) {
+  const [la, setLa] = useState(0);
+  const [ra, setRa] = useState(0);
 export default function Protractor({ avatar }: ProProps) {
   const [la, setLa] = useState(0);
   const [ra, setRa] = useState(0);
@@ -18,7 +19,9 @@ export default function Protractor({ avatar }: ProProps) {
 
       setLa(leftArmAngle);
       setRa(rightArmAngle);
-    }, 500);
+
+      console.log(leftArmAngle, rightArmAngle);
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, [avatar]);
@@ -26,8 +29,8 @@ export default function Protractor({ avatar }: ProProps) {
   return (
     <>
       <div>
-        <p className="vbt">Right: {ra} °</p>
-        <p className="vbt">Left: {la} °</p>
+        <p style={{ color: 'white' }}>Right: {ra} °</p>
+        <p style={{ color: 'white' }}>Left: {la} °</p>
       </div>
     </>
   );
