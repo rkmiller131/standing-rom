@@ -129,6 +129,8 @@ export default function HandCollider({
         avgV = 0.05;
       }
 
+      console.log('Velocity:', avgV);
+
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
           const format = avgV.toFixed(1) as unknown as number;
