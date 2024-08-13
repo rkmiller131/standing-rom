@@ -13,7 +13,7 @@ export default function ViewControls({ avatar }: ViewProps) {
 
   return (
     <div className="view-ui-container">
-      <div>
+      <div className="view-ui-buffer">
         <button className="view-button" onClick={() => setShow(!show)}>
           {show ? 'Hide Measure' : 'Show Measure'}
         </button>
