@@ -129,7 +129,7 @@ export default function HandCollider({
         avgV = 0.05;
       }
 
-      if (avgV > 1) {
+      if (avgV >= 1) {
         avgV = 1;
       }
 
