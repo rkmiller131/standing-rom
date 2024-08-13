@@ -15,6 +15,11 @@ interface HandColliderProps {
 const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
+let velocity = new Vector3();
+let avgV = 0;
+let lastTime = (performance.now() / 1000).toFixed(0) as unknown as number;
+let dt = 0;
+
 export default function HandCollider({
   avatar,
   handedness,
@@ -73,14 +78,40 @@ export default function HandCollider({
         avatar.current.humanoid.humanBones.rightHand?.node.matrixWorld;
       if (!wristPos) return;
       const wristFinal = wristP.setFromMatrixPosition(wristPos);
-
       // --------------------------------------------------------------------------
 
       // compute velocity
 
+      const time = (performance.now() / 1000).toFixed(0) as unknown as number;
+
+      dt = time - lastTime;
+
+      if (dt < 0.0167) {
+        dt = 0.0167;
+      } else if (dt > 0.1) {
+        dt = 0.1;
+      }
+
+      lastTime = time;
+
+      velocity = wristFinal.clone().sub(previousPosition).divideScalar(dt);
+
+      avgV =
+        (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
+        3;
+
+      previousPosition.copy(wristFinal);
+
+      if (avgV > 0.001) {
+        console.log('Average Velocity: ', avgV);
+      }
+
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
-          gameState.popBubble(0.2, true);
+          if (avgV > 0.001) {
+            const format = avgV.toFixed(1) as unknown as number;
+            gameState.popBubble(format, true);
+          }
         });
         poppedBubbles.current.clear();
       }
