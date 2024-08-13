@@ -125,6 +125,10 @@ export default function HandCollider({
         console.log('Velocity:', avgV);
       }
 
+      if (avgV > 1) {
+        avgV = 1;
+      }
+
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
           if (avgV !== 0 || avgV > 0.01) {
