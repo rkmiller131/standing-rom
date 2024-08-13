@@ -1,6 +1,5 @@
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
 import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faDraftingCompass, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 import '../../../css/ResultsScreen.css';
@@ -8,6 +7,7 @@ import '../../../css/ResultsScreen.css';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import AchievementItem from './AchievementItem';
+import StatItem from './StatItem';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -137,6 +137,7 @@ export default function ResultsScreen() {
 
   return (
     <div id="results-screen">
+      <div className="blend-hue" />
       <div className="achievement-container results-ui-box">
         {shoulderROMAchievements.map((award) => {
           const unlocked = playerGotAchievement(award.title);
@@ -148,35 +149,21 @@ export default function ResultsScreen() {
             />
           )
         })}
-        {/* <div className="box1">
-          <div className='results-text-bg'>
-            <h1 className="results-text">ACHIEVEMENTS</h1>
-          </div>
-          <div className="achievements-container">
-            <div className="achievement-item">
-              <input type="checkbox" checked={precisionPopperAchieved} readOnly />
-              <div className="text-container">
-                <label className='top-line-results-text'>Precision Popper:</label>
-                <span className='bottom-line-results-text'>Pop 95% or more bubbles</span>
-              </div>
-            </div>
-            <div className="achievement-item">
-              <input type="checkbox" checked={speedDemonAchieved} readOnly />
-              <div className="text-container">
-                <label className='top-line-results-text'>Speed Demon:</label>
-                <span className='bottom-line-results-text'>Complete within the time limit</span>
-              </div>
-            </div>
-            <div className="achievement-item">
-              <input type="checkbox" checked={bubbleBurstBonanzaAchieved} readOnly />
-              <div className="text-container">
-                <label className='top-line-results-text'>Bubble Burst Bonanza:</label>
-                <span className='bottom-line-results-text'>Pop 10 bubbles in 5 seconds</span>
-              </div>
-            </div>
+
+      </div>
+      <div className="results-summary">
+        <div className="badge-data results-ui-box">
+          <img src={medal} alt="Medal" className="medal-img" />
+          <div className="stats-container">
+            <StatItem icon={faTachometerAlt} description="Popping Speed" metric={`${avgVelocity}m/s`}/>
+            <StatItem icon={faDraftingCompass} description="Max Right Arm Angle" metric={`${maxRightArmAngle}°`}/>
+            <StatItem icon={faDraftingCompass} description="Max Left Arm Angle" metric={`${maxLeftArmAngle}°`}/>
+            <StatItem icon={faChartLine} description="Final Score" metric={`${popped}/${totalBubbles}`}/>
           </div>
         </div>
-        <div className="box-container">
+      </div>
+
+        {/* <div className="box-container">
           <div className='congrats-text-bg'>
             <h1 className="congrats-text">Congratulations!</h1>
           </div>
@@ -231,7 +218,6 @@ export default function ResultsScreen() {
           </div>
           <div className="logo-container"></div>
         </div> */}
-      </div>
     </div>
   );
 }
