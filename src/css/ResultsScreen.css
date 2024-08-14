@@ -164,6 +164,48 @@
   align-self: flex-start;
 }
 
+/* End of CSS Queen - start of Tony */
+.gameplay-buttons {
+  position: absolute;
+  width: 55%;
+  z-index: 6;
+  top: 79%;
+}
+
+.button {
+  position: absolute;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button.restart-button {
+  left: 15px;
+  padding: 5px 15px;
+}
+
+.button.next-game-button {
+  right: 15px;
+  padding: 5px 15px;
+}
+
+.restart-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.next-game-button {
+  background-color: #2196f3;
+  color: white;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+/* End of Tony CSS - start of CSS Queen */
+
 button {
   background-color: var(--uvx-primary);
   border-radius: var(--border-radius);

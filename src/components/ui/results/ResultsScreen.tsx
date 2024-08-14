@@ -5,6 +5,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import AchievementItem from './AchievementItem';
 import StatItem from './StatItem';
+import GameControlButtons from './Buttons'
 
 import '../../../css/ResultsScreen.css';
 
@@ -152,14 +153,17 @@ export default function ResultsScreen() {
         <div className="badge-data results-ui-box">
           <img src={medal} alt="Medal" className="medal-img" />
           <div className="stats-container">
-            <StatItem icon={faTachometerAlt} description="Popping Speed" metric={`${avgVelocity}m/s`}/>
-            <StatItem icon={faDraftingCompass} description="Max Right Arm Angle" metric={`${maxRightArmAngle}°`}/>
-            <StatItem icon={faDraftingCompass} description="Max Left Arm Angle" metric={`${maxLeftArmAngle}°`}/>
-            <StatItem icon={faChartLine} description="Final Score" metric={`${popped}/${totalBubbles}`}/>
+            <StatItem icon={faTachometerAlt} description="Popping Speed" metric={`${avgVelocity}m/s`} />
+            <StatItem icon={faDraftingCompass} description="Max Right Arm Angle" metric={`${maxRightArmAngle}°`} />
+            <StatItem icon={faDraftingCompass} description="Max Left Arm Angle" metric={`${maxLeftArmAngle}°`} />
+            <StatItem icon={faChartLine} description="Final Score" metric={`${popped}/${totalBubbles}`} />
           </div>
         </div>
         <div className="results-graph-container results-ui-box">
-          <Line data={data} options={{ responsive: true, plugins: { legend: { display: false }} }}/>
+          <Line data={data} options={{ responsive: true, plugins: { legend: { display: false } } }} />
+          <div className="gameplay-buttons" >
+            <GameControlButtons onRestart={handleReplay} onNextGame={handleSubmit} /> { }
+          </div>
         </div>
       </div>
     </div>
