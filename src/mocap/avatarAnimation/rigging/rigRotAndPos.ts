@@ -22,9 +22,18 @@ export const rigRotation = (
     return;
   }
 
+  let spineAdjustmentY = 0;
+  let spineAdjustmentX = 0;
+  if (name === 'rightUpperArm' || name === 'leftUpperArm') {
+    const spineQuat = vrm.current.humanoid.humanBones['spine'].node.quaternion;
+    const spineEuler = new Euler().setFromQuaternion(spineQuat);
+    spineAdjustmentY = name === 'rightUpperArm' ? spineEuler.y + 0 : spineEuler.y + 0.4;
+    spineAdjustmentX = name === 'rightUpperArm' ? spineEuler.x - 0.4 : spineEuler.x + 0;
+  }
+
   const euler = new Euler(
-    rotation.x * dampener,
-    rotation.y * dampener,
+    (rotation.x + spineAdjustmentX) * dampener,
+    (rotation.y + spineAdjustmentY) * dampener,
     rotation.z * dampener,
   );
   const quaternion = new Quaternion().setFromEuler(euler);
