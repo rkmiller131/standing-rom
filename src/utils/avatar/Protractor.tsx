@@ -21,7 +21,7 @@ export default function Protractor({ avatar }: ProProps) {
 
       setLa(leftArmAngle);
       setRa(rightArmAngle);
-    }, 1000);
+    }, 500);
 
     return () => clearInterval(intervalId);
   }, [avatar]);
