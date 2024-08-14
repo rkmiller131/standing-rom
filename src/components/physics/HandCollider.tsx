@@ -133,6 +133,10 @@ export default function HandCollider({
         avgV = 1;
       }
 
+      if (avgV <= 0.05) {
+        avgV = 0.05;
+      }
+
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
           const format = avgV.toFixed(1) as unknown as number;
