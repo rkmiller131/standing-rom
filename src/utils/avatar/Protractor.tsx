@@ -11,9 +11,6 @@ interface ProProps {
 export default function Protractor({ avatar }: ProProps) {
   const [la, setLa] = useState(0);
   const [ra, setRa] = useState(0);
-export default function Protractor({ avatar }: ProProps) {
-  const [la, setLa] = useState(0);
-  const [ra, setRa] = useState(0);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
