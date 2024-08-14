@@ -121,20 +121,19 @@ export default function HandCollider({
 
       previousPosition.copy(wristFinal);
 
-      if (avgV > 0.01) {
-        console.log('Velocity:', avgV);
-      }
-
       if (avgV >= 1) {
         avgV = 1;
       }
 
+      if (avgV <= 0.05) {
+        avgV = 0.05;
+      }
+
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
-          if (avgV !== 0 || avgV > 0.01) {
-            const format = avgV.toFixed(1) as unknown as number;
-            gameState.popBubble(format, true);
-          }
+          const format = avgV.toFixed(1) as unknown as number;
+          console.log('Velocity:', format);
+          gameState.popBubble(format, true);
         });
         poppedBubbles.current.clear();
       }
