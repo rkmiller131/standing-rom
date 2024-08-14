@@ -113,55 +113,48 @@ export default function HandCollider({
         dt = 0.1;
       }
 
-      velocityR = wristFinalR.clone().sub(previousPositionR).divideScalar(dt);
-      velocityL = wristFinalL.clone().sub(previousPositionL).divideScalar(dt);
+      if (!(frame <= 60)) {
+        velocityR = wristFinalR.clone().sub(previousPositionR).divideScalar(dt);
+        velocityL = wristFinalL.clone().sub(previousPositionL).divideScalar(dt);
 
-      avgVr =
-        (Math.abs(velocityR.x) +
-          Math.abs(velocityR.y) +
-          Math.abs(velocityR.z)) /
-        3;
+        avgVr =
+          (Math.abs(velocityR.x) +
+            Math.abs(velocityR.y) +
+            Math.abs(velocityR.z)) /
+          3;
 
-      avgVl =
-        (Math.abs(velocityL.x) +
-          Math.abs(velocityL.y) +
-          Math.abs(velocityL.z)) /
-        3;
+        avgVl =
+          (Math.abs(velocityL.x) +
+            Math.abs(velocityL.y) +
+            Math.abs(velocityL.z)) /
+          3;
 
-      previousPositionR.copy(wristFinalR);
-      previousPositionL.copy(wristFinalL);
+        previousPositionR.copy(wristFinalR);
+        previousPositionL.copy(wristFinalL);
 
-      if (avgVr >= 1 || avgVl >= 1) {
-        avgVr = 1;
-        avgVl = 1;
-      }
+        if (avgVr >= 1 || avgVl >= 1) {
+          avgVr = 1;
+          avgVl = 1;
+        }
 
-      if (avgVr <= 0.05 || avgVl <= 0.05) {
-        avgVr = 0.05;
-        avgVl = 0.05;
-      }
+        if (avgVr < 0.005 || avgVl < 0.005) {
+          avgVr = 0;
+          avgVl = 0;
+        }
 
-      if (poppedBubbles.current.size > 0) {
-        poppedBubbles.current.forEach(() => {
-          if (
-            gameState.levels[0].sideSpawned.toString() === 'right' ||
-            gameState.levels[0].sideSpawned.toString() === 'frontR' ||
-            gameState.levels[0].sideSpawned.toString() === 'crossR'
-          ) {
-            const format = avgVr.toFixed(1) as unknown as number;
-            console.log('Velocity:', format);
-            gameState.popBubble(format, true);
-          } else if (
-            gameState.levels[0].sideSpawned.toString() === 'left' ||
-            gameState.levels[0].sideSpawned.toString() === 'frontL' ||
-            gameState.levels[0].sideSpawned.toString() === 'crossL'
-          ) {
-            const format = avgVl.toFixed(1) as unknown as number;
-            console.log('Velocity:', format);
-            gameState.popBubble(format, false);
-          }
-        });
-        poppedBubbles.current.clear();
+        console.log('Velocity Right & Left:', avgVr, avgVl);
+
+        if (poppedBubbles.current.size > 0) {
+          poppedBubbles.current.forEach(() => {
+            const format = avgVl.toFixed(2) as unknown as number;
+            const format2 = avgVr.toFixed(2) as unknown as number;
+
+            console.log('Final Velocities:', format, format2);
+            // Should be treated seperately
+            gameState.popBubble(avgVr, avgVl, true);
+          });
+          poppedBubbles.current.clear();
+        }
       }
     }
   });

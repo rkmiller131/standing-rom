@@ -11,7 +11,7 @@ const initialState: GameType = hookstate({
     maxLeftArmAngle: 0,
     maxRightArmAngle: 0,
     poppedVelocities: [],
-    currentStreak: 0
+    currentStreak: 0,
   },
   gameOver: false,
 });
@@ -25,15 +25,21 @@ export const useGameState = () => {
       ECS.world.clear();
       getGameSetup().then((results) => gameState.set(results));
     },
-    popBubble: (velocity: number, playerPopped: boolean) => {
+    popBubble: (
+      velocityR: number,
+      velocityL: number,
+      playerPopped: boolean,
+    ) => {
       // remove the bubble from game state
-      const bubblesInPlay = gameState.levels[0].bubbleEntities.get({ noproxy: true }).slice(1);
+      const bubblesInPlay = gameState.levels[0].bubbleEntities
+        .get({ noproxy: true })
+        .slice(1);
       gameState.levels[0].bubbleEntities.set(bubblesInPlay);
       worldBubbleIds.splice(0, 1);
 
       if (playerPopped) {
         gameState.score.popped.set((prev) => prev + 1);
-        gameState.score.poppedVelocities.merge([velocity]);
+        gameState.score.poppedVelocities.merge([velocityR, velocityL]);
         gameState.score.currentStreak.set((prev) => prev + 1);
       } else {
         gameState.score.currentStreak.set(0);
@@ -45,7 +51,7 @@ export const useGameState = () => {
     },
     reset: () => {
       gameState.set(initialState);
-    }
+    },
   };
 };
 
