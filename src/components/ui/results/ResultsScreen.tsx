@@ -94,10 +94,10 @@ export default function ResultsScreen() {
   const popped = getPoppedBubbleCount();
   const totalBubbles = getTotalBubbleCount();
 
-  const { right, left } = getPoppedVelocities();
+  const { right, left } = getPoppedVelocities() || { right: [], left: [] };
   const { rightMax, leftMax } = calcAverageVelocity(
-    right as unknown as Array<number>,
-    left as unknown as Array<number>, // cast to be mutable
+    right as number[],
+    left as number[],
   );
 
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
