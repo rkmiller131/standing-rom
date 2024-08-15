@@ -62,11 +62,11 @@ export default function ResultsScreen() {
           <div className="results-data">
             <div className="results-data-item">
               <span>RIGHT VELOCITY</span>
-              <span className="results-data-metric">{`${velArray[0]}m/s`}</span>
+              <span className="results-data-metric">{`${velArray[0].toFixed(1)}m/s`}</span>
             </div>
             <div className="results-data-item">
               <span>LEFT VELOCITY</span>
-              <span className="results-data-metric">{`${velArray[1]}m/s`}</span>
+              <span className="results-data-metric">{`${velArray[1].toFixed(1)}m/s`}</span>
             </div>
             <div className="results-data-item">
               <span>MAX RIGHT ARM ANGLE</span>
