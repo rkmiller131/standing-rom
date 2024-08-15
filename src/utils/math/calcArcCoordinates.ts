@@ -27,10 +27,11 @@ export function calcArcCoordinates(
     qx = ox + Math.cos(angle) * (px - ox) - Math.sin(angle) * (py - oy);
     qy = oy + Math.sin(angle) * (px - ox) + Math.cos(angle) * (py - oy);
   } else if (sideSpawned === 'frontL' || sideSpawned === 'frontR') {
-    qx = px; // constrain the x, we're doing frontal raises on the yz plane
+    // qx = px; // constrain the x, we're doing frontal raises on the yz plane
     qy = oy + Math.cos(angle) * (py - oy) - Math.sin(angle) * (pz - oz);
     qz = oz + Math.sin(angle) * (py - oy) + Math.cos(angle) * (pz - oz);
-    qz -= 0.1; // move bubbles *slightly* further out from the avatar (they were a little too close)
+    qz -= 0.12; // move bubbles *slightly* further out from the avatar (they were a little too close)
+    qx = sideSpawned === 'frontL' ? px + 0.1 : px - 0.1;
   } else if (sideSpawned === 'crossL') {
     qy = py; // mirroring crossbody: for the xz plane, rotating a point around an origin by an angle involves transforming both x and z coords based on the angle
     qx = ox - Math.cos(angle) * (px - ox) - Math.sin(angle) * (py - oy); // use subtraction on cos to reflect movement across the body in the opposite direction
@@ -40,7 +41,7 @@ export function calcArcCoordinates(
     qy = py; // constrain the y, we're doing horizontal adduction on the xz plane
     qx = ox + Math.sin(angle) * (px - ox) + Math.cos(angle) * (py - oy);
     qz = oz + Math.cos(angle) * (py - oy) - Math.sin(angle) * (pz - oz);
-    qz -= 0.05;
+    qz -= 0.06;
   }
 
   const result = new Vector3(qx, qy, qz);

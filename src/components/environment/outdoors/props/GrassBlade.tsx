@@ -175,7 +175,7 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
 
             scene.add(mesh);
 
-            console.log('Current Position:', mesh.position);
+            // console.log('Current Position:', mesh.position);
           } else {
             console.log('Failed to set proper position. Please Refresh');
           }
