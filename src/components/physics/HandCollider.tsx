@@ -54,7 +54,7 @@ export default function HandCollider({
     collisionFilterMask,
   }));
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     if (sceneLoaded() && avatar.current) {
       const handNodeWorld =
         handedness === 'right'
@@ -95,7 +95,7 @@ export default function HandCollider({
         fpsStartTime = time; // Reset start time
         frame = 0; // Reset frame count
 
-        console.log(`Current FPS: ${fps.toFixed(2)}`);
+        // console.log(`Current FPS: ${fps.toFixed(2)}`);
       }
 
       //naive delta
@@ -129,18 +129,10 @@ export default function HandCollider({
         avgV = 0.05;
       }
 
-      if (avgV >= 1) {
-        avgV = 1;
-      }
-
-      if (avgV <= 0.05) {
-        avgV = 0.05;
-      }
-
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
           const format = avgV.toFixed(1) as unknown as number;
-          console.log('Velocity:', format);
+          // console.log('Velocity:', format);
           gameState.popBubble(format, true);
         });
         poppedBubbles.current.clear();
