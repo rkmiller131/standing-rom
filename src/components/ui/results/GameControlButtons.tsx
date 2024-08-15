@@ -1,5 +1,6 @@
 import Button from '../../Button';
 
+import '../../../css/Button.css';
 interface GameControlButtonsProps {
   onRestart: () => void;
   onNextGame: () => void;
