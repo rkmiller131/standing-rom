@@ -142,7 +142,7 @@ export default function HandCollider({
           avgVl = 0.01;
         }
 
-        console.log('Velocity Right & Left:', avgVr, avgVl);
+        // console.log('Velocity Right & Left:', avgVr, avgVl);
 
         if (poppedBubbles.current.size > 0) {
           poppedBubbles.current.forEach(() => {
