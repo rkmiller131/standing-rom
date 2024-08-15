@@ -24,8 +24,14 @@ export default function useHookstateGetters() {
     gameState.score.popped.get({ noproxy: true });
   const getTotalBubbleCount = () =>
     gameState.score.totalBubbles.get({ noproxy: true });
-  const getPoppedVelocities = () =>
-    gameState.score.poppedVelocities.get({ noproxy: true });
+  const getPoppedVelocities = () => {
+    const right = gameState.score.poppedRightVelocities.get({ noproxy: true });
+    const left = gameState.score.poppedLeftVelocities.get({ noproxy: true });
+    return {
+      right,
+      left,
+    };
+  };
   const getCurrentStreak = () =>
     gameState.score.currentStreak.get({ noproxy: true });
 

@@ -147,7 +147,14 @@ export default function HandCollider({
         if (poppedBubbles.current.size > 0) {
           poppedBubbles.current.forEach(() => {
             // Should be treated seperately
-            gameState.popBubble(avgVr, avgVl, true);
+            // check if the handness is the right one, then only submit one value and change the utility function for averaging.
+            if (handedness === 'right') {
+              gameState.popBubble(avgVr, true, 'right');
+            } else {
+              gameState.popBubble(avgVl, true, 'left');
+            }
+
+            // gameState.popBubble(avgVr, avgVl, true);
           });
           poppedBubbles.current.clear();
         }

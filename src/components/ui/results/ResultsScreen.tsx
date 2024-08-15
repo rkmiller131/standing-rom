@@ -21,6 +21,7 @@ import StatItem from './StatItem';
 import GameControlButtons from './GameControlButtons';
 
 import '../../../css/ResultsScreen.css';
+import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 
 ChartJS.register(
   CategoryScale,
@@ -93,39 +94,11 @@ export default function ResultsScreen() {
   const popped = getPoppedBubbleCount();
   const totalBubbles = getTotalBubbleCount();
 
-  const avgVelocity = getPoppedVelocities();
-  let rightSum = 0;
-  let leftSum = 0;
-  let rightCount = 0;
-  let leftCount = 0;
-
-  let rightMax = 0;
-  let leftMax = 0;
-
-  avgVelocity.forEach((velocity, index) => {
-    // index 0, Right, index 1, Left...
-    if (velocity === 0) {
-      return;
-    }
-
-    if (index % 2 === 0) {
-      rightSum += velocity;
-      rightCount++;
-      if (velocity > rightMax) {
-        rightMax = velocity;
-      }
-    } else {
-      leftSum += velocity;
-      leftCount++;
-      if (velocity > leftMax) {
-        leftMax = velocity;
-      }
-    }
-  });
-
-  // Use if we want to...
-  // const avgRightHandVelocity = rightCount > 0 ? rightSum / rightCount : 0;
-  // const avgLeftHandVelocity = leftCount > 0 ? leftSum / leftCount : 0;
+  const { right, left } = getPoppedVelocities();
+  const { rightMax, leftMax } = calcAverageVelocity(
+    right as unknown as Array<number>,
+    left as unknown as Array<number>, // cast to be mutable
+  );
 
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
 
@@ -159,7 +132,8 @@ export default function ResultsScreen() {
       datePlayed: new Date().toISOString().slice(0, 19),
       percentCompletion,
       bubblesPopped: popped,
-      avgVelocity: Number(avgVelocity),
+      RightMaxVelocity: Number(rightMax),
+      LeftMaxVelocity: Number(leftMax),
       maxLeftAngle: maxLeftArmAngle,
       maxRightAngle: maxRightArmAngle,
       completed: true,
