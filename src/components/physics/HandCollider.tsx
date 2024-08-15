@@ -12,15 +12,17 @@ interface HandColliderProps {
   handedness: 'right' | 'left';
 }
 
-const previousPosition = new Vector3();
+const previousPositionR = new Vector3();
+const previousPositionL = new Vector3();
 const currentPosition = new Vector3();
 
-let velocity = new Vector3();
+let velocityR = new Vector3();
+let velocityL = new Vector3();
 let fpsStartTime = performance.now();
 let fps = 0;
 let frame = 0;
-let avgV = 0;
-// let lastTime = (performance.now() / 1000).toFixed(0) as unknown as number;
+let avgVr = 0;
+let avgVl = 0;
 let dt = 0;
 
 export default function HandCollider({
@@ -76,11 +78,17 @@ export default function HandCollider({
       }
 
       // --------------------------------------------------------------------------
-      const wristP = new Vector3();
+      const wristR = new Vector3();
       const wristPos =
         avatar.current.humanoid.humanBones.rightHand?.node.matrixWorld;
       if (!wristPos) return;
-      const wristFinal = wristP.setFromMatrixPosition(wristPos);
+      const wristFinalR = wristR.setFromMatrixPosition(wristPos);
+
+      const wristL = new Vector3();
+      const wristPosL =
+        avatar.current.humanoid.humanBones.leftHand?.node.matrixWorld;
+      if (!wristPosL) return;
+      const wristFinalL = wristL.setFromMatrixPosition(wristPosL);
       // --------------------------------------------------------------------------
 
       // compute velocity
@@ -91,17 +99,11 @@ export default function HandCollider({
 
       // On execution FPS
       if (time - fpsStartTime >= 1000) {
-        fps = frame / ((time - fpsStartTime) / 1000); // Calculate FPS
-        fpsStartTime = time; // Reset start time
-        frame = 0; // Reset frame count
-
-        // console.log(`Current FPS: ${fps.toFixed(2)}`);
+        fps = frame / ((time - fpsStartTime) / 1000);
+        fpsStartTime = time;
+        frame = 0;
       }
 
-      //naive delta
-      // dt = time - lastTime;
-
-      // actual delta
       const actualDt = 1 / fps;
       dt = actualDt;
 
@@ -111,31 +113,48 @@ export default function HandCollider({
         dt = 0.1;
       }
 
-      // lastTime = time;
+      if (!(frame <= 60)) {
+        velocityR = wristFinalR.clone().sub(previousPositionR).divideScalar(dt);
+        velocityL = wristFinalL.clone().sub(previousPositionL).divideScalar(dt);
 
-      velocity = wristFinal.clone().sub(previousPosition).divideScalar(dt);
+        avgVr =
+          (Math.abs(velocityR.x) +
+            Math.abs(velocityR.y) +
+            Math.abs(velocityR.z)) /
+          3;
 
-      avgV =
-        (Math.abs(velocity.x) + Math.abs(velocity.y) + Math.abs(velocity.z)) /
-        3;
+        avgVl =
+          (Math.abs(velocityL.x) +
+            Math.abs(velocityL.y) +
+            Math.abs(velocityL.z)) /
+          3;
 
-      previousPosition.copy(wristFinal);
+        previousPositionR.copy(wristFinalR);
+        previousPositionL.copy(wristFinalL);
 
-      if (avgV >= 1) {
-        avgV = 1;
-      }
+        if (avgVr >= 1 || avgVl >= 1) {
+          avgVr = 1;
+          avgVl = 1;
+        }
 
-      if (avgV <= 0.05) {
-        avgV = 0.05;
-      }
+        if (avgVr < 0.005 || avgVl < 0.005) {
+          avgVr = 0;
+          avgVl = 0;
+        }
 
-      if (poppedBubbles.current.size > 0) {
-        poppedBubbles.current.forEach(() => {
-          const format = avgV.toFixed(1) as unknown as number;
-          // console.log('Velocity:', format);
-          gameState.popBubble(format, true);
-        });
-        poppedBubbles.current.clear();
+        console.log('Velocity Right & Left:', avgVr, avgVl);
+
+        if (poppedBubbles.current.size > 0) {
+          poppedBubbles.current.forEach(() => {
+            const format = avgVl.toFixed(2) as unknown as number;
+            const format2 = avgVr.toFixed(2) as unknown as number;
+
+            console.log('Final Velocities:', format, format2);
+            // Should be treated seperately
+            gameState.popBubble(avgVr, avgVl, true);
+          });
+          poppedBubbles.current.clear();
+        }
       }
     }
   });
