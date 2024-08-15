@@ -95,7 +95,7 @@ export default function HandCollider({
         fpsStartTime = time; // Reset start time
         frame = 0; // Reset frame count
 
-        console.log(`Current FPS: ${fps.toFixed(2)}`);
+        // console.log(`Current FPS: ${fps.toFixed(2)}`);
       }
 
       //naive delta
@@ -132,7 +132,7 @@ export default function HandCollider({
       if (poppedBubbles.current.size > 0) {
         poppedBubbles.current.forEach(() => {
           const format = avgV.toFixed(1) as unknown as number;
-          console.log('Velocity:', format);
+          // console.log('Velocity:', format);
           gameState.popBubble(format, true);
         });
         poppedBubbles.current.clear();
