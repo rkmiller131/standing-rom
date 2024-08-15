@@ -1,0 +1,14 @@
+#game-instructions-screen {
+  position: fixed;
+  align-items: center;
+  justify-content: space-evenly;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  z-index: 4;
+}
+
+.consent-button {
+}

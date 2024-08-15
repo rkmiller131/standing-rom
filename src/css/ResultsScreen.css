@@ -43,8 +43,8 @@
   flex-direction: column;
 }
 
-.achievement-container::before{
-  content: "ACHIEVEMENTS";
+.achievement-container::before {
+  content: 'ACHIEVEMENTS';
   position: absolute;
   margin-top: -4rem;
   margin-left: -2%;
@@ -62,7 +62,7 @@
   margin-bottom: 25px;
 }
 
-#achievement-item input[type="checkbox"] {
+#achievement-item input[type='checkbox'] {
   transform: scale(2);
 }
 
@@ -89,8 +89,8 @@
   gap: 1rem;
 }
 
-.results-summary::before{
-  content: "Congratulations!";
+.results-summary::before {
+  content: 'Congratulations!';
   position: absolute;
   width: 30%;
   z-index: 5;
@@ -100,7 +100,7 @@
   font-weight: var(--font-weight);
   font-style: italic;
   color: white;
-  background: linear-gradient(to right, #44F3B6, transparent);
+  background: linear-gradient(to right, #44f3b6, transparent);
   border-radius: 1rem 0 0 1rem;
   text-shadow: 3px 3px 6px black;
 }
@@ -159,7 +159,7 @@
 }
 
 .results-graph-container::before {
-  content: "Recent Performance Trends";
+  content: 'Recent Performance Trends';
   position: absolute;
   display: flex;
   color: white;
@@ -208,38 +208,7 @@
 
 /* End of Tony CSS - start of CSS Queen */
 
-/* css rework of buttons */
-
-.gameplay-buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 5%;
-  z-index: 5;
-  margin-top: -2.5rem;
-}
-
-.button-primary, .button-secondary {
-  text-decoration: none;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: var(--font-small);
-  border-radius: var(--border-radius);
-  font-family: var(--font-primary);
-  font-weight: var(--font-weight);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  color: white;
-}
-
-.button-primary {
-  /* background: var(--uvx-secondary); */
-  background: #2196f3;
-}
-
-.button-secondary {
-  /* background: var(--uvx-primary); */
-  background: #4caf50;
-}
+/* css rework of buttons, moved to its own file */
 
 @keyframes growMedal {
   0% {
