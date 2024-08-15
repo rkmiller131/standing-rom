@@ -1,36 +1,58 @@
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
-import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
-import { faTachometerAlt, faDraftingCompass, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTachometerAlt,
+  faDraftingCompass,
+  faChartLine,
+} from '@fortawesome/free-solid-svg-icons';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from 'chart.js';
 import AchievementItem from './AchievementItem';
 import StatItem from './StatItem';
-import GameControlButtons from './GameControlButtons'
+import GameControlButtons from './GameControlButtons';
 
 import '../../../css/ResultsScreen.css';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+);
 
 // FAKE DATABASE DATA MOCK - WOULD HAVE A TABLE/COLLECTION FOR ACHIEVEMENTS - A UTIL FUNCTION TODO IN UTILS > HTTP
 // fake return value would be something like:
 export type AchievementType = {
   title: string;
   description: string;
-}
+};
 const shoulderROMAchievements: AchievementType[] = [
   {
     title: 'Precision Popper',
-    description: 'Pop 95% or more bubbles'
+    description: 'Pop 95% or more bubbles',
   },
   {
     title: 'Speed Demon',
-    description: 'Complete within the time limit'
+    description: 'Complete within the time limit',
   },
   {
     title: 'Bubble Burst Bonanza',
-    description: 'Pop 10 bubbles in 5 seconds'
+    description: 'Pop 10 bubbles in 5 seconds',
   },
-]
+];
 
 // THIS WOULD ALSO BE RETRIEVED FROM DB AND SET UP IN ITS OWN GRAPH COMPONENT (Separate Line graph into own file, do an http get and create the graph)
 const lastFiveResults = [
@@ -41,13 +63,13 @@ const lastFiveResults = [
   { date: '2024-08-12', score: 95 },
 ];
 
-const labels = lastFiveResults.map(result => result.date);
+const labels = lastFiveResults.map((result) => result.date);
 const data = {
   labels,
   datasets: [
     {
       label: 'Scores',
-      data: lastFiveResults.map(result => result.score),
+      data: lastFiveResults.map((result) => result.score),
       borderColor: 'rgba(68, 243, 182, 1)',
       backgroundColor: 'rgba(68, 243, 182, 0.2)',
       fill: true,
@@ -71,7 +93,7 @@ export default function ResultsScreen() {
   const popped = getPoppedBubbleCount();
   const totalBubbles = getTotalBubbleCount();
 
-  const avgVelocity = calcAverageVelocity(getPoppedVelocities().slice());
+  const avgVelocity = getPoppedVelocities().slice(-2);
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
 
   function playerGotAchievement(title: string) {
@@ -112,7 +134,7 @@ export default function ResultsScreen() {
         precisionPopper: playerGotAchievement('Precision Popper'),
         speedDemon: playerGotAchievement('Speed Demon'),
         bubbleBurstBonanza: playerGotAchievement('Bubble Burst Bonanza'),
-      }
+      },
     };
 
     console.log('results have been sent! ', results);
@@ -121,9 +143,11 @@ export default function ResultsScreen() {
 
   const handleReplay = async () => {
     await caches.keys().then((names) => {
-      return Promise.all(names.map((name) => {
-        return caches.delete(name);
-      }));
+      return Promise.all(
+        names.map((name) => {
+          return caches.delete(name);
+        }),
+      );
     });
 
     setTimeout(() => {
@@ -143,25 +167,54 @@ export default function ResultsScreen() {
               achievementUnlocked={unlocked}
               key={award.title}
             />
-          )
+          );
         })}
-
       </div>
       <div className="results-summary">
         <div className="badge-data results-ui-box">
           <img src={medal} alt="Medal" className="medal-img" />
           <div className="stats-container">
-            <StatItem icon={faTachometerAlt} description="Popping Speed" metric={`${avgVelocity}m/s`} />
-            <StatItem icon={faDraftingCompass} description="Max Right Arm Angle" metric={`${maxRightArmAngle}°`} />
-            <StatItem icon={faDraftingCompass} description="Max Left Arm Angle" metric={`${maxLeftArmAngle}°`} />
-            <StatItem icon={faChartLine} description="Final Score" metric={`${popped}/${totalBubbles}`} />
+            <StatItem
+              icon={faTachometerAlt}
+              description="Popping Speed Right"
+              metric={`${avgVelocity[0].toFixed(1)}m/s`}
+            />
+            <StatItem
+              icon={faTachometerAlt}
+              description="Popping Speed Left"
+              metric={`${avgVelocity[1].toFixed(1)}m/s`}
+            />
+            <StatItem
+              icon={faDraftingCompass}
+              description="Max Right Arm Angle"
+              metric={`${maxRightArmAngle}°`}
+            />
+            <StatItem
+              icon={faDraftingCompass}
+              description="Max Left Arm Angle"
+              metric={`${maxLeftArmAngle}°`}
+            />
+            <StatItem
+              icon={faChartLine}
+              description="Final Score"
+              metric={`${popped}/${totalBubbles}`}
+            />
           </div>
         </div>
         <div className="results-graph-container results-ui-box">
-          <Line data={data} options={{ responsive: true, plugins: { legend: { display: false } } }} />
+          <Line
+            data={data}
+            options={{
+              responsive: true,
+              plugins: { legend: { display: false } },
+            }}
+          />
         </div>
-        <div className="gameplay-buttons" >
-          <GameControlButtons onRestart={handleReplay} onNextGame={handleSubmit} />
+        <div className="gameplay-buttons">
+          <GameControlButtons
+            onRestart={handleReplay}
+            onNextGame={handleSubmit}
+          />
         </div>
       </div>
     </div>
