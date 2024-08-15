@@ -93,7 +93,40 @@ export default function ResultsScreen() {
   const popped = getPoppedBubbleCount();
   const totalBubbles = getTotalBubbleCount();
 
-  const avgVelocity = getPoppedVelocities().slice(-2);
+  const avgVelocity = getPoppedVelocities();
+  let rightSum = 0;
+  let leftSum = 0;
+  let rightCount = 0;
+  let leftCount = 0;
+
+  let rightMax = 0;
+  let leftMax = 0;
+
+  avgVelocity.forEach((velocity, index) => {
+    // index 0, Right, index 1, Left...
+    if (velocity === 0) {
+      return;
+    }
+
+    if (index % 2 === 0) {
+      rightSum += velocity;
+      rightCount++;
+      if (velocity > rightMax) {
+        rightMax = velocity;
+      }
+    } else {
+      leftSum += velocity;
+      leftCount++;
+      if (velocity > leftMax) {
+        leftMax = velocity;
+      }
+    }
+  });
+
+  // Use if we want to...
+  // const avgRightHandVelocity = rightCount > 0 ? rightSum / rightCount : 0;
+  // const avgLeftHandVelocity = leftCount > 0 ? leftSum / leftCount : 0;
+
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
 
   function playerGotAchievement(title: string) {
@@ -177,12 +210,12 @@ export default function ResultsScreen() {
             <StatItem
               icon={faTachometerAlt}
               description="Popping Speed Right"
-              metric={`${avgVelocity[0].toFixed(1)}m/s`}
+              metric={`${rightMax.toFixed(2)}m/s`}
             />
             <StatItem
               icon={faTachometerAlt}
               description="Popping Speed Left"
-              metric={`${avgVelocity[1].toFixed(1)}m/s`}
+              metric={`${leftMax.toFixed(2)}m/s`}
             />
             <StatItem
               icon={faDraftingCompass}
