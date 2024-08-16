@@ -21,6 +21,7 @@ import StatItem from './StatItem';
 import GameControlButtons from './GameControlButtons';
 
 import '../../../css/ResultsScreen.css';
+import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 
 ChartJS.register(
   CategoryScale,
@@ -93,7 +94,12 @@ export default function ResultsScreen() {
   const popped = getPoppedBubbleCount();
   const totalBubbles = getTotalBubbleCount();
 
-  const avgVelocity = getPoppedVelocities().slice(-2);
+  const { right, left } = getPoppedVelocities() || { right: [], left: [] };
+  const { rightMax, leftMax } = calcAverageVelocity(
+    right as number[],
+    left as number[],
+  );
+
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
 
   function playerGotAchievement(title: string) {
@@ -126,7 +132,8 @@ export default function ResultsScreen() {
       datePlayed: new Date().toISOString().slice(0, 19),
       percentCompletion,
       bubblesPopped: popped,
-      avgVelocity: Number(avgVelocity),
+      RightMaxVelocity: Number(rightMax),
+      LeftMaxVelocity: Number(leftMax),
       maxLeftAngle: maxLeftArmAngle,
       maxRightAngle: maxRightArmAngle,
       completed: true,
@@ -177,12 +184,12 @@ export default function ResultsScreen() {
             <StatItem
               icon={faTachometerAlt}
               description="Popping Speed Right"
-              metric={`${avgVelocity[0].toFixed(1)}m/s`}
+              metric={`${rightMax.toFixed(2)}m/s`}
             />
             <StatItem
               icon={faTachometerAlt}
               description="Popping Speed Left"
-              metric={`${avgVelocity[1].toFixed(1)}m/s`}
+              metric={`${leftMax.toFixed(2)}m/s`}
             />
             <StatItem
               icon={faDraftingCompass}

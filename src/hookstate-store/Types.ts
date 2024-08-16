@@ -12,7 +12,7 @@ export type Bubble = {
   age: number;
   spawnPosition: Vector3;
   active: boolean;
-}
+};
 
 export type SetType = {
   sideSpawned: 'right' | 'left' | 'frontR' | 'frontL' | 'crossR' | 'crossL';
@@ -27,7 +27,8 @@ export type ScoreType = {
   popped: number;
   maxLeftArmAngle: number;
   maxRightArmAngle: number;
-  poppedVelocities: number[];
+  poppedRightVelocities: number[];
+  poppedLeftVelocities: number[];
   currentStreak: number;
 };
 

@@ -7,6 +7,6 @@ export default async function httpGetGameData() {
   return {
     reps,
     sets,
-    ok: true // mimic a 200 response
+    ok: true, // mimic a 200 response
   };
 }

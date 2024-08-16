@@ -113,7 +113,7 @@ export default function HandCollider({
         dt = 0.1;
       }
 
-      if (!(frame <= 60)) {
+      if (frame >= 60) {
         velocityR = wristFinalR.clone().sub(previousPositionR).divideScalar(dt);
         velocityL = wristFinalL.clone().sub(previousPositionL).divideScalar(dt);
 
@@ -138,20 +138,23 @@ export default function HandCollider({
         }
 
         if (avgVr < 0.005 || avgVl < 0.005) {
-          avgVr = 0;
-          avgVl = 0;
+          avgVr = 0.01;
+          avgVl = 0.01;
         }
 
-        console.log('Velocity Right & Left:', avgVr, avgVl);
+        // console.log('Velocity Right & Left:', avgVr, avgVl);
 
         if (poppedBubbles.current.size > 0) {
           poppedBubbles.current.forEach(() => {
-            const format = avgVl.toFixed(2) as unknown as number;
-            const format2 = avgVr.toFixed(2) as unknown as number;
-
-            console.log('Final Velocities:', format, format2);
             // Should be treated seperately
-            gameState.popBubble(avgVr, avgVl, true);
+            // check if the handness is the right one, then only submit one value and change the utility function for averaging.
+            if (handedness === 'right') {
+              gameState.popBubble(avgVr, true, 'right');
+            } else {
+              gameState.popBubble(avgVl, true, 'left');
+            }
+
+            // gameState.popBubble(avgVr, avgVl, true);
           });
           poppedBubbles.current.clear();
         }
