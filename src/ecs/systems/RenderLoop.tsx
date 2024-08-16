@@ -12,12 +12,8 @@ interface RenderLoopProps {
 }
 
 export default function RenderLoop({ avatar }: RenderLoopProps) {
-  const {
-    getMaxRightArmAngle,
-    getMaxLeftArmAngle,
-    gameRunning,
-    gameOver
-  } = useHookstateGetters();
+  const { getMaxRightArmAngle, getMaxLeftArmAngle, gameRunning, gameOver } =
+    useHookstateGetters();
   const clock = useRef(new Clock());
   const gameState = useGameState();
 
@@ -65,10 +61,12 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
         // if the current set is not already in play, make it in play
         gameState.levels[0].inPlay.set(true);
         // Now spawn all the reps (bubbles) in that set within the ECS
-        const bubbles = gameState.levels[0].bubbleEntities.get({ noproxy: true })
+        const bubbles = gameState.levels[0].bubbleEntities.get({
+          noproxy: true,
+        });
         for (let i = 0; i < bubbles.length; i++) {
           const bubbleEntity = ECS.world.add({
-            bubble: bubbles[i]
+            bubble: bubbles[i],
           });
 
           // Note: might need to refactor this id into a uuid as part of the bubble itself (see uuid in ecs > components):
@@ -79,7 +77,9 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
         }
       } else {
         // if the first set is already in play, then we need to check if the first bubble is present and not already active.
-        const firstBubbleEntity = gameState.levels[0].bubbleEntities[0].get({ noproxy: true });
+        const firstBubbleEntity = gameState.levels[0].bubbleEntities[0].get({
+          noproxy: true,
+        });
         if (firstBubbleEntity) {
           const firstBubbleId = worldBubbleIds[0];
           const bubbleEntity = ECS.world.entity(firstBubbleId);
@@ -92,25 +92,27 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
               bubble: {
                 age: bubbleEntity.bubble!.age,
                 spawnPosition: bubbleEntity.bubble!.spawnPosition,
-                active: true // make active in ECS
-              }
-            })
+                active: true, // make active in ECS
+              },
+            });
             const newBubbleId = ECS.world.id(newBubbleEntity);
-            if (newBubbleId === 0 || newBubbleId) worldBubbleIds[0] = newBubbleId; // replace old bubble reference with new active one
-            ECS.world.remove(bubbleEntity)
+            if (newBubbleId === 0 || newBubbleId)
+              worldBubbleIds[0] = newBubbleId; // replace old bubble reference with new active one
+            ECS.world.remove(bubbleEntity);
           }
 
           // then start ageing the first bubble
           const currentAge = firstBubbleEntity.age;
           gameState.levels[0].bubbleEntities[0].age.set(currentAge + delta);
 
-          if (currentAge > 3) { // 3 seconds to pop the bubbles, otherwise counts as a miss
+          if (currentAge > 3) {
+            // 3 seconds to pop the bubbles, otherwise counts as a miss
             // remove from the ECS
             const oldBubbleId = worldBubbleIds[0];
             const oldBubbleEntity = ECS.world.entity(oldBubbleId);
             if (oldBubbleEntity) ECS.world.remove(oldBubbleEntity);
             // update the gamestate "score" for missing a bubble (also removes from worldBubbleId manager)
-            gameState.popBubble(0, false);
+            gameState.popBubble(0, false, 'none');
           }
         }
       }

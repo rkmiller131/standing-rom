@@ -40,12 +40,14 @@ export const useGameState = () => {
 
         if (hand === 'right') {
           gameState.score.poppedRightVelocities.merge([velocity]);
-        } else {
+        } else if (hand === 'left') {
           gameState.score.poppedLeftVelocities.merge([velocity]);
         }
         gameState.score.currentStreak.set((prev) => prev + 1);
       } else {
-        gameState.score.currentStreak.set(0);
+        if (hand === 'none') {
+          gameState.score.currentStreak.set(0);
+        }
       }
     },
     toggleEndGame: () => {

@@ -18,8 +18,9 @@ export default async function getGameSetup(): Promise<GameType> {
     popped: 0,
     maxLeftArmAngle: 0,
     maxRightArmAngle: 0,
-    poppedVelocities: [],
-    currentStreak: 0
+    poppedRightVelocities: [],
+    poppedLeftVelocities: [],
+    currentStreak: 0,
   };
 
   const game: GameType = {
