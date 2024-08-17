@@ -1,10 +1,10 @@
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 import { useGameState } from '../../hookstate-store/GameState';
 import { useSphere } from '@react-three/cannon';
-import { Mesh, Vector3 } from 'three';
+import { Clock, Mesh, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
 import { VRM } from '@pixiv/three-vrm';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { bubblePopSounds } from '../../utils/cdn-links/sounds';
 
 interface HandColliderProps {
@@ -12,26 +12,19 @@ interface HandColliderProps {
   handedness: 'right' | 'left';
 }
 
-const previousPositionR = new Vector3();
-const previousPositionL = new Vector3();
+const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
-let velocityR = new Vector3();
-let velocityL = new Vector3();
-let fpsStartTime = performance.now();
-let fps = 0;
-let frame = 0;
-let avgVr = 0;
-let avgVl = 0;
-let dt = 0;
-
-export default function HandCollider({
-  avatar,
-  handedness,
-}: HandColliderProps) {
-  const { sceneLoaded, getCurrentStreak } = useHookstateGetters();
+export default function HandCollider({ avatar, handedness }: HandColliderProps) {
+  const {
+    sceneLoaded,
+    getCurrentStreak,
+    getSideSpawned
+  } = useHookstateGetters();
   const gameState = useGameState();
   const poppedBubbles = useRef<Set<string>>(new Set());
+  const clock = useRef(new Clock());
+  const [sideSpawned, setSideSpawned] = useState(getSideSpawned());
 
   // Collision filter group - both hands are part of the same group
   const collisionFilterGroup = 1 << 0;
@@ -56,14 +49,29 @@ export default function HandCollider({
     collisionFilterMask,
   }));
 
+  useEffect(() => {
+    if (!gameState.levels[0].sideSpawned) return;
+    setSideSpawned(getSideSpawned());
+    clock.current.start();
+
+  }, [gameState.levels[0].sideSpawned])
+
   useFrame(() => {
     if (sceneLoaded() && avatar.current) {
-      const handNodeWorld =
-        handedness === 'right'
-          ? avatar.current.humanoid.humanBones.rightMiddleProximal?.node
-              .matrixWorld
-          : avatar.current.humanoid.humanBones.leftMiddleProximal?.node
-              .matrixWorld;
+      // only start the clock if the current hand is popping bubbles
+      if (
+        handedness === 'right' && sideSpawned !== 'right' ||
+        handedness === 'left' && sideSpawned !== 'left'
+      ) clock.current.stop();
+
+      const elapsedTime = clock.current.getElapsedTime();
+      if (handedness === 'right') {
+        console.log(`elapsed time for ${handedness} hand is `, elapsedTime);
+      }
+
+      const handNodeWorld = handedness === 'right' ?
+        avatar.current.humanoid.humanBones.rightMiddleProximal?.node.matrixWorld :
+        avatar.current.humanoid.humanBones.leftMiddleProximal?.node.matrixWorld;
 
       if (!handNodeWorld) return;
 
@@ -77,88 +85,19 @@ export default function HandCollider({
         );
       }
 
-      // --------------------------------------------------------------------------
-      const wristR = new Vector3();
-      const wristPos =
-        avatar.current.humanoid.humanBones.rightHand?.node.matrixWorld;
-      if (!wristPos) return;
-      const wristFinalR = wristR.setFromMatrixPosition(wristPos);
-
-      const wristL = new Vector3();
-      const wristPosL =
-        avatar.current.humanoid.humanBones.leftHand?.node.matrixWorld;
-      if (!wristPosL) return;
-      const wristFinalL = wristL.setFromMatrixPosition(wristPosL);
-      // --------------------------------------------------------------------------
-
-      // compute velocity
-
-      const time = (performance.now() / 1000).toFixed(0) as unknown as number;
-
-      frame++;
-
-      // On execution FPS
-      if (time - fpsStartTime >= 1000) {
-        fps = frame / ((time - fpsStartTime) / 1000);
-        fpsStartTime = time;
-        frame = 0;
+      // VELOCITY -------------------------------------------------------------
+      if (poppedBubbles.current.size > 0) {
+        const distance = currentPosition.distanceTo(previousPosition);
+        poppedBubbles.current.forEach(() => {
+          const velocity = distance / elapsedTime;
+          console.log('velocity is ', velocity);
+          gameState.popBubble(velocity, true, handedness);
+        });
+        poppedBubbles.current.clear();
+        // every time a bubble pops, reset the clock to 0 (since we're tracking time between bubble pops)
+        clock.current.start();
       }
-
-      const actualDt = 1 / fps;
-      dt = actualDt;
-
-      if (dt < 0.0167) {
-        dt = 0.0167;
-      } else if (dt > 0.1) {
-        dt = 0.1;
-      }
-
-      if (frame >= 60) {
-        velocityR = wristFinalR.clone().sub(previousPositionR).divideScalar(dt);
-        velocityL = wristFinalL.clone().sub(previousPositionL).divideScalar(dt);
-
-        avgVr =
-          (Math.abs(velocityR.x) +
-            Math.abs(velocityR.y) +
-            Math.abs(velocityR.z)) /
-          3;
-
-        avgVl =
-          (Math.abs(velocityL.x) +
-            Math.abs(velocityL.y) +
-            Math.abs(velocityL.z)) /
-          3;
-
-        previousPositionR.copy(wristFinalR);
-        previousPositionL.copy(wristFinalL);
-
-        if (avgVr >= 1 || avgVl >= 1) {
-          avgVr = 1;
-          avgVl = 1;
-        }
-
-        if (avgVr < 0.005 || avgVl < 0.005) {
-          avgVr = 0.01;
-          avgVl = 0.01;
-        }
-
-        // console.log('Velocity Right & Left:', avgVr, avgVl);
-
-        if (poppedBubbles.current.size > 0) {
-          poppedBubbles.current.forEach(() => {
-            // Should be treated seperately
-            // check if the handness is the right one, then only submit one value and change the utility function for averaging.
-            if (handedness === 'right') {
-              gameState.popBubble(avgVr, true, 'right');
-            } else {
-              gameState.popBubble(avgVl, true, 'left');
-            }
-
-            // gameState.popBubble(avgVr, avgVl, true);
-          });
-          poppedBubbles.current.clear();
-        }
-      }
+      previousPosition.copy(currentPosition);
     }
   });
 
