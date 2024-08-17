@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 import { useGameState } from '../../hookstate-store/GameState';
 import { useSphere } from '@react-three/cannon';
@@ -52,22 +53,20 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
   useEffect(() => {
     if (!gameState.levels[0].sideSpawned) return;
     setSideSpawned(getSideSpawned());
+    // whenever the side spawned switches, start the current hand's clock
     clock.current.start();
 
   }, [gameState.levels[0].sideSpawned])
 
   useFrame(() => {
     if (sceneLoaded() && avatar.current) {
-      // only start the clock if the current hand is popping bubbles
+      // stop the clock if this isn't the hand currently popping bubbles
       if (
         handedness === 'right' && sideSpawned !== 'right' ||
         handedness === 'left' && sideSpawned !== 'left'
       ) clock.current.stop();
 
       const elapsedTime = clock.current.getElapsedTime();
-      if (handedness === 'right') {
-        console.log(`elapsed time for ${handedness} hand is `, elapsedTime);
-      }
 
       const handNodeWorld = handedness === 'right' ?
         avatar.current.humanoid.humanBones.rightMiddleProximal?.node.matrixWorld :
@@ -90,7 +89,6 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
         const distance = currentPosition.distanceTo(previousPosition);
         poppedBubbles.current.forEach(() => {
           const velocity = distance / elapsedTime;
-          console.log('velocity is ', velocity);
           gameState.popBubble(velocity, true, handedness);
         });
         poppedBubbles.current.clear();
