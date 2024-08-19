@@ -16,12 +16,12 @@ interface HandColliderProps {
 const previousPosition = new Vector3();
 const currentPosition = new Vector3();
 
-export default function HandCollider({ avatar, handedness }: HandColliderProps) {
-  const {
-    sceneLoaded,
-    getCurrentStreak,
-    getSideSpawned
-  } = useHookstateGetters();
+export default function HandCollider({
+  avatar,
+  handedness,
+}: HandColliderProps) {
+  const { sceneLoaded, getCurrentStreak, getSideSpawned } =
+    useHookstateGetters();
   const gameState = useGameState();
   const poppedBubbles = useRef<Set<string>>(new Set());
   const clock = useRef(new Clock());
@@ -55,22 +55,25 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
     setSideSpawned(getSideSpawned());
     // whenever the side spawned switches, start the current hand's clock
     clock.current.start();
-
-  }, [gameState.levels[0].sideSpawned])
+  }, [gameState.levels[0].sideSpawned]);
 
   useFrame(() => {
     if (sceneLoaded() && avatar.current) {
       // stop the clock if this isn't the hand currently popping bubbles
       if (
-        handedness === 'right' && sideSpawned !== 'right' ||
-        handedness === 'left' && sideSpawned !== 'left'
-      ) clock.current.stop();
+        (handedness === 'right' && sideSpawned !== 'right') ||
+        (handedness === 'left' && sideSpawned !== 'left')
+      )
+        clock.current.stop();
 
       const elapsedTime = clock.current.getElapsedTime();
 
-      const handNodeWorld = handedness === 'right' ?
-        avatar.current.humanoid.humanBones.rightMiddleProximal?.node.matrixWorld :
-        avatar.current.humanoid.humanBones.leftMiddleProximal?.node.matrixWorld;
+      const handNodeWorld =
+        handedness === 'right'
+          ? avatar.current.humanoid.humanBones.rightMiddleProximal?.node
+              .matrixWorld
+          : avatar.current.humanoid.humanBones.leftMiddleProximal?.node
+              .matrixWorld;
 
       if (!handNodeWorld) return;
 
@@ -90,9 +93,9 @@ export default function HandCollider({ avatar, handedness }: HandColliderProps) 
         poppedBubbles.current.forEach(() => {
           const velocity = distance / elapsedTime;
           gameState.popBubble(velocity, true, handedness);
+          console.log('Velocity measure: ', velocity);
         });
         poppedBubbles.current.clear();
-        // every time a bubble pops, reset the clock to 0 (since we're tracking time between bubble pops)
         clock.current.start();
       }
       previousPosition.copy(currentPosition);
