@@ -1,15 +1,15 @@
 // OFFICE WINDOW VIDEO TEXTURE
-export const officeWindowBG = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/officeWindowBg.mp4?v=1714683917649';
+export const officeWindowBG = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/officeWindowBg.mp4?v=1724106522063';
 
 // LENS FLARES
 export const lensFlares: { [key: string]: string } = {
-  'textFlare0': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlare3.png?v=1716574560336',
-  'textFlare1': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlarel1.png?v=1716574556548',
-  'textFlare2': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlareE1.png?v=1716574563228',
-  'textFlare3': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/lensFlareE2.png?v=1716574552655',
+  'textFlare0': 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/textFlare0.png?v=1724106315060',
+  'textFlare1': 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/textFlare1.png?v=1724106258788',
+  'textFlare2': 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/textFlare2.png?v=1724106376867',
+  'textFlare3': 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/textFlare3.png?v=1724106452879',
 }
 
-export const meadowHDR = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/meadow_2k.hdr?v=1715123590317';
-export const meadowMap = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/meadow_71.jpg?v=1722542072678';
+export const meadowHDR = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/OutdoorMeadow2K.hdr?v=1724105731790';
+export const meadowMap = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/OutdoorEnvironmentMap.jpg?v=1724106033182';
 
-export const cloudMap = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/cloud.jpg?v=1716582328055';
+export const cloudMap = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/OutdoorCloudMap.jpg?v=1724106128768';
