@@ -1,25 +1,25 @@
 // BASE BACKGROUND ANIMATION - THE ONE THAT LOOKS LIKE MOCAP DATA
-export const baseBGAnimation = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/ScoreBGAnimation.mp4?v=1722725388497';
+export const baseBGAnimation = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/BaseBGAnimation.mp4?v=1724098592130';
+
+// ENVIRONMENT SELECTION SETUP SCREEN - WHITE VERSION OF BASE BG ANIMATION
+export const setupBG = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/WhiteBGAnimation.mp4?v=1724098719370';
 
 // BUBBLE ANIMATIONS
 export const bubbleAnimations: { [key: string]: string } = {
-  'idle': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/BubbleIdle.webm?v=1722629899865',
-  'popping': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/SingleBubblePopAnim.webm?v=1722628545958',
+  idle: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/BubbleIdle.webm?v=1724098827602',
+  popping: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/SingleBubblePopAnim.webm?v=1724098946056',
 }
 
 // COUNTDOWN SCREEN
-export const countdownScreen = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/countdownNoAudio.webm?v=1723486422600';
-
-// ENVIRONMENT SELECTION SETUP SCREEN
-export const setupBG = 'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/BackgroundVid.mp4?v=1722457154866';
+export const countdownScreen = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/countdownNoAudio.webm?v=1724099159345';
 
 // LOADING SCREEN
-export const loadingSplashAnimation = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/loadingSplashAnimation.webm?v=1722475788192';
+export const loadingSplashAnimation = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/BottomLoadingSplashAnimation.webm?v=1724099280553';
+
+// SLIDING INFO
+export const slidingInfoBG = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/SlidingInfoBGAnimation.webm?v=1724099325758';
 
 // SCORE DISPLAY
 export const scoreDisplay: { [key: string]: string } = {
-  'fire': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/fireCropped.webm?v=1723242414359',
+  'fire': 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/fireCropped.webm?v=1724100348064',
 }
-
-// SLIDING INFO
-export const slidingInfoBG = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/slidingInfoBG.webm?v=1722534406119';
