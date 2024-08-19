@@ -179,3 +179,10 @@
     width: 50%;
   }
 }
+
+@-moz-document url-prefix() {
+  .score-popped {
+      top: 112%;
+      left: 10%;
+  }
+}
