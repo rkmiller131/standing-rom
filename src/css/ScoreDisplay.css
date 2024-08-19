@@ -38,10 +38,28 @@
 
 .player-score {
   position: absolute;
-  top: -65%;
   z-index: 3;
   height: 100%;
+  width: 5%;
   left: calc(2% + 80px); /* The bubble animation is min 80px, but generally 5% width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-score .fire-and-score {
+  position: relative;
+  display: inline-block;
+}
+
+.streaking-fire {
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+  scale: 2;
 }
 
 .player-score video {
@@ -58,11 +76,11 @@
 }
 
 .score-popped {
+  position: relative;
+  z-index: 2;
   font-size: var(--font-large);
-  position: absolute;
-  top: 115%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  color: white;
+  text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
 }
 
 .streak-effect {
@@ -177,12 +195,5 @@
 
   .score-ui-container {
     width: 50%;
-  }
-}
-
-@-moz-document url-prefix() {
-  .score-popped {
-      top: 112%;
-      left: 10%;
   }
 }

@@ -21,13 +21,15 @@ export default function PoppedScore() {
   }, [currentStreak])
 
   return (
-    <div className="player-score">
-      <video loop autoPlay muted className={`${streaking ? 'streaking-fire' : 'hide'}`}>
-        <source src={scoreDisplay['fire']} type="video/webm"/>
+  <div className="player-score">
+    <div className="fire-and-score">
+      <video loop autoPlay muted className={`${!streaking ? 'streaking-fire' : 'hide'}`}>
+        <source src={scoreDisplay['fire']} type="video/webm" />
       </video>
-      <span className={streaking ? 'streak-effect score-popped' : 'score-popped'}>
-          {popped}
+      <span className={!streaking ? 'streak-effect score-popped' : 'score-popped'}>
+        {popped}
       </span>
     </div>
-  )
+  </div>
+);
 }
