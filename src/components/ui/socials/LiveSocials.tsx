@@ -20,7 +20,7 @@ const connectedUsers: User[] = [
     role: 'Spectator',
     video: false,
     audio: false,
-    fakeVideo: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/stock3.JPG?v=1723147763201'
+    fakeVideo: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/stock3.JPG?v=1724094484381'
   },
   {
     id: 654654,
@@ -29,7 +29,7 @@ const connectedUsers: User[] = [
     video: true, // hard coded for now, depends on if streaming comes from client or server; third party tech like https://getstream.io/, from scratch, aws, etc.
     audio: true,
     speaking: true,
-    fakeVideo: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/stock1.JPG?v=1723146768212'
+    fakeVideo: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/stock1.JPG?v=1724094480243'
   },
   {
     id: 346597,
@@ -37,7 +37,7 @@ const connectedUsers: User[] = [
     role: 'Spectator',
     video: false,
     audio: true,
-    fakeVideo: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/stock4.JPG?v=1723147767759',
+    fakeVideo: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/stock4.JPG?v=1724094486048',
     speaking: true
   },
   // {
@@ -55,7 +55,7 @@ const connectedUsers: User[] = [
     role: 'Spectator',
     video: true,
     audio: false,
-    fakeVideo: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/stock2.JPG?v=1723146805247'
+    fakeVideo: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/stock2.JPG?v=1724094482319'
   }
 ];
 
