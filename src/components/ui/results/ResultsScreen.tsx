@@ -2,14 +2,14 @@ import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
 import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 import { faTachometerAlt, faDraftingCompass, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import AchievementItem from './AchievementItem';
 import StatItem from './StatItem';
-import GameControlButtons from './Buttons'
+import GameControlButtons from './GameControlButtons'
 
 import '../../../css/ResultsScreen.css';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 // FAKE DATABASE DATA MOCK - WOULD HAVE A TABLE/COLLECTION FOR ACHIEVEMENTS - A UTIL FUNCTION TODO IN UTILS > HTTP
 // fake return value would be something like:
@@ -99,8 +99,6 @@ export default function ResultsScreen() {
     medal = 'bronzeMedal.png';
   }
 
-  // TODO: ADD BUTTONS FOR GOING TO NEXT GAME OR TRYING AGAIN
-
   const handleSubmit = () => {
     const results = {
       datePlayed: new Date().toISOString().slice(0, 19),
@@ -161,9 +159,9 @@ export default function ResultsScreen() {
         </div>
         <div className="results-graph-container results-ui-box">
           <Line data={data} options={{ responsive: true, plugins: { legend: { display: false } } }} />
-          <div className="gameplay-buttons" >
-            <GameControlButtons onRestart={handleReplay} onNextGame={handleSubmit} /> { }
-          </div>
+        </div>
+        <div className="gameplay-buttons" >
+          <GameControlButtons onRestart={handleReplay} onNextGame={handleSubmit} />
         </div>
       </div>
     </div>

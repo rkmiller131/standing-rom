@@ -28,7 +28,7 @@ const connectedUsers: User[] = [
     role: 'Practitioner',
     video: true, // hard coded for now, depends on if streaming comes from client or server; third party tech like https://getstream.io/, from scratch, aws, etc.
     audio: true,
-    speaking: false,
+    speaking: true,
     fakeVideo: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/stock1.JPG?v=1723146768212'
   },
   {
@@ -38,7 +38,7 @@ const connectedUsers: User[] = [
     video: false,
     audio: true,
     fakeVideo: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/stock4.JPG?v=1723147767759',
-    speaking: false
+    speaking: true
   },
   // {
   //   id: 346597,

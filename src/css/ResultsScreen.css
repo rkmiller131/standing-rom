@@ -1,6 +1,7 @@
 #results-screen {
   display: flex;
   position: fixed;
+  width: 100%;
   height: 100vh;
   width: 100%;
   color: var(--uvx-primary);
@@ -91,6 +92,7 @@
 .results-summary::before{
   content: "Congratulations!";
   position: absolute;
+  width: 30%;
   z-index: 5;
   margin-top: -3.5rem;
   padding: 5px 10px;
@@ -111,7 +113,7 @@
 .medal-img {
   width: 200px;
   height: 200px;
-  animation: growMedal 0.75s linear;
+  animation: growMedal 1s linear;
 }
 
 .stats-container {
@@ -165,14 +167,14 @@
 }
 
 /* End of CSS Queen - start of Tony */
-.gameplay-buttons {
+/* .gameplay-buttons {
   position: absolute;
   width: 55%;
   z-index: 6;
   top: 79%;
-}
+} */
 
-.button {
+/* .button {
   position: absolute;
   padding: 5px 10px;
   border-radius: 8px;
@@ -202,19 +204,42 @@
 
 .button:hover {
   opacity: 0.8;
-}
+} */
 
 /* End of Tony CSS - start of CSS Queen */
 
-button {
-  background-color: var(--uvx-primary);
+/* css rework of buttons */
+
+.gameplay-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 5%;
+  z-index: 5;
+  margin-top: -2.5rem;
+}
+
+.button-primary, .button-secondary {
+  text-decoration: none;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: var(--font-small);
   border-radius: var(--border-radius);
   font-family: var(--font-primary);
   font-weight: var(--font-weight);
-  font-size: var(--font-medium);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: white;
 }
 
+.button-primary {
+  /* background: var(--uvx-secondary); */
+  background: #2196f3;
+}
 
+.button-secondary {
+  /* background: var(--uvx-primary); */
+  background: #4caf50;
+}
 
 @keyframes growMedal {
   0% {

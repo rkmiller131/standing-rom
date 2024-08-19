@@ -16,6 +16,7 @@ export default function SlidingInfo() {
 
   useEffect(() => {
     if (!mounted) {
+      mounted = true;
       gsap.fromTo('#sliding-info-screen',
         {
           transform: 'translateX(-200%)',
@@ -33,7 +34,6 @@ export default function SlidingInfo() {
       const audio = new Audio(announcer['getCalibrated']);
       audio.volume = 0.75;
       audio.play();
-      mounted = true;
     }
 
     if (sceneLoaded) {
