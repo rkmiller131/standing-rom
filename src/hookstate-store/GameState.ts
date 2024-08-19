@@ -26,11 +26,9 @@ export const useGameState = () => {
       ECS.world.clear();
       getGameSetup().then((results) => gameState.set(results));
     },
-    popBubble: (velocity: number, playerPopped: boolean, hand: string) => {
+    popBubble: (velocity: number, playerPopped: boolean, hand?: string) => {
       // remove the bubble from game state
-      const bubblesInPlay = gameState.levels[0].bubbleEntities
-        .get({ noproxy: true })
-        .slice(1);
+      const bubblesInPlay = gameState.levels[0].bubbleEntities.get({ noproxy: true }).slice(1);
       gameState.levels[0].bubbleEntities.set(bubblesInPlay);
 
       worldBubbleIds.splice(0, 1);
@@ -45,9 +43,7 @@ export const useGameState = () => {
         }
         gameState.score.currentStreak.set((prev) => prev + 1);
       } else {
-        if (hand === 'none') {
-          gameState.score.currentStreak.set(0);
-        }
+        gameState.score.currentStreak.set(0);
       }
     },
     toggleEndGame: () => {

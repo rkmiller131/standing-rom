@@ -94,11 +94,9 @@ export default function ResultsScreen() {
   const popped = getPoppedBubbleCount();
   const totalBubbles = getTotalBubbleCount();
 
-  const { right, left } = getPoppedVelocities() || { right: [], left: [] };
-  const { rightMax, leftMax } = calcAverageVelocity(
-    right as number[],
-    left as number[],
-  );
+  const { right, left } = getPoppedVelocities();
+  const avgRightVelocity = calcAverageVelocity(right as number[]).avg;
+  const avgLeftVelocity = calcAverageVelocity(left as number[]).avg;
 
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
 
@@ -132,8 +130,8 @@ export default function ResultsScreen() {
       datePlayed: new Date().toISOString().slice(0, 19),
       percentCompletion,
       bubblesPopped: popped,
-      RightMaxVelocity: Number(rightMax),
-      LeftMaxVelocity: Number(leftMax),
+      RightAvgVelocity: avgRightVelocity,
+      LeftAvgVelocity: avgLeftVelocity,
       maxLeftAngle: maxLeftArmAngle,
       maxRightAngle: maxRightArmAngle,
       completed: true,
@@ -184,12 +182,12 @@ export default function ResultsScreen() {
             <StatItem
               icon={faTachometerAlt}
               description="Popping Speed Right"
-              metric={`${rightMax.toFixed(2)}m/s`}
+              metric={`${avgRightVelocity}m/s`}
             />
             <StatItem
               icon={faTachometerAlt}
               description="Popping Speed Left"
-              metric={`${leftMax.toFixed(2)}m/s`}
+              metric={`${avgLeftVelocity}m/s`}
             />
             <StatItem
               icon={faDraftingCompass}

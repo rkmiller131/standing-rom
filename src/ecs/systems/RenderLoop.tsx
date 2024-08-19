@@ -12,8 +12,12 @@ interface RenderLoopProps {
 }
 
 export default function RenderLoop({ avatar }: RenderLoopProps) {
-  const { getMaxRightArmAngle, getMaxLeftArmAngle, gameRunning, gameOver } =
-    useHookstateGetters();
+  const {
+    getMaxRightArmAngle,
+    getMaxLeftArmAngle,
+    gameRunning,
+    gameOver
+  } = useHookstateGetters();
   const clock = useRef(new Clock());
   const gameState = useGameState();
 
@@ -112,7 +116,7 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
             const oldBubbleEntity = ECS.world.entity(oldBubbleId);
             if (oldBubbleEntity) ECS.world.remove(oldBubbleEntity);
             // update the gamestate "score" for missing a bubble (also removes from worldBubbleId manager)
-            gameState.popBubble(0, false, 'none');
+            gameState.popBubble(0, false);
           }
         }
       }
