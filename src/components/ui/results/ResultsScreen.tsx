@@ -19,9 +19,10 @@ import {
 import AchievementItem from './AchievementItem';
 import StatItem from './StatItem';
 import GameControlButtons from './GameControlButtons';
+import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
+import { badgesIcons } from '../../../utils/cdn-links/images';
 
 import '../../../css/ResultsScreen.css';
-import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 
 ChartJS.register(
   CategoryScale,
@@ -118,11 +119,11 @@ export default function ResultsScreen() {
 
   let medal;
   if (percentCompletion >= 90) {
-    medal = 'goldMedal.png';
+    medal = badgesIcons.goldMedal;
   } else if (percentCompletion >= 75) {
-    medal = 'silverMedal.webp';
+    medal = badgesIcons.silverMedal;
   } else {
-    medal = 'bronzeMedal.png';
+    medal = badgesIcons.bronzeMedal;
   }
 
   const handleSubmit = () => {
