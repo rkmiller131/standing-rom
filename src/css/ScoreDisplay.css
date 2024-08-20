@@ -65,6 +65,13 @@
   transform: translate(-50%, -50%);
 }
 
+@-moz-document url-prefix() {
+  .score-popped {
+      top: 115%;
+      left: 5%;
+  }
+}
+
 .streak-effect {
   color: #ffa500;
   text-shadow: 1px 1px 2px black, 0 0 1em orange, 0 0 0.2em black;
