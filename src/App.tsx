@@ -58,7 +58,7 @@ export default function App() {
         <Renderer>
           {environmentSelected() && <Environment />}
           <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
-          <CameraAnimations />
+          {/* <CameraAnimations /> */}
 
           {sceneLoaded() && (
             <>
@@ -66,7 +66,7 @@ export default function App() {
                 <AvatarHandColliders avatar={avatar} />
                 <Bubbles />
               </Physics>
-              {!gameOver() && <GameLogic avatar={avatar} />}
+              {/* {!gameOver() && <GameLogic avatar={avatar} />} */}
             </>
           )}
         </Renderer>
