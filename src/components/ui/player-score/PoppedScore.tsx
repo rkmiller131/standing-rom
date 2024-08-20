@@ -26,7 +26,7 @@ export default function PoppedScore() {
         <source src={scoreDisplay['fire']} type="video/webm"/>
       </video>
       <span className={streaking ? 'streak-effect score-popped' : 'score-popped'}>
-          {popped}
+        {popped}
       </span>
     </div>
   )

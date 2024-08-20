@@ -72,7 +72,7 @@ export default function SlidingInfo() {
             mainTitle='Shoulder ROM, Standing'
             className='sliding-title-override'
           />
-          <p className="sliding-info-instructions">Here is a paragraph description of how to play the game. Pop all the bubbles with good form! And something scientific related to the exercises document for starting position, movement, etc.</p>
+          <p className="sliding-info-instructions">Get ready to use your hands and pop some bubbles! Keeping your shoulders down and elbows straight, move your arms to reach to the side, front, and across your body. Let's get moving and see how well you can score!</p>
         </div>
       </div>
     </div>
