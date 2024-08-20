@@ -32,4 +32,6 @@ export default function PoppedScore() {
     </div>
   </div>
 );
+  </div>
+);
 }
