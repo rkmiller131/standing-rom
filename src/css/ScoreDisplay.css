@@ -47,9 +47,10 @@
   justify-content: center;
 }
 
-.player-score .fire-and-score {
-  position: relative;
-  display: inline-block;
+.fire-and-score {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .streaking-fire {
@@ -64,7 +65,7 @@
 
 .player-score video {
   max-width: 100%;
-  max-height: 150%;
+  max-height: 100%;
 }
 
 .score-popped, .score-possible, .score-divider {
@@ -76,7 +77,6 @@
 }
 
 .score-popped {
-  position: relative;
   z-index: 2;
   font-size: var(--font-large);
   color: white;

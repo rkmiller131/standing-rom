@@ -23,10 +23,10 @@ export default function PoppedScore() {
   return (
   <div className="player-score">
     <div className="fire-and-score">
-      <video loop autoPlay muted className={`${!streaking ? 'streaking-fire' : 'hide'}`}>
+      <video loop autoPlay muted className={`${streaking ? 'streaking-fire' : 'hide'}`}>
         <source src={scoreDisplay['fire']} type="video/webm" />
       </video>
-      <span className={!streaking ? 'streak-effect score-popped' : 'score-popped'}>
+      <span className={streaking ? 'streak-effect score-popped' : 'score-popped'}>
         {popped}
       </span>
     </div>
