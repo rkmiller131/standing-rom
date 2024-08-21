@@ -21,10 +21,10 @@ import StatItem from './StatItem';
 import GameControlButtons from './GameControlButtons';
 import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 import { badgesIcons } from '../../../utils/cdn-links/images';
+import { announcer } from '../../../utils/cdn-links/sounds';
+import { useRef } from 'react';
 
 import '../../../css/ResultsScreen.css';
-import { announcer } from '../../../utils/cdn-links/sounds';
-import { useEffect, useRef } from 'react';
 
 ChartJS.register(
   CategoryScale,
@@ -120,23 +120,21 @@ export default function ResultsScreen() {
     return gotAchievement;
   }
 
-  useEffect(() => {
-    let audio;
-    if (percentCompletion === 100) {
-      audio = new Audio(announcer['perfectScore']);
-    } else if (percentCompletion >= 90 && percentCompletion < 100) {
-      awardMedal.current = badgesIcons.goldMedal;
-      audio = new Audio(announcer['greatScore']);
-    } else if (percentCompletion >= 75) {
-      awardMedal.current = badgesIcons.silverMedal;
-      audio = new Audio(announcer['goodScore']);
-    } else {
-      awardMedal.current = badgesIcons.bronzeMedal;
-      audio = new Audio(announcer['badScore']);
-    }
-    audio.volume = 0.75;
-    audio.play();
-  }, [percentCompletion])
+  let audio;
+  if (percentCompletion === 100) {
+    audio = new Audio(announcer['perfectScore']);
+  } else if (percentCompletion >= 90) {
+    awardMedal.current = badgesIcons.goldMedal;
+    audio = new Audio(announcer['greatScore']);
+  } else if (percentCompletion >= 75) {
+    awardMedal.current = badgesIcons.silverMedal;
+    audio = new Audio(announcer['goodScore']);
+  } else {
+    awardMedal.current = badgesIcons.bronzeMedal;
+    audio = new Audio(announcer['badScore']);
+  }
+  audio.volume = 0.75;
+  audio.play();
 
   const handleSubmit = () => {
     const results = {
