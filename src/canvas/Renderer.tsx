@@ -53,17 +53,17 @@ export default function Renderer({ children }: RendererProps) {
       shadows
       camera={{
         position: [
-          -0.3737060168782445,
-          1.3687468948616854,
-          -1.8720478493827206
+          0,
+          1.2432788120890448,
+          0.04855705144919864
         ],
         fov: 40,
         near: 0.5,
         far: 75,
         rotation: [
-          -2.860051628191954,
-          -0.4493997502356422,
-          -3.016601731860828
+          -0.3,
+          0,
+          0
         ],
       }}
       gl={{ powerPreference: 'low-power', antialias: false }}
@@ -77,11 +77,6 @@ export default function Renderer({ children }: RendererProps) {
 // starting camera position for calibration
 // camera rotation is  _Euler{isEuler: true, _x: -2.860051628191954, _y: -0.4493997502356422, _z: -3.016601731860828, _order: 'XYZ',…}
 // GameLogic.tsx:21 camera position is  _Vector3{x: -0.3737060168782445, y: 1.3687468948616854, z: -1.8720478493827206, _gsap: GSCache2}
-
-
-// DECAP MODE
-// camera rotation is  _Euler{isEuler: true, _x: -0.14640285776693032, _y: -0.43579099813464367, _z: -0.06216584123056255, _order: 'XYZ',…}
-// CameraAnimations.tsx:101 camera position is  _Vector3{x: -0.0911629553722351, y: 1.2676112963292931, z: 0.06609373039466554}
 
 // IMPROVED DECAP MODE
 // camera rotation is  _Euler{isEuler: true, _x: -0.46022968234923023, _y: 0.012317874339850047, _z: 0.006106169450306481, _order: 'XYZ',…}

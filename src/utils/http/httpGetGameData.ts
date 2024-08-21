@@ -2,11 +2,9 @@
 
 export default async function httpGetGameData() {
   // implement the feathers internal service later, for now just return static vals
-  const reps = 5;
-  const sets = 10;
+  const numTargets = 50;
   return {
-    reps,
-    sets,
+    numTargets,
     ok: true, // mimic a 200 response
   };
 }
