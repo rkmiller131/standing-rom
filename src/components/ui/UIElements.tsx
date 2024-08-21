@@ -7,7 +7,6 @@ import ResultsScreen from './results/ResultsScreen';
 import UVXBrandWatermark from './UVXBrandWatermark';
 import ViewControls from './ViewControls';
 import CountdownScreen from './CountdownScreen';
-import SlidingInfo from './SlidingInfo';
 import GameInstructions from './GameInstructions';
 
 const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
@@ -18,11 +17,11 @@ interface UIProps {
 }
 
 export default function UIElements({ avatar }: UIProps) {
-  const { 
-    environmentLoaded, 
-    environmentSelected, 
-    sceneLoaded, 
-    gameOver 
+  const {
+    environmentLoaded,
+    environmentSelected,
+    sceneLoaded,
+    gameOver
   } = useHookstateGetters();
   const [consentGiven, setConsentGiven] = useState(false);
 
@@ -31,22 +30,21 @@ export default function UIElements({ avatar }: UIProps) {
   }
   return (
     <>
-      { !consentGiven ? 
+      { !consentGiven ?
         <GameInstructions clickHandler={clientGrantsConsent}/> :
-        <SetupScreen /> 
+        <SetupScreen />
       }
       <UVXBrandWatermark />
       {environmentSelected() && <LoadingScreen />}
       {gameOver() && <ResultsScreen />}
-      {environmentLoaded() && <SlidingInfo />}
       <Suspense fallback={null}>
-        {environmentLoaded() && (
+        {environmentLoaded() && <LiveSocials />}
+        {sceneLoaded() && (
           <>
-            <LiveSocials />
+            <CountdownScreen />
             <ViewControls avatar={avatar} />
           </>
         )}
-        {sceneLoaded() && <CountdownScreen />}
         <ScoreDisplay />
       </Suspense>
     </>

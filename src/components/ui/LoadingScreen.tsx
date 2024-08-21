@@ -12,14 +12,14 @@ let unmountComponent = false;
 export default function LoadingScreen() {
   const sceneState = useSceneState();
   const {
-    environmentLoaded,
+    sceneLoaded,
     environmentSelected
   } = useHookstateGetters();
   const [isLoading, setIsLoading] = useState(true);
   const selection = environmentSelected();
 
   useEffect(() => {
-    if (environmentLoaded()) {
+    if (sceneLoaded()) {
       setIsLoading(false);
       setTimeout(() => {
         console.log('Closing Loading Screen...');
@@ -27,7 +27,7 @@ export default function LoadingScreen() {
       }, 1000);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sceneState.environmentLoaded]);
+  }, [sceneState.sceneLoaded]);
 
   if (unmountComponent) return null;
 

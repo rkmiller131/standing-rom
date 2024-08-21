@@ -10,8 +10,8 @@ import checkUserDevice from './utils/general/checkUserDevice';
 import Mocap from './components/Mocap';
 import Avatar from './components/Avatar';
 import Environment from './components/environment/Environment';
-import CameraAnimations from './components/CameraAnimations';
-import GameLogic from './ecs/systems/GameLogic';
+// import CameraAnimations from './components/CameraAnimations';
+// import GameLogic from './ecs/systems/GameLogic';
 import UIElements from './components/ui/UIElements';
 
 import './css/App.css';
@@ -23,7 +23,7 @@ export default function App() {
     environmentLoaded,
     environmentSelected,
     sceneLoaded,
-    gameOver
+    // gameOver
   } = useHookstateGetters();
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDevice());
@@ -49,11 +49,7 @@ export default function App() {
     <>
       <UIElements avatar={avatar} />
 
-      {environmentLoaded() && (
-        <>
-          <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-        </>
-      )}
+      {environmentLoaded() && <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />}
       <Suspense fallback={null}>
         <Renderer>
           {environmentSelected() && <Environment />}
