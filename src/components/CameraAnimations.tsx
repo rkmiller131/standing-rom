@@ -1,4 +1,4 @@
-import { useThree } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect } from 'react';
 import { useGameState } from '../hookstate-store/GameState';
 import { gsap } from 'gsap';
@@ -96,6 +96,11 @@ export default function CameraAnimations() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sideSpawned]);
+
+  useFrame(() => {
+    console.log('camera position is ', camera.position);
+    console.log('camera rotation is ', camera.rotation);
+  })
 
   return null;
 }
