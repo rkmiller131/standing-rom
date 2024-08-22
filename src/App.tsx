@@ -49,11 +49,7 @@ export default function App() {
     <>
       <UIElements avatar={avatar} />
 
-      {environmentLoaded() && (
-        <>
-          <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
-        </>
-      )}
+      {environmentLoaded() && <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />}
       <Suspense fallback={null}>
         <Renderer>
           {environmentSelected() && <Environment />}
