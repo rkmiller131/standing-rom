@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
 import { VRM } from '@pixiv/three-vrm';
-import { Physics } from '@react-three/cannon';
+import { Debug, Physics } from '@react-three/cannon';
 import { Bubbles } from './ecs/entities/Bubbles';
 import AvatarHandColliders from './components/physics/AvatarHandColliders';
 import { useSceneState } from './hookstate-store/SceneState';
@@ -59,8 +59,10 @@ export default function App() {
           {sceneLoaded() && (
             <>
               <Physics gravity={[0, 0, 0]}>
-                <AvatarHandColliders avatar={avatar} />
-                <Bubbles />
+                <Debug color="blue">
+                  <AvatarHandColliders avatar={avatar} />
+                  <Bubbles />
+                </Debug>
               </Physics>
               {!gameOver() && <GameLogic avatar={avatar} />}
             </>
