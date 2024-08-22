@@ -27,12 +27,17 @@ const Bubble = forwardRef((
 ) => {
   const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
   const [bubblePopped, setBubblePopped] = useState(false);
+  const [localPosition, setLocalPosition] = useState(position.clone());
 
   const attachRefs = (colliderApi: PublicApi) => {
     if (colliderApi) {
       setPhysicsApi(colliderApi);
     }
   }
+
+  useEffect(() => {
+    setLocalPosition(position.clone());
+  }, [position]);
 
   useEffect(() => {
     if (bubblePopped && physicsApi) {
@@ -53,7 +58,7 @@ const Bubble = forwardRef((
     <>
       {bubblePopped ? (
         <BubbleParticles
-          position={[position.x, position.y + 0.1, position.z]}
+          position={[localPosition.x, localPosition.y + 0.1, localPosition.z]}
           radius={0.1}
           count={100}
         />
@@ -64,7 +69,7 @@ const Bubble = forwardRef((
               // <meshStandardMaterial color='blue' /> :
               // Temporarily adding a bubble material that can accept either active/inactive property depending on if we
               // want to use it for both (going the pure shader route). Can refactor later to remove unused code in BubbleMaterial.tsx
-              <BubbleMaterial active={active} position={position}/> :
+              <BubbleMaterial active={active} position={localPosition}/> :
               <MeshDistortMaterial
                 attach="material"
                 color="#89CFF0"
@@ -87,7 +92,7 @@ const Bubble = forwardRef((
       )}
       {active && <BubbleCollider
         onAttachRefs={attachRefs}
-        position={position}
+        position={localPosition}
         onCollideBegin={onCollideBegin}
       />}
     </>

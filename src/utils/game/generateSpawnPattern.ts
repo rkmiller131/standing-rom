@@ -12,7 +12,6 @@ export default function generateSpawnPattern(numTargets: number): LevelsType {
         const spawnPos = new Vector3(posX, 1, -4.5);
 
         const bubbleEntity = {
-            age: 0,
             spawnPosition: spawnPos,
             active: true
         }

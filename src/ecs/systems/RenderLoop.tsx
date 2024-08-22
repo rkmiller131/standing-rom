@@ -23,6 +23,7 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
   } = useHookstateGetters();
   const clock = useRef(new Clock());
   const gameState = useGameState();
+  console.log('gameSTate is ', gameState);
 
   useFrame((_state, delta) => {
     if (gameOver()) return;
@@ -73,12 +74,12 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
         nextSpawnCountdown -= delta;
       } else {
         // spawn bubble and reset the countdown!
-        const bubbleEntity = ECS.world.add({
-          spawnPosition: level[0].spawnPosition,
-          active: true
-        });
-        const bubbleId = ECS.world.id(bubbleEntity);
-        if (bubbleId === 0 || bubbleId) worldBubbleIds.push(bubbleId);
+        // const bubbleEntity = ECS.world.add({
+        //   spawnPosition: level[0].spawnPosition,
+        //   active: true
+        // });
+        // const bubbleId = ECS.world.id(bubbleEntity);
+        // if (bubbleId === 0 || bubbleId) worldBubbleIds.push(bubbleId);
 
         nextSpawnCountdown = SPAWN_INTERVAL;
       }
