@@ -1,18 +1,18 @@
-import { ECS } from '../World';
+import { ECS, queries } from '../World';
 import { useEntities } from 'miniplex-react';
 import BubbleEntity from './BubbleEntity';
 
 export const Bubbles = () => {
   // query the world for everything that has a 'bubble' tag or related components
-  const entities = useEntities(ECS.world.with('bubble'));
+  const entities = useEntities(queries.bubbles);
   return (
     <>
       <ECS.Entities in={entities}>
         {(e) => (
             <BubbleEntity
               entity={e}
-              position={e.bubble.spawnPosition}
-              active={e.bubble.active}
+              position={e.spawnPosition}
+              active={e.active}
             />
           )}
       </ECS.Entities>

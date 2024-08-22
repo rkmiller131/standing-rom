@@ -14,13 +14,7 @@ export type Bubble = {
   active: boolean;
 };
 
-export type SetType = {
-  sideSpawned: 'right' | 'left' | 'frontR' | 'frontL' | 'crossR' | 'crossL';
-  bubbleEntities: Bubble[];
-  inPlay: boolean;
-};
-
-export type LevelsType = Array<SetType>;
+export type LevelsType = Array<Bubble>;
 
 export type ScoreType = {
   totalBubbles: number;
@@ -33,7 +27,7 @@ export type ScoreType = {
 };
 
 export type GameType = {
-  levels: LevelsType;
+  level: LevelsType;
   score: ScoreType;
   gameOver: boolean;
 };

@@ -14,8 +14,8 @@ export const bubblePopSounds: { [key: number]: string } = {
 }
 
 export const backgroundMusic: { [key: string]: string } = {
-  'IndoorOffice': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/OfficeNCS.mp3?v=1715028230989',
-  'Outdoors': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/OutdoorBGMusic.mp3?v=1716583481676',
+  'IndoorOffice': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Casino%20Lights.mp3?v=1724273150647',
+  'Outdoors': 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/Bubble%20Pop%20Adventure.mp3?v=1724273159899',
 }
 
 export const gameOverSFX = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/gameOverSFX.mp3?v=1722979032668';

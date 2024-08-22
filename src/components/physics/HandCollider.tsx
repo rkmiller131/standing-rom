@@ -51,11 +51,11 @@ export default function HandCollider({
   }));
 
   useEffect(() => {
-    if (!gameState.levels[0].sideSpawned) return;
+    if (!gameState.level[0]) return;
     setSideSpawned(getSideSpawned());
     // whenever the side spawned switches, start the current hand's clock
     clock.current.start();
-  }, [gameState.levels[0].sideSpawned]);
+  }, [gameState.level]);
 
   useFrame(() => {
     if (sceneLoaded() && avatar.current) {

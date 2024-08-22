@@ -1,10 +1,10 @@
 import { hookstate, useHookstate } from '@hookstate/core';
 import { GameType } from './Types';
-import { ECS, worldBubbleIds } from '../ecs/World';
+import { ECS, removeBubbleFromECSFIFO } from '../ecs/World';
 import getGameSetup from '../utils/game/getGameSetup';
 
 const initialState: GameType = hookstate({
-  levels: [],
+  level: [],
   score: {
     totalBubbles: 0,
     popped: 0,
@@ -28,10 +28,11 @@ export const useGameState = () => {
     },
     popBubble: (velocity: number, playerPopped: boolean, hand?: string) => {
       // remove the bubble from game state
-      const bubblesInPlay = gameState.levels[0].bubbleEntities.get({ noproxy: true }).slice(1);
-      gameState.levels[0].bubbleEntities.set(bubblesInPlay);
+      const bubblesInPlay = gameState.level.get({ noproxy: true }).slice(1);
+      gameState.level.set(bubblesInPlay);
 
-      worldBubbleIds.splice(0, 1);
+      // worldBubbleIds.splice(0, 1);
+      removeBubbleFromECSFIFO();
 
       if (playerPopped) {
         gameState.score.popped.set((prev) => prev + 1);

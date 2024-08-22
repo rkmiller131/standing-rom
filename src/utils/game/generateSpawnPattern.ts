@@ -1,6 +1,7 @@
 import { Vector3 } from 'three';
+import { LevelsType } from '../../hookstate-store/Types';
 
-export default function generateSpawnPattern(numTargets: number) {
+export default function generateSpawnPattern(numTargets: number): LevelsType {
     const level = [];
 
     for (let i = 0; i < numTargets; i++) {
@@ -13,9 +14,11 @@ export default function generateSpawnPattern(numTargets: number) {
         const bubbleEntity = {
             age: 0,
             spawnPosition: spawnPos,
-            active: false
+            active: true
         }
 
         level.push(bubbleEntity);
     }
+
+    return level;
 }

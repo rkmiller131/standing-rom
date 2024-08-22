@@ -25,9 +25,9 @@ export default function useHookstateGetters() {
   };
   const getCurrentStreak = () => gameState.score.currentStreak.get({ noproxy: true });
   const getSideSpawned = () => {
-    if (gameState.levels.length > 0) {
-      const side = gameState.levels[0].sideSpawned.get({ noproxy: true });
-      if (side === 'right' || side === 'crossR' || side === 'frontR') {
+    if (gameState.level.length > 0) {
+      const spawnPos = gameState.level[0].spawnPosition.get({ noproxy: true });
+      if (spawnPos.x >= 0) {
         return 'right';
       } else {
         return 'left';

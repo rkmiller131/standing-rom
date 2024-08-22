@@ -5,11 +5,8 @@ import { SceneObjectComponent } from './components/sceneObject';
 import { BubbleCollider } from './components/bubbleCollider';
 
 type WorldEntities = {
-  bubble: {
-    age: number;
-    spawnPosition: Vector3;
-    active: boolean;
-  }
+  spawnPosition: Vector3,
+  active: boolean
 }
 
 type OptionalComponents = SceneObjectComponent & BubbleCollider;
@@ -27,11 +24,28 @@ export const ECS = createReactAPI(world);
 just need reference to them. However, will need to refactor with uuids */
 export const worldBubbleIds = [] as number[];
 
+export const queries = {
+  moving: world.with('spawnPosition'),
+  bubbles: world.with('spawnPosition', 'active')
+}
+
 export function removeBubbleFromECSFIFO() {
   const currentECSBubbleId = worldBubbleIds[0];
   const bubbleEntity = ECS.world.entity(currentECSBubbleId);
   if (bubbleEntity) ECS.world.remove(bubbleEntity);
   worldBubbleIds.splice(0, 1);
+}
+
+const MAX_DISTANCE = 1.5;
+
+export function bubbleMoveSystem(delta: number, cb: () => void) {
+  for (const entity of queries.moving) {
+    entity.spawnPosition.z += delta;
+    if (entity.spawnPosition.z > MAX_DISTANCE) {
+      cb();
+      removeBubbleFromECSFIFO()
+    }
+  }
 }
 
 // HELPFUL EXAMPLE (BETTER THAN THE DOCS)

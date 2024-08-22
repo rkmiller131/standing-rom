@@ -7,6 +7,7 @@ interface BubbleEntityProps {
     entity: Entity,
     active: boolean
 }
+
 const BubbleEntity = ({ position, entity, active }: BubbleEntityProps) => {
     return (
         <ECS.Entity entity={entity}>
