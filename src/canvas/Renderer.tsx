@@ -30,10 +30,10 @@ export default function Renderer({ children }: RendererProps) {
       camera={{
         position: [
           0,
-          1.2432788120890448,
-          0.04855705144919864
+          1.24,
+          0.06
         ],
-        fov: 50,
+        fov: 60,
         near: 0.1,
         far: 75,
         rotation: [
@@ -54,10 +54,10 @@ export default function Renderer({ children }: RendererProps) {
       camera={{
         position: [
           0,
-          1.2432788120890448,
-          0.04855705144919864
+          1.24,
+          0.06
         ],
-        fov: 40,
+        fov: 60,
         near: 0.5,
         far: 75,
         rotation: [
