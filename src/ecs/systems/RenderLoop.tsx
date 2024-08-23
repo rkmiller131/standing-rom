@@ -12,7 +12,7 @@ interface RenderLoopProps {
 }
 
 const SPAWN_INTERVAL = 3;
-let nextSpawnCountdown = SPAWN_INTERVAL;
+let nextSpawnCountdown = 0;
 
 export default function RenderLoop({ avatar }: RenderLoopProps) {
   const {
@@ -23,7 +23,6 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
   } = useHookstateGetters();
   const clock = useRef(new Clock());
   const gameState = useGameState();
-  console.log('gameSTate is ', gameState);
 
   useFrame((_state, delta) => {
     if (gameOver()) return;
