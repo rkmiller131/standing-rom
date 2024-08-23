@@ -1,10 +1,8 @@
 import { LegacyRef, forwardRef, useEffect, useState } from 'react';
 import { MeshDistortMaterial, Sphere } from '@react-three/drei';
-import BubbleCollider from '../physics/BubbleCollider';
-import { PublicApi } from '@react-three/cannon';
+import { useSphere } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
 import BubbleParticles from './particle-effect/BubbleParticles';
-import BubbleMaterial from './materials/BubbleMaterial';
 import { useFrame } from '@react-three/fiber';
 import { useGameState } from '../../hookstate-store/GameState';
 
@@ -24,29 +22,34 @@ interface BubbleProps {
 }
 
 const MAX_DISTANCE = 1.5;
+const collisionFilterGroup = 1 << 2 // Bubbles assigned to group 4 (2^2)
+const collisionFilterMask = (1 << 0) | (1 << 1) // Allow interaction with hands (group 1 and 2)
 
 const Bubble = forwardRef((
-  { position, active }: BubbleProps,
+  { position }: BubbleProps,
   ref: LegacyRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>
 ) => {
-  const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
   const [bubblePopped, setBubblePopped] = useState(false);
   const [bubbleZ, setBubbleZ] = useState(position.clone().z);
   const gameState = useGameState();
 
-  const attachRefs = (colliderApi: PublicApi) => {
-    if (colliderApi) {
-      setPhysicsApi(colliderApi);
-    }
-  }
+  const [colliderRef, api] = useSphere<Mesh>(() => ({
+    position: [position.x, position.y, bubbleZ],
+    onCollideBegin: () => {
+      setBubblePopped(true);
+    },
+    args: [0.08] as [radius: number],
+    type: 'Dynamic',
+    collisionFilterGroup,
+    collisionFilterMask
+  }))
 
   useFrame((_state, delta) => {
     if (bubbleZ > MAX_DISTANCE) {
       gameState.popBubble(0, false);
-      setBubblePopped(true);
-    } else if (physicsApi) {
+    } else if (api) {
       setBubbleZ((bubbleZ) => bubbleZ + delta);
-      physicsApi.position.set(
+      api.position.set(
         position.x,
         position.y,
         bubbleZ
@@ -55,61 +58,46 @@ const Bubble = forwardRef((
   })
 
   useEffect(() => {
-    if (bubblePopped && physicsApi) {
+    if (bubblePopped && api) {
       // can't destroy cannon collider, so just move it far away
-      physicsApi.position.set(
+      api.position.set(
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10)
       )
     }
-  }, [bubblePopped, physicsApi])
-
-  const onCollideBegin = () => {
-    setBubblePopped(true);
-  };
+  }, [bubblePopped, api])
 
   return (
     <>
       {bubblePopped ? (
         <BubbleParticles
-          position={[position.x, position.y + 0.1, position.z]}
-          radius={0.1}
+          position={[position.x, position.y + 0.1, -0.7]}
+          radius={0.25}
           count={100}
         />
       ) : (
-        <mesh position={position}>
-          <Sphere ref={ref} args={[0.05, 8, 8]}>
-            {!active ?
-              // <meshStandardMaterial color='blue' /> :
-              // Temporarily adding a bubble material that can accept either active/inactive property depending on if we
-              // want to use it for both (going the pure shader route). Can refactor later to remove unused code in BubbleMaterial.tsx
-              <BubbleMaterial active={active} position={position}/> :
-              <MeshDistortMaterial
-                attach="material"
-                color="#89CFF0"
-                distort={0.2}
-                speed={3}
-                roughness={0}
-                clearcoat={1}
-                clearcoatRoughness={0.5}
-                metalness={0.4}
-                envMapIntensity={0}
-                transparent
-                opacity={0.8}
-                reflectivity={1}
-                emissive="blue"
-                emissiveIntensity={0.5}
-              />
-            }
+        <mesh position={position} ref={colliderRef}>
+          <Sphere args={[0.08, 16, 16]} ref={ref}>
+            <MeshDistortMaterial
+              attach="material"
+              color="#89CFF0"
+              distort={0.2}
+              speed={3}
+              roughness={0}
+              clearcoat={1}
+              clearcoatRoughness={0.5}
+              metalness={0.4}
+              envMapIntensity={0}
+              transparent
+              opacity={0.8}
+              reflectivity={1}
+              emissive="blue"
+              emissiveIntensity={0.5}
+            />
           </Sphere>
         </mesh>
       )}
-      {active && <BubbleCollider
-        onAttachRefs={attachRefs}
-        position={position}
-        onCollideBegin={onCollideBegin}
-      />}
     </>
   );
 });
