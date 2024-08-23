@@ -2,7 +2,11 @@ import { ECS, queries } from '../World';
 import { useEntities } from 'miniplex-react';
 import BubbleEntity from './BubbleEntity';
 
-export const Bubbles = () => {
+interface BubblesProps {
+  playParticles: (position: [number, number, number]) => void;
+}
+
+export const Bubbles = ({ playParticles }: BubblesProps) => {
   // query the world for everything that has a 'bubble' tag or related components
   const entities = useEntities(queries.bubbles);
   return (
@@ -12,7 +16,7 @@ export const Bubbles = () => {
             <BubbleEntity
               entity={e}
               position={e.spawnPosition}
-              active={e.active}
+              playParticles={playParticles}
             />
           )}
       </ECS.Entities>

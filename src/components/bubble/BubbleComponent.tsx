@@ -2,9 +2,9 @@ import { LegacyRef, forwardRef, useEffect, useState } from 'react';
 import { MeshDistortMaterial, Sphere } from '@react-three/drei';
 import { useSphere } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
-import BubbleParticles from './particle-effect/BubbleParticles';
 import { useFrame } from '@react-three/fiber';
 import { useGameState } from '../../hookstate-store/GameState';
+// import BubbleParticles from './particle-effect/BubbleParticles';
 
 // Bubble is wrapped in ECS.Component, which implicitly "fowards" a ref to the Bubble component
 // forwardRef allows this parent to pass a ref directly to this child, as denoted by the child declaring
@@ -18,7 +18,7 @@ import { useGameState } from '../../hookstate-store/GameState';
 
 interface BubbleProps {
   position: Vector3;
-  active: boolean;
+  playParticles: (position: [number, number, number]) => void;
 }
 
 const MAX_DISTANCE = 1.5;
@@ -26,7 +26,7 @@ const collisionFilterGroup = 1 << 2 // Bubbles assigned to group 4 (2^2)
 const collisionFilterMask = (1 << 0) | (1 << 1) // Allow interaction with hands (group 1 and 2)
 
 const Bubble = forwardRef((
-  { position }: BubbleProps,
+  { position, playParticles }: BubbleProps,
   ref: LegacyRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>
 ) => {
   const [bubblePopped, setBubblePopped] = useState(false);
@@ -37,6 +37,7 @@ const Bubble = forwardRef((
     position: [position.x, position.y, bubbleZ],
     onCollideBegin: () => {
       setBubblePopped(true);
+      playParticles([position.x, position.y + 0.1, -0.7]);
     },
     args: [0.08] as [radius: number],
     type: 'Dynamic',
@@ -64,19 +65,13 @@ const Bubble = forwardRef((
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10),
         (Math.floor(Math.random() * 11) + 10)
-      )
+      );
     }
   }, [bubblePopped, api])
 
   return (
     <>
-      {bubblePopped ? (
-        <BubbleParticles
-          position={[position.x, position.y + 0.1, -0.7]}
-          radius={0.25}
-          count={100}
-        />
-      ) : (
+      {bubblePopped ? null : (
         <mesh position={position} ref={colliderRef}>
           <Sphere args={[0.08, 16, 16]} ref={ref}>
             <MeshDistortMaterial

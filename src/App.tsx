@@ -15,6 +15,7 @@ import GameLogic from './ecs/systems/GameLogic';
 import UIElements from './components/ui/UIElements';
 
 import './css/App.css';
+import BubbleParticles from './components/bubble/particle-effect/BubbleParticles';
 
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
@@ -29,11 +30,21 @@ export default function App() {
   sceneState.device.set(checkUserDevice());
 
   const [holisticLoaded, setHolisticLoaded] = useState(false);
+  const [particlesVisible, setParticlesVisible] = useState(false);
+  const [particlePos, setParticlePos] = useState([0, 0, 0] as [number, number, number])
   const avatar = useRef<VRM | null>(null);
 
   const setAvatarModel = (vrm: VRM) => {
     avatar.current = vrm;
   };
+
+  const toggleParticles = () => {
+    setParticlesVisible(false);
+  }
+  const playParticles = (position: [number, number, number]) => {
+    setParticlePos(position);
+    setParticlesVisible(true);
+  }
 
   useLayoutEffect(() => {
     if (avatar.current && holisticLoaded && environmentLoaded()) {
@@ -60,7 +71,13 @@ export default function App() {
             <>
               <Physics gravity={[0, 0, 0]}>
                 <AvatarHandColliders avatar={avatar} />
-                <Bubbles />
+                <Bubbles playParticles={playParticles}/>
+                {particlesVisible &&
+                  <BubbleParticles
+                    position={particlePos}
+                    toggleParticles={toggleParticles}
+                  />
+                }
               </Physics>
               {!gameOver() && <GameLogic avatar={avatar} />}
             </>

@@ -5,14 +5,14 @@ import BubbleComponent from '../../components/bubble/BubbleComponent';
 interface BubbleEntityProps {
     position: Vector3,
     entity: Entity,
-    active: boolean
+    playParticles: (position: [number, number, number]) => void;
 }
 
-const BubbleEntity = ({ position, entity, active }: BubbleEntityProps) => {
+const BubbleEntity = ({ position, entity, playParticles }: BubbleEntityProps) => {
     return (
         <ECS.Entity entity={entity}>
             <ECS.Component name="sceneObject">
-                <BubbleComponent position={position} active={active}/>
+                <BubbleComponent position={position} playParticles={playParticles}/>
             </ECS.Component>
         </ECS.Entity>
     )
