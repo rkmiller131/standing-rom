@@ -5,6 +5,8 @@ import { PublicApi } from '@react-three/cannon';
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Object3DEventMap, Vector3 } from 'three';
 import BubbleParticles from './particle-effect/BubbleParticles';
 import BubbleMaterial from './materials/BubbleMaterial';
+import { useFrame } from '@react-three/fiber';
+import { useGameState } from '../../hookstate-store/GameState';
 
 // Bubble is wrapped in ECS.Component, which implicitly "fowards" a ref to the Bubble component
 // forwardRef allows this parent to pass a ref directly to this child, as denoted by the child declaring
@@ -21,13 +23,16 @@ interface BubbleProps {
   active: boolean;
 }
 
+const MAX_DISTANCE = 1.5;
+
 const Bubble = forwardRef((
   { position, active }: BubbleProps,
   ref: LegacyRef<Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap>>
 ) => {
   const [physicsApi, setPhysicsApi] = useState<PublicApi | null>(null);
   const [bubblePopped, setBubblePopped] = useState(false);
-  const [localPosition, setLocalPosition] = useState(position.clone());
+  const [bubbleZ, setBubbleZ] = useState(position.clone().z);
+  const gameState = useGameState();
 
   const attachRefs = (colliderApi: PublicApi) => {
     if (colliderApi) {
@@ -35,9 +40,19 @@ const Bubble = forwardRef((
     }
   }
 
-  useEffect(() => {
-    setLocalPosition(position.clone());
-  }, [position]);
+  useFrame((_state, delta) => {
+    if (bubbleZ > MAX_DISTANCE) {
+      gameState.popBubble(0, false);
+      setBubblePopped(true);
+    } else if (physicsApi) {
+      setBubbleZ((bubbleZ) => bubbleZ + delta);
+      physicsApi.position.set(
+        position.x,
+        position.y,
+        bubbleZ
+      )
+    }
+  })
 
   useEffect(() => {
     if (bubblePopped && physicsApi) {
@@ -58,7 +73,7 @@ const Bubble = forwardRef((
     <>
       {bubblePopped ? (
         <BubbleParticles
-          position={[localPosition.x, localPosition.y + 0.1, localPosition.z]}
+          position={[position.x, position.y + 0.1, position.z]}
           radius={0.1}
           count={100}
         />
@@ -69,7 +84,7 @@ const Bubble = forwardRef((
               // <meshStandardMaterial color='blue' /> :
               // Temporarily adding a bubble material that can accept either active/inactive property depending on if we
               // want to use it for both (going the pure shader route). Can refactor later to remove unused code in BubbleMaterial.tsx
-              <BubbleMaterial active={active} position={localPosition}/> :
+              <BubbleMaterial active={active} position={position}/> :
               <MeshDistortMaterial
                 attach="material"
                 color="#89CFF0"
@@ -92,7 +107,7 @@ const Bubble = forwardRef((
       )}
       {active && <BubbleCollider
         onAttachRefs={attachRefs}
-        position={localPosition}
+        position={position}
         onCollideBegin={onCollideBegin}
       />}
     </>

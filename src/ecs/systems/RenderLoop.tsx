@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { Clock } from 'three';
 import { VRM } from '../../interfaces/THREE_Interface';
 import calcArmAngles from '../../utils/math/calcArmAngles';
-import { bubbleMoveSystem, ECS, worldBubbleIds } from '../World';
+import { ECS, worldBubbleIds } from '../World';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 import { useGameState } from '../../hookstate-store/GameState';
 
@@ -67,19 +67,19 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
     if (level && level.length > 0) {
       // if we spawned a bubble and still have time left
       if (nextSpawnCountdown > 0) {
-        bubbleMoveSystem(delta, () => {
-          gameState.popBubble(0, false);
-        })
+        // bubbleMoveSystem(delta, () => {
+        //   gameState.popBubble(0, false);
+        // })
         // keep decrementing the countdown
         nextSpawnCountdown -= delta;
       } else {
         // spawn bubble and reset the countdown!
-        // const bubbleEntity = ECS.world.add({
-        //   spawnPosition: level[0].spawnPosition,
-        //   active: true
-        // });
-        // const bubbleId = ECS.world.id(bubbleEntity);
-        // if (bubbleId === 0 || bubbleId) worldBubbleIds.push(bubbleId);
+        const bubbleEntity = ECS.world.add({
+          spawnPosition: level[0].spawnPosition,
+          active: true
+        });
+        const bubbleId = ECS.world.id(bubbleEntity);
+        if (bubbleId === 0 || bubbleId) worldBubbleIds.push(bubbleId);
 
         nextSpawnCountdown = SPAWN_INTERVAL;
       }
