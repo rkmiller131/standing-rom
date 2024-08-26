@@ -23,7 +23,7 @@ export default function OutdoorScene() {
     // delay the scene loading to let async instances come into the scene
     const timer = setTimeout(() => {
       sceneState.environmentLoaded.set(true);
-    }, 7000);
+    }, 8000);
 
     return () => clearTimeout(timer);
   }, []);
