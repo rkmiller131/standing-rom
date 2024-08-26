@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import {
-  CameraHelper,
   DirectionalLight,
   EquirectangularReflectionMapping,
   TextureLoader,
