@@ -11,13 +11,15 @@ import {
 } from 'three';
 import {
   audioLoader,
-  audioListener as listener
+  audioListener as listener,
 } from '../../../../interfaces/THREE_Interface';
+import { useSceneState } from '../../../../hookstate-store/SceneState';
 
 const songPath = backgroundMusic['IndoorOffice'];
 
 export default function Sound() {
   const { camera, scene } = useThree();
+  const sceneState = useSceneState();
 
   useEffect(() => {
     camera.add(listener);
@@ -37,7 +39,13 @@ export default function Sound() {
       sound.setRefDistance(20);
       sound.setVolume(0.05);
       sound.setLoop(true);
-      sound.play();
+      if (sceneState.soundSettings.music.get()) {
+        sound.play();
+      } else if (sceneState.soundSettings.music.get() === false) {
+        sound.stop();
+      } else {
+        sound.play();
+      }
     });
 
     const mesh = new Mesh(sphere, material);

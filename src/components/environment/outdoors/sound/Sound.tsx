@@ -13,11 +13,13 @@ import {
   audioListener as listener,
 } from '../../../../interfaces/THREE_Interface';
 import { backgroundMusic } from '../../../../utils/cdn-links/sounds';
+import { useSceneState } from '../../../../hookstate-store/SceneState';
 
 const songPath = backgroundMusic['Outdoors'];
 
 export default function Sound() {
   const { camera, scene } = useThree();
+  const sceneState = useSceneState();
 
   useEffect(() => {
     camera.add(listener);
@@ -37,7 +39,13 @@ export default function Sound() {
       sound.setRefDistance(20);
       sound.setVolume(0.3);
       sound.setLoop(true);
-      sound.play();
+      if (sceneState.soundSettings.music.get()) {
+        sound.play();
+      } else if (sceneState.soundSettings.music.get() === false) {
+        sound.stop();
+      } else {
+        sound.play();
+      }
     });
 
     const mesh = new Mesh(sphere, material);
