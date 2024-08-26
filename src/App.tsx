@@ -15,7 +15,6 @@ import GameLogic from './ecs/systems/GameLogic';
 import UIElements from './components/ui/UIElements';
 
 import './css/App.css';
-import { OrbitControls } from '@react-three/drei';
 
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
