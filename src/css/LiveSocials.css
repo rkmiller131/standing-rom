@@ -23,8 +23,8 @@
 #video-card, #audio-card {
   display: flex;
   margin-bottom: 0.5rem;
-  border-radius: var(--border-radius);
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  /* border-radius: var(--border-radius);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); */
   padding: 1rem;
   font-family: var(--font-primary);
   text-shadow: #000 3px 0 3px;
@@ -48,7 +48,7 @@
   width: 150px;
   overflow: hidden;
   align-self: end;
-  background: linear-gradient(to right, rgba(58, 195, 147, 0.3), rgba(71, 255, 191, 0.5));
+  /* background: linear-gradient(to right, rgba(58, 195, 147, 0.3), rgba(71, 255, 191, 0.5)); */
 }
 
 .audio-icon {

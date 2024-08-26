@@ -4,7 +4,7 @@ import { User } from './LiveSocials';
 
 export default function VideoAudioCard({ user }: { user: User }) {
   return user.video ? (
-    <div id="video-card" style={{ backgroundImage: `url(${user.fakeVideo})`, border: user.speaking ? '2px solid white' : '' }}>
+    <div id="video-card" className="frosted-glass" style={{ backgroundImage: `url(${user.fakeVideo})`, border: user.speaking ? '2px solid white' : '' }}>
       <span className="video-display-name">
         {user.displayName}
       </span>
@@ -14,7 +14,7 @@ export default function VideoAudioCard({ user }: { user: User }) {
       }
     </div>
   ) : (
-    <div id="audio-card">
+    <div id="audio-card" className="frosted-glass">
       <div className="audio-icon" style={user.speaking ? { border: '2px solid white' } : {}}>
         {user.audio ?
           <MicOn color="white" width={30}/> :

@@ -18,7 +18,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(#3ac393, #47ffbf);
-  mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 10%, transparent 100%);
+  background: var(--uvx-l-gradient);
+  mask-image: var(--mask-l-gradient);
   z-index: 0;
 }
