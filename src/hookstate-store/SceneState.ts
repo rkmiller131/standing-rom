@@ -6,7 +6,11 @@ const initialState: SceneType = hookstate({
   environmentLoaded: false,
   gameRunning: false,
   device: 'Desktop',
-  selectedEnvironment: ''
+  selectedEnvironment: '',
+  soundSettings: {
+    sfx: true,
+    music: true,
+  },
 });
 
 export const useSceneState = () => {
