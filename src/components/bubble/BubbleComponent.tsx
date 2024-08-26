@@ -67,19 +67,20 @@ const Bubble = forwardRef((
               <BubbleMaterial active={active} position={position}/> :
               <MeshDistortMaterial
                 attach="material"
-                color="#89CFF0"
-                distort={0.2}
+                color="lightblue"
+                distort={0.35}
                 speed={3}
                 roughness={0}
                 clearcoat={1}
-                clearcoatRoughness={0.5}
-                metalness={0.4}
+                clearcoatRoughness={0.6}
+                metalness={0.98}
+                iridescence={2}
                 envMapIntensity={0}
                 transparent
                 opacity={0.8}
                 reflectivity={1}
-                emissive="blue"
-                emissiveIntensity={0.5}
+                emissive="darkblue"
+                emissiveIntensity={0.6}
               />
             }
           </Sphere>

@@ -42,7 +42,6 @@ export default function HandCollider({
       const key = getCurrentStreak() >= 5 ? 4 : getCurrentStreak();
       // Create a new sound on each new collision so that if bubbles are popped rapidly, the sounds can overlap
       const audio = new Audio(bubblePopSounds[key]);
-      audio.volume = 0.75;
       audio.play();
     },
     args: [0.075],
