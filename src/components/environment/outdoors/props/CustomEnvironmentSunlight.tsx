@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import {
+  CameraHelper,
   DirectionalLight,
   EquirectangularReflectionMapping,
   TextureLoader,
@@ -22,7 +23,8 @@ const CustomEnvironmentSunlight: React.FC<CustomEnvironmentProps> = () => {
 
   useEffect(() => {
     const light = new DirectionalLight(0xffffff, Math.PI);
-    light.position.set(18, 16, -35);
+    light.position.set(18, 16, -45);
+    light.intensity = 2;
     light.castShadow = true;
 
     // const directionalLightHelper = new CameraHelper(light.shadow.camera); // Uncomment if needed
