@@ -15,16 +15,13 @@ import GameLogic from './ecs/systems/GameLogic';
 import UIElements from './components/ui/UIElements';
 
 import './css/App.css';
+import { OrbitControls } from '@react-three/drei';
 
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
 export default function App() {
-  const {
-    environmentLoaded,
-    environmentSelected,
-    sceneLoaded,
-    gameOver
-  } = useHookstateGetters();
+  const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
+    useHookstateGetters();
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDevice());
 
@@ -49,7 +46,9 @@ export default function App() {
     <>
       <UIElements avatar={avatar} />
 
-      {environmentLoaded() && <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />}
+      {environmentLoaded() && (
+        <Mocap avatar={avatar} setHolisticLoaded={setHolisticLoaded} />
+      )}
       <Suspense fallback={null}>
         <Renderer>
           {environmentSelected() && <Environment />}

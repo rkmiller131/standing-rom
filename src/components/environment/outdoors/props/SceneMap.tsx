@@ -13,14 +13,14 @@ export default function SceneMap() {
     .then((texture) => {
       const geometry = new THREE.SphereGeometry(50, 16, 16);
 
-      const material = new THREE.MeshBasicMaterial({
+      const material = new THREE.MeshStandardMaterial({
         map: texture,
         side: THREE.BackSide,
       });
 
       const mesh = new THREE.Mesh(geometry, material);
       mesh.position.set(0, 0, 0);
-      mesh.rotation.set(0, Math.PI / 12, 0);
+      mesh.rotation.set(0, Math.PI / -3, 0);
 
       scene.add(mesh);
     })

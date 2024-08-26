@@ -33,7 +33,7 @@ export default function OutdoorScene() {
       <GrassComponent size={25} count={30000} />
 
       <Suspense fallback={null}>
-        <ambientLight intensity={2.5} />
+        <ambientLight intensity={1} />
 
         <CustomEnvironmentSunlight />
         <SceneMap />
