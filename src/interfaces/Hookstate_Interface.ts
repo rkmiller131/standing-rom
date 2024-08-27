@@ -14,6 +14,10 @@ export default function useHookstateGetters() {
   const gameRunning = () => sceneState.gameRunning.get({ noproxy: true });
   const getUserDevice = () => sceneState.device.get({ noproxy: true });
 
+  const getReady = () => sceneState.sceneSettings.ready.get();
+  const setReady = (value: boolean) => {
+    sceneState.sceneSettings.ready.set(value);
+  };
   const getMusic = () => sceneState.sceneSettings.music.get({ noproxy: true });
   const getSFX = () => sceneState.sceneSettings.sfx.get({ noproxy: true });
   const setMusic = (value: boolean) => {
@@ -75,5 +79,7 @@ export default function useHookstateGetters() {
     setMusic,
     setSFX,
     setAnnouncer,
+    getReady,
+    setReady,
   };
 }
