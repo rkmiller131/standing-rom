@@ -13,9 +13,9 @@ export default function useHookstateGetters() {
   const sceneLoaded = () => sceneState.sceneLoaded.get({ noproxy: true });
   const gameRunning = () => sceneState.gameRunning.get({ noproxy: true });
   const getUserDevice = () => sceneState.device.get({ noproxy: true });
-  const getSound = () => {
-    sceneState.soundSettings.get({ noproxy: true });
-  };
+
+  const getMusic = () => sceneState.soundSettings.music.get({ noproxy: true });
+  const getSFX = () => sceneState.soundSettings.sfx.get({ noproxy: true });
   const setMusic = (value: boolean) => {
     sceneState.soundSettings.sfx.set(value);
   };
@@ -67,7 +67,8 @@ export default function useHookstateGetters() {
     getPoppedVelocities,
     getCurrentStreak,
     getSideSpawned,
-    getSound,
+    getMusic,
+    getSFX,
     setMusic,
     setSFX,
   };
