@@ -14,7 +14,7 @@ export default function SceneControls() {
           sceneState.sceneSettings.announcer.set(true);
 
           document.getElementById('annButton')!.style.border =
-            'var(--font-accent-color) 2px solid';
+            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('annButton2')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -29,7 +29,7 @@ export default function SceneControls() {
           sceneState.sceneSettings.announcer.set(false);
 
           document.getElementById('annButton2')!.style.border =
-            'var(--font-accent-color) 2px solid';
+            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('annButton')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -45,7 +45,7 @@ export default function SceneControls() {
           sceneState.sceneSettings.music.set(true);
 
           document.getElementById('musButton')!.style.border =
-            'var(--font-accent-color) 2px solid';
+            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('musButton2')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -60,7 +60,7 @@ export default function SceneControls() {
           sceneState.sceneSettings.music.set(false);
 
           document.getElementById('musButton2')!.style.border =
-            'var(--font-accent-color) 2px solid';
+            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('musButton')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -77,7 +77,7 @@ export default function SceneControls() {
           sceneState.sceneSettings.sfx.set(true);
 
           document.getElementById('sfxButton')!.style.border =
-            'var(--font-accent-color) 2px solid';
+            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('sfxButton2')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -92,7 +92,7 @@ export default function SceneControls() {
           sceneState.sceneSettings.sfx.set(false);
 
           document.getElementById('sfxButton2')!.style.border =
-            'var(--font-accent-color) 2px solid';
+            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('sfxButton')!.style.border =
             'var(--uvx-secondary) 2px solid';
