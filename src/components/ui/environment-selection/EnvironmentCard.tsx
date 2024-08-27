@@ -7,9 +7,10 @@ interface EnvironmentCardProps {
     imgSrc: string;
     name: string;
     handleSelection: (environment: EnvironmentSelectionType) => void;
+    handleHover: (imgSrc: string | null) => void;
 }
 
-export default function EnvironmentCard ({ imgSrc, name, handleSelection }: EnvironmentCardProps) {
+export default function EnvironmentCard ({ imgSrc, name, handleSelection, handleHover }: EnvironmentCardProps) {
     const elementRef = useRef<HTMLDivElement>(null);
 
     const handleMouseMove = (event: MouseEvent) => {
@@ -38,12 +39,14 @@ export default function EnvironmentCard ({ imgSrc, name, handleSelection }: Envi
             element.style.border = '4px solid #f9cc35';
             const hoverSFX = new Audio(uiInteractions['choiceHover']);
             hoverSFX.play();
+            handleHover(imgSrc);
         };
 
         const animateHoverOut = () => {
             gsap.to(element.querySelector('.hover-text'), { autoAlpha: 0, x: -200, duration: 0.5, ease: 'power3.out' });
             gsap.to(element.querySelector('.parallax-bg'), { x: 0, y: 0, duration: 0.5, ease: 'power3.out' });
             element.style.border = 'none';
+            handleHover(null);
         };
 
         element.addEventListener('mouseenter', animateHoverIn);
@@ -55,7 +58,7 @@ export default function EnvironmentCard ({ imgSrc, name, handleSelection }: Envi
             element.removeEventListener('mouseleave', animateHoverOut);
             element.removeEventListener('mousemove', handleMouseMove);
         };
-    }, []);
+    }, [imgSrc, handleHover]);
 
     return (
         <div
