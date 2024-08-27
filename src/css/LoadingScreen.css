@@ -24,9 +24,20 @@
   align-items: flex-end;
   justify-content: space-between;
   padding: 3% 8%;
+  z-index: 1;
+}
+
+.loading-video-hue {
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  height: 30%;
+  width: 100%;
+  background: linear-gradient(to top, var(--uvx-primary), transparent);
 }
 
 #loading-screen video {
   width: 100%;
   object-fit: cover;
+  mix-blend-mode: luminosity;
 }

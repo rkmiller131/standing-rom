@@ -35,7 +35,7 @@ export default function EnvironmentCard ({ imgSrc, name, handleSelection }: Envi
 
         const animateHoverIn = () => {
             gsap.to(element.querySelector('.hover-text'), { autoAlpha: 1, x: 0, duration: 0.5, ease: 'power3.out'});
-            element.style.border = '4px solid #f9cc35';
+            element.style.border = '4px solid #F984FF';
             const hoverSFX = new Audio(uiInteractions['choiceHover']);
             hoverSFX.play();
         };

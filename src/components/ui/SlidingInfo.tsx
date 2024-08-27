@@ -54,9 +54,9 @@ export default function SlidingInfo() {
     }
   }, [sceneLoaded])
 
-  // NOTE: Will need some sort of instructions modal popup or something - doesn't fit on sliding info panel, but maybe have elsewhere or on a screen before.
   return (
     <div id="sliding-info-screen">
+      <div className="si-video-hue" />
       <video className="sliding-info-video" autoPlay loop muted>
         <source src={slidingInfoBG} type="video/webm" />
       </video>

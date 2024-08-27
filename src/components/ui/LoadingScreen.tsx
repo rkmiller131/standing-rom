@@ -48,6 +48,7 @@ export default function LoadingScreen() {
           src={uvxLogos['uvxColor']}
         />
       </div>
+      <div className="loading-video-hue" />
       <video autoPlay loop muted>
         <source src={loadingSplashAnimation} type="video/mp4"/>
       </video>
