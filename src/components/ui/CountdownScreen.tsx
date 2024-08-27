@@ -18,7 +18,14 @@ export default function CountdownScreen() {
     const videoElement = videoRef.current;
     if (videoElement) {
       videoElement.play();
-      audio.play();
+
+      if (sceneState.sceneSettings.announcer.get()) {
+        audio.play();
+      } else if (sceneState.sceneSettings.announcer.get() === false) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
     }
 
     const timer = setTimeout(() => {
@@ -26,8 +33,8 @@ export default function CountdownScreen() {
     }, 3700); // the video duration
 
     return () => clearTimeout(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (gameRunning()) return null;
 

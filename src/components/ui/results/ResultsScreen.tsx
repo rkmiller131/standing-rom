@@ -138,9 +138,9 @@ export default function ResultsScreen() {
   }
   audio.volume = 0.75;
 
-  if (sceneState.soundSettings.sfx.get()) {
+  if (sceneState.sceneSettings.announcer.get()) {
     audio.play();
-  } else if (sceneState.soundSettings.sfx.get() === false) {
+  } else if (sceneState.sceneSettings.announcer.get() === false) {
     audio.pause();
   } else {
     audio.play();

@@ -39,7 +39,14 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
         setTimeout(() => {
           const audio = new Audio(announcer['getReady']);
           audio.volume = 0.75;
-          audio.play();
+
+          if (sceneState.sceneSettings.announcer.get()) {
+            audio.play();
+          } else if (sceneState.sceneSettings.announcer.get() === false) {
+            audio.pause();
+          } else {
+            audio.play();
+          }
           setHolisticLoaded(true);
         }, 2000);
         holisticLoaded = true;
@@ -111,23 +118,27 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
       <div
         id="mocap-container"
         className={device}
-        style={holistic ?
-          { boxShadow: '0 0 21px 0px #48abe0' } :
-          { boxShadow: '0 0 21px 0px #FCE187' }}
+        style={
+          holistic
+            ? { boxShadow: '0 0 21px 0px #48abe0' }
+            : { boxShadow: '0 0 21px 0px #FCE187' }
+        }
       >
         <img
-          src={holistic ?
-            calibrationIcons.calibrated :
-            calibrationIcons.calibrating}
+          src={
+            holistic
+              ? calibrationIcons.calibrated
+              : calibrationIcons.calibrating
+          }
           alt="Calibration Icon"
           className="calibration-icon"
         />
         <span
           className="calibration-text"
-          style={holistic ?
-            { background: '#3560F9' } :
-            { background: '#F9CC35' }}
-          >
+          style={
+            holistic ? { background: '#3560F9' } : { background: '#F9CC35' }
+          }
+        >
           {holistic ? 'Calibrated' : 'Calibrating...'}
         </span>
         <video
@@ -137,9 +148,11 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           height="100%"
           muted
           playsInline
-          style={holistic ?
-            { border: '3px solid #8FE4FF' } :
-            { border: '3px solid #f3d162' }}
+          style={
+            holistic
+              ? { border: '3px solid #8FE4FF' }
+              : { border: '3px solid #f3d162' }
+          }
         />
         <canvas id="landmark-guides" ref={landmarkCanvasRef} />
       </div>

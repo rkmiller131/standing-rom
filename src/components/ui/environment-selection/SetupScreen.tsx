@@ -8,7 +8,7 @@ import TitleSubtitle from '../TitleSubtitle';
 import { setupBG } from '../../../utils/cdn-links/motionGraphics';
 
 import '../../../css/SetupScreen.css';
-import SoundControls from '../SoundControls';
+import SceneControls from '../SceneControls';
 
 const selectSFX = new Audio(uiInteractions['choiceSelect']);
 
@@ -21,9 +21,9 @@ export default function SetupScreen() {
     (environment: EnvironmentSelectionType) => {
       sceneState.selectedEnvironment.set(environment);
       setSubmitted(true);
-      if (sceneState.soundSettings.sfx.get()) {
+      if (sceneState.sceneSettings.sfx.get()) {
         selectSFX.play();
-      } else if (sceneState.soundSettings.sfx.get() === false) {
+      } else if (sceneState.sceneSettings.sfx.get() === false) {
         selectSFX.pause();
       } else {
         selectSFX.play();
@@ -50,7 +50,7 @@ export default function SetupScreen() {
         accentTitle="Choose Your"
         mainTitle="Environment"
       />
-      <SoundControls />
+      <SceneControls />
       <div id="environment-cards-container">
         {environmentCards.map((env) => (
           <EnvironmentCard
