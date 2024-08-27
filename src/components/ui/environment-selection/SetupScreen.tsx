@@ -23,11 +23,6 @@ export default function SetupScreen() {
     null,
   );
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
-  const [selectedOptions, setSelectedOptions] = useState({
-    music: true,
-    soundEffects: true,
-    announcer: true,
-  });
 
   const handleEnvironmentSelection = useCallback(
     (environment: EnvironmentSelectionType) => {
@@ -85,13 +80,6 @@ export default function SetupScreen() {
     } else {
       selectSFX.play();
     }
-  };
-
-  const toggleOption = (option: keyof typeof selectedOptions) => {
-    setSelectedOptions((prevOptions) => ({
-      ...prevOptions,
-      [option]: !prevOptions[option],
-    }));
   };
 
   const getEnvironmentImage = () => {
@@ -183,7 +171,6 @@ export default function SetupScreen() {
           )}
         </div>
         <div className="box">
-          {}
           {hoveredImage && (
             <img
               src={hoveredImage}
@@ -233,14 +220,20 @@ export default function SetupScreen() {
             </div>
             <div className="box3-section">
               <h3>Selected Options</h3>
-              {selectedOptions ? (
-                <ul>
-                  <li>Music: {selectedOptions.music ? 'On' : 'Off'}</li>
-                  <li>
-                    Sound Effects: {selectedOptions.soundEffects ? 'On' : 'Off'}
-                  </li>
-                  <li>Announcer: {selectedOptions.announcer ? 'On' : 'Off'}</li>
-                </ul>
+              {sceneState ? (
+                <div>
+                  <div>
+                    Music: {sceneState.sceneSettings.music.get() ? 'On' : 'Off'}
+                  </div>
+                  <div>
+                    Sound Effects:{' '}
+                    {sceneState.sceneSettings.sfx.get() ? 'On' : 'Off'}
+                  </div>
+                  <div>
+                    Announcer:{' '}
+                    {sceneState.sceneSettings.announcer.get() ? 'On' : 'Off'}
+                  </div>
+                </div>
               ) : (
                 <p>No options selected</p>
               )}
