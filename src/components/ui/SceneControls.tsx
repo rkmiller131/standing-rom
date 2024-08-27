@@ -37,7 +37,6 @@ export default function SceneControls() {
       >
         Off
       </button>
-      <button className="">Off</button>
       <p>Music</p>
       <button
         id="musButton"

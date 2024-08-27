@@ -21,6 +21,15 @@
   cursor: pointer;
 }
 
+.annButton2 {
+  background-color: var(--uvx-secondary);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 10px;
+  color: white;
+  cursor: pointer;
+}
+
 .musButton {
   background-color: var(--uvx-secondary);
   border-radius: 5px;
