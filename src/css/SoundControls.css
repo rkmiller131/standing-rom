@@ -1,27 +1,50 @@
 .soundControls {
   display: flex;
+  font-family: var(--font-primary);
   flex-direction: row;
+  color: white;
   justify-content: center;
+  background-color: var(--callout-bg-color);
+  padding: 10px;
+  border-radius: 15px;
   align-items: center;
   margin-top: 20px;
 }
 
-.scButton {
-  background-color: var(--callout-bg-color);
-  color: white;
+.musButton {
+  background-color: var(--uvx-secondary);
   border-radius: 5px;
   padding: 10px;
   margin: 0 10px;
-  border: var(--uvx-primary) 2px solid;
+  color: white;
+  border: var(--font-accent-color) 2px solid;
   cursor: pointer;
 }
 
-.scButton2 {
-  background-color: var(--uvx-primary);
+.musButton2 {
+  background-color: var(--uvx-secondary);
+  border-radius: 5px;
+  padding: 10px;
   color: white;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.sfxButton {
+  background-color: var(--uvx-secondary);
   border-radius: 5px;
   padding: 10px;
   margin: 0 10px;
-  border: var(--uvx-secondary) 2px solid;
+  color: white;
+  border: var(--font-accent-color) 2px solid;
+  cursor: pointer;
+}
+
+.sfxButton2 {
+  background-color: var(--uvx-secondary);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 10px;
+  color: white;
   cursor: pointer;
 }

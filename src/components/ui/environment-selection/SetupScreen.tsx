@@ -21,7 +21,13 @@ export default function SetupScreen() {
     (environment: EnvironmentSelectionType) => {
       sceneState.selectedEnvironment.set(environment);
       setSubmitted(true);
-      selectSFX.play();
+      if (sceneState.soundSettings.sfx.get()) {
+        selectSFX.play();
+      } else if (sceneState.soundSettings.sfx.get() === false) {
+        selectSFX.pause();
+      } else {
+        selectSFX.play();
+      }
     },
     [sceneState],
   );
