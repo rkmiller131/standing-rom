@@ -18,11 +18,11 @@ interface UIProps {
 }
 
 export default function UIElements({ avatar }: UIProps) {
-  const { 
-    environmentLoaded, 
-    environmentSelected, 
-    sceneLoaded, 
-    gameOver 
+  const {
+    environmentLoaded,
+    environmentSelected,
+    sceneLoaded,
+    gameOver
   } = useHookstateGetters();
   const [consentGiven, setConsentGiven] = useState(false);
 
@@ -31,9 +31,9 @@ export default function UIElements({ avatar }: UIProps) {
   }
   return (
     <>
-      { !consentGiven ? 
+      { !consentGiven ?
         <GameInstructions clickHandler={clientGrantsConsent}/> :
-        <SetupScreen /> 
+        <SetupScreen />
       }
       <UVXBrandWatermark />
       {environmentSelected() && <LoadingScreen />}

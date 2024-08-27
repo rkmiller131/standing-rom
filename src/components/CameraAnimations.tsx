@@ -14,7 +14,34 @@ export default function CameraAnimations() {
   useEffect(() => {
     if (!sideSpawned) return;
     const side = sideSpawned.get({ noproxy: true });
-    if (side === 'right' || side === 'left') {
+    if ((side === 'right' || side === 'left') && !gameRunning()) {
+      // intermediate position from initial renderer camera pos
+      gsap.to(camera.position, {
+        x: -2,
+        y: 1,
+        z: 0,
+        duration: 0.75
+      })
+      gsap.to(camera.rotation, {
+        x: -2.1410783996934777,
+        y: -1.75,
+        z: -2.17339982566482,
+        duration: 0.75
+      });
+      // final camera position (behind the avatar)
+      gsap.to(camera.position, {
+        x: 0,
+        y: 1,
+        z: 2,
+        duration: 0.75
+      })
+      gsap.to(camera.rotation, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 0.75
+      });
+    } else if (side === 'right' || side === 'left') {
       gsap.to(camera.position, {
         x: 0,
         y: 1,
@@ -38,9 +65,7 @@ export default function CameraAnimations() {
         audio.volume = 0.75;
         audio.play();
       }
-    }
-
-    if (side === 'frontR' || side === 'frontL') {
+    } else if (side === 'frontR' || side === 'frontL') {
       const invert = side === 'frontR' ? 1 : -1;
       gsap.to(camera.position, {
         x: 1.4464595785701817 * invert,
@@ -65,9 +90,7 @@ export default function CameraAnimations() {
         audio.volume = 0.75;
         audio.play();
       }
-    }
-
-    if (side === 'crossR' || side === 'crossL') {
+    } else if (side === 'crossR' || side === 'crossL') {
       const invert = side === 'crossR' ? 1 : -1;
       gsap.to(camera.position, {
         x: 0.6806856113154883 * invert,
@@ -99,3 +122,8 @@ export default function CameraAnimations() {
 
   return null;
 }
+
+/*
+camera position is  _Vector3{x: -1.5561691865072314, y: 1.344923908078713, z: -0.2517945966741758}
+GameLogic.tsx:21 camera rotation is  _Euler{isEuler: true, _x: -2.1410783996934777, _y: -1.200624976162512, _z: -2.17339982566482, _order: 'XYZ'}
+*/
