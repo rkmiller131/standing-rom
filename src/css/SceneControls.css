@@ -17,7 +17,7 @@
   padding: 10px;
   margin: 0 10px;
   color: white;
-  border: var(--font-accent-color) 2px solid;
+  border: var(--uvx-accent-color) 2px solid;
   cursor: pointer;
 }
 
@@ -36,7 +36,7 @@
   padding: 10px;
   margin: 0 10px;
   color: white;
-  border: var(--font-accent-color) 2px solid;
+  border: var(--uvx-accent-color) 2px solid;
   cursor: pointer;
 }
 
@@ -55,7 +55,7 @@
   padding: 10px;
   margin: 0 10px;
   color: white;
-  border: var(--font-accent-color) 2px solid;
+  border: var(--uvx-accent-color) 2px solid;
   cursor: pointer;
 }
 

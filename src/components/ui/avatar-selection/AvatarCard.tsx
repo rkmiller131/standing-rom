@@ -1,21 +1,20 @@
-import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
-import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import { useRef, useEffect } from 'react';
 
-interface EnvironmentCardProps {
+interface AvatarCardProps {
   imgSrc: string;
   name: string;
-  handleSelection: (environment: EnvironmentSelectionType) => void;
+  handleSelection: (avatar: string) => void;
   handleHover: (imgSrc: string | null) => void;
 }
 
-export default function EnvironmentCard({
+export default function AvatarCard({
   imgSrc,
   name,
   handleSelection,
   handleHover,
-}: EnvironmentCardProps) {
+}: AvatarCardProps) {
   const elementRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (event: MouseEvent) => {
@@ -83,14 +82,10 @@ export default function EnvironmentCard({
   return (
     <div
       ref={elementRef}
-      className="environment-card"
-      onClick={() => handleSelection(name as EnvironmentSelectionType)}
+      className="avatar-card"
+      onClick={() => handleSelection(name)}
       style={{ backgroundImage: `url(${imgSrc})` }}
     >
-      <div
-        className="parallax-bg"
-        style={{ backgroundImage: `url(${imgSrc})` }}
-      ></div>
       <div className="hover-text">{name}</div>
     </div>
   );
