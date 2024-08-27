@@ -7,6 +7,7 @@ import { useFrame } from '@react-three/fiber';
 import { VRM } from '@pixiv/three-vrm';
 import { useEffect, useRef, useState } from 'react';
 import { bubblePopSounds } from '../../utils/cdn-links/sounds';
+import { useSceneState } from '../../hookstate-store/SceneState';
 
 interface HandColliderProps {
   avatar: React.RefObject<VRM>;
@@ -23,6 +24,7 @@ export default function HandCollider({
   const { sceneLoaded, getCurrentStreak, getSideSpawned } =
     useHookstateGetters();
   const gameState = useGameState();
+  const sceneState = useSceneState();
   const poppedBubbles = useRef<Set<string>>(new Set());
   const clock = useRef(new Clock());
   const [sideSpawned, setSideSpawned] = useState(getSideSpawned());
@@ -42,7 +44,13 @@ export default function HandCollider({
       const key = getCurrentStreak() >= 5 ? 4 : getCurrentStreak();
       // Create a new sound on each new collision so that if bubbles are popped rapidly, the sounds can overlap
       const audio = new Audio(bubblePopSounds[key]);
-      audio.play();
+      if (sceneState.sceneSettings.sfx.get()) {
+        audio.play();
+      } else if (sceneState.sceneSettings.sfx.get() === false) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
     },
     args: [0.075],
     collisionFilterGroup,

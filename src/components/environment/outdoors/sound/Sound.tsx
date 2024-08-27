@@ -39,9 +39,9 @@ export default function Sound() {
       sound.setRefDistance(20);
       sound.setVolume(0.3);
       sound.setLoop(true);
-      if (sceneState.soundSettings.music.get()) {
+      if (sceneState.sceneSettings.music.get()) {
         sound.play();
-      } else if (sceneState.soundSettings.music.get() === false) {
+      } else if (sceneState.sceneSettings.music.get() === false) {
         sound.stop();
       } else {
         sound.play();

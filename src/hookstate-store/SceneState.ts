@@ -7,9 +7,10 @@ const initialState: SceneType = hookstate({
   gameRunning: false,
   device: 'Desktop',
   selectedEnvironment: '',
-  soundSettings: {
+  sceneSettings: {
     sfx: true,
     music: true,
+    announcer: true,
   },
 });
 

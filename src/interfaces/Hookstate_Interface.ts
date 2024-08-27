@@ -14,13 +14,16 @@ export default function useHookstateGetters() {
   const gameRunning = () => sceneState.gameRunning.get({ noproxy: true });
   const getUserDevice = () => sceneState.device.get({ noproxy: true });
 
-  const getMusic = () => sceneState.soundSettings.music.get({ noproxy: true });
-  const getSFX = () => sceneState.soundSettings.sfx.get({ noproxy: true });
+  const getMusic = () => sceneState.sceneSettings.music.get({ noproxy: true });
+  const getSFX = () => sceneState.sceneSettings.sfx.get({ noproxy: true });
   const setMusic = (value: boolean) => {
-    sceneState.soundSettings.sfx.set(value);
+    sceneState.sceneSettings.sfx.set(value);
   };
   const setSFX = (value: boolean) => {
-    sceneState.soundSettings.music.set(value);
+    sceneState.sceneSettings.music.set(value);
+  };
+  const setAnnouncer = (value: boolean) => {
+    sceneState.sceneSettings.announcer.set(value);
   };
 
   // GAME STATE
@@ -71,5 +74,6 @@ export default function useHookstateGetters() {
     getSFX,
     setMusic,
     setSFX,
+    setAnnouncer,
   };
 }

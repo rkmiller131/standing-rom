@@ -6,7 +6,7 @@ import { slidingInfoBG } from '../../utils/cdn-links/motionGraphics';
 import { uvxLogos } from '../../utils/cdn-links/images';
 import { announcer } from '../../utils/cdn-links/sounds';
 
-import '../../css/SlidingInfo.css'
+import '../../css/SlidingInfo.css';
 
 let mounted = false;
 
@@ -17,42 +17,51 @@ export default function SlidingInfo() {
   useEffect(() => {
     if (!mounted) {
       mounted = true;
-      gsap.fromTo('#sliding-info-screen',
+      gsap.fromTo(
+        '#sliding-info-screen',
         {
           transform: 'translateX(-200%)',
           width: '0%',
-          autoAlpha: 0
+          autoAlpha: 0,
         },
         {
           duration: 1,
           transform: 'translateX(0)',
           width: '100%',
           minWidth: 'calc(4% + 450px)',
-          autoAlpha: 1
-        }
-      )
+          autoAlpha: 1,
+        },
+      );
       const audio = new Audio(announcer['getCalibrated']);
       audio.volume = 0.75;
-      audio.play();
+
+      if (sceneState.sceneSettings.announcer.get()) {
+        audio.play();
+      } else if (sceneState.sceneSettings.announcer.get() === false) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
     }
 
     if (sceneLoaded) {
-      gsap.fromTo('#sliding-info-screen',
+      gsap.fromTo(
+        '#sliding-info-screen',
         {
           transform: 'translateX(0)',
           width: '100%',
           minWidth: 'calc(4% + 450px)',
-          autoAlpha: 1
+          autoAlpha: 1,
         },
         {
           transform: 'translateX(-200%)',
           width: '0%',
           autoAlpha: 0,
-          duration: 3
-        }
-      )
+          duration: 3,
+        },
+      );
     }
-  }, [sceneLoaded])
+  }, [sceneLoaded]);
 
   // NOTE: Will need some sort of instructions modal popup or something - doesn't fit on sliding info panel, but maybe have elsewhere or on a screen before.
   return (
@@ -68,13 +77,18 @@ export default function SlidingInfo() {
             src={uvxLogos['uvxWhite']}
           />
           <TitleSubtitle
-            accentTitle='Bubble Pop'
-            mainTitle='Shoulder ROM, Standing'
-            className='sliding-title-override'
+            accentTitle="Bubble Pop"
+            mainTitle="Shoulder ROM, Standing"
+            className="sliding-title-override"
           />
-          <p className="sliding-info-instructions">Get ready to use your hands and pop some bubbles! Keeping your shoulders down and elbows straight, move your arms to reach to the side, front, and across your body. Let's get moving and see how well you can score!</p>
+          <p className="sliding-info-instructions">
+            Get ready to use your hands and pop some bubbles! Keeping your
+            shoulders down and elbows straight, move your arms to reach to the
+            side, front, and across your body. Let's get moving and see how well
+            you can score!
+          </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

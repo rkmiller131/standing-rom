@@ -48,11 +48,9 @@ export default function EnvironmentCard({
       });
       element.style.border = '4px solid #f9cc35';
       const hoverSFX = new Audio(uiInteractions['choiceHover']);
-      if (sceneState.soundSettings.sfx.get({ noproxy: true })) {
+      if (sceneState.sceneSettings.sfx.get()) {
         hoverSFX.play();
-      } else if (
-        sceneState.soundSettings.sfx.get({ noproxy: true }) === false
-      ) {
+      } else if (sceneState.sceneSettings.sfx.get() === false) {
         hoverSFX.pause();
       } else {
         hoverSFX.play();
