@@ -10,6 +10,7 @@ import { setupBG } from '../../../utils/cdn-links/motionGraphics';
 
 import '../../../css/SetupScreen.css';
 import SceneControls from '../SceneControls';
+import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
 
 const selectSFX = new Audio(uiInteractions['choiceSelect']);
 
@@ -23,6 +24,8 @@ export default function SetupScreen() {
     null,
   );
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
+
+  const { setReady } = useHookstateGetters();
 
   const handleEnvironmentSelection = useCallback(
     (environment: EnvironmentSelectionType) => {
@@ -184,6 +187,17 @@ export default function SetupScreen() {
               alt="Hovered Avatar"
               className="hovered-image"
             />
+          )}
+          {sceneState.sceneSettings && selectedAvatar !== null && (
+            <div>
+              <button
+                onClick={() => {
+                  setReady(true);
+                }}
+              >
+                Start Game
+              </button>
+            </div>
           )}
         </div>
         <div className="box">
