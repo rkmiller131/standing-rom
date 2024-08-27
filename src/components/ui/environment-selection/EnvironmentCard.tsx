@@ -2,6 +2,7 @@ import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import { useSceneState } from '../../../hookstate-store/SceneState';
 
 interface EnvironmentCardProps {
   imgSrc: string;
@@ -17,6 +18,8 @@ export default function EnvironmentCard({
   handleHover,
 }: EnvironmentCardProps) {
   const elementRef = useRef<HTMLDivElement>(null);
+
+  const sceneState = useSceneState();
 
   const handleMouseMove = (event: MouseEvent) => {
     const element = elementRef.current;
@@ -48,7 +51,13 @@ export default function EnvironmentCard({
       });
       element.style.border = '4px solid #f9cc35';
       const hoverSFX = new Audio(uiInteractions['choiceHover']);
-      hoverSFX.play();
+      if (sceneState.sceneSettings.sfx.get()) {
+        hoverSFX.play();
+      } else if (sceneState.sceneSettings.sfx.get() === false) {
+        hoverSFX.pause();
+      } else {
+        hoverSFX.play();
+      }
       handleHover(imgSrc);
     };
 

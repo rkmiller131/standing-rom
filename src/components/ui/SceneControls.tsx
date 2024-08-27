@@ -10,11 +10,11 @@ export default function SceneControls() {
       <button
         id="annButton"
         className="annButton"
+        style={{
+          border: `${sceneState.sceneSettings.announcer.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+        }}
         onClick={() => {
           sceneState.sceneSettings.announcer.set(true);
-
-          document.getElementById('annButton')!.style.border =
-            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('annButton2')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -25,11 +25,11 @@ export default function SceneControls() {
       <button
         id="annButton2"
         className="annButton2"
+        style={{
+          border: `${!sceneState.sceneSettings.announcer.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+        }}
         onClick={() => {
           sceneState.sceneSettings.announcer.set(false);
-
-          document.getElementById('annButton2')!.style.border =
-            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('annButton')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -41,11 +41,11 @@ export default function SceneControls() {
       <button
         id="musButton"
         className="musButton"
+        style={{
+          border: `${sceneState.sceneSettings.music.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+        }}
         onClick={() => {
           sceneState.sceneSettings.music.set(true);
-
-          document.getElementById('musButton')!.style.border =
-            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('musButton2')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -56,11 +56,11 @@ export default function SceneControls() {
       <button
         id="musButton2"
         className="musButton2"
+        style={{
+          border: `${!sceneState.sceneSettings.music.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+        }}
         onClick={() => {
           sceneState.sceneSettings.music.set(false);
-
-          document.getElementById('musButton2')!.style.border =
-            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('musButton')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -73,11 +73,11 @@ export default function SceneControls() {
       <button
         id="sfxButton"
         className="sfxButton"
+        style={{
+          border: `${sceneState.sceneSettings.sfx.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+        }}
         onClick={() => {
           sceneState.sceneSettings.sfx.set(true);
-
-          document.getElementById('sfxButton')!.style.border =
-            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('sfxButton2')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -88,11 +88,11 @@ export default function SceneControls() {
       <button
         id="sfxButton2"
         className="sfxButton2"
+        style={{
+          border: `${!sceneState.sceneSettings.sfx.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+        }}
         onClick={() => {
           sceneState.sceneSettings.sfx.set(false);
-
-          document.getElementById('sfxButton2')!.style.border =
-            'var(--uvx-accent-color) 2px solid';
 
           document.getElementById('sfxButton')!.style.border =
             'var(--uvx-secondary) 2px solid';
