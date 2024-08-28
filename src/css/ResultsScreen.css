@@ -49,7 +49,7 @@
   margin-top: -4rem;
   margin-left: -2%;
   font-size: var(--font-medium);
-  font-weight: var(--font-weight);
+  font-weight: var(--fw-medium);
   font-style: italic;
   text-shadow: 3px 3px 6px black;
 }
@@ -72,7 +72,7 @@
 }
 
 .achievement-title {
-  font-weight: var(--font-weight);
+  font-weight: var(--fw-medium);
   font-style: italic;
 }
 
@@ -97,7 +97,7 @@
   margin-top: -3.5rem;
   padding: 5px 10px;
   font-size: 3rem;
-  font-weight: var(--font-weight);
+  font-weight: var(--fw-medium);
   font-style: italic;
   color: white;
   background: linear-gradient(to right, #44f3b6, transparent);

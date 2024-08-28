@@ -33,7 +33,7 @@ export default function SetupScreen() {
         <source src={setupBG} type="video/mp4"/>
       </video>
       <TitleSubtitle
-        className='select-environment-title'
+        className='callout-title'
         accentTitle='Choose Your'
         mainTitle='Environment'
       />

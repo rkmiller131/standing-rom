@@ -21,28 +21,6 @@ export default function Button({ primaryStyle = true, content, onClick, extraCla
       { opacity: 0, y: 50 },
       { opacity: 1, y: 0, duration: 2, ease: 'power3.out' }
     );
-
-    const handleMouseEnter = (button: HTMLButtonElement) => {
-      gsap.to(button, { scale: 1.2, duration: 0.3, ease: 'power3.out' });
-    };
-
-    const handleMouseLeave = (button: HTMLButtonElement) => {
-      gsap.to(button, { scale: 1, duration: 0.3, ease: 'power3.out' });
-    };
-
-    const button = buttonRef.current;
-    if (button) {
-      buttonRef.current.addEventListener('mouseenter', () => handleMouseEnter(button));
-      buttonRef.current.addEventListener('mouseleave', () => handleMouseLeave(button));
-    }
-
-    return () => {
-      if (button) {
-        buttonRef.current.removeEventListener('mouseenter', () => handleMouseEnter(button));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        buttonRef.current.removeEventListener('mouseleave', () => handleMouseLeave(button));
-      }
-    };
   }, [animate]);
 
   return (
