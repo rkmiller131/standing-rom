@@ -18,7 +18,9 @@ export default function SetupScreen() {
   const [selectedEnvironment, setSelectedEnvironment] =
     useState<EnvironmentSelectionType | null>(null);
   const [hoveredImage, setHoveredImage] = useState<string | null>(null);
-  const [hoveredAvatarImage, setHoveredAvatarImage] = useState<string | null>(null);
+  const [hoveredAvatarImage, setHoveredAvatarImage] = useState<string | null>(
+    null,
+  );
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [selectedOptions, setSelectedOptions] = useState({
     music: true,
@@ -76,9 +78,7 @@ export default function SetupScreen() {
   };
 
   const getAvatarImage = () => {
-    const selectedAv = avatarCards.find(
-      (av) => av.name === selectedAvatar,
-    );
+    const selectedAv = avatarCards.find((av) => av.name === selectedAvatar);
     return selectedAv ? selectedAv.imgSrc : null;
   };
 
@@ -161,10 +161,11 @@ export default function SetupScreen() {
               <div id="avatar-cards-container">
                 {avatarCards.map((avatar) => (
                   <AvatarCard
+                    key={avatar.id}
                     name={avatar.name}
                     imgSrc={avatar.imgSrc}
+                    hoverImage={avatar.hoverImage}
                     handleSelection={handleAvatarSelection}
-                    key={avatar.id}
                     handleHover={handleAvatarHover}
                   />
                 ))}
@@ -251,9 +252,13 @@ export default function SetupScreen() {
               {selectedOptions ? (
                 <ul>
                   <li>Music: {selectedOptions.music ? 'On' : 'Off'}</li>
-                  <li>Sound Effects: {selectedOptions.soundEffects ? 'On' : 'Off'}</li>
+                  <li>
+                    Sound Effects: {selectedOptions.soundEffects ? 'On' : 'Off'}
+                  </li>
                   <li>Announcer: {selectedOptions.announcer ? 'On' : 'Off'}</li>
-                  <li>Overall Sound: {selectedOptions.overallSound ? 'On' : 'Off'}</li>
+                  <li>
+                    Overall Sound: {selectedOptions.overallSound ? 'On' : 'Off'}
+                  </li>
                 </ul>
               ) : (
                 <p>No options selected</p>

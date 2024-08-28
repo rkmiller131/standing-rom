@@ -4,6 +4,7 @@ import { useRef, useEffect } from 'react';
 
 interface AvatarCardProps {
   imgSrc: string;
+  hoverImage: string;
   name: string;
   handleSelection: (avatar: string) => void;
   handleHover: (imgSrc: string | null) => void;
@@ -11,6 +12,7 @@ interface AvatarCardProps {
 
 export default function AvatarCard({
   imgSrc,
+  hoverImage,
   name,
   handleSelection,
   handleHover,
@@ -48,7 +50,7 @@ export default function AvatarCard({
       element.style.border = '4px solid #f9cc35';
       const hoverSFX = new Audio(uiInteractions['choiceHover']);
       hoverSFX.play();
-      handleHover(imgSrc);
+      handleHover(hoverImage);
     };
 
     const animateHoverOut = () => {
@@ -77,7 +79,7 @@ export default function AvatarCard({
       element.removeEventListener('mouseleave', animateHoverOut);
       element.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [imgSrc, handleHover]);
+  }, [hoverImage, handleHover]);
 
   return (
     <div
