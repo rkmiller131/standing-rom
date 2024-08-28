@@ -141,6 +141,7 @@ export default function SetupScreen() {
                     imgSrc={avatar.imgSrc}
                     handleSelection={handleAvatarSelection}
                     key={avatar.id}
+                    hoverImage={avatar.hoverImage}
                     handleHover={handleAvatarHover}
                   />
                 ))}
