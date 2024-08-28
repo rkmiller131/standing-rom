@@ -8,7 +8,7 @@ import UVXBrandWatermark from './UVXBrandWatermark';
 import ViewControls from './ViewControls';
 import CountdownScreen from './CountdownScreen';
 import SlidingInfo from './SlidingInfo';
-import GameInstructions from './GameInstructions';
+import GameInstructions from './how-to-play/GameInstructions';
 
 const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
 const LiveSocials = lazy(() => import('./socials/LiveSocials'));

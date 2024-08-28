@@ -1,8 +1,10 @@
 #game-instructions-screen {
   position: fixed;
-  align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   background: white;
+  color: white;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -11,4 +13,26 @@
 }
 
 .consent-button {
+}
+
+.instruction-footer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 2%;
+  background: var(--uvx-secondary);
+}
+
+.instruction-list:before {
+  content: "This game requires a web camera:";
+  font-size: var(--font-small);
+  margin-left: -50px;
+}
+
+.instruction-list {
+
+}
+
+.footer-title {
+  font-size: var(--font-small);
 }

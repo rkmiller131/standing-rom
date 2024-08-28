@@ -1,5 +1,5 @@
-import '../../css/GameInstructions.css';
-import Button from '../Button';
+import '../../../css/GameInstructions.css';
+import Button from '../../Button';
 
 interface GameInstructionsProps {
     clickHandler: () => void;
@@ -16,6 +16,11 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
                 </ul>
             </div>
             <Button content="I'm Ready!" onClick={clickHandler} extraClass="callout-button consent-button"/>
+            <div className="instruction-footer">
+                <ul className="instruction-list">
+                    <li>talkjflk</li>
+                </ul>
+            </div>
         </div>
     );
 }
