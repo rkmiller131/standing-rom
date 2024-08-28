@@ -6,6 +6,7 @@ import { useSceneState } from '../../../hookstate-store/SceneState';
 interface AvatarCardProps {
   imgSrc: string;
   name: string;
+  hoverImage: string;
   handleSelection: (avatar: string) => void;
   handleHover: (imgSrc: string | null) => void;
 }
@@ -13,6 +14,7 @@ interface AvatarCardProps {
 export default function AvatarCard({
   imgSrc,
   name,
+  hoverImage,
   handleSelection,
   handleHover,
 }: AvatarCardProps) {
@@ -58,7 +60,7 @@ export default function AvatarCard({
       } else {
         hoverSFX.play();
       }
-      handleHover(imgSrc);
+      handleHover(hoverImage);
     };
 
     const animateHoverOut = () => {
@@ -87,7 +89,7 @@ export default function AvatarCard({
       element.removeEventListener('mouseleave', animateHoverOut);
       element.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [imgSrc, handleHover]);
+  }, [hoverImage, handleHover]);
 
   return (
     <div

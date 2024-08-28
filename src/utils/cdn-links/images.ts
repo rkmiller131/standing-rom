@@ -9,23 +9,27 @@ export const splash: { [key in EnvironmentSelectionType]: string } = {
 export const avatarCards = [
   {
     id: 1,
-    name: 'Avatar Male 1',
-    imgSrc: '/guy1.png',
+    name: 'Dennis',
+    imgSrc: '/DennisHead.jpg',
+    hoverImage: '/DennisPose.jpg',
   },
   {
     id: 2,
-    name: 'Avatar Male 2',
-    imgSrc: '/guy2.png',
+    name: 'Lillian',
+    imgSrc: '/LillianHead.jpg',
+    hoverImage: '/LillianPose.jpg',
   },
   {
     id: 3,
-    name: 'Avatar Female 1',
-    imgSrc: '/girl1.png',
+    name: 'Locked',
+    imgSrc: '/lockedAvatar.png',
+    hoverImage: '/lockedAvatarFull.webp',
   },
   {
     id: 4,
-    name: 'Avatar Female 2',
-    imgSrc: '/girl2.png',
+    name: 'Locked',
+    imgSrc: '/lockedAvatar.png',
+    hoverImage: '/lockedAvatarFull.webp',
   },
 ];
 
