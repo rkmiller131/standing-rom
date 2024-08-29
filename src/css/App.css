@@ -9,13 +9,23 @@
   --font-weight: 600;
   --font-style: italic;
   --callout-bg-color: #272727;
-  --uvx-primary: #7085FF;
-  --uvx-secondary: #3C5199;
-  --uvx-accent-color: #F984FF;
+  --uvx-primary: #7085ff;
+  --uvx-secondary: #3c5199;
+  --uvx-accent-color: #f984ff;
   --uvx-r-gradient: linear-gradient(to right, var(--uvx-primary), transparent);
-  --uvx-l-gradient: linear-gradient(var(--uvx-primary), #B0BBFF);
-  --mask-r-gradient: linear-gradient(to right, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
-  --mask-l-gradient: linear-gradient(to left, rgba(0, 0, 0, 1) 10%, transparent 100%);
+  --uvx-l-gradient: linear-gradient(var(--uvx-primary), #b0bbff);
+  --uvx-t-gradient: linear-gradient(to top, var(--uvx-primary), transparent);
+  --uvx-b-gradient: linear-gradient(to bottom, var(--uvx-primary), transparent);
+  --mask-r-gradient: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 30%,
+    transparent 100%
+  );
+  --mask-l-gradient: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 1) 10%,
+    transparent 100%
+  );
   --border-radius: 1.5rem;
   --font-large: 4rem;
   --font-medium: 2.5rem;
@@ -58,7 +68,12 @@ body,
   border-radius: var(--border-radius);
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.27) 44%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.27) 44%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
 .ui-h3,
