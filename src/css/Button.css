@@ -11,26 +11,31 @@
 .button-secondary {
   text-decoration: none;
   border: none;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
+  height: max-content;
   font-size: var(--font-small);
-  border-radius: var(--border-radius);
+  border-radius: 2rem 2rem;
   font-family: var(--font-primary);
-  font-weight: var(--font-weight);
+  font-weight: var(--fw-medium);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  color: white;
+  color: var(--uvx-secondary);
+  border: 2px solid var(--uvx-primary);
   cursor: pointer;
 }
 
 .button-primary:hover,
 .button-secondary:hover {
-  transform: scale(1.1);
-  border: 2px solid var(--uvx-primary);
-  color: var(--uvx-accent-color);
+  transform: scale(0.95);
 }
 
 .button-primary {
-  /* background: var(--uvx-secondary); */
-  background: #2196f3;
+  background-image: linear-gradient(var(--uvx-accent-color), #af57b1);
+}
+
+.button-primary:hover {
+  color: white;
+  background-image: radial-gradient(var(--uvx-secondary), var(--uvx-accent-color));
+  box-shadow: inset 9px 9px 6.5px rgba(0, 0, 0, 0.2);
 }
 
 .button-secondary {
@@ -40,4 +45,8 @@
 
 .callout-button {
   background: var(--callout-bg-color);
+}
+
+.wide-button {
+  padding: 1rem 4rem;
 }

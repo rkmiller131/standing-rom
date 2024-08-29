@@ -1,4 +1,6 @@
-export const avatarModel = 'https://cdn.glitch.me/155b1488-cef3-43d5-92c7-da25735e6c95/ManAvatar_Hair.vrm?v=1724102964867';
+export const maleModel1 = 'https://cdn.glitch.me/155b1488-cef3-43d5-92c7-da25735e6c95/ManAvatar_Hair.vrm?v=1724102964867';
+
+export const femaleModel2 = 'https://cdn.glitch.me/155b1488-cef3-43d5-92c7-da25735e6c95/WomanAvatar.vrm?v=1724795254217';
 
 export const officeModel = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/IndoorOfficeModel.glb?v=1724103050803';
 

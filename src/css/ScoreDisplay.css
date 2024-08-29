@@ -51,7 +51,7 @@
 
 .score-popped, .score-possible, .score-divider {
   color: white;
-  font-weight: var(--font-weight);
+  font-weight: var(--fw-medium);
   font-family: var(--font-primary);
   margin: 0 3%;
   text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
