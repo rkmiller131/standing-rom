@@ -4,6 +4,8 @@ import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { useSceneState } from '../../../hookstate-store/SceneState';
 
+import '../../../css/SetupScreen.css';
+
 interface EnvironmentCardProps {
   imgSrc: string;
   name: string;

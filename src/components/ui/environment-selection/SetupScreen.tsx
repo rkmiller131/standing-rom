@@ -97,6 +97,12 @@ export default function SetupScreen() {
     return selectedAv ? selectedAv.imgSrc : null;
   };
 
+  const runGame = () => {
+    if (selectedEnvironment && selectedAvatar) {
+      sceneState.selectedEnvironment.set(selectedEnvironment);
+    }
+  };
+
   return (
     <div id="setup">
       <video
@@ -192,8 +198,10 @@ export default function SetupScreen() {
           {sceneState.sceneSettings && selectedAvatar !== null && (
             <div>
               <button
+                className="startButton"
                 onClick={() => {
                   setReady(true);
+                  runGame();
                 }}
               >
                 Start Game
@@ -233,7 +241,7 @@ export default function SetupScreen() {
                 <p>No avatar selected</p>
               )}
             </div>
-            <div className="box3-section">
+            <div className="box3-section options">
               <h3>Selected Options</h3>
               {sceneState ? (
                 <div>
