@@ -7,6 +7,7 @@ export interface OpaqueType<T extends string> {
 export type EntityId = OpaqueType<'entity'> & number;
 
 export type EnvironmentSelectionType = 'Outdoors' | 'Indoor Office' | '';
+export type AvatarSelectionType = '1' | '2' | 'locked' | '';
 
 export type Bubble = {
   age: number;
@@ -44,6 +45,7 @@ export type SceneType = {
   gameRunning: boolean;
   device: 'Desktop' | 'Tablet' | 'Mobile';
   selectedEnvironment: 'Indoor Office' | 'Outdoors' | '';
+  selectedAvatar: '1' | '2' | 'locked' | '';
   sceneSettings: {
     sfx: boolean;
     music: boolean;

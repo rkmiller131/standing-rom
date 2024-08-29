@@ -1,5 +1,8 @@
 import { useState, useCallback, useRef } from 'react';
-import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
+import {
+  EnvironmentSelectionType,
+  AvatarSelectionType,
+} from '../../../hookstate-store/Types';
 import { useSceneState } from '../../../hookstate-store/SceneState';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
 import { environmentCards, avatarCards } from '../../../utils/cdn-links/images';
@@ -100,6 +103,7 @@ export default function SetupScreen() {
   const runGame = () => {
     if (selectedEnvironment && selectedAvatar) {
       sceneState.selectedEnvironment.set(selectedEnvironment);
+      sceneState.selectedAvatar.set(selectedAvatar as AvatarSelectionType);
     }
   };
 
