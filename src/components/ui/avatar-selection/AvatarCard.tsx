@@ -1,24 +1,23 @@
-import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
-import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import { useRef, useEffect } from 'react';
 import { useSceneState } from '../../../hookstate-store/SceneState';
 
-import '../../../css/SetupScreen.css';
-
-interface EnvironmentCardProps {
+interface AvatarCardProps {
   imgSrc: string;
   name: string;
-  handleSelection: (environment: EnvironmentSelectionType) => void;
+  hoverImage: string;
+  handleSelection: (avatar: string) => void;
   handleHover: (imgSrc: string | null) => void;
 }
 
-export default function EnvironmentCard({
+export default function AvatarCard({
   imgSrc,
   name,
+  hoverImage,
   handleSelection,
   handleHover,
-}: EnvironmentCardProps) {
+}: AvatarCardProps) {
   const elementRef = useRef<HTMLDivElement>(null);
 
   const sceneState = useSceneState();
@@ -53,6 +52,7 @@ export default function EnvironmentCard({
       });
       element.style.border = '4px solid #f9cc35';
       const hoverSFX = new Audio(uiInteractions['choiceHover']);
+
       if (sceneState.sceneSettings.sfx.get()) {
         hoverSFX.play();
       } else if (sceneState.sceneSettings.sfx.get() === false) {
@@ -60,7 +60,7 @@ export default function EnvironmentCard({
       } else {
         hoverSFX.play();
       }
-      handleHover(imgSrc);
+      handleHover(hoverImage);
     };
 
     const animateHoverOut = () => {
@@ -89,19 +89,15 @@ export default function EnvironmentCard({
       element.removeEventListener('mouseleave', animateHoverOut);
       element.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [imgSrc, handleHover]);
+  }, [hoverImage, handleHover]);
 
   return (
     <div
       ref={elementRef}
-      className="environment-card"
-      onClick={() => handleSelection(name as EnvironmentSelectionType)}
+      className="avatar-card"
+      onClick={() => handleSelection(name)}
       style={{ backgroundImage: `url(${imgSrc})` }}
     >
-      <div
-        className="parallax-bg"
-        style={{ backgroundImage: `url(${imgSrc})` }}
-      ></div>
       <div className="hover-text">{name}</div>
     </div>
   );

@@ -19,12 +19,8 @@ import './css/App.css';
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
 export default function App() {
-  const {
-    environmentLoaded,
-    environmentSelected,
-    sceneLoaded,
-    gameOver
-  } = useHookstateGetters();
+  const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
+    useHookstateGetters();
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDevice());
 

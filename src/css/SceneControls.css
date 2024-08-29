@@ -1,0 +1,69 @@
+.soundControls {
+  display: flex;
+  font-family: var(--font-primary);
+  flex-direction: column;
+  color: white;
+  justify-content: center;
+  background-color: var(--callout-bg-color);
+  padding: 10px;
+  border-radius: 15px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.annButton {
+  background-color: var(--uvx-secondary);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 10px;
+  color: white;
+  border: var(--uvx-accent-color) 2px solid;
+  cursor: pointer;
+}
+
+.annButton2 {
+  background-color: var(--uvx-secondary);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.musButton {
+  background-color: var(--uvx-secondary);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 10px;
+  color: white;
+  border: var(--uvx-accent-color) 2px solid;
+  cursor: pointer;
+}
+
+.musButton2 {
+  background-color: var(--uvx-secondary);
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.sfxButton {
+  background-color: var(--uvx-secondary);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 10px;
+  color: white;
+  border: var(--uvx-accent-color) 2px solid;
+  cursor: pointer;
+}
+
+.sfxButton2 {
+  background-color: var(--uvx-secondary);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 10px;
+  color: white;
+  cursor: pointer;
+}

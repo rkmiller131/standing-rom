@@ -44,4 +44,10 @@ export type SceneType = {
   gameRunning: boolean;
   device: 'Desktop' | 'Tablet' | 'Mobile';
   selectedEnvironment: 'Indoor Office' | 'Outdoors' | '';
+  sceneSettings: {
+    sfx: boolean;
+    music: boolean;
+    announcer: boolean;
+    ready: boolean;
+  };
 };
