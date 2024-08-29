@@ -25,7 +25,7 @@ export default function SetupScreen() {
   );
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
 
-  const { setReady } = useHookstateGetters();
+  const { setReady, getReady } = useHookstateGetters();
 
   const handleEnvironmentSelection = useCallback(
     (environment: EnvironmentSelectionType) => {
@@ -102,6 +102,8 @@ export default function SetupScreen() {
       sceneState.selectedEnvironment.set(selectedEnvironment);
     }
   };
+
+  if (getReady()) return null;
 
   return (
     <div id="setup">
