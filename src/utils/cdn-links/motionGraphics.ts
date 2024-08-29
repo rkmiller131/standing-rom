@@ -4,6 +4,26 @@ export const baseBGAnimation = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c
 // ENVIRONMENT SELECTION SETUP SCREEN - WHITE VERSION OF BASE BG ANIMATION
 export const setupBG = 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/WhiteBGAnimation.mp4?v=1724098719370';
 
+export type H2PlayCard = {
+  id: number;
+  graphic: string;
+}
+// HOW TO PLAY SCREEN
+export const h2Play = [
+  {
+    id: 1,
+    graphic: ''
+  },
+  {
+    id: 2,
+    graphic: ''
+  },
+  {
+    id: 3,
+    graphic: ''
+  }
+];
+
 // BUBBLE ANIMATIONS
 export const bubbleAnimations: { [key: string]: string } = {
   idle: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/BubbleIdle.webm?v=1724098827602',
