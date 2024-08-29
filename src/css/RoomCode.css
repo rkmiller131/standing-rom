@@ -1,0 +1,12 @@
+#room-code-screen {
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  font-family: var(--font-primary);
+  font-weight: var(--fw-medium);
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  z-index: 4;
+}

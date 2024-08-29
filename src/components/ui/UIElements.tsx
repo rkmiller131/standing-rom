@@ -9,6 +9,7 @@ import ViewControls from './ViewControls';
 import CountdownScreen from './CountdownScreen';
 import SlidingInfo from './SlidingInfo';
 import GameInstructions from './how-to-play/GameInstructions';
+import RoomCode from './RoomCode';
 
 const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
 const LiveSocials = lazy(() => import('./socials/LiveSocials'));
@@ -24,14 +25,24 @@ export default function UIElements({ avatar }: UIProps) {
     sceneLoaded,
     gameOver
   } = useHookstateGetters();
+  const [codeSuccess, setCodeSuccess] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
+
+  const submitCode = (code: number) => {
+    // be sure to add some validation logic here if necessary when backend is established
+    // add a new helper function to utils > http and verify against database
+    console.log('Code submitted: ', code);
+    setCodeSuccess(true)
+  }
 
   const clientGrantsConsent = () => {
     setConsentGiven(true)
   }
+
   return (
     <>
-      { !consentGiven ?
+      {!codeSuccess && <RoomCode submitCode={submitCode}/>}
+      {codeSuccess && !consentGiven ?
         <GameInstructions clickHandler={clientGrantsConsent}/> :
         <SetupScreen />
       }
