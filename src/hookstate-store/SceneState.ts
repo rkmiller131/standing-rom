@@ -7,6 +7,7 @@ const initialState: SceneType = hookstate({
   gameRunning: false,
   device: 'Desktop',
   selectedEnvironment: '',
+  selectedAvatar: '',
   sceneSettings: {
     sfx: true,
     music: true,

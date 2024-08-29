@@ -1,10 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Suspense, useEffect, useState } from 'react';
-import { VRM, VRMLoaderPlugin, gltfLoader as loader } from '../interfaces/THREE_Interface';
+import {
+  VRM,
+  VRMLoaderPlugin,
+  gltfLoader as loader,
+} from '../interfaces/THREE_Interface';
 import { setupAvatarProportions } from '../utils/avatar/setupAvatarProportions';
 import useHookstateGetters from '../interfaces/Hookstate_Interface';
 import debounce from '../utils/general/debounce';
-import { maleModel1 } from '../utils/cdn-links/models';
+import { maleModel1, femaleModel2 } from '../utils/cdn-links/models';
+import { useSceneState } from '../hookstate-store/SceneState';
 
 interface AvatarProps {
   setAvatarModel: (vrm: VRM) => void;
@@ -15,6 +20,9 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const { getUserDevice } = useHookstateGetters();
   const [avatarLoaded, setAvatarLoaded] = useState(false);
   const isMobile = getUserDevice() === 'Mobile';
+  const sceneState = useSceneState();
+
+  const currentModel = sceneState.selectedAvatar.get();
 
   const updateProgress = debounce((loadedPercentage) => {
     console.log('Loading Avatar: ', loadedPercentage + '%');
@@ -26,7 +34,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-      maleModel1,
+      currentModel === '1' ? maleModel1 : femaleModel2,
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setupAvatarProportions(vrm);
