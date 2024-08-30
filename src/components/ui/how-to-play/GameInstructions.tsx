@@ -15,22 +15,12 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
     const [currentIndex, setCurrentIndex] = useState(0); // the center card
     const [cards, setCards] = useState(h2Play.slice(0, 3));
 
-    // useEffect(() => {
-    //     const newIndex = (currentIndex + 1) % h2Play.length;
-    //     const lastIndex = newIndex + 1 === h2Play.length ? 0 : newIndex + 1 === h2Play.length + 1 ? newIndex : newIndex + 1;
-    //     const firstIndex = newIndex - 1 >= 0 ? newIndex - 1 : h2Play.length - 1;
-
-    //     const newCards = [h2Play[firstIndex], h2Play[newIndex], h2Play[lastIndex]];
-    //     setCards(newCards);
-
-    // }, [currentIndex])
-
     useEffect(() => {
         const automaticScroll = setInterval(() => {
             // because setInterval captures the intial state in a closure variable from it's cb fn,
             // need to make sure we grab prev and not remain stagnant at that one val.
             setCurrentIndex(prev => (prev + 1) % h2Play.length);
-        }, 3000);
+        }, 5000);
 
         return () => clearInterval(automaticScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,7 +42,7 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
             {
                 x: '100%',
                 y: '20%',
-                duration: 1,
+                duration: 2,
                 ease: 'cubic.out'
             }
         )
@@ -64,7 +54,7 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
             {
                 x: '-55%',
                 y: '0%',
-                duration: 1,
+                duration: 2,
                 ease: 'cubic.out'
             }
         )
@@ -76,7 +66,7 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
             {
                 x: '-45%',
                 y: '0%',
-                duration: 1,
+                duration: 2,
                 ease: 'cubic.out'
             }
         );
@@ -95,10 +85,9 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
                     mainTitle='How to Play'
                 />
                 <div className="card-carousel">
-                    {cards.map((card, index) => (
+                    {cards.map((card) => (
                         <CarouselItem
                             currentIndex={currentIndex}
-                            itemIndex={index}
                             card={card}
                             key={card.id}
                         />
