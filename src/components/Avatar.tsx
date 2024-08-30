@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import {
   VRM,
   VRMLoaderPlugin,
@@ -23,6 +23,15 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const sceneState = useSceneState();
 
   const currentModel = sceneState.selectedAvatar.get();
+  const model = useRef('');
+
+  if (currentModel === '' || 'locked') {
+    model.current = maleModel1;
+  }
+
+  if (currentModel === '2') {
+    model.current = femaleModel2;
+  }
 
   const updateProgress = debounce((loadedPercentage) => {
     console.log('Loading Avatar: ', loadedPercentage + '%');
@@ -34,7 +43,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
       return new VRMLoaderPlugin(parser);
     });
     loader.load(
-      currentModel === '1' ? maleModel1 : femaleModel2,
+      model.current,
       (gltf) => {
         const vrm = gltf.userData.vrm;
         setupAvatarProportions(vrm);
