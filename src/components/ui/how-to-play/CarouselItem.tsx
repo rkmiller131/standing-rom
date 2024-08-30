@@ -6,29 +6,31 @@ interface CarouselItemProps {
     itemIndex: number;
 }
 export default function CarouselItem({ currentIndex, itemIndex, card }: CarouselItemProps) {
-    console.log(itemIndex)
-    const styles = {
-        filter: currentIndex === card.id ? '' : 'blur(10px)',
-        // transform: currentIndex === card.id ? 'translateY(15%)' : currentIndex > card.id ? 
+
+    const getTransformStyle = () => {
+        if (card.id === currentIndex) {
+            return 'translate(100%, 20%)';
+        } else if (itemIndex === 1) {
+            return 'translate(-55%, 0)';
+        } else {
+            return 'translate(-45%, 0)';
+        }
     }
 
-    // const getTransformStyle = () => {
-    //     if (itemIndex === currentIndex) {
-    //         return { transform: 'translate(100%, 20%)' };
-    //     } else if (itemIndex === currentIndex - 1) {
-    //         return { transform: 'translate(-55%, 0)' };
-    //     } else if (itemIndex === currentIndex + 1) {
-    //         return { transform: 'translate(-45%, 0)' };
-    //     } else {
-    //         return { transform: `translateX(${(currentIndex - card.id) * 50}%)` }
-    //     }
-    // }
+    console.log(getTransformStyle())
+
+    const styles = {
+        // filter: currentIndex === card.id ? '' : 'blur(10px)',
+        // opacity: currentIndex === card.id ? 1 : 0.5,
+        transform: getTransformStyle()
+    }
 
     return (
         <div className="h2play-card" style={styles}>
-            <video>
+            {/* <video>
                 <source></source>
-            </video>
+            </video> */}
+            {`CARD NUMBER ${card.id}`}
         </div>
     );
 }

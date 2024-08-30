@@ -11,6 +11,10 @@ export type H2PlayCard = {
 // HOW TO PLAY SCREEN
 export const h2Play = [
   {
+    id: 0,
+    graphic: ''
+  },
+  {
     id: 1,
     graphic: ''
   },
@@ -18,10 +22,14 @@ export const h2Play = [
     id: 2,
     graphic: ''
   },
-  {
-    id: 3,
-    graphic: ''
-  }
+  // {
+  //   id: 4,
+  //   graphic: ''
+  // },
+  // {
+  //   id: 5,
+  //   graphic: ''
+  // }
 ];
 
 // BUBBLE ANIMATIONS

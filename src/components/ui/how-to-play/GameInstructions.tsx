@@ -2,38 +2,34 @@ import { useEffect, useState } from 'react';
 import { h2Play } from '../../../utils/cdn-links/motionGraphics';
 import Button from '../../Button';
 import TitleSubtitle from '../TitleSubtitle';
+import CarouselItem from './CarouselItem';
 
 import '../../../css/GameInstructions.css';
-import CarouselItem from './CarouselItem';
+
 interface GameInstructionsProps {
     clickHandler: () => void;
 }
+
 export default function GameInstructions({ clickHandler }: GameInstructionsProps) {
     const [currentIndex, setCurrentIndex] = useState(0); // the center card
     const [cards, setCards] = useState(h2Play.slice(0, 3));
 
-    // If ever in the future there are more than 3 how to play graphics, this will keep only 3 at a time visible.
-    const shiftVisibleCards = () => {
-        setCurrentIndex((prev) => {
-            const newIndex = (prev + 1) % h2Play.length;
-            setCards(h2Play.slice(newIndex - 1, newIndex + 1))
-            return newIndex;
-        })
-    }
+    useEffect(() => {
+        const newIndex = (currentIndex + 1) % h2Play.length;
+        const lastIndex = newIndex + 1 === h2Play.length ? 0 : newIndex + 1 === h2Play.length + 1 ? newIndex : newIndex + 1;
+        const firstIndex = newIndex - 1 >= 0 ? newIndex - 1 : h2Play.length - 1;
 
-    const scrollCarousel = () => {
-        shiftVisibleCards();
-        console.log('cards are ', cards)
-        // if (currentIndex === h2Play.length) {
-        //     return setCurrentIndex(0);
-        // }
-        // return setCurrentIndex(currentIndex + 1);
-    }
+        const newCards = [h2Play[firstIndex], h2Play[newIndex], h2Play[lastIndex]];
+        console.log('new cards are ', newCards);
+        setCards(newCards);
+
+    }, [currentIndex])
 
     useEffect(() => {
         const automaticScroll = setInterval(() => {
-            console.log('cards before next scroll: ', cards)
-            scrollCarousel();
+            // because setInterval captures the intial state in a closure variable from it's cb fn,
+            // need to make sure we grab prev and not remain stagnant at that one val.
+            setCurrentIndex(prev => (prev + 1) % h2Play.length);
         }, 3000);
 
         return () => clearInterval(automaticScroll);
@@ -53,7 +49,7 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
                 />
                 <div className="card-carousel">
                     {cards.map((card, index) => (
-                        <CarouselItem 
+                        <CarouselItem
                             currentIndex={currentIndex}
                             itemIndex={index}
                             card={card}
