@@ -53,11 +53,11 @@
   /* height: 350px; set a max height for video, make responsive later */
   /* background: blue; */
   transition: opacity 1s linear;
+  cursor: pointer;
 }
 
 .instructional-video {
-  /* width: 40%; */
-  max-height: 350px;
+  max-height: 350px; /* If we adjust height, will need to change gsap translations*/
 }
 
 .instruction-footer {
@@ -69,7 +69,7 @@
   padding: 1% 5%;
   background: var(--uvx-secondary);
   color: white;
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .instruction-list:before {
