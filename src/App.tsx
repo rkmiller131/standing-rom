@@ -19,8 +19,13 @@ import './css/App.css';
 const Renderer = lazy(() => import('./canvas/Renderer'));
 
 export default function App() {
-  const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
-    useHookstateGetters();
+  const {
+    environmentLoaded,
+    environmentSelected,
+    sceneLoaded,
+    gameOver,
+    getReady,
+  } = useHookstateGetters();
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDeviceType());
 
@@ -51,7 +56,9 @@ export default function App() {
       <Suspense fallback={null}>
         <Renderer>
           {environmentSelected() && <Environment />}
-          <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+          {getReady() && (
+            <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
+          )}
           <CameraAnimations />
 
           {sceneLoaded() && (
