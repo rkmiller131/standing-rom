@@ -3,6 +3,7 @@ import { h2Play } from '../../../utils/cdn-links/motionGraphics';
 import Button from '../../Button';
 import TitleSubtitle from '../TitleSubtitle';
 import CarouselItem from './CarouselItem';
+import { gsap } from 'gsap'
 
 import '../../../css/GameInstructions.css';
 
@@ -14,15 +15,15 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
     const [currentIndex, setCurrentIndex] = useState(0); // the center card
     const [cards, setCards] = useState(h2Play.slice(0, 3));
 
-    useEffect(() => {
-        const newIndex = (currentIndex + 1) % h2Play.length;
-        const lastIndex = newIndex + 1 === h2Play.length ? 0 : newIndex + 1 === h2Play.length + 1 ? newIndex : newIndex + 1;
-        const firstIndex = newIndex - 1 >= 0 ? newIndex - 1 : h2Play.length - 1;
+    // useEffect(() => {
+    //     const newIndex = (currentIndex + 1) % h2Play.length;
+    //     const lastIndex = newIndex + 1 === h2Play.length ? 0 : newIndex + 1 === h2Play.length + 1 ? newIndex : newIndex + 1;
+    //     const firstIndex = newIndex - 1 >= 0 ? newIndex - 1 : h2Play.length - 1;
 
-        const newCards = [h2Play[firstIndex], h2Play[newIndex], h2Play[lastIndex]];
-        setCards(newCards);
+    //     const newCards = [h2Play[firstIndex], h2Play[newIndex], h2Play[lastIndex]];
+    //     setCards(newCards);
 
-    }, [currentIndex])
+    // }, [currentIndex])
 
     useEffect(() => {
         const automaticScroll = setInterval(() => {
@@ -34,6 +35,53 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
         return () => clearInterval(automaticScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        const newIndex = (currentIndex + 1) % h2Play.length;
+        const lastIndex = newIndex + 1 === h2Play.length ? 0 : newIndex + 1 === h2Play.length + 1 ? newIndex : newIndex + 1;
+        const firstIndex = newIndex - 1 >= 0 ? newIndex - 1 : h2Play.length - 1;
+
+        const newCards = [h2Play[firstIndex], h2Play[newIndex], h2Play[lastIndex]];
+        setCards(newCards);
+
+        gsap.fromTo(`#card${newCards[0].id}`,
+            {
+                x: '45%',
+                y: '0%'
+            },
+            {
+                x: '100%',
+                y: '20%',
+                duration: 1,
+                ease: 'cubic.out'
+            }
+        )
+        gsap.fromTo(`#card${newCards[1].id}`,
+            {
+                x: '55%',
+                y: '0%'
+            },
+            {
+                x: '-55%',
+                y: '0%',
+                duration: 1,
+                ease: 'cubic.out'
+            }
+        )
+        gsap.fromTo(`#card${newCards[2].id}`,
+            {
+                x: '-100%',
+                y: '20%'
+            },
+            {
+                x: '-45%',
+                y: '0%',
+                duration: 1,
+                ease: 'cubic.out'
+            }
+        );
+
+    }, [currentIndex]);
 
     return (
         <div id="game-instructions-screen">

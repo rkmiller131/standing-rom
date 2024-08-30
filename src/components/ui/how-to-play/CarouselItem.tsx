@@ -33,7 +33,7 @@ export default function CarouselItem({ currentIndex, itemIndex, card }: Carousel
 
 
     const styles = {
-        // filter: currentIndex === card.id ? '' : 'blur(10px)',
+        filter: currentIndex === card.id ? '' : 'blur(5px)',
         opacity: currentIndex === card.id ? 1 : 0.5,
         transform: getTransformStyle(),
     }
