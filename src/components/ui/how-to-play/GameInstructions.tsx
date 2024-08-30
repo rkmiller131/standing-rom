@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { h2Play } from '../../../utils/cdn-links/motionGraphics';
 import Button from '../../Button';
 import TitleSubtitle from '../TitleSubtitle';
@@ -14,25 +14,40 @@ interface GameInstructionsProps {
 export default function GameInstructions({ clickHandler }: GameInstructionsProps) {
     const [currentIndex, setCurrentIndex] = useState(0); // the center card
     const [cards, setCards] = useState(h2Play.slice(0, 3));
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const [pauseCarousel, setPauseCarousel] = useState(false);
 
     useEffect(() => {
+        if(pauseCarousel) return;
         const automaticScroll = setInterval(() => {
             // because setInterval captures the intial state in a closure variable from it's cb fn,
             // need to make sure we grab prev and not remain stagnant at that one val.
             setCurrentIndex(prev => (prev + 1) % h2Play.length);
-        }, 5000);
+        }, 3000);
 
         return () => clearInterval(automaticScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [pauseCarousel]);
 
     useEffect(() => {
+        const element = carouselRef.current;
+        if (!element) return;
+
         const newIndex = (currentIndex + 1) % h2Play.length;
         const lastIndex = newIndex + 1 === h2Play.length ? 0 : newIndex + 1 === h2Play.length + 1 ? newIndex : newIndex + 1;
         const firstIndex = newIndex - 1 >= 0 ? newIndex - 1 : h2Play.length - 1;
 
         const newCards = [h2Play[firstIndex], h2Play[newIndex], h2Play[lastIndex]];
         setCards(newCards);
+
+        const hoverIn = () => setPauseCarousel(true);
+        const hoverOut = () => {
+            setPauseCarousel(false);
+            setCurrentIndex(prev => (prev + 1) % h2Play.length);
+        };
+
+        element.addEventListener('mouseenter', hoverIn);
+        element.addEventListener('mouseleave', hoverOut);
 
         gsap.fromTo(`#card${newCards[0].id}`,
             {
@@ -71,6 +86,11 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
             }
         );
 
+        return () => {
+            element.removeEventListener('mouseenter', hoverIn);
+            element.removeEventListener('mouseleave', hoverOut);
+        }
+
     }, [currentIndex]);
 
     return (
@@ -84,7 +104,7 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
                     accentTitle='Instructions'
                     mainTitle='How to Play'
                 />
-                <div className="card-carousel">
+                <div className="card-carousel" ref={carouselRef}>
                     {cards.map((card) => (
                         <CarouselItem
                             currentIndex={currentIndex}

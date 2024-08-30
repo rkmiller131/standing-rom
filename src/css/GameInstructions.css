@@ -49,9 +49,6 @@
   align-items: center;
   justify-content: center;
   width: 40%;
-  /* height: calc(35% + 22%); */
-  /* height: 350px; set a max height for video, make responsive later */
-  /* background: blue; */
   transition: opacity 1s linear;
   cursor: pointer;
 }
@@ -69,7 +66,7 @@
   padding: 1% 5%;
   background: var(--uvx-secondary);
   color: white;
-  /* z-index: 1; */
+  z-index: 1;
 }
 
 .instruction-list:before {
