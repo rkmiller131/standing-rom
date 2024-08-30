@@ -20,7 +20,6 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
         const firstIndex = newIndex - 1 >= 0 ? newIndex - 1 : h2Play.length - 1;
 
         const newCards = [h2Play[firstIndex], h2Play[newIndex], h2Play[lastIndex]];
-        console.log('new cards are ', newCards);
         setCards(newCards);
 
     }, [currentIndex])

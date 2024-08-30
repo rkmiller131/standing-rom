@@ -23,11 +23,11 @@ export const h2Play = [
     graphic: ''
   },
   // {
-  //   id: 4,
+  //   id: 3,
   //   graphic: ''
   // },
   // {
-  //   id: 5,
+  //   id: 4,
   //   graphic: ''
   // }
 ];

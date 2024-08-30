@@ -45,9 +45,13 @@
 }
 
 .h2play-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 40%;
   height: calc(35% + 22%);
   border: 2px solid blue;
+  /* transition: all 1s linear; */
 }
 
 .instruction-footer {
