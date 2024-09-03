@@ -59,31 +59,6 @@ export const environmentCards = [
     name: 'Coming Soon',
     imgSrc: '/comingSoon.jpg',
   },
-  {
-    id: 6,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 7,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 8,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 9,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 10,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
 ];
 
 export const calibrationIcons = {
