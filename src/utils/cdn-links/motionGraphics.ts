@@ -11,25 +11,17 @@ export type H2PlayCard = {
 // HOW TO PLAY SCREEN
 export const h2Play = [
   {
-    id: 0,
-    graphic: ''
+    id: 0, // lateral raise graphic
+    graphic: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/howToPlayAbduction.webm?v=1725386211408'
   },
   {
-    id: 1,
-    graphic: ''
+    id: 1, // frontal raise graphic
+    graphic: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/howToPlayFlexion.webm?v=1725386216617'
   },
   {
-    id: 2,
-    graphic: ''
-  },
-  // {
-  //   id: 3,
-  //   graphic: ''
-  // },
-  // {
-  //   id: 4,
-  //   graphic: ''
-  // }
+    id: 2, // cross body graphic
+    graphic: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/howToPlayAdduction.webm?v=1725386214468'
+  }
 ];
 
 // BUBBLE ANIMATIONS

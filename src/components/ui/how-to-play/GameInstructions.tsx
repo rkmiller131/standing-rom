@@ -4,12 +4,14 @@ import Button from '../../Button';
 import TitleSubtitle from '../TitleSubtitle';
 import CarouselItem from './CarouselItem';
 import { gsap } from 'gsap'
+import { getUserBrowser, getUserOS } from '../../../utils/general/devices';
 
 import '../../../css/GameInstructions.css';
 
 interface GameInstructionsProps {
     clickHandler: () => void;
 }
+let alertTips = false;
 
 export default function GameInstructions({ clickHandler }: GameInstructionsProps) {
     const [currentIndex, setCurrentIndex] = useState(0); // the center card
@@ -18,7 +20,7 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
     const [pauseCarousel, setPauseCarousel] = useState(false);
 
     useEffect(() => {
-        if(pauseCarousel) return;
+        if (pauseCarousel) return;
         const automaticScroll = setInterval(() => {
             // because setInterval captures the intial state in a closure variable from it's cb fn,
             // need to make sure we grab prev and not remain stagnant at that one val.
@@ -92,6 +94,45 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
         }
 
     }, [currentIndex]);
+
+    useEffect(() => {
+        if (alertTips) return;
+        const browser = getUserBrowser();
+        const os = getUserOS();
+
+        if (os === 'MacOS' && browser === 'Chrome') {
+            window.alert(
+                `For the best experience, turn on hardware acceleration.\n
+                Paste the following into the web address bar:\n chrome://settings/?search=graphics+acceleration\n
+                Then toggle the option ON, and visit this site again.\n
+                Note: this reminder will appear every time.
+                `
+            )
+        } else if (browser === 'Firefox') {
+            window.alert(
+                `For the best experience, turn on Sound, Video, and Audio.\n
+                These options are located as an icon to the left of the web address bar.\n
+                Note: this reminder will appear every time.
+                `
+            )
+        } else if (browser === 'Edge') {
+            window.alert(
+                `For the best experience, turn on hardware acceleration.\n
+                Under Settings > System and Performance > Use hardware acceleration when available > Toggle On.\n
+                Note: this reminder will appear every time.
+                `
+            )
+        } else if (browser === 'Safari') {
+            window.alert(
+                `For the best experience, turn on hardware acceleration.\n
+                In Safari > Settings > Advanced Settings > check the "Show Develop Menu in Menu Bar"\n
+                Under Develop > Experimental Features > check "GPU Process: DOM Rendering"\n
+                Note: this reminder will appear every time.
+                `
+            )
+        }
+        alertTips = true;
+    }, [])
 
     return (
         <div id="game-instructions-screen">

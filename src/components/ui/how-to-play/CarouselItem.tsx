@@ -45,14 +45,14 @@ export default function CarouselItem({ currentIndex, card }: CarouselItemProps) 
 
     const styles = {
         filter: currentIndex === card.id ? '' : 'blur(10px)',
-        opacity: currentIndex === card.id ? 1 : 0.5,
+        opacity: currentIndex === card.id ? 1 : 0.3,
         zIndex: currentIndex === card.id ? 1 : 0
     }
 
     return (
         <div id={`card${card.id}`} className="h2play-card" style={styles} ref={elementRef}>
             <video autoPlay loop muted className="instructional-video">
-                <source src={'/SHOULDER_FLEXION.webm'} />
+                <source src={card.graphic} />
             </video>
         </div>
     );

@@ -28,6 +28,7 @@ export default function UIElements({ avatar }: UIProps) {
   const [codeSuccess, setCodeSuccess] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
 
+  // future optimizations: put these fn inside a useCallback
   const submitCode = (code: number) => {
     // be sure to add some validation logic here if necessary when backend is established
     // add a new helper function to utils > http and verify against database

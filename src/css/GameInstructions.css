@@ -55,6 +55,11 @@
 
 .instructional-video {
   max-height: 350px; /* If we adjust height, will need to change gsap translations*/
+  background-color: var(--uvx-primary);
+  /* background-color: var(--uvx-secondary); */
+  /* background-color: var(--uvx-accent-color); */
+  border-radius: 1.5rem 1.5rem;
+  box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
 .instruction-footer {
