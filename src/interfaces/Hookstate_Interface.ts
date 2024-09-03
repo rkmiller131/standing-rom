@@ -25,10 +25,10 @@ export default function useHookstateGetters() {
   const getSFX = () => sceneState.sceneSettings.sfx.get();
   const getAnnouncer = () => sceneState.sceneSettings.announcer.get();
   const setMusic = (value: boolean) => {
-    sceneState.sceneSettings.sfx.set(value);
+    sceneState.sceneSettings.music.set(value);
   };
   const setSFX = (value: boolean) => {
-    sceneState.sceneSettings.music.set(value);
+    sceneState.sceneSettings.sfx.set(value);
   };
   const setAnnouncer = (value: boolean) => {
     sceneState.sceneSettings.announcer.set(value);
