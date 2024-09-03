@@ -25,7 +25,6 @@ import { announcer } from '../../../utils/cdn-links/sounds';
 import { useRef } from 'react';
 
 import '../../../css/ResultsScreen.css';
-import { useSceneState } from '../../../hookstate-store/SceneState';
 
 ChartJS.register(
   CategoryScale,
@@ -91,10 +90,9 @@ export default function ResultsScreen() {
     getTotalBubbleCount,
     getPoppedVelocities,
     getCurrentStreak,
+    getAnnouncer,
   } = useHookstateGetters();
   const awardMedal = useRef('');
-
-  const sceneState = useSceneState();
 
   const maxRightArmAngle = getMaxRightArmAngle();
   const maxLeftArmAngle = getMaxLeftArmAngle();
@@ -138,9 +136,9 @@ export default function ResultsScreen() {
   }
   audio.volume = 0.75;
 
-  if (sceneState.sceneSettings.announcer.get()) {
+  if (getAnnouncer()) {
     audio.play();
-  } else if (sceneState.sceneSettings.announcer.get() === false) {
+  } else if (getAnnouncer() === false) {
     audio.pause();
   } else {
     audio.play();

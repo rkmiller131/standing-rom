@@ -2,9 +2,9 @@ import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
-import { useSceneState } from '../../../hookstate-store/SceneState';
 
 import '../../../css/SetupScreen.css';
+import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
 
 interface EnvironmentCardProps {
   imgSrc: string;
@@ -21,7 +21,7 @@ export default function EnvironmentCard({
 }: EnvironmentCardProps) {
   const elementRef = useRef<HTMLDivElement>(null);
 
-  const sceneState = useSceneState();
+  const { getSFX } = useHookstateGetters();
 
   const handleMouseMove = (event: MouseEvent) => {
     const element = elementRef.current;
@@ -53,9 +53,9 @@ export default function EnvironmentCard({
       });
       element.style.border = '4px solid #f9cc35';
       const hoverSFX = new Audio(uiInteractions['choiceHover']);
-      if (sceneState.sceneSettings.sfx.get()) {
+      if (getSFX()) {
         hoverSFX.play();
-      } else if (sceneState.sceneSettings.sfx.get() === false) {
+      } else if (getSFX() === false) {
         hoverSFX.pause();
       } else {
         hoverSFX.play();
