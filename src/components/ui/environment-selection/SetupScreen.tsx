@@ -3,7 +3,6 @@ import {
   EnvironmentSelectionType,
   AvatarSelectionType,
 } from '../../../hookstate-store/Types';
-import { useSceneState } from '../../../hookstate-store/SceneState';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
 import { environmentCards, avatarCards } from '../../../utils/cdn-links/images';
 import EnvironmentCard from './EnvironmentCard';
@@ -14,11 +13,11 @@ import { setupBG } from '../../../utils/cdn-links/motionGraphics';
 import '../../../css/SetupScreen.css';
 import SceneControls from '../SceneControls';
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
+import { useSceneState } from '../../../hookstate-store/SceneState';
 
 const selectSFX = new Audio(uiInteractions['choiceSelect']);
 
 export default function SetupScreen() {
-  const sceneState = useSceneState();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [selectedEnvironment, setSelectedEnvironment] =
     useState<EnvironmentSelectionType | null>(null);
@@ -28,16 +27,19 @@ export default function SetupScreen() {
   );
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
 
-  const { setReady, getReady } = useHookstateGetters();
+  const sceneState = useSceneState();
+
+  const { setReady, getReady, getSFX, getMusic, getAnnouncer } =
+    useHookstateGetters();
 
   const handleEnvironmentSelection = useCallback(
     (environment: EnvironmentSelectionType) => {
       // sceneState.selectedEnvironment.set(environment); dont trigger play just yet...
       setSelectedEnvironment(environment);
       setHoveredImage(null);
-      if (sceneState.sceneSettings.sfx.get()) {
+      if (getSFX()) {
         selectSFX.play();
-      } else if (sceneState.sceneSettings.sfx.get() === false) {
+      } else if (getSFX() === false) {
         selectSFX.pause();
       } else {
         selectSFX.play();
@@ -49,9 +51,9 @@ export default function SetupScreen() {
   const handleAvatarSelection = useCallback((avatar: string) => {
     setSelectedAvatar(avatar);
     setHoveredAvatarImage(null);
-    if (sceneState.sceneSettings.sfx.get()) {
+    if (getSFX()) {
       selectSFX.play();
-    } else if (sceneState.sceneSettings.sfx.get() === false) {
+    } else if (getSFX() === false) {
       selectSFX.pause();
     } else {
       selectSFX.play();
@@ -68,9 +70,9 @@ export default function SetupScreen() {
 
   const handleBackToEnvironmentSelection = () => {
     setSelectedEnvironment(null);
-    if (sceneState.sceneSettings.sfx.get()) {
+    if (getSFX()) {
       selectSFX.play();
-    } else if (sceneState.sceneSettings.sfx.get() === false) {
+    } else if (getSFX() === false) {
       selectSFX.pause();
     } else {
       selectSFX.play();
@@ -79,9 +81,9 @@ export default function SetupScreen() {
 
   const handleBackToAvatarSelection = () => {
     setSelectedAvatar(null);
-    if (sceneState.sceneSettings.sfx.get()) {
+    if (getSFX()) {
       selectSFX.play();
-    } else if (sceneState.sceneSettings.sfx.get() === false) {
+    } else if (getSFX() === false) {
       selectSFX.pause();
     } else {
       selectSFX.play();
@@ -251,17 +253,9 @@ export default function SetupScreen() {
               <h3>Selected Options</h3>
               {sceneState ? (
                 <div>
-                  <div>
-                    Music: {sceneState.sceneSettings.music.get() ? 'On' : 'Off'}
-                  </div>
-                  <div>
-                    Sound Effects:{' '}
-                    {sceneState.sceneSettings.sfx.get() ? 'On' : 'Off'}
-                  </div>
-                  <div>
-                    Announcer:{' '}
-                    {sceneState.sceneSettings.announcer.get() ? 'On' : 'Off'}
-                  </div>
+                  <div>Music: {getMusic() ? 'On' : 'Off'}</div>
+                  <div>Sound Effects: {getSFX() ? 'On' : 'Off'}</div>
+                  <div>Announcer: {getAnnouncer() ? 'On' : 'Off'}</div>
                 </div>
               ) : (
                 <p>No options selected</p>

@@ -1,4 +1,3 @@
-import { useSceneState } from '../../hookstate-store/SceneState';
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import TitleSubtitle from './TitleSubtitle';
@@ -7,12 +6,12 @@ import { uvxLogos } from '../../utils/cdn-links/images';
 import { announcer } from '../../utils/cdn-links/sounds';
 
 import '../../css/SlidingInfo.css';
+import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 
 let mounted = false;
 
 export default function SlidingInfo() {
-  const sceneState = useSceneState();
-  const sceneLoaded = sceneState.sceneLoaded.get({ noproxy: true });
+  const { sceneLoaded, getAnnouncer } = useHookstateGetters();
 
   useEffect(() => {
     if (!mounted) {
@@ -35,16 +34,16 @@ export default function SlidingInfo() {
       const audio = new Audio(announcer['getCalibrated']);
       audio.volume = 0.75;
 
-      if (sceneState.sceneSettings.announcer.get()) {
+      if (getAnnouncer()) {
         audio.play();
-      } else if (sceneState.sceneSettings.announcer.get() === false) {
+      } else if (getAnnouncer() === false) {
         audio.pause();
       } else {
         audio.play();
       }
     }
 
-    if (sceneLoaded) {
+    if (sceneLoaded()) {
       gsap.fromTo(
         '#sliding-info-screen',
         {

@@ -13,13 +13,13 @@ import {
   audioLoader,
   audioListener as listener,
 } from '../../../../interfaces/THREE_Interface';
-import { useSceneState } from '../../../../hookstate-store/SceneState';
+import useHookstateGetters from '../../../../interfaces/Hookstate_Interface';
 
 const songPath = backgroundMusic['IndoorOffice'];
 
 export default function Sound() {
   const { camera, scene } = useThree();
-  const sceneState = useSceneState();
+  const { getMusic } = useHookstateGetters();
 
   useEffect(() => {
     camera.add(listener);
@@ -39,9 +39,9 @@ export default function Sound() {
       sound.setRefDistance(20);
       sound.setVolume(0.05);
       sound.setLoop(true);
-      if (sceneState.sceneSettings.music.get()) {
+      if (getMusic()) {
         sound.play();
-      } else if (sceneState.sceneSettings.music.get() === false) {
+      } else if (getMusic() === false) {
         sound.stop();
       } else {
         sound.play();

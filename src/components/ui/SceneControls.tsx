@@ -1,9 +1,9 @@
 import '../../css/SceneControls.css';
-import { useSceneState } from '../../hookstate-store/SceneState';
+import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 
 export default function SceneControls() {
-  //   const { setMusic, setSFX } = useHookstateGetters(); for some reason this doesnt works
-  const sceneState = useSceneState();
+  const { setMusic, getMusic, setSFX, getSFX, getAnnouncer, setAnnouncer } =
+    useHookstateGetters();
   return (
     <div className="soundControls">
       <p>Announcer</p>
@@ -11,10 +11,10 @@ export default function SceneControls() {
         id="annButton"
         className="annButton"
         style={{
-          border: `${sceneState.sceneSettings.announcer.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+          border: `${getAnnouncer() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
         }}
         onClick={() => {
-          sceneState.sceneSettings.announcer.set(true);
+          setAnnouncer(true);
 
           document.getElementById('annButton2')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -26,10 +26,10 @@ export default function SceneControls() {
         id="annButton2"
         className="annButton2"
         style={{
-          border: `${!sceneState.sceneSettings.announcer.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+          border: `${!getAnnouncer() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
         }}
         onClick={() => {
-          sceneState.sceneSettings.announcer.set(false);
+          setAnnouncer(false);
 
           document.getElementById('annButton')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -42,10 +42,10 @@ export default function SceneControls() {
         id="musButton"
         className="musButton"
         style={{
-          border: `${sceneState.sceneSettings.music.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+          border: `${getMusic() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
         }}
         onClick={() => {
-          sceneState.sceneSettings.music.set(true);
+          setMusic(true);
 
           document.getElementById('musButton2')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -57,10 +57,10 @@ export default function SceneControls() {
         id="musButton2"
         className="musButton2"
         style={{
-          border: `${!sceneState.sceneSettings.music.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+          border: `${!getMusic() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
         }}
         onClick={() => {
-          sceneState.sceneSettings.music.set(false);
+          setMusic(false);
 
           document.getElementById('musButton')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -74,10 +74,10 @@ export default function SceneControls() {
         id="sfxButton"
         className="sfxButton"
         style={{
-          border: `${sceneState.sceneSettings.sfx.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+          border: `${getSFX() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
         }}
         onClick={() => {
-          sceneState.sceneSettings.sfx.set(true);
+          setSFX(true);
 
           document.getElementById('sfxButton2')!.style.border =
             'var(--uvx-secondary) 2px solid';
@@ -89,10 +89,10 @@ export default function SceneControls() {
         id="sfxButton2"
         className="sfxButton2"
         style={{
-          border: `${!sceneState.sceneSettings.sfx.get() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
+          border: `${!getSFX() ? 'var(--uvx-accent-color) 2px solid' : 'var(--uvx-secondary) 2px solid'}`,
         }}
         onClick={() => {
-          sceneState.sceneSettings.sfx.set(false);
+          setSFX(false);
 
           document.getElementById('sfxButton')!.style.border =
             'var(--uvx-secondary) 2px solid';

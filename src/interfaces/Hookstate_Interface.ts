@@ -12,14 +12,18 @@ export default function useHookstateGetters() {
     sceneState.selectedEnvironment.get({ noproxy: true });
   const sceneLoaded = () => sceneState.sceneLoaded.get({ noproxy: true });
   const gameRunning = () => sceneState.gameRunning.get({ noproxy: true });
+  const setGameRunning = (value: boolean) => {
+    sceneState.gameRunning.set(value);
+  };
   const getUserDevice = () => sceneState.device.get({ noproxy: true });
 
   const getReady = () => sceneState.sceneSettings.ready.get();
   const setReady = (value: boolean) => {
     sceneState.sceneSettings.ready.set(value);
   };
-  const getMusic = () => sceneState.sceneSettings.music.get({ noproxy: true });
-  const getSFX = () => sceneState.sceneSettings.sfx.get({ noproxy: true });
+  const getMusic = () => sceneState.sceneSettings.music.get();
+  const getSFX = () => sceneState.sceneSettings.sfx.get();
+  const getAnnouncer = () => sceneState.sceneSettings.announcer.get();
   const setMusic = (value: boolean) => {
     sceneState.sceneSettings.sfx.set(value);
   };
@@ -65,6 +69,7 @@ export default function useHookstateGetters() {
     environmentSelected,
     sceneLoaded,
     gameRunning,
+    setGameRunning,
     getUserDevice,
     gameOver,
     getMaxLeftArmAngle,
@@ -78,6 +83,7 @@ export default function useHookstateGetters() {
     getSFX,
     setMusic,
     setSFX,
+    getAnnouncer,
     setAnnouncer,
     getReady,
     setReady,
