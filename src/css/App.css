@@ -61,6 +61,8 @@ body,
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   background: linear-gradient(45deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.27) 44%, rgba(255, 255, 255, 0) 100%);
+  border: 3px solid;
+  border-color: transparent rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.3);
 }
 
 .ui-h3,
