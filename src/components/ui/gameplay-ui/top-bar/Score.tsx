@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import useHookstateGetters from '../../../../interfaces/Hookstate_Interface';
+import { VRM } from '../../../../interfaces/THREE_Interface';
+import calcArmAngles from '../../../../utils/math/calcArmAngles';
 
-export default function Score () {
+interface ScoreProps {
+  avatar: React.RefObject<VRM>;
+}
+
+export default function Score ({ avatar }: ScoreProps) {
   const {
     getPoppedBubbleCount,
     getCurrentStreak,
@@ -11,6 +17,19 @@ export default function Score () {
   const total = getTotalBubbleCount();
   const currentStreak = getCurrentStreak();
   const [streaking, setStreaking] = useState(false);
+  const [leftArm, setLeftArm] = useState(0);
+  const [rightArm, setRightArm] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const { leftArmAngle, rightArmAngle } = calcArmAngles(avatar);
+
+      setLeftArm(leftArmAngle);
+      setRightArm(rightArmAngle);
+    }, 300);
+
+    return () => clearInterval(intervalId);
+  }, [avatar]);
 
   useEffect(() => {
     if (currentStreak >= 5) {
@@ -29,13 +48,13 @@ export default function Score () {
         <div className="angle-readout-item">
           <span>Left ROM</span>
           <span className="angle-measure">
-            150°
+            {leftArm}
           </span>
         </div>
         <div className="angle-readout-item">
           <span>Right ROM</span>
           <span className="angle-measure">
-            45°
+            {rightArm}
           </span>
         </div>
       </div>
@@ -57,16 +76,16 @@ export default function Score () {
 //   const [la, setLa] = useState(0);
 //   const [ra, setRa] = useState(0);
 
-//   useEffect(() => {
-//     const intervalId = setInterval(() => {
-//       const { leftArmAngle, rightArmAngle } = calcArmAngles(avatar);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     const { leftArmAngle, rightArmAngle } = calcArmAngles(avatar);
 
-//       setLa(leftArmAngle);
-//       setRa(rightArmAngle);
-//     }, 500);
+  //     setLa(leftArmAngle);
+  //     setRa(rightArmAngle);
+  //   }, 500);
 
-//     return () => clearInterval(intervalId);
-//   }, [avatar]);
+  //   return () => clearInterval(intervalId);
+  // }, [avatar]);
 
 //   return (
 //     <>
