@@ -24,7 +24,7 @@ export default function App() {
     environmentSelected,
     sceneLoaded,
     gameOver,
-    getReady,
+    getReady
   } = useHookstateGetters();
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDeviceType());

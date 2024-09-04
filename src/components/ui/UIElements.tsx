@@ -20,6 +20,7 @@ interface UIProps {
 }
 
 export default function UIElements({ avatar }: UIProps) {
+  console.log('console loggin avatar for husky ', avatar)
   const {
     environmentLoaded,
     environmentSelected,
