@@ -1,22 +1,22 @@
-import { useState, useCallback, useRef } from 'react';
-import { EnvironmentSelectionType } from '../../../hookstate-store/Types';
-import { useSceneState } from '../../../hookstate-store/SceneState';
+import { useState, useCallback } from 'react';
+import {
+  EnvironmentSelectionType,
+  AvatarSelectionType,
+} from '../../../hookstate-store/Types';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
 import { environmentCards, avatarCards } from '../../../utils/cdn-links/images';
 import EnvironmentCard from './EnvironmentCard';
 import TitleSubtitle from '../TitleSubtitle';
 import AvatarCard from '../avatar-selection/AvatarCard';
-import { setupBG } from '../../../utils/cdn-links/motionGraphics';
 
 import '../../../css/SetupScreen.css';
 import SceneControls from '../SceneControls';
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
+import { useSceneState } from '../../../hookstate-store/SceneState';
 
 const selectSFX = new Audio(uiInteractions['choiceSelect']);
 
 export default function SetupScreen() {
-  const sceneState = useSceneState();
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [selectedEnvironment, setSelectedEnvironment] =
     useState<EnvironmentSelectionType | null>(null);
   const [hoveredImage, setHoveredImage] = useState<string | null>(null);
@@ -25,16 +25,19 @@ export default function SetupScreen() {
   );
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
 
-  const { setReady, getReady } = useHookstateGetters();
+  const sceneState = useSceneState();
+
+  const { setReady, getReady, getSFX, getMusic, getAnnouncer } =
+    useHookstateGetters();
 
   const handleEnvironmentSelection = useCallback(
     (environment: EnvironmentSelectionType) => {
       // sceneState.selectedEnvironment.set(environment); dont trigger play just yet...
       setSelectedEnvironment(environment);
       setHoveredImage(null);
-      if (sceneState.sceneSettings.sfx.get()) {
+      if (getSFX()) {
         selectSFX.play();
-      } else if (sceneState.sceneSettings.sfx.get() === false) {
+      } else if (getSFX() === false) {
         selectSFX.pause();
       } else {
         selectSFX.play();
@@ -46,9 +49,9 @@ export default function SetupScreen() {
   const handleAvatarSelection = useCallback((avatar: string) => {
     setSelectedAvatar(avatar);
     setHoveredAvatarImage(null);
-    if (sceneState.sceneSettings.sfx.get()) {
+    if (getSFX()) {
       selectSFX.play();
-    } else if (sceneState.sceneSettings.sfx.get() === false) {
+    } else if (getSFX() === false) {
       selectSFX.pause();
     } else {
       selectSFX.play();
@@ -65,9 +68,9 @@ export default function SetupScreen() {
 
   const handleBackToEnvironmentSelection = () => {
     setSelectedEnvironment(null);
-    if (sceneState.sceneSettings.sfx.get()) {
+    if (getSFX()) {
       selectSFX.play();
-    } else if (sceneState.sceneSettings.sfx.get() === false) {
+    } else if (getSFX() === false) {
       selectSFX.pause();
     } else {
       selectSFX.play();
@@ -76,9 +79,9 @@ export default function SetupScreen() {
 
   const handleBackToAvatarSelection = () => {
     setSelectedAvatar(null);
-    if (sceneState.sceneSettings.sfx.get()) {
+    if (getSFX()) {
       selectSFX.play();
-    } else if (sceneState.sceneSettings.sfx.get() === false) {
+    } else if (getSFX() === false) {
       selectSFX.pause();
     } else {
       selectSFX.play();
@@ -100,6 +103,7 @@ export default function SetupScreen() {
   const runGame = () => {
     if (selectedEnvironment && selectedAvatar) {
       sceneState.selectedEnvironment.set(selectedEnvironment);
+      sceneState.selectedAvatar.set(selectedAvatar as AvatarSelectionType);
     }
   };
 
@@ -107,15 +111,12 @@ export default function SetupScreen() {
 
   return (
     <div id="setup">
-      <video
-        ref={videoRef}
-        className="setup-screen-bg-video"
-        autoPlay
-        loop
-        muted
-      >
-        <source src={setupBG} type="video/mp4" />
-      </video>
+      <img
+        src="https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/uvxLogoWhite.png?v=1724094162122"
+        alt="UbiquityVX Logo"
+        className="uvx-logo"
+      />
+      <img src="/bgCard.svg" className="setup-screen-bg-video" />
       <div className="container">
         <div className="box">
           {selectedAvatar ? (
@@ -182,87 +183,73 @@ export default function SetupScreen() {
             </div>
           )}
         </div>
-        <div className="box">
-          {hoveredImage && (
-            <img
-              src={hoveredImage}
-              alt="Hovered Environment"
-              className="hovered-image"
-            />
-          )}
-          {hoveredAvatarImage && (
-            <img
-              src={hoveredAvatarImage}
-              alt="Hovered Avatar"
-              className="hovered-image"
-            />
-          )}
-          {sceneState.sceneSettings && selectedAvatar !== null && (
-            <div>
-              <button
-                className="startButton"
-                onClick={() => {
-                  setReady(true);
-                  runGame();
-                }}
-              >
-                Start Game
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="box">
-          <div className="box3-content">
-            <div
-              className="box3-section environment"
-              style={{
-                backgroundImage: selectedEnvironment
-                  ? `url(${getEnvironmentImage()})`
-                  : 'none',
-              }}
-            >
-              <h3>Selected Environment</h3>
-              {selectedEnvironment ? (
-                <p>{selectedEnvironment}</p>
-              ) : (
-                <p>No environment selected</p>
-              )}
-            </div>
-            <div
-              className="box3-section avatar"
-              style={{
-                backgroundImage: selectedAvatar
-                  ? `url(${getAvatarImage()})`
-                  : 'none',
-              }}
-            >
-              <h3>Selected Avatar</h3>
-              {selectedAvatar ? (
-                <p>{selectedAvatar}</p>
-              ) : (
-                <p>No avatar selected</p>
-              )}
-            </div>
-            <div className="box3-section options">
-              <h3>Selected Options</h3>
-              {sceneState ? (
-                <div>
-                  <div>
-                    Music: {sceneState.sceneSettings.music.get() ? 'On' : 'Off'}
-                  </div>
-                  <div>
-                    Sound Effects:{' '}
-                    {sceneState.sceneSettings.sfx.get() ? 'On' : 'Off'}
-                  </div>
-                  <div>
-                    Announcer:{' '}
-                    {sceneState.sceneSettings.announcer.get() ? 'On' : 'Off'}
-                  </div>
-                </div>
-              ) : (
-                <p>No options selected</p>
-              )}
-            </div>
+
+        <div className="box3-content">
+          <div
+            className="box3-section cards"
+            style={{
+              backgroundImage: selectedEnvironment
+                ? `url(${getEnvironmentImage()})`
+                : 'none',
+            }}
+          >
+            {hoveredImage ? (
+              <img
+                src={hoveredImage}
+                alt="Hovered Environment"
+                className="hovered-image"
+              />
+            ) : selectedEnvironment ? (
+              <p>{selectedEnvironment}</p>
+            ) : (
+              <p>No environment selected</p>
+            )}
+          </div>
+          <div
+            className="box3-section cards"
+            style={{
+              backgroundImage: selectedAvatar
+                ? `url(${getAvatarImage()})`
+                : 'none',
+            }}
+          >
+            {hoveredAvatarImage ? (
+              <img
+                src={hoveredAvatarImage}
+                alt="Hovered Avatar"
+                className="hovered-image"
+              />
+            ) : selectedAvatar ? (
+              <p>{selectedAvatar}</p>
+            ) : (
+              <p>No avatar selected</p>
+            )}
+          </div>
+
+          <div className="box3-section cards">
+            <h3>Selected Options</h3>
+            {sceneState ? (
+              <div>
+                <div>Music: {getMusic() ? 'On' : 'Off'}</div>
+                <div>Sound Effects: {getSFX() ? 'On' : 'Off'}</div>
+                <div>Announcer: {getAnnouncer() ? 'On' : 'Off'}</div>
+              </div>
+            ) : (
+              <p>No options selected</p>
+            )}
+            {sceneState.sceneSettings && selectedAvatar !== null && (
+              <div>
+                <button
+                  className="startButton"
+                  onClick={() => {
+                    setReady(true);
+                    runGame();
+                  }}
+                >
+                  Start Game
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

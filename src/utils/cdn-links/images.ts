@@ -9,25 +9,25 @@ export const splash: { [key in EnvironmentSelectionType]: string } = {
 export const avatarCards = [
   {
     id: 1,
-    name: 'Dennis',
+    name: '1',
     imgSrc: '/DennisHead.jpg',
     hoverImage: '/DennisPose.jpg',
   },
   {
     id: 2,
-    name: 'Lillian',
+    name: '2',
     imgSrc: '/LillianHead.jpg',
     hoverImage: '/LillianPose.jpg',
   },
   {
     id: 3,
-    name: 'Locked',
+    name: 'locked',
     imgSrc: '/lockedAvatar.png',
     hoverImage: '/lockedAvatarFull.webp',
   },
   {
     id: 4,
-    name: 'Locked',
+    name: 'locked',
     imgSrc: '/lockedAvatar.png',
     hoverImage: '/lockedAvatarFull.webp',
   },
@@ -56,31 +56,6 @@ export const environmentCards = [
   },
   {
     id: 5,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 6,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 7,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 8,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 9,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 10,
     name: 'Coming Soon',
     imgSrc: '/comingSoon.jpg',
   },

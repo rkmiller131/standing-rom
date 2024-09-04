@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useEffect } from 'react';
-import { useSceneState } from '../hookstate-store/SceneState';
 import { VRM } from '../interfaces/THREE_Interface';
 import { Holistic, Results } from '@mediapipe/holistic';
 import { Camera } from '@mediapipe/camera_utils';
@@ -10,6 +9,7 @@ import { calibrationIcons } from '../utils/cdn-links/images';
 import { announcer } from '../utils/cdn-links/sounds';
 
 import '../css/Mocap.css';
+import useHookstateGetters from '../interfaces/Hookstate_Interface';
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;
@@ -22,8 +22,8 @@ let holisticLoaded = false;
 export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const landmarkCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const sceneState = useSceneState();
-  const device = sceneState.device.get({ noproxy: true });
+  const { getUserDevice, getAnnouncer } = useHookstateGetters();
+  const device = getUserDevice();
 
   // The event listener for Mediapipe - gets called once per frame
   function onResults(results: Results) {
@@ -40,9 +40,9 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           const audio = new Audio(announcer['getReady']);
           audio.volume = 0.75;
 
-          if (sceneState.sceneSettings.announcer.get()) {
+          if (getAnnouncer()) {
             audio.play();
-          } else if (sceneState.sceneSettings.announcer.get() === false) {
+          } else if (getAnnouncer() === false) {
             audio.pause();
           } else {
             audio.play();
