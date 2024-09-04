@@ -14,7 +14,6 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  /* border: 2px solid red; */
 }
 
 .gameplay-ui-score-container {
@@ -52,6 +51,30 @@
   border-color: transparent var(--uvx-accent-color) rgba(255, 255, 255, 0.4) var(--uvx-accent-color);
   transition: all ease-in-out;
   /* animation: pulse-color 2s infinite ease-in-out forwards; */
+}
+
+.angle-readout-container {
+  display: flex;
+  width: 75%;
+  height: 40%;
+  color: white;
+  justify-content: space-evenly;
+  background-color: var(--uvx-primary);
+  border-radius: 0 0 1rem 1rem;
+  border: 2px solid #C6CDFF;
+}
+
+.angle-readout-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-primary);
+}
+
+.angle-measure {
+  font-size: var(--font-small);
+  font-weight: var(--fw-medium);
 }
 
 @keyframes pulse-color {
