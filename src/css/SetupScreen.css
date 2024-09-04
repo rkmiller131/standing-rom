@@ -129,7 +129,6 @@
   height: auto;
   width: auto;
   color: white;
-  padding: 1rem;
 }
 
 .box3-section {
@@ -151,7 +150,6 @@
   background-size: cover;
   background-position: center;
   border: 2px solid #ccc;
-  border: 1px solid #ccc;
   border-radius: var(--border-radius);
   padding: 1rem;
   text-align: center;

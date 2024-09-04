@@ -10,6 +10,7 @@ import { announcer } from '../utils/cdn-links/sounds';
 import useHookstateGetters from '../interfaces/Hookstate_Interface';
 
 import '../css/Mocap.css';
+import useHookstateGetters from '../interfaces/Hookstate_Interface';
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;
