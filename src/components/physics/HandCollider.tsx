@@ -98,7 +98,6 @@ export default function HandCollider({
         poppedBubbles.current.forEach(() => {
           const velocity = distance / elapsedTime;
           gameState.popBubble(velocity, true, handedness);
-          console.log('Velocity measure: ', velocity);
         });
         poppedBubbles.current.clear();
         clock.current.start();

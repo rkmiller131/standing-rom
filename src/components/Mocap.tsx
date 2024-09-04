@@ -7,9 +7,9 @@ import { drawLandmarkGuides } from '../mocap/landmarkGuides';
 import { animateVRM } from '../mocap/avatarAnimation/avatarAnimator';
 import { calibrationIcons } from '../utils/cdn-links/images';
 import { announcer } from '../utils/cdn-links/sounds';
+import useHookstateGetters from '../interfaces/Hookstate_Interface';
 
 import '../css/Mocap.css';
-import useHookstateGetters from '../interfaces/Hookstate_Interface';
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;
@@ -119,16 +119,16 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
         id="mocap-container"
         className={device}
         style={
-          holistic
-            ? { boxShadow: '0 0 21px 0px #48abe0' }
-            : { boxShadow: '0 0 21px 0px #FCE187' }
+          holistic ?
+            { boxShadow: '0 0 21px 0px #48abe0' } :
+            { boxShadow: '0 0 21px 0px #FCE187' }
         }
       >
         <img
           src={
-            holistic
-              ? calibrationIcons.calibrated
-              : calibrationIcons.calibrating
+            holistic ?
+              calibrationIcons.calibrated :
+              calibrationIcons.calibrating
           }
           alt="Calibration Icon"
           className="calibration-icon"
@@ -149,9 +149,9 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           muted
           playsInline
           style={
-            holistic
-              ? { border: '3px solid #8FE4FF' }
-              : { border: '3px solid #f3d162' }
+            holistic ?
+              { border: '3px solid #8FE4FF' } :
+              { border: '3px solid #f3d162' }
           }
         />
         <canvas id="landmark-guides" ref={landmarkCanvasRef} />
