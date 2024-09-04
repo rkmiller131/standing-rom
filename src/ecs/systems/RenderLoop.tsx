@@ -109,15 +109,15 @@ export default function RenderLoop({ avatar }: RenderLoopProps) {
           const currentAge = firstBubbleEntity.age;
           gameState.levels[0].bubbleEntities[0].age.set(currentAge + delta);
 
-          if (currentAge > 3) {
-            // 3 seconds to pop the bubbles, otherwise counts as a miss
-            // remove from the ECS
-            const oldBubbleId = worldBubbleIds[0];
-            const oldBubbleEntity = ECS.world.entity(oldBubbleId);
-            if (oldBubbleEntity) ECS.world.remove(oldBubbleEntity);
-            // update the gamestate "score" for missing a bubble (also removes from worldBubbleId manager)
-            gameState.popBubble(0, false);
-          }
+          // if (currentAge > 3) {
+          //   // 3 seconds to pop the bubbles, otherwise counts as a miss
+          //   // remove from the ECS
+          //   const oldBubbleId = worldBubbleIds[0];
+          //   const oldBubbleEntity = ECS.world.entity(oldBubbleId);
+          //   if (oldBubbleEntity) ECS.world.remove(oldBubbleEntity);
+          //   // update the gamestate "score" for missing a bubble (also removes from worldBubbleId manager)
+          //   gameState.popBubble(0, false);
+          // }
         }
       }
     } else {

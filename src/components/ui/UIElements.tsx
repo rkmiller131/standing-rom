@@ -4,15 +4,16 @@ import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 import SetupScreen from './environment-selection/SetupScreen';
 import LoadingScreen from './LoadingScreen';
 import ResultsScreen from './results/ResultsScreen';
-import UVXBrandWatermark from './UVXBrandWatermark';
-import ViewControls from './ViewControls';
+// import UVXBrandWatermark from './UVXBrandWatermark';
+// import ViewControls from './ViewControls';
 import CountdownScreen from './CountdownScreen';
 import SlidingInfo from './SlidingInfo';
 import GameInstructions from './how-to-play/GameInstructions';
 import RoomCode from './RoomCode';
 
-const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
-const LiveSocials = lazy(() => import('./socials/LiveSocials'));
+// const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
+// const LiveSocials = lazy(() => import('./socials/LiveSocials'));
+const GameplayUI = lazy(() => import('./gameplay-ui/GameplayUI'));
 
 interface UIProps {
   avatar: React.RefObject<VRM>;
@@ -47,19 +48,20 @@ export default function UIElements({ avatar }: UIProps) {
         <GameInstructions clickHandler={clientGrantsConsent}/> :
         <SetupScreen />
       }
-      <UVXBrandWatermark />
+      {/* <UVXBrandWatermark /> */}
       {environmentSelected() && <LoadingScreen />}
       {gameOver() && <ResultsScreen />}
       {environmentLoaded() && <SlidingInfo />}
       <Suspense fallback={null}>
-        {environmentLoaded() && (
+        {/* {environmentLoaded() && (
           <>
             <LiveSocials />
             <ViewControls avatar={avatar} />
           </>
-        )}
+        )} */}
+        {environmentLoaded() && <GameplayUI />}
         {sceneLoaded() && <CountdownScreen />}
-        <ScoreDisplay />
+        {/* <ScoreDisplay /> */}
       </Suspense>
     </>
   );

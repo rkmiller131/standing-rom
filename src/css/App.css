@@ -15,7 +15,7 @@
   --uvx-secondary: #3C5199;
   --uvx-accent-color: #F984FF;
   --uvx-r-gradient: linear-gradient(to right, var(--uvx-primary), transparent);
-  --uvx-l-gradient: linear-gradient(var(--uvx-primary), #B0BBFF);
+  --uvx-l-gradient: linear-gradient(var(--uvx-primary), var(--uvx-secondary));
   --mask-r-gradient: linear-gradient(to right, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
   --mask-l-gradient: linear-gradient(to left, rgba(0, 0, 0, 1) 10%, transparent 100%);
   --border-radius: 1.5rem;
