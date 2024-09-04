@@ -6,7 +6,7 @@ import { Bubbles } from './ecs/entities/Bubbles';
 import AvatarHandColliders from './components/physics/AvatarHandColliders';
 import { useSceneState } from './hookstate-store/SceneState';
 import useHookstateGetters from './interfaces/Hookstate_Interface';
-import checkUserDevice from './utils/general/checkUserDevice';
+import { checkUserDeviceType } from './utils/general/devices';
 import Mocap from './components/Mocap';
 import Avatar from './components/Avatar';
 import Environment from './components/environment/Environment';
@@ -24,10 +24,10 @@ export default function App() {
     environmentSelected,
     sceneLoaded,
     gameOver,
-    getReady,
+    getReady
   } = useHookstateGetters();
   const sceneState = useSceneState();
-  sceneState.device.set(checkUserDevice());
+  sceneState.device.set(checkUserDeviceType());
 
   const [holisticLoaded, setHolisticLoaded] = useState(false);
   const avatar = useRef<VRM | null>(null);
