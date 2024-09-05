@@ -50,6 +50,7 @@ export type SceneType = {
     sfx: boolean;
     music: boolean;
     announcer: boolean;
+    allSounds: boolean;
     ready: boolean;
   };
 };

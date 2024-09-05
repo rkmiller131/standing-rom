@@ -16,10 +16,11 @@ import {
 import useHookstateGetters from '../../../../interfaces/Hookstate_Interface';
 
 const songPath = backgroundMusic['IndoorOffice'];
+// const ambiencePath = backgroundMusic['IndoorAmbience'];
 
 export default function Sound() {
   const { camera, scene } = useThree();
-  const { getMusic } = useHookstateGetters();
+  const { getMusic, getAllSounds } = useHookstateGetters();
 
   useEffect(() => {
     camera.add(listener);
@@ -39,12 +40,10 @@ export default function Sound() {
       sound.setRefDistance(20);
       sound.setVolume(0.05);
       sound.setLoop(true);
-      if (getMusic()) {
+      if (getAllSounds() && getMusic()) {
         sound.play();
-      } else if (getMusic() === false) {
-        sound.stop();
       } else {
-        sound.play();
+        sound.stop();
       }
     });
 

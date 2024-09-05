@@ -21,7 +21,7 @@ export default function EnvironmentCard({
 }: EnvironmentCardProps) {
   const elementRef = useRef<HTMLDivElement>(null);
 
-  const { getSFX } = useHookstateGetters();
+  const { getSFX, getAllSounds } = useHookstateGetters();
 
   const handleMouseMove = (event: MouseEvent) => {
     const element = elementRef.current;
@@ -53,13 +53,12 @@ export default function EnvironmentCard({
       });
       element.style.border = '4px solid #f9cc35';
       const hoverSFX = new Audio(uiInteractions['choiceHover']);
-      if (getSFX()) {
+      if (getAllSounds() && getSFX()) {
         hoverSFX.play();
-      } else if (getSFX() === false) {
-        hoverSFX.pause();
       } else {
-        hoverSFX.play();
+        hoverSFX.pause();
       }
+
       handleHover(imgSrc);
     };
 

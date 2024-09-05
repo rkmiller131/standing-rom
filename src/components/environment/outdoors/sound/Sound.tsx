@@ -16,15 +16,17 @@ import { backgroundMusic } from '../../../../utils/cdn-links/sounds';
 import useHookstateGetters from '../../../../interfaces/Hookstate_Interface';
 
 const songPath = backgroundMusic['Outdoors'];
+const ambiencePath = backgroundMusic['OutdoorAmbience'];
 
 export default function Sound() {
   const { camera, scene } = useThree();
-  const { getMusic } = useHookstateGetters();
+  const { getMusic, getAllSounds } = useHookstateGetters();
 
   useEffect(() => {
     camera.add(listener);
 
-    const sound = new PositionalAudio(listener);
+    const sound1 = new PositionalAudio(listener);
+    const sound2 = new PositionalAudio(listener);
 
     const sphere = new SphereGeometry(20, 32, 16);
     const material = new MeshPhongMaterial({
@@ -35,22 +37,33 @@ export default function Sound() {
     });
 
     audioLoader.load(songPath, function (buffer: AudioBuffer) {
-      sound.setBuffer(buffer);
-      sound.setRefDistance(20);
-      sound.setVolume(0.3);
-      sound.setLoop(true);
-      if (getMusic()) {
-        sound.play();
-      } else if (getMusic() === false) {
-        sound.stop();
+      sound1.setBuffer(buffer);
+      sound1.setRefDistance(20);
+      sound1.setVolume(0.3);
+      sound1.setLoop(true);
+      if (getAllSounds() && getMusic()) {
+        sound1.play();
       } else {
-        sound.play();
+        sound1.stop();
+      }
+    });
+
+    audioLoader.load(ambiencePath, function (buffer: AudioBuffer) {
+      sound2.setBuffer(buffer);
+      sound2.setRefDistance(20);
+      sound2.setVolume(0.3);
+      sound2.setLoop(true);
+      if (getAllSounds() && getMusic()) {
+        sound2.play();
+      } else {
+        sound2.stop();
       }
     });
 
     const mesh = new Mesh(sphere, material);
 
-    mesh.add(sound);
+    mesh.add(sound1);
+    mesh.add(sound2);
 
     scene.add(mesh);
 
