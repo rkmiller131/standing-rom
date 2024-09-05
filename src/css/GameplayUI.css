@@ -53,7 +53,7 @@
   animation: pulse-color 5s ease infinite;
 }
 
-.angle-readout-container {
+.angle-readout-container, .streaking-angle-readout-container {
   display: flex;
   width: 75%;
   height: 40%;
@@ -62,6 +62,10 @@
   background-color: var(--uvx-primary);
   border-radius: 0 0 1rem 1rem;
   border: 2px solid #C6CDFF;
+}
+
+.streaking-angle-readout-container {
+  background-color: var(--uvx-secondary);
 }
 
 .angle-readout-item {

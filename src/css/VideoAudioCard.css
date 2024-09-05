@@ -47,6 +47,7 @@
   width: 225px !important;
   padding: 0.5rem !important;
   font-size: 0.75rem !important;
+  border-radius: 1rem 1rem !important;
 }
 
 .small-audio {

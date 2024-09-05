@@ -44,7 +44,7 @@ export default function Score ({ avatar }: ScoreProps) {
       <div className={`player-score ${streaking ? 'streaking-score': 'frosted-glass'}`}>
         <span className="player-score-content">{`${popped} / ${total}`}</span>
       </div>
-      <div className="angle-readout-container">
+      <div className={`${streaking ? 'streaking-angle-readout-container': 'angle-readout-container'}`}>
         <div className="angle-readout-item">
           <span>Left ROM</span>
           <span className="angle-measure">
