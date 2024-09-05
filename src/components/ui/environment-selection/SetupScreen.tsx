@@ -120,14 +120,16 @@ export default function SetupScreen() {
       <div className="container">
         <div className="box">
           {selectedAvatar ? (
-            <div className="box2-content">
-              <TitleSubtitle
-                className="select-environment-title"
-                accentTitle="Game Settings"
-                mainTitle="Options"
-              />
-              <div id="options-container">
-                <SceneControls />
+            <>
+              <div className="box2-content">
+                <TitleSubtitle
+                  className="select-environment-title"
+                  accentTitle="Game Settings"
+                  mainTitle="Options"
+                />
+                <div id="options-container">
+                  <SceneControls />
+                </div>
               </div>
               <button
                 className="back-button"
@@ -135,25 +137,27 @@ export default function SetupScreen() {
               >
                 Back
               </button>
-            </div>
+            </>
           ) : selectedEnvironment ? (
-            <div className="box2-content">
-              <TitleSubtitle
-                className="select-environment-title"
-                accentTitle="Choose Your"
-                mainTitle="Avatar"
-              />
-              <div id="avatar-cards-container">
-                {avatarCards.map((avatar) => (
-                  <AvatarCard
-                    name={avatar.name}
-                    imgSrc={avatar.imgSrc}
-                    handleSelection={handleAvatarSelection}
-                    key={avatar.id}
-                    hoverImage={avatar.hoverImage}
-                    handleHover={handleAvatarHover}
-                  />
-                ))}
+            <>
+              <div className="avatar-content">
+                <TitleSubtitle
+                  className="select-environment-title"
+                  accentTitle="Choose Your"
+                  mainTitle="Avatar"
+                />
+                <div id="avatar-cards-container">
+                  {avatarCards.map((avatar) => (
+                    <AvatarCard
+                      name={avatar.name}
+                      imgSrc={avatar.imgSrc}
+                      handleSelection={handleAvatarSelection}
+                      key={avatar.id}
+                      hoverImage={avatar.hoverImage}
+                      handleHover={handleAvatarHover}
+                    />
+                  ))}
+                </div>
               </div>
               <button
                 className="back-button"
@@ -161,95 +165,129 @@ export default function SetupScreen() {
               >
                 Back
               </button>
-            </div>
+            </>
           ) : (
-            <div className="box2-content">
-              <TitleSubtitle
-                className="select-environment-title"
-                accentTitle="Choose Your"
-                mainTitle="Environment"
-              />
-              <div id="environment-cards-container">
-                {environmentCards.map((env) => (
-                  <EnvironmentCard
-                    name={env.name}
-                    imgSrc={env.imgSrc}
-                    handleSelection={handleEnvironmentSelection}
-                    key={env.id}
-                    handleHover={handleEnvironmentHover}
-                  />
-                ))}
+            <div className="env-container">
+              <div>
+                <TitleSubtitle
+                  className="select-environment-title"
+                  accentTitle="Choose Your"
+                  mainTitle="Environment"
+                />
+                <div id="environment-cards-container">
+                  {environmentCards.map((env) => (
+                    <EnvironmentCard
+                      name={env.name}
+                      imgSrc={env.imgSrc}
+                      handleSelection={handleEnvironmentSelection}
+                      key={env.id}
+                      handleHover={handleEnvironmentHover}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="stage">
+                <div className="stage-frame">
+                  <div
+                    className="stage-image"
+                    style={{
+                      backgroundImage: selectedEnvironment
+                        ? `url(${getEnvironmentImage()})`
+                        : 'none',
+                    }}
+                  >
+                    {hoveredImage ? (
+                      <img
+                        src={hoveredImage}
+                        alt="Hovered Environment"
+                        className="hovered-image"
+                      />
+                    ) : selectedEnvironment ? (
+                      <p>{selectedEnvironment}</p>
+                    ) : (
+                      <p>No environment selected</p>
+                    )}
+                  </div>
+                  <img src="/stage.svg" className="stage-img" />
+                </div>
               </div>
             </div>
           )}
         </div>
 
         <div className="box3-content">
-          <div
-            className="box3-section cards"
-            style={{
-              backgroundImage: selectedEnvironment
-                ? `url(${getEnvironmentImage()})`
-                : 'none',
-            }}
-          >
-            {hoveredImage ? (
-              <img
-                src={hoveredImage}
-                alt="Hovered Environment"
-                className="hovered-image"
-              />
-            ) : selectedEnvironment ? (
-              <p>{selectedEnvironment}</p>
-            ) : (
-              <p>No environment selected</p>
-            )}
-          </div>
-          <div
-            className="box3-section cards"
-            style={{
-              backgroundImage: selectedAvatar
-                ? `url(${getAvatarImage()})`
-                : 'none',
-            }}
-          >
-            {hoveredAvatarImage ? (
-              <img
-                src={hoveredAvatarImage}
-                alt="Hovered Avatar"
-                className="hovered-image"
-              />
-            ) : selectedAvatar ? (
-              <p>{selectedAvatar}</p>
-            ) : (
-              <p>No avatar selected</p>
-            )}
-          </div>
+          <div className="bottomRow">
+            <div
+              className="box3-section cards"
+              style={{
+                backgroundImage: selectedEnvironment
+                  ? `url(${getEnvironmentImage()})`
+                  : 'none',
+              }}
+            >
+              {hoveredImage ? (
+                <img
+                  src={hoveredImage}
+                  alt="Hovered Environment"
+                  className="hovered-image"
+                />
+              ) : selectedEnvironment ? (
+                <p>{selectedEnvironment}</p>
+              ) : (
+                <p>No environment selected</p>
+              )}
+            </div>
+            <div
+              className="box3-section cards"
+              style={{
+                backgroundImage: selectedAvatar
+                  ? `url(${getAvatarImage()})`
+                  : 'none',
+              }}
+            >
+              {hoveredAvatarImage ? (
+                <img
+                  src={hoveredAvatarImage}
+                  alt="Hovered Avatar"
+                  className="hovered-image"
+                />
+              ) : selectedAvatar ? (
+                <p>{selectedAvatar}</p>
+              ) : (
+                <p>No avatar selected</p>
+              )}
+            </div>
 
-          <div className="box3-section cards">
-            <h3>Selected Options</h3>
-            {sceneState ? (
-              <div>
-                <div>Music: {getMusic() ? 'On' : 'Off'}</div>
-                <div>Sound Effects: {getSFX() ? 'On' : 'Off'}</div>
-                <div>Announcer: {getAnnouncer() ? 'On' : 'Off'}</div>
-              </div>
-            ) : (
-              <p>No options selected</p>
-            )}
-            {sceneState.sceneSettings && selectedAvatar !== null && (
-              <div>
-                <button
-                  className="startButton"
-                  onClick={() => {
-                    setReady(true);
-                    runGame();
-                  }}
-                >
-                  Start Game
-                </button>
-              </div>
-            )}
+            <div className="box3-section cards">
+              <h3>Selected Options</h3>
+              {sceneState ? (
+                <div>
+                  <div>Music: {getMusic() ? 'On' : 'Off'}</div>
+                  <div>Sound Effects: {getSFX() ? 'On' : 'Off'}</div>
+                  <div>Announcer: {getAnnouncer() ? 'On' : 'Off'}</div>
+                </div>
+              ) : (
+                <p>No options selected</p>
+              )}
+            </div>
+            <div>
+              <button
+                className="startButton"
+                style={{
+                  backgroundImage: selectedAvatar
+                    ? 'linear-gradient(var(--uvx-accent-color), #af57b1)'
+                    : '',
+                  backgroundColor: selectedAvatar ? '' : '#ccc',
+                }}
+                disabled={selectedAvatar === null}
+                onClick={() => {
+                  setReady(true);
+                  runGame();
+                }}
+              >
+                Start Game
+              </button>
+            </div>
           </div>
         </div>
       </div>

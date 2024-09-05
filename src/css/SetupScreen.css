@@ -12,13 +12,17 @@
 }
 
 .startButton {
-  background-image: var(--uvx-l-gradient);
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  border: var(--uvx-accent-color) 2px solid;
+  text-decoration: none;
+  border: none;
+  padding: 1.5rem 2rem;
+  height: max-content;
+  font-size: var(--font-small);
+  border-radius: 2rem 2rem;
+  font-family: var(--font-primary);
+  font-weight: var(--fw-medium);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: var(--uvx-secondary);
+  border: 2px solid var(--uvx-primary);
   cursor: pointer;
 }
 
@@ -104,29 +108,36 @@
 
 .container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 95vh;
+  height: 100%;
   width: 100%;
-  padding: 2%;
 }
 
 .box {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: 1rem;
+  padding-bottom: 1rem;
   border-radius: 15px;
   align-items: center;
   transition: transform 0.5s;
 }
 
+.bottomRow {
+  display: flex;
+  background: var(--uvx-primary);
+  width: 100dvw;
+  padding: 2rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .box3-content {
   position: relative;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: auto;
+  margin-top: auto;
   width: auto;
   color: white;
 }
@@ -163,22 +174,6 @@
   font-size: 1.2rem;
 }
 
-.box3-section.avatar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 30%;
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-  border: 1px solid #ccc;
-  border-radius: var(--border-radius);
-  padding: 1rem;
-  text-align: center;
-  color: rgb(0, 0, 0);
-}
-
 .box3-section.options {
   display: flex;
   flex-direction: column;
@@ -196,7 +191,9 @@
 }
 
 .back-button {
-  margin-top: 20px;
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
   padding: 10px 20px;
   font-size: 16px;
   background-color: var(--uvx-primary);
@@ -217,14 +214,14 @@
 }
 
 .hovered-image {
-  max-height: 10rem;
+  max-height: 8rem;
   transition: opacity 0.3s ease;
 }
 
 #avatar-cards-container {
   display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   height: 100%;
   width: 95%;
   gap: 1rem;
@@ -257,13 +254,42 @@
   opacity: 0; /* Start hidden */
 }
 
-.container {
+.env-container {
   display: flex;
+  margin-top: 4rem;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
+  height: auto;
+  width: auto;
+}
+
+.stage {
+  display: flex;
+  margin-top: auto;
+  height: auto;
+  width: 100%;
+}
+
+.stage-frame {
+  display: flex;
+  background-color: black;
+  z-index: 10;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 95vh;
+  height: 100%;
   width: 100%;
-  padding: 2%;
+}
+
+.stage-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.stage-img {
+  z-index: 9;
 }
 
 .box2-content {
@@ -273,6 +299,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.avatar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .hovered-avatar-container {
@@ -301,7 +336,7 @@
 
 #options-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
   margin-top: 20px;
 }
