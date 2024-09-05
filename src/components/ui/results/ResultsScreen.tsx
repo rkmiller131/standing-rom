@@ -124,6 +124,7 @@ export default function ResultsScreen() {
   let audio;
   if (percentCompletion === 100) {
     audio = new Audio(announcer['perfectScore']);
+    awardMedal.current = badgesIcons.goldMedal;
   } else if (percentCompletion >= 90) {
     awardMedal.current = badgesIcons.goldMedal;
     audio = new Audio(announcer['greatScore']);

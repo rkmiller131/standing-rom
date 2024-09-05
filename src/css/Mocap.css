@@ -38,8 +38,10 @@
 .Desktop {
   width: 450px;
   height: auto;
-  bottom: 3%;
-  left: 4%;
+  /* bottom: 3%; */
+  /* left: 4%; */
+  left: 1%;
+  bottom: 1%;
 }
 
 .Tablet {
