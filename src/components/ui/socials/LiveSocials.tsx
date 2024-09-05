@@ -1,6 +1,7 @@
-import VideoAudioCard from './VideoAudioCard';
+// import VideoAudioCard from './VideoAudioCard';
 
 import '../../../css/LiveSocials.css';
+import VideoAudioCard from '../gameplay-ui/VideoAudioCard';
 
 export interface User {
   id: number;

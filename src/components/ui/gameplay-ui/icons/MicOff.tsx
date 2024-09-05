@@ -10,4 +10,3 @@ export default function MicOff({ color, width }: MicOffProps) {
     </svg>
   );
 }
-

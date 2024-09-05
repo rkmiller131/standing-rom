@@ -1,6 +1,7 @@
 import { VRM } from '../../../../interfaces/THREE_Interface';
-import Score from './Score';
+import PractitionerFeed from './PractitionerFeed';
 import UVXBrandWatermark from './UVXBrandWatermark';
+import Score from './Score';
 
 interface TopBarProps {
   avatar: React.RefObject<VRM>;
@@ -9,7 +10,7 @@ interface TopBarProps {
 export default function TopBar({ avatar }: TopBarProps) {
   return (
     <div className="gameplay-ui-top">
-      <div style={{height: '200px'}}>TEST</div>
+      <PractitionerFeed />
       <Score avatar={avatar}/>
       <UVXBrandWatermark />
     </div>
