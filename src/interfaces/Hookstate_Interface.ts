@@ -33,6 +33,13 @@ export default function useHookstateGetters() {
   const setAnnouncer = (value: boolean) => {
     sceneState.sceneSettings.announcer.set(value);
   };
+  const setAllSounds = (value: boolean) => {
+    sceneState.sceneSettings.allSounds.set(value);
+    sceneState.sceneSettings.music.set(value);
+    sceneState.sceneSettings.sfx.set(value);
+    sceneState.sceneSettings.announcer.set(value);
+  };
+  const getAllSounds = () => sceneState.sceneSettings.allSounds.get();
 
   // GAME STATE
   const gameOver = () => gameState.gameOver.get({ noproxy: true });
@@ -87,5 +94,7 @@ export default function useHookstateGetters() {
     setAnnouncer,
     getReady,
     setReady,
+    getAllSounds,
+    setAllSounds,
   };
 }

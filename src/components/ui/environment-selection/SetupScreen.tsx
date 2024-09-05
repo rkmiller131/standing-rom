@@ -27,7 +27,7 @@ export default function SetupScreen() {
 
   const sceneState = useSceneState();
 
-  const { setReady, getReady, getSFX, getMusic, getAnnouncer } =
+  const { setReady, getReady, getSFX, getMusic, getAnnouncer, getAllSounds } =
     useHookstateGetters();
 
   const handleEnvironmentSelection = useCallback(
@@ -35,12 +35,10 @@ export default function SetupScreen() {
       // sceneState.selectedEnvironment.set(environment); dont trigger play just yet...
       setSelectedEnvironment(environment);
       setHoveredImage(null);
-      if (getSFX()) {
+      if (getAllSounds() && getSFX()) {
         selectSFX.play();
-      } else if (getSFX() === false) {
-        selectSFX.pause();
       } else {
-        selectSFX.play();
+        selectSFX.pause();
       }
     },
     [sceneState],
@@ -49,12 +47,10 @@ export default function SetupScreen() {
   const handleAvatarSelection = useCallback((avatar: string) => {
     setSelectedAvatar(avatar);
     setHoveredAvatarImage(null);
-    if (getSFX()) {
+    if (getAllSounds() && getSFX()) {
       selectSFX.play();
-    } else if (getSFX() === false) {
-      selectSFX.pause();
     } else {
-      selectSFX.play();
+      selectSFX.pause();
     }
   }, []);
 
@@ -68,23 +64,19 @@ export default function SetupScreen() {
 
   const handleBackToEnvironmentSelection = () => {
     setSelectedEnvironment(null);
-    if (getSFX()) {
+    if (getAllSounds() && getSFX()) {
       selectSFX.play();
-    } else if (getSFX() === false) {
-      selectSFX.pause();
     } else {
-      selectSFX.play();
+      selectSFX.pause();
     }
   };
 
   const handleBackToAvatarSelection = () => {
     setSelectedAvatar(null);
-    if (getSFX()) {
+    if (getAllSounds() && getSFX()) {
       selectSFX.play();
-    } else if (getSFX() === false) {
-      selectSFX.pause();
     } else {
-      selectSFX.play();
+      selectSFX.pause();
     }
   };
 

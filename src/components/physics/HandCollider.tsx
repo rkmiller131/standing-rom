@@ -20,8 +20,13 @@ export default function HandCollider({
   avatar,
   handedness,
 }: HandColliderProps) {
-  const { sceneLoaded, getCurrentStreak, getSideSpawned, getSFX } =
-    useHookstateGetters();
+  const {
+    sceneLoaded,
+    getCurrentStreak,
+    getSideSpawned,
+    getSFX,
+    getAllSounds,
+  } = useHookstateGetters();
   const gameState = useGameState();
   const poppedBubbles = useRef<Set<string>>(new Set());
   const clock = useRef(new Clock());
@@ -42,12 +47,10 @@ export default function HandCollider({
       const key = getCurrentStreak() >= 5 ? 4 : getCurrentStreak();
       // Create a new sound on each new collision so that if bubbles are popped rapidly, the sounds can overlap
       const audio = new Audio(bubblePopSounds[key]);
-      if (getSFX()) {
+      if (getAllSounds() && getSFX()) {
         audio.play();
-      } else if (getSFX() === false) {
-        audio.pause();
       } else {
-        audio.play();
+        audio.pause();
       }
     },
     args: [0.075],

@@ -12,6 +12,7 @@ const initialState: SceneType = hookstate({
     sfx: true,
     music: true,
     announcer: true,
+    allSounds: true,
     ready: false,
   },
 });
