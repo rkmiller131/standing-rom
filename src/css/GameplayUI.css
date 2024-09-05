@@ -14,7 +14,6 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  /* border: 2px solid red; */
 }
 
 .gameplay-ui-score-container {
@@ -46,16 +45,55 @@
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   background: linear-gradient(45deg, rgba(253, 133, 255, 0.5) 0%, rgba(112, 133, 255, 0.5) 44%, rgba(253, 133, 255, 0.5) 100%);
+  background-size: 400% 400%;
   text-shadow: 1px 1px 2px black, 0 0 1em var(--uvx-accent-color), 0 0 0.2em var(--uvx-accent-color);
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
   border: 3px solid;
   border-color: transparent var(--uvx-accent-color) rgba(255, 255, 255, 0.4) var(--uvx-accent-color);
-  transition: all ease-in-out;
-  /* animation: pulse-color 2s infinite ease-in-out forwards; */
+  animation: pulse-color 5s ease infinite;
+}
+
+.angle-readout-container, .streaking-angle-readout-container {
+  display: flex;
+  width: 75%;
+  height: 40%;
+  color: white;
+  justify-content: space-evenly;
+  background-color: var(--uvx-primary);
+  border-radius: 0 0 1rem 1rem;
+  border: 2px solid #C6CDFF;
+}
+
+.streaking-angle-readout-container {
+  background-color: var(--uvx-secondary);
+}
+
+.angle-readout-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-primary);
+}
+
+.angle-measure {
+  font-size: var(--font-small);
 }
 
 @keyframes pulse-color {
-  0% { background: linear-gradient(45deg, rgba(112, 133, 255, 0.5) 0%, rgba(253, 133, 255, 0.5) 44%, rgba(255, 255, 255, 0.1) 100%); }
-  50% { background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(112, 133, 255, 0.5) 44%, rgba(253, 133, 255, 0.5) 100%); }
-  100% { background: linear-gradient(45deg, rgba(253, 133, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 44%, rgba(112, 133, 255, 0.5) 100%); }
+	0% {
+		background-position: 0% 50%;
+    border-color: transparent var(--uvx-accent-color) rgba(255, 255, 255, 0.4) var(--uvx-accent-color);
+	}
+	33% {
+    border-color: var(--uvx-accent-color) transparent var(--uvx-accent-color) rgba(255, 255, 255, 0.4);
+	}
+  66% {
+    background-position: 100% 50%;
+    border-color: rgba(255, 255, 255, 0.4) var(--uvx-accent-color) transparent var(--uvx-accent-color);
+  }
+	100% {
+		background-position: 0% 50%;
+    border-color: transparent rgba(255, 255, 255, 0.4) var(--uvx-accent-color) transparent;
+	}
 }

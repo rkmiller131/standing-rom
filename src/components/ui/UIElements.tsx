@@ -60,7 +60,7 @@ export default function UIElements({ avatar }: UIProps) {
             <ViewControls avatar={avatar} />
           </>
         )} */}
-        {environmentLoaded() && <GameplayUI />}
+        {environmentLoaded() && <GameplayUI avatar={avatar}/>}
         {sceneLoaded() && <CountdownScreen />}
         {/* <ScoreDisplay /> */}
       </Suspense>
