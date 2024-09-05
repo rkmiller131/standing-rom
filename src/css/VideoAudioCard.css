@@ -1,6 +1,11 @@
 .spectator-wrapper {
-  display: flex;
-  flex-direction: column;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  max-height: 50%;
+  overflow: scroll;
+  /* display: flex;
+  flex-direction: column; */
 }
 
 #video-card, #audio-card {
@@ -26,16 +31,27 @@
 #audio-card {
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: space-around;
   height: 100px;
   width: 150px;
-  overflow: hidden;
-  align-self: end;
-  /* background: linear-gradient(to right, rgba(58, 195, 147, 0.3), rgba(71, 255, 191, 0.5)); */
 }
 
 .audio-icon {
   background: var(--uvx-primary);
   border-radius: 50%;
+  border: 2px solid var(--uvx-secondary);
   padding: 0.25rem;
+}
+
+.small-video {
+  width: 225px !important;
+  padding: 0.5rem !important;
+  font-size: 0.75rem !important;
+}
+
+.small-audio {
+  width: 125px !important;
+  margin-left: 40%;
+  padding: 0.5rem !important;
+  font-size: 0.75rem !important;
 }

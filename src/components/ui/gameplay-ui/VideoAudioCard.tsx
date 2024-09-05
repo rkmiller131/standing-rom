@@ -15,9 +15,9 @@ export interface User {
   speaking?: boolean;
 }
 
-export default function VideoAudioCard({ user }: { user: User }) {
+export default function VideoAudioCard({ user, small }: { user: User, small?: boolean }) {
   return user.video ? (
-    <div id="video-card" className="frosted-glass" style={{ backgroundImage: `url(${user.fakeVideo})`, border: user.speaking ? '2px solid var(--uvx-accent-color)' : '' }}>
+    <div id="video-card" className={`${small && 'small-video'} frosted-glass`} style={{ backgroundImage: `url(${user.fakeVideo})`, border: user.speaking ? '2px solid var(--uvx-accent-color)' : '' }}>
       <span className="video-display-name">
         {user.displayName}
       </span>
@@ -27,8 +27,12 @@ export default function VideoAudioCard({ user }: { user: User }) {
       }
     </div>
   ) : (
-    <div id="audio-card" className="frosted-glass">
-      <div className="audio-icon" style={user.speaking ? { border: '2px solid var(--uvx-accent-color)' } : {}}>
+    <div
+      id="audio-card"
+      className={`${small && 'small-audio'} frosted-glass`}
+      style={user.speaking ? { border: '2px solid var(--uvx-accent-color)' } : {}}
+    >
+      <div className="audio-icon">
         {user.audio ?
           <MicOn color="white" width={30}/> :
           <MicOff color="white" width={30}/>

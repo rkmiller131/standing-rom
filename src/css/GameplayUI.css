@@ -74,7 +74,6 @@
 
 .angle-measure {
   font-size: var(--font-small);
-  font-weight: var(--fw-medium);
 }
 
 @keyframes pulse-color {

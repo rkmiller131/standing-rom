@@ -15,6 +15,6 @@ export default function PractitionerFeed () {
   }
 
   return (
-    <VideoAudioCard user={practitioner}/>
+      <VideoAudioCard user={practitioner}/>
   )
 }
