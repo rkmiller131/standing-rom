@@ -1,6 +1,7 @@
 import TopBar from './top-bar/TopBar';
 import { VRM } from '../../../interfaces/THREE_Interface';
 import LiveSpectators from './LiveSpectators';
+import ProgressBar from './ProgressBar';
 
 import '../../../css/GameplayUI.css';
 
@@ -13,7 +14,7 @@ export default function GameplayUI({ avatar }: GameplayUIProps) {
     <div id="in-game-ui">
       <TopBar avatar={avatar}/>
       <LiveSpectators />
-      <div>Progress Bar</div>
+      <ProgressBar />
     </div>
   )
 }
