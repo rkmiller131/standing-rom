@@ -8,9 +8,17 @@ interface ButtonProps {
   onClick: (props: any) => void;
   extraClass?: string;
   animate?: boolean;
+  disabled?: boolean;
 }
 
-export default function Button({ primaryStyle = true, content, onClick, extraClass, animate = false }: ButtonProps) {
+export default function Button({
+  primaryStyle = true,
+  content,
+  onClick,
+  extraClass,
+  animate = false,
+  disabled = false,
+}: ButtonProps) {
   const buttonClass = primaryStyle ? 'button-primary' : 'button-secondary';
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -19,13 +27,18 @@ export default function Button({ primaryStyle = true, content, onClick, extraCla
     gsap.fromTo(
       buttonRef.current,
       { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 2, ease: 'power3.out' }
+      { opacity: 1, y: 0, duration: 2, ease: 'power3.out' },
     );
   }, [animate]);
 
   return (
-    <button className={`${buttonClass} ${extraClass}`} onClick={onClick} ref={buttonRef}>
+    <button
+      className={`${buttonClass} ${extraClass}`}
+      onClick={onClick}
+      ref={buttonRef}
+      disabled={disabled}
+    >
       {content}
     </button>
-  )
+  );
 }
