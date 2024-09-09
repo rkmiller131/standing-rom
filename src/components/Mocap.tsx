@@ -5,11 +5,11 @@ import { Holistic, Results } from '@mediapipe/holistic';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawLandmarkGuides } from '../mocap/landmarkGuides';
 import { animateVRM } from '../mocap/avatarAnimation/avatarAnimator';
-import { calibrationIcons } from '../utils/cdn-links/images';
 import { announcer } from '../utils/cdn-links/sounds';
 import useHookstateGetters from '../interfaces/Hookstate_Interface';
 
 import '../css/Mocap.css';
+import { EyeOff, ScanEye } from 'lucide-react';
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;
@@ -117,28 +117,19 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
     <div id="mocap-screen">
       <div
         id="mocap-container"
-        className={device}
+        className={`${device}  frosted-glass`}
         style={
-          holistic ?
-            { boxShadow: '0 0 21px 0px #48abe0' } :
-            { boxShadow: '0 0 21px 0px #FCE187' }
+          holistic
+            ? { border: '3px solid var(--uvx-primary)' }
+            : { border: '3px solid #FCE708' }
         }
       >
-        <img
-          src={
-            holistic ?
-              calibrationIcons.calibrated :
-              calibrationIcons.calibrating
-          }
-          alt="Calibration Icon"
-          className="calibration-icon"
-        />
-        <span
-          className="calibration-text"
-          style={
-            holistic ? { background: '#3560F9' } : { background: '#F9CC35' }
-          }
-        >
+        {holistic ? (
+          <ScanEye color="#7085ff" className="calibration-icon" />
+        ) : (
+          <EyeOff color="#FCE708" className="calibration-icon" />
+        )}
+        <span className="calibration-text frosted-glass">
           {holistic ? 'Calibrated' : 'Calibrating...'}
         </span>
         <video
@@ -148,11 +139,6 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           height="100%"
           muted
           playsInline
-          style={
-            holistic ?
-              { border: '3px solid #8FE4FF' } :
-              { border: '3px solid #f3d162' }
-          }
         />
         <canvas id="landmark-guides" ref={landmarkCanvasRef} />
       </div>
