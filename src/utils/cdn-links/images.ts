@@ -33,33 +33,12 @@ export const avatarCards = [
   },
 ];
 
-export const environmentCards = [
-  {
-    id: 1,
-    name: 'Outdoors',
-    imgSrc: '/outdoorEnvCard.webp',
-  },
-  {
-    id: 2,
-    name: 'Indoor Office',
-    imgSrc: '/indoorEnvCard.webp',
-  },
-  {
-    id: 3,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 4,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-  {
-    id: 5,
-    name: 'Coming Soon',
-    imgSrc: '/comingSoon.jpg',
-  },
-];
+// Temporary. When we actually have these assets and they are potentially unlockable, then we
+// can retrieve the actual asset splash and put a filter gradient over it for locked state.
+export const lockedIcons = {
+  environment: '/OfficeSplash.webp',
+  avatar: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/lockedAvatarIcon.png?v=1725995275658'
+}
 
 export const calibrationIcons = {
   calibrating:
