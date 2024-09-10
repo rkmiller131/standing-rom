@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 import { lockedIcons } from '../../../utils/cdn-links/images';
 import { UnlockableItem } from './GameSetupScreen';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
-import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
 import gsap from 'gsap';
 
 interface SelectionItemProps {
@@ -17,7 +16,6 @@ export default function SelectionItem({ item, changeStage, changePlatformImage, 
   const elementRef = useRef<HTMLButtonElement>(null);
   const itemUnlocked = item.unlocked;
   const icon = itemUnlocked ? item.icon : item.type === 'Environment' ? lockedIcons.environment : lockedIcons.avatar;
-  const { getSFX, getAllSounds } = useHookstateGetters();
 
   const handleSelection = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -25,10 +23,8 @@ export default function SelectionItem({ item, changeStage, changePlatformImage, 
     if (itemUnlocked) {
       updateGameSettings(item.type, item);
       changeStage('Next');
-      if (getAllSounds() && getSFX()) {
-        const selectSFX = new Audio(uiInteractions['choiceSelect']);
-        selectSFX.play();
-      }
+      const selectSFX = new Audio(uiInteractions['choiceSelect']);
+      selectSFX.play();
     } else {
       const element = elementRef.current;
       if (!element) return;
@@ -57,10 +53,8 @@ export default function SelectionItem({ item, changeStage, changePlatformImage, 
     const handleHoverIn = () => {
       if (itemUnlocked) {
         changePlatformImage(item.preview, item.splash);
-        if (getAllSounds() && getSFX()) {
-          const hoverSFX = new Audio(uiInteractions['choiceHover']);
-          hoverSFX.play();
-        }
+        const hoverSFX = new Audio(uiInteractions['choiceHover']);
+        hoverSFX.play();
       }
     };
 

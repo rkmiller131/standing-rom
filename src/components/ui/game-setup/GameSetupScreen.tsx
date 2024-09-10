@@ -1,6 +1,5 @@
 import { uvxLogos } from '../../../utils/cdn-links/images';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
-import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
 import { useEffect, useState } from 'react';
 import PerspectiveWalls from './PerspectiveWalls';
 import Platform from './Platform';
@@ -41,7 +40,6 @@ export interface GameConfigurationSettings {
 }
 
 export default function GameSetupScreen() {
-  const { getSFX, getAllSounds } = useHookstateGetters();
   const [selectionStage, setSelectionStage] = useState('Environment');
   const [selectionItems, setSelectionItems] = useState<UnlockableItem[]>([]);
   const [platformImage, setPlatformImage] = useState('');
@@ -150,10 +148,8 @@ export default function GameSetupScreen() {
             <Button
               content="Back"
               onClick={() => {
-                if (getAllSounds() && getSFX()) {
-                  const backSFX = new Audio(uiInteractions['choiceBack']);
-                  backSFX.play();
-                }
+                const backSFX = new Audio(uiInteractions['choiceBack']);
+                backSFX.play();
                 changeStage('Back')
               }}
               buttonStyle='secondary'
