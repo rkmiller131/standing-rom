@@ -44,14 +44,13 @@ export type SceneType = {
   environmentLoaded: boolean;
   gameRunning: boolean;
   device: 'Desktop' | 'Tablet' | 'Mobile';
-  selectedEnvironment: 'Indoor Office' | 'Outdoors' | '';
-  selectedAvatar: 'maleModel1' | 'femaleModel1' | '';
+  selectedEnvironment: EnvironmentSelectionType;
+  selectedAvatar: AvatarSelectionType;
   sceneSettings: {
     muteAllSound: boolean;
     sfx: boolean;
     music: boolean;
     announcer: boolean;
-    allSounds: boolean;
     ready: boolean;
   };
 };

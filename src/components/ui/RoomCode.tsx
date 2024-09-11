@@ -36,31 +36,30 @@ export default function RoomCode({submitCode}: {submitCode: (code: number) => vo
   return (
     <div id="room-code-screen">
       <div id="blue-overlay"></div>
-      <div className="room-code-content">
-        <div id="light-blue-input-box">
-          <h2 className="input-box-title">Shoulder ROM, Standing</h2>
-          <h3 className="subtitle">Enter Room Code</h3>
-          <ReactCodeInput
-            type="text"
-            name="roomCode"
-            fields={4}
-            onChange={handleInputChange}
-            value={code}
-            className="custom-code-input"
-            inputMode="numeric"
-          />
-        </div>
-        <div className="room-code-footer">
-          <img src={uvxLogos.uvxWhite} alt="UVX Logo" className="uvx-logo" />
-        </div>
-        <div className="logo-container">
-          <Button
-            buttonStyle={code.length !== 4 ? 'disabled' : 'primary'}
-            content="Enter"
-            onClick={clickHandler}
-            extraClass="wide-button"
-          />
-        </div>
+      <div id="light-blue-input-box">
+        <h2 className="input-box-title">Shoulder ROM, Standing</h2>
+        <h3 className="subtitle">Enter Room Code</h3>
+        <ReactCodeInput
+          type="text"
+          name="roomCode"
+          fields={4}
+          autoFocus={true}
+          onChange={handleInputChange}
+          value={code}
+          className="custom-code-input"
+          inputMode="numeric"
+        />
+      </div>
+
+      <div className="room-code-footer">
+        <Button buttonStyle='disabled' content="Enter" onClick={() => {}} extraClass='placeholder'/>
+        <img src={uvxLogos.uvxWhite} alt="UVX Logo" className="uvx-logo" />
+        <Button
+          buttonStyle={code.length !== 4 ? 'disabled' : 'primary'}
+          content="Enter"
+          onClick={clickHandler}
+          extraClass="wide-button"
+        />
       </div>
     </div>
   );
