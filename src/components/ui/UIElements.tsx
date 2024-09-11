@@ -20,13 +20,9 @@ interface UIProps {
 }
 
 export default function UIElements({ avatar }: UIProps) {
-  console.log('console loggin avatar for husky ', avatar)
-  const {
-    environmentLoaded,
-    environmentSelected,
-    sceneLoaded,
-    gameOver
-  } = useHookstateGetters();
+  console.log('console loggin avatar for husky ', avatar);
+  const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
+    useHookstateGetters();
   const [codeSuccess, setCodeSuccess] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
 
@@ -35,20 +31,21 @@ export default function UIElements({ avatar }: UIProps) {
     // be sure to add some validation logic here if necessary when backend is established
     // add a new helper function to utils > http and verify against database
     console.log('Code submitted: ', code);
-    setCodeSuccess(true)
-  }
+    setCodeSuccess(true);
+  };
 
   const clientGrantsConsent = () => {
-    setConsentGiven(true)
-  }
+    setConsentGiven(true);
+  };
 
   return (
     <>
-      {!codeSuccess && <RoomCode submitCode={submitCode}/>}
-      {codeSuccess && !consentGiven ?
-        <GameInstructions clickHandler={clientGrantsConsent}/> :
+      {!codeSuccess && <RoomCode submitCode={submitCode} />}
+      {codeSuccess && !consentGiven ? (
+        <GameInstructions clickHandler={clientGrantsConsent} />
+      ) : (
         <SetupScreen />
-      }
+      )}
       {/* <UVXBrandWatermark /> */}
       {environmentSelected() && <LoadingScreen />}
       {gameOver() && <ResultsScreen />}
@@ -60,7 +57,7 @@ export default function UIElements({ avatar }: UIProps) {
             <ViewControls avatar={avatar} />
           </>
         )} */}
-        {environmentLoaded() && <GameplayUI avatar={avatar}/>}
+        {environmentLoaded() && <GameplayUI avatar={avatar} />}
         {sceneLoaded() && <CountdownScreen />}
         {/* <ScoreDisplay /> */}
       </Suspense>
