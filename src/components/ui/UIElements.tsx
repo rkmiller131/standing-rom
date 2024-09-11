@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState } from 'react';
 import { VRM } from '@pixiv/three-vrm';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
-import SetupScreen from './environment-selection/SetupScreen';
+// import SetupScreen from './environment-selection/SetupScreen';
 import LoadingScreen from './LoadingScreen';
 import ResultsScreen from './results/ResultsScreen';
 // import UVXBrandWatermark from './UVXBrandWatermark';
@@ -10,6 +10,7 @@ import CountdownScreen from './CountdownScreen';
 import SlidingInfo from './SlidingInfo';
 import GameInstructions from './how-to-play/GameInstructions';
 import RoomCode from './RoomCode';
+import GameSetupScreen from './game-setup/GameSetupScreen';
 
 // const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
 // const LiveSocials = lazy(() => import('./socials/LiveSocials'));
@@ -47,7 +48,8 @@ export default function UIElements({ avatar }: UIProps) {
       {!codeSuccess && <RoomCode submitCode={submitCode}/>}
       {codeSuccess && !consentGiven ?
         <GameInstructions clickHandler={clientGrantsConsent}/> :
-        <SetupScreen />
+        // <SetupScreen />
+        <GameSetupScreen />
       }
       {/* <UVXBrandWatermark /> */}
       {environmentSelected() && <LoadingScreen />}
