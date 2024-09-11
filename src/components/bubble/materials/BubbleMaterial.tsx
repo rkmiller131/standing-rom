@@ -9,9 +9,7 @@ interface BubbleMaterialProps {
 }
 export default function BubbleMaterial({active, position}: BubbleMaterialProps) {
   const textureLoader = new TextureLoader();
-  const bubbleTexture = textureLoader.load(
-    'https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/3E95CC_65D9F1_A2E2F6_679BD4-64px.jpeg?v=1722030071519'
-  );
+  const bubbleTexture = textureLoader.load('https://cdn.glitch.global/c4f540ac-7f7c-41b2-ae89-9e2617351aa6/3E95CC_65D9F1_A2E2F6_679BD4-64px.jpeg?v=1722030071519');
 
   bubbleTexture.wrapT = RepeatWrapping;
   bubbleTexture.wrapS = RepeatWrapping;

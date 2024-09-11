@@ -1,3 +1,4 @@
+import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
 import { uvxLogos } from '../../../utils/cdn-links/images';
 import { uiInteractions } from '../../../utils/cdn-links/sounds';
 import { useEffect, useState } from 'react';
@@ -8,12 +9,13 @@ import TitleSubtitle from '../TitleSubtitle';
 import SelectionItem from './SelectionItem';
 import GameSettings from './GameSettings';
 import Button from '../../Button';
+import { AvatarSelectionType, EnvironmentSelectionType } from '../../../hookstate-store/Types';
 
 import '../../../css/GameSetupScreen.css';
 
 export interface UnlockableItem {
   id: number;
-  name: string;
+  name: EnvironmentSelectionType | AvatarSelectionType;
   icon: string;
   preview: string;
   splash: string;
@@ -31,6 +33,7 @@ export interface SoundConfig {
   announcer: boolean;
   music: boolean;
   sfx: boolean;
+  ready: boolean;
 }
 
 export interface GameConfigurationSettings {
@@ -40,6 +43,7 @@ export interface GameConfigurationSettings {
 }
 
 export default function GameSetupScreen() {
+  const { setGameConfigs, getSettingsReady } = useHookstateGetters();
   const [selectionStage, setSelectionStage] = useState('Environment');
   const [selectionItems, setSelectionItems] = useState<UnlockableItem[]>([]);
   const [platformImage, setPlatformImage] = useState('');
@@ -51,7 +55,8 @@ export default function GameSetupScreen() {
       muteAllSound: false,
       announcer: true,
       music: true,
-      sfx: true
+      sfx: true,
+      ready: false
     }
   })
 
@@ -75,8 +80,7 @@ export default function GameSetupScreen() {
       }
       if (prev === 'Settings' && state === 'Back') {
         updateGameSettings('Avatar', {} as UnlockableItem);
-        setSplashImage('');
-        setPlatformImage('');
+        changePlatformImage('', '');
         return 'Avatar';
       }
       if (prev === 'Avatar' && state === 'Next') {
@@ -84,8 +88,7 @@ export default function GameSetupScreen() {
       }
       if (prev === 'Avatar' && state === 'Back') {
         updateGameSettings('Environment', {} as UnlockableItem);
-        setSplashImage('');
-        setPlatformImage('');
+        changePlatformImage('', '');
         return 'Environment';
       }
       console.error('INVALID STAGE CHANGE COMBINATION - Defaulting to "Environment"');
@@ -107,8 +110,14 @@ export default function GameSetupScreen() {
 
   const handleReadyToPlay = () => {
     console.log('submitting configs!')
-    console.log(gameSettings)
+    setGameConfigs(
+      gameSettings.avatar.name as AvatarSelectionType,
+      gameSettings.environment.name as EnvironmentSelectionType,
+      gameSettings.sound
+    );
   }
+
+  if (getSettingsReady()) return null;
 
   return (
     <div id="game-setup-screen">
@@ -189,7 +198,7 @@ const playerUnlockables: PlayerUnlockables = {
     },
     {
       id: 789,
-      name: 'Underwater',
+      name: '', // Underwater
       icon: '',
       preview: '',
       splash: '',
@@ -198,7 +207,7 @@ const playerUnlockables: PlayerUnlockables = {
     },
     {
       id: 147,
-      name: 'Desert',
+      name: '', // Desert
       icon: '',
       preview: '',
       splash: '',
@@ -207,7 +216,7 @@ const playerUnlockables: PlayerUnlockables = {
     },
     {
       id: 258,
-      name: 'Outer Space',
+      name: '', // Outer Space
       icon: '',
       preview: '',
       splash: '',
@@ -216,7 +225,7 @@ const playerUnlockables: PlayerUnlockables = {
     },
     {
       id: 369,
-      name: 'Tropical Cove',
+      name: '', // Tropical Cove
       icon: '',
       preview: '',
       splash: '',
@@ -225,7 +234,7 @@ const playerUnlockables: PlayerUnlockables = {
     },
     {
       id: 753,
-      name: 'Italian Town',
+      name: '', // Italian Town
       icon: '',
       preview: '',
       splash: '',
@@ -254,7 +263,7 @@ const playerUnlockables: PlayerUnlockables = {
     },
     {
       id: 351,
-      name: 'maleModel2',
+      name: 'maleModel2' as AvatarSelectionType,
       icon: '',
       preview: '',
       splash: '',
@@ -263,7 +272,7 @@ const playerUnlockables: PlayerUnlockables = {
     },
     {
       id: 953,
-      name: 'femaleModel2',
+      name: 'femaleModel2' as AvatarSelectionType,
       icon: '',
       preview: '',
       splash: '',

@@ -24,7 +24,7 @@ export default function App() {
     environmentSelected,
     sceneLoaded,
     gameOver,
-    getReady
+    getSettingsReady
   } = useHookstateGetters();
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDeviceType());
@@ -56,7 +56,7 @@ export default function App() {
       <Suspense fallback={null}>
         <Renderer>
           {environmentSelected() && <Environment />}
-          {getReady() && (
+          {getSettingsReady() && (
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           )}
           <CameraAnimations />

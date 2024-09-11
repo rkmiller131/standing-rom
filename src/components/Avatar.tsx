@@ -22,10 +22,10 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   const isMobile = getUserDevice() === 'Mobile';
   const sceneState = useSceneState();
 
-  const currentModel = sceneState.selectedAvatar.get();
+  const currentModel = sceneState.selectedAvatar.get({ noproxy: true });
   let model = maleModel1;
 
-  if (currentModel === '2') {
+  if (currentModel === 'femaleModel1') {
     model = femaleModel1;
   }
 
@@ -34,7 +34,7 @@ export default function Avatar({ setAvatarModel, avatar }: AvatarProps) {
   }, 100);
 
   useEffect(() => {
-    if (avatarLoaded) return;
+    if (avatarLoaded || !model) return;
     loader.register((parser) => {
       return new VRMLoaderPlugin(parser);
     });

@@ -13,14 +13,16 @@ export default function GameSettings({ gameSettings, updateGameSettings }: GameS
         muteAllSound: true,
         announcer: false,
         music: false,
-        sfx: false
+        sfx: false,
+        ready: false
       })
     } else if (key === 'muteAllSound' && value === false) {
       updateGameSettings('Sound', {
         muteAllSound: false,
         announcer: true,
         music: true,
-        sfx: true
+        sfx: true,
+        ready: false
       })
     } else {
       updateGameSettings('Sound', {...gameSettings.sound, [key]: value})
@@ -28,23 +30,28 @@ export default function GameSettings({ gameSettings, updateGameSettings }: GameS
   }
 
   useEffect(() => {
-    const settings = gameSettings.sound;
-    if (settings.announcer === false && settings.music === false && settings.sfx === false && settings.muteAllSound === false) {
+    const { announcer, music, sfx, muteAllSound } = gameSettings.sound;
+    // if the user manually unchecks all the sound, toggle muteAllSound
+    if (announcer === false && music === false && sfx === false && muteAllSound === false) {
       updateGameSettings('Sound', {
         muteAllSound: true,
         announcer: false,
         music: false,
-        sfx: false
+        sfx: false,
+        ready: false
       })
     }
-    if (settings.muteAllSound === true && (settings.announcer === true || settings.music === true || settings.sfx === true)) {
+    // if muteAllSound is true but the user presses anything else, toggle false
+    if (muteAllSound === true && (announcer === true || music === true || sfx === true)) {
       updateGameSettings('Sound', {
         muteAllSound: false,
-        announcer: settings.announcer,
-        music: settings.music,
-        sfx: settings.sfx
+        announcer: announcer,
+        music: music,
+        sfx: sfx,
+        ready: false
       })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameSettings.sound])
 
   return (

@@ -13,13 +13,14 @@ export default function LoadingScreen() {
   const sceneState = useSceneState();
   const {
     environmentLoaded,
-    environmentSelected
+    environmentSelected,
+    getSettingsReady
   } = useHookstateGetters();
   const [isLoading, setIsLoading] = useState(true);
   const selection = environmentSelected();
 
   useEffect(() => {
-    if (environmentLoaded()) {
+    if (environmentLoaded() && getSettingsReady()) {
       setIsLoading(false);
       setTimeout(() => {
         console.log('Closing Loading Screen...');
