@@ -3,7 +3,6 @@ import { useThree } from '@react-three/fiber';
 import {
   DirectionalLight,
   EquirectangularReflectionMapping,
-  TextureLoader,
 } from 'three';
 import {
   Lensflare,
@@ -13,7 +12,8 @@ import {
   lensFlares,
   meadowHDR,
 } from '../../../../utils/cdn-links/environmentAssets';
-import { RGBELoader } from 'three/examples/jsm/Addons.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import { textureLoader } from '../../../../interfaces/THREE_Interface';
 
 interface CustomEnvironmentProps {}
 
@@ -28,8 +28,6 @@ const CustomEnvironmentSunlight: React.FC<CustomEnvironmentProps> = () => {
 
     // const directionalLightHelper = new CameraHelper(light.shadow.camera); // Uncomment if needed
     // scene.add(directionalLightHelper);
-
-    const textureLoader = new TextureLoader();
     const textureFlare0 = textureLoader.load(lensFlares['textFlare0']);
     const textureFlare1 = textureLoader.load(lensFlares['textFlare1']);
     const textureFlare2 = textureLoader.load(lensFlares['textFlare2']);

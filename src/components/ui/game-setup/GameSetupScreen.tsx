@@ -109,7 +109,6 @@ export default function GameSetupScreen() {
   }
 
   const handleReadyToPlay = () => {
-    console.log('submitting configs!')
     setGameConfigs(
       gameSettings.avatar.name as AvatarSelectionType,
       gameSettings.environment.name as EnvironmentSelectionType,

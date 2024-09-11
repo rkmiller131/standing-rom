@@ -4,11 +4,7 @@ import Button from '../Button';
 import { uvxLogos } from '../../utils/cdn-links/images';
 import '../../css/RoomCode.css';
 
-export default function RoomCode({
-  submitCode,
-}: {
-  submitCode: (code: number) => void;
-}) {
+export default function RoomCode({submitCode}: {submitCode: (code: number) => void}) {
   const [code, setCode] = useState<string>('');
 
   const handleInputChange = (value: string) => {
@@ -59,10 +55,10 @@ export default function RoomCode({
         </div>
         <div className="logo-container">
           <Button
+            buttonStyle={code.length !== 4 ? 'disabled' : 'primary'}
             content="Enter"
             onClick={clickHandler}
             extraClass="wide-button"
-            disabled={code.length !== 4}
           />
         </div>
       </div>
