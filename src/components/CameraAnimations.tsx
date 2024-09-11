@@ -17,29 +17,29 @@ export default function CameraAnimations() {
     if ((side === 'right' || side === 'left') && !gameRunning()) {
       // intermediate position from initial renderer camera pos
       gsap.to(camera.position, {
-        x: -2,
+        x: -6,
         y: 1,
         z: 0,
-        duration: 0.75,
+        duration: 0.85,
       });
       gsap.to(camera.rotation, {
         x: -2.1410783996934777,
         y: -1.75,
         z: -2.17339982566482,
-        duration: 0.75,
+        duration: 0.85,
       });
       // final camera position (behind the avatar)
       gsap.to(camera.position, {
         x: 0,
         y: 1,
         z: 2,
-        duration: 0.75,
+        duration: 0.85,
       });
       gsap.to(camera.rotation, {
         x: 0,
         y: 0,
         z: 0,
-        duration: 0.75,
+        duration: 0.85,
       });
     } else if (side === 'right' || side === 'left') {
       gsap.to(camera.position, {

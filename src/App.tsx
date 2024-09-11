@@ -24,7 +24,7 @@ export default function App() {
     environmentSelected,
     sceneLoaded,
     gameOver,
-    getReady
+    getReady,
   } = useHookstateGetters();
   const sceneState = useSceneState();
   sceneState.device.set(checkUserDeviceType());
@@ -59,17 +59,17 @@ export default function App() {
           {getReady() && (
             <Avatar setAvatarModel={setAvatarModel} avatar={avatar} />
           )}
-          <CameraAnimations />
 
-          {sceneLoaded() && (
-            <>
-              <Physics gravity={[0, 0, 0]}>
+          <CameraAnimations />
+          <Physics gravity={[0, 0, 0]}>
+            {sceneLoaded() && (
+              <>
                 <AvatarHandColliders avatar={avatar} />
                 <Bubbles />
-              </Physics>
-              {!gameOver() && <GameLogic avatar={avatar} />}
-            </>
-          )}
+                {!gameOver() && <GameLogic avatar={avatar} />}
+              </>
+            )}
+          </Physics>
         </Renderer>
       </Suspense>
     </>
