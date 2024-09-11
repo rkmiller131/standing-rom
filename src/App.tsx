@@ -8,8 +8,6 @@ import { useSceneState } from './hookstate-store/SceneState';
 import useHookstateGetters from './interfaces/Hookstate_Interface';
 import { checkUserDeviceType } from './utils/general/devices';
 import Mocap from './components/Mocap';
-import Avatar from './components/Avatar';
-import Environment from './components/environment/Environment';
 import CameraAnimations from './components/CameraAnimations';
 import GameLogic from './ecs/systems/GameLogic';
 import UIElements from './components/ui/UIElements';
@@ -17,6 +15,8 @@ import UIElements from './components/ui/UIElements';
 import './css/App.css';
 
 const Renderer = lazy(() => import('./canvas/Renderer'));
+const Environment = lazy(() => import('./components/environment/Environment'));
+const Avatar = lazy(() => import('./components/Avatar'))
 
 export default function App() {
   const {

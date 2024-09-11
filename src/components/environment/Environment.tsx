@@ -1,7 +1,8 @@
-import { Suspense } from 'react';
-import OutdoorScene from './outdoors/Outdoors';
-import OfficeScene from './office/OfficeScene';
+import { lazy, Suspense } from 'react';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
+
+const OfficeScene = lazy(() => import('./office/OfficeScene'));
+const OutdoorScene = lazy(() => import('./outdoors/Outdoors'));
 
 export default function Environment() {
   const { environmentSelected } = useHookstateGetters();

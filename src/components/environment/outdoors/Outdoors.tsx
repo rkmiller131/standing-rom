@@ -4,6 +4,7 @@ import GrassComponent from './props/GrassBlade';
 import { lazy, Suspense, useEffect } from 'react';
 import CustomEnvironmentSunlight from './props/CustomEnvironmentSunlight';
 import { useSceneState } from '../../../hookstate-store/SceneState';
+import Sound from './sound/Sound';
 
 const Tree = lazy(() =>
   import('../outdoors/props/Tree').then((module) => ({ default: module.Tree })),
@@ -13,8 +14,6 @@ const TreeInstance = lazy(() =>
     default: module.TreeInstance,
   })),
 );
-
-const Sound = lazy(() => import('./sound/Sound'));
 
 export default function OutdoorScene() {
   const sceneState = useSceneState();
@@ -31,13 +30,12 @@ export default function OutdoorScene() {
   return (
     <>
       <GrassComponent size={25} count={30000} />
+      <Sound />
 
       <Suspense fallback={null}>
         <ambientLight intensity={1} />
-
         <CustomEnvironmentSunlight />
         <SceneMap />
-
         <TreeInstance>
           <Tree
             position={[5, 0, -5]}
@@ -45,7 +43,6 @@ export default function OutdoorScene() {
             scale={0.8}
           />
         </TreeInstance>
-        <Sound />
       </Suspense>
     </>
   );
