@@ -15,11 +15,12 @@ import {
 import { backgroundMusic } from '../../../../utils/cdn-links/sounds';
 import useHookstateGetters from '../../../../interfaces/Hookstate_Interface';
 
-const songPath = backgroundMusic['Outdoors'];
+const songMusicPath = backgroundMusic['Outdoors'];
+const songAmbientPath = backgroundMusic['OutdoorAmbience'];
 
 export default function Sound() {
   const { camera, scene } = useThree();
-  const { getMusic } = useHookstateGetters();
+  const { getMusic, getAllSoundsMuted } = useHookstateGetters();
 
   useEffect(() => {
     camera.add(listener);
@@ -34,16 +35,14 @@ export default function Sound() {
       side: DoubleSide,
     });
 
+    const songPath = getMusic() ? songMusicPath : songAmbientPath;
+
     audioLoader.load(songPath, function (buffer: AudioBuffer) {
       sound.setBuffer(buffer);
       sound.setRefDistance(20);
-      sound.setVolume(0.3);
+      getMusic() && sound.setVolume(0.5);
       sound.setLoop(true);
-      if (getMusic()) {
-        sound.play();
-      } else if (getMusic() === false) {
-        sound.stop();
-      } else {
+      if (!getAllSoundsMuted()) {
         sound.play();
       }
     });

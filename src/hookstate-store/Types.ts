@@ -47,6 +47,7 @@ export type SceneType = {
   selectedEnvironment: 'Indoor Office' | 'Outdoors' | '';
   selectedAvatar: 'maleModel1' | 'femaleModel1' | '';
   sceneSettings: {
+    muteAllSound: boolean;
     sfx: boolean;
     music: boolean;
     announcer: boolean;

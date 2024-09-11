@@ -16,10 +16,11 @@ export default function useHookstateGetters() {
     sceneState.gameRunning.set(value);
   };
   const getUserDevice = () => sceneState.device.get({ noproxy: true });
-  const getSettingsReady = () => sceneState.sceneSettings.ready.get();
-  const getMusic = () => sceneState.sceneSettings.music.get();
-  const getSFX = () => sceneState.sceneSettings.sfx.get();
-  const getAnnouncer = () => sceneState.sceneSettings.announcer.get();
+  const getSettingsReady = () => sceneState.sceneSettings.ready.get({ noproxy: true });
+  const getMusic = () => sceneState.sceneSettings.music.get({ noproxy: true });
+  const getSFX = () => sceneState.sceneSettings.sfx.get({ noproxy: true });
+  const getAnnouncer = () => sceneState.sceneSettings.announcer.get({ noproxy: true });
+  const getAllSoundsMuted = () => sceneState.sceneSettings.muteAllSound.get({ noproxy: true });
   const setGameConfigs = (avatar: AvatarSelectionType, environment: EnvironmentSelectionType, sound: SoundConfig) => {
     sceneState.sceneSettings.set(sound);
     sceneState.selectedAvatar.set(avatar);
@@ -67,6 +68,7 @@ export default function useHookstateGetters() {
     getCurrentStreak,
     getSideSpawned,
     getSettingsReady,
+    getAllSoundsMuted,
     getMusic,
     getSFX,
     getAnnouncer,
