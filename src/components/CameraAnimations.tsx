@@ -56,24 +56,16 @@ export default function CameraAnimations() {
       });
       // AUDIO ON CAMERA SWITCHES
       if (side === 'right' && gameRunning()) {
-        const audio = new Audio(announcer['r_lateralRaise']);
-        audio.volume = 0.75;
         if (getAnnouncer()) {
-          audio.play();
-        } else if (getAnnouncer() === false) {
-          audio.pause();
-        } else {
+          const audio = new Audio(announcer['r_lateralRaise']);
+          audio.volume = 0.75;
           audio.play();
         }
       }
       if (side === 'left' && gameRunning()) {
-        const audio = new Audio(announcer['l_lateralRaise']);
-        audio.volume = 0.75;
         if (getAnnouncer()) {
-          audio.play();
-        } else if (getAnnouncer() === false) {
-          audio.pause();
-        } else {
+          const audio = new Audio(announcer['l_lateralRaise']);
+          audio.volume = 0.75;
           audio.play();
         }
       }
@@ -93,24 +85,16 @@ export default function CameraAnimations() {
       });
       // AUDIO ON CAMERA SWITCHES
       if (side === 'frontR' && gameRunning()) {
-        const audio = new Audio(announcer['r_frontalRaise']);
-        audio.volume = 0.75;
         if (getAnnouncer()) {
-          audio.play();
-        } else if (getAnnouncer() === false) {
-          audio.pause();
-        } else {
+          const audio = new Audio(announcer['r_frontalRaise']);
+          audio.volume = 0.75;
           audio.play();
         }
       }
       if (side === 'frontL' && gameRunning()) {
-        const audio = new Audio(announcer['l_frontalRaise']);
-        audio.volume = 0.75;
         if (getAnnouncer()) {
-          audio.play();
-        } else if (getAnnouncer() === false) {
-          audio.pause();
-        } else {
+          const audio = new Audio(announcer['l_frontalRaise']);
+          audio.volume = 0.75;
           audio.play();
         }
       }
@@ -130,24 +114,16 @@ export default function CameraAnimations() {
       });
       // AUDIO ON CAMERA SWITCHES
       if (side === 'crossR' && gameRunning()) {
-        const audio = new Audio(announcer['r_crossBody']);
-        audio.volume = 0.75;
         if (getAnnouncer()) {
-          audio.play();
-        } else if (getAnnouncer() === false) {
-          audio.pause();
-        } else {
+          const audio = new Audio(announcer['r_crossBody']);
+          audio.volume = 0.75;
           audio.play();
         }
       }
       if (side === 'crossL' && gameRunning()) {
-        const audio = new Audio(announcer['l_crossBody']);
-        audio.volume = 0.75;
         if (getAnnouncer()) {
-          audio.play();
-        } else if (getAnnouncer() === false) {
-          audio.pause();
-        } else {
+          const audio = new Audio(announcer['l_crossBody']);
+          audio.volume = 0.75;
           audio.play();
         }
       }

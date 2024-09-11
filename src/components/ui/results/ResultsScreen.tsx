@@ -139,10 +139,6 @@ export default function ResultsScreen() {
 
   if (getAnnouncer()) {
     audio.play();
-  } else if (getAnnouncer() === false) {
-    audio.pause();
-  } else {
-    audio.play();
   }
 
   const handleSubmit = () => {

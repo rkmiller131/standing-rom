@@ -39,14 +39,10 @@ export default function HandCollider({
     type: 'Kinematic',
     onCollideBegin: (e) => {
       poppedBubbles.current.add(e.body.uuid);
-      const key = getCurrentStreak() >= 5 ? 4 : getCurrentStreak();
-      // Create a new sound on each new collision so that if bubbles are popped rapidly, the sounds can overlap
-      const audio = new Audio(bubblePopSounds[key]);
       if (getSFX()) {
-        audio.play();
-      } else if (getSFX() === false) {
-        audio.pause();
-      } else {
+        const key = getCurrentStreak() >= 5 ? 4 : getCurrentStreak();
+        // Create a new sound on each new collision so that if bubbles are popped rapidly, the sounds can overlap
+        const audio = new Audio(bubblePopSounds[key]);
         audio.play();
       }
     },
