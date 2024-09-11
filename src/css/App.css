@@ -13,12 +13,13 @@
   --callout-bg-color: #272727;
   --uvx-primary: #7085ff;
   --uvx-secondary: #3c5199;
+  --uvx-tertiary: #C6CDFF;
   --uvx-accent-color: #f984ff;
   --uvx-r-gradient: linear-gradient(to right, var(--uvx-primary), transparent);
   --uvx-l-gradient: linear-gradient(var(--uvx-primary), var(--uvx-secondary));
-  --mask-r-gradient: linear-gradient(to right, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
   --uvx-t-gradient: linear-gradient(to top, var(--uvx-primary), transparent);
   --uvx-b-gradient: linear-gradient(to bottom, var(--uvx-primary), transparent);
+  --mask-r-gradient: linear-gradient(to right, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
   --mask-l-gradient: linear-gradient(to left, rgba(0, 0, 0, 1) 10%, transparent 100%);
   --border-radius: 1.5rem;
   --font-large: 4rem;
@@ -101,6 +102,14 @@ body,
   border-radius: var(--border-radius);
   background: var(--callout-bg-color);
   padding: 1rem 2rem;
+}
+
+.small-callout-title h2 {
+  font-size: var(--font-medium);
+}
+
+.small-callout-title h3 {
+  font-size: var(--font-small);
 }
 
 .uvx-logo {

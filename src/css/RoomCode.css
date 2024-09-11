@@ -1,12 +1,115 @@
 #room-code-screen {
-  position: fixed;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  font-family: var(--font-primary);
-  font-weight: var(--fw-medium);
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  z-index: 4;
+}
+
+#blue-overlay {
+  position: absolute;
+  width: 100%;
+  height: 78%;
+  bottom: 0;
+  background-color: var(--uvx-secondary);
+}
+
+#light-blue-input-box {
+  width: 40%;
+  height: 65%;
+  background-color: var(--uvx-primary);
+  border-radius: 40px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3rem;
+  z-index: 6;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.room-code-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   width: 100%;
-  z-index: 4;
+}
+
+.input-box-title {
+  display: flex;
+  font-family: var(--font-primary);
+  font-size: 3rem;
+  color: white;
+  background-color: var(--uvx-secondary);
+  padding: 4% 5%;
+  border-radius: 20px;
+  width: fit-content;
+  text-align: center;
+}
+
+.subtitle {
+  font-family: var(--font-primary);
+  font-size: 2rem;
+  color: white;
+  text-align: center;
+  width: fit-content;
+}
+
+.enter-button {
+  width: 10%;
+  padding: 1rem;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 7;
+  background-color: #f9cc35;
+}
+
+.enter-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.custom-code-input {
+  display: flex !important;
+  justify-content: center !important;
+  height: 100%;
+  width: 100%;
+}
+
+.custom-code-input input {
+  width: 15%;
+  height: 50%;
+  font-size: 4rem;
+  font-family: var(--font-primary);
+  text-align: center;
+  border-radius: 20px;
+  border: 2px solid #e0e0e0;
+  background-color: #98a7ff;
+  color: var(--uvx-secondary);
+  margin: 0 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-code-input input:focus {
+  border-color: #f9cc35;
+  outline: none;
+}
+
+.room-code-footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 5%;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  width: 100%;
+  margin-right: 7%;
+  margin-top: 2%;
 }

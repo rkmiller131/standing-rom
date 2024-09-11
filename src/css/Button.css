@@ -8,10 +8,11 @@
 }
 
 .button-primary,
-.button-secondary {
+.button-secondary,
+.button-disabled {
   text-decoration: none;
   border: none;
-  padding: 1.5rem 2rem;
+  padding: 1rem 2.5rem;
   height: max-content;
   font-size: var(--font-small);
   border-radius: 2rem 2rem;
@@ -39,12 +40,24 @@
 }
 
 .button-secondary {
-  /* background: var(--uvx-primary); */
-  background: #4caf50;
+  background: linear-gradient(var(--uvx-secondary), #29396F);
+  color: var(--uvx-tertiary);
 }
 
-.callout-button {
-  background: var(--callout-bg-color);
+.button-secondary:hover {
+  color: white;
+  background-image: radial-gradient(var(--uvx-accent-color), var(--uvx-secondary));
+  box-shadow: inset 12px 12px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-disabled {
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.27) 44%, rgba(255, 255, 255, 0.2) 100%);
+  border: 2px solid;
+  color: var(--uvx-secondary);
+  border-color: transparent rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
 }
 
 .wide-button {
