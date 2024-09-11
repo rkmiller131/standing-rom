@@ -6,33 +6,6 @@ export const splash: { [key in EnvironmentSelectionType]: string } = {
   '': 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/genericLoadingSplash.JPG?v=1724091328417',
 };
 
-export const avatarCards = [
-  {
-    id: 1,
-    name: '1',
-    imgSrc: '/DennisHead.jpg',
-    hoverImage: '/DennisPose.jpg',
-  },
-  {
-    id: 2,
-    name: '2',
-    imgSrc: '/LillianHead.jpg',
-    hoverImage: '/LillianPose.jpg',
-  },
-  {
-    id: 3,
-    name: 'locked',
-    imgSrc: '/lockedAvatar.png',
-    hoverImage: '/lockedAvatarFull.webp',
-  },
-  {
-    id: 4,
-    name: 'locked',
-    imgSrc: '/lockedAvatar.png',
-    hoverImage: '/lockedAvatarFull.webp',
-  },
-];
-
 // Temporary. When we actually have these assets and they are potentially unlockable, then we
 // can retrieve the actual asset splash and put a filter gradient over it for locked state.
 export const lockedIcons = {

@@ -1,19 +1,14 @@
 import { lazy, Suspense, useState } from 'react';
 import { VRM } from '@pixiv/three-vrm';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
-// import SetupScreen from './environment-selection/SetupScreen';
 import LoadingScreen from './LoadingScreen';
 import ResultsScreen from './results/ResultsScreen';
-// import UVXBrandWatermark from './UVXBrandWatermark';
-// import ViewControls from './ViewControls';
 import CountdownScreen from './CountdownScreen';
 import SlidingInfo from './SlidingInfo';
 import GameInstructions from './how-to-play/GameInstructions';
 import RoomCode from './RoomCode';
 import GameSetupScreen from './game-setup/GameSetupScreen';
 
-// const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
-// const LiveSocials = lazy(() => import('./socials/LiveSocials'));
 const GameplayUI = lazy(() => import('./gameplay-ui/GameplayUI'));
 
 interface UIProps {
@@ -48,23 +43,14 @@ export default function UIElements({ avatar }: UIProps) {
       {!codeSuccess && <RoomCode submitCode={submitCode}/>}
       {codeSuccess && !consentGiven ?
         <GameInstructions clickHandler={clientGrantsConsent}/> :
-        // <SetupScreen />
         <GameSetupScreen />
       }
-      {/* <UVXBrandWatermark /> */}
       {environmentSelected() && <LoadingScreen />}
       {gameOver() && <ResultsScreen />}
       {environmentLoaded() && <SlidingInfo />}
       <Suspense fallback={null}>
-        {/* {environmentLoaded() && (
-          <>
-            <LiveSocials />
-            <ViewControls avatar={avatar} />
-          </>
-        )} */}
         {environmentLoaded() && <GameplayUI avatar={avatar}/>}
         {sceneLoaded() && <CountdownScreen />}
-        {/* <ScoreDisplay /> */}
       </Suspense>
     </>
   );

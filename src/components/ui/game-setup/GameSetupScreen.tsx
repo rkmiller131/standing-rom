@@ -55,7 +55,7 @@ export default function GameSetupScreen() {
     }
   })
 
-  // first, http get player unlockables above here. Then:
+  // first, http get player unlockables in useEffect empty deps. Then:
   // const playerUnlockables = httpGetPlayerUnlockables(...)
   useEffect(() => {
     if (selectionStage === 'Environment') {
