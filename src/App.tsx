@@ -64,12 +64,8 @@ export default function App() {
           {sceneLoaded() && (
             <>
               <Physics gravity={[0, 0, 0]}>
-                {sceneLoaded() && (
-                  <>
-                    <AvatarHandColliders avatar={avatar} />
-                    <Bubbles />
-                  </>
-                )}
+                <AvatarHandColliders avatar={avatar} />
+                <Bubbles />
               </Physics>
               {!gameOver() && <GameLogic avatar={avatar} />}
             </>
