@@ -8,6 +8,7 @@
 
 #mocap-container {
   position: absolute;
+  /* padding: 0.5rem; */
   height: 300px;
   width: 450px;
   z-index: 4;
@@ -17,10 +18,10 @@
 
 .calibration-text {
   position: absolute;
-  padding: 2% 5% 2% 8%;
+  padding: 2% 5% 2% 11%;
   width: max-content;
-  top: -12%;
-  left: 4%;
+  top: -18%;
+  left: 0%;
   color: white;
   font-family: var(--font-primary);
   letter-spacing: 1px;
@@ -29,9 +30,9 @@
 .calibration-icon {
   position: absolute;
   display: flex;
-  top: -12%;
-  left: -5%;
-  width: 18%;
+  top: -15%;
+  left: 3%;
+  width: 6%;
   z-index: 5;
 }
 
@@ -65,8 +66,8 @@
 
 #webcam-stream {
   object-fit: cover;
-  border-radius: var(--border-radius);
   transform: scaleX(-1);
+  border-radius: 1.25rem 1.25rem;
 }
 
 #landmark-guides {

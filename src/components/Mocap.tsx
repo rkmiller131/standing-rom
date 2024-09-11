@@ -5,11 +5,11 @@ import { Holistic, Results } from '@mediapipe/holistic';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawLandmarkGuides } from '../mocap/landmarkGuides';
 import { animateVRM } from '../mocap/avatarAnimation/avatarAnimator';
-import { calibrationIcons } from '../utils/cdn-links/images';
 import { announcer } from '../utils/cdn-links/sounds';
 import useHookstateGetters from '../interfaces/Hookstate_Interface';
 
 import '../css/Mocap.css';
+import { EyeOff, ScanEye } from 'lucide-react';
 
 interface MocapProps {
   avatar: React.RefObject<VRM>;
@@ -37,14 +37,9 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
       // Small delay allowing landmarks to draw before saying we've officially loaded
       if (!holisticLoaded) {
         setTimeout(() => {
-          const audio = new Audio(announcer['getReady']);
-          audio.volume = 0.75;
-
           if (getAnnouncer()) {
-            audio.play();
-          } else if (getAnnouncer() === false) {
-            audio.pause();
-          } else {
+            const audio = new Audio(announcer['getReady']);
+            audio.volume = 0.75;
             audio.play();
           }
           setHolisticLoaded(true);
@@ -69,10 +64,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
 
     async function initializeMediapipe() {
       // use mediapipe/holistic to track pose and hand landmarks from video stream
-      holistic = new Holistic({
-        locateFile: (file) =>
-          `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1675471629/${file}`,
-      });
+      holistic = new Holistic({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1675471629/${file}`});
 
       holistic.setOptions({
         modelComplexity: device !== 'Desktop' ? 0 : 1,
@@ -117,28 +109,21 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
     <div id="mocap-screen">
       <div
         id="mocap-container"
-        className={device}
+        className={`${device}`}
         style={
           holistic ?
-            { boxShadow: '0 0 21px 0px #48abe0' } :
+            // { border: '3px solid var(--uvx-primary)' } :
+            // { border: '3px solid #FCE708' }
+            { boxShadow: '0 0 21px 0px var(--uvx-primary)' } :
             { boxShadow: '0 0 21px 0px #FCE187' }
         }
       >
-        <img
-          src={
-            holistic ?
-              calibrationIcons.calibrated :
-              calibrationIcons.calibrating
-          }
-          alt="Calibration Icon"
-          className="calibration-icon"
-        />
-        <span
-          className="calibration-text"
-          style={
-            holistic ? { background: '#3560F9' } : { background: '#F9CC35' }
-          }
-        >
+        {holistic ? (
+          <ScanEye color="#7085ff" className="calibration-icon" />
+        ) : (
+          <EyeOff color="#FCE708" className="calibration-icon" />
+        )}
+        <span className="calibration-text frosted-glass">
           {holistic ? 'Calibrated' : 'Calibrating...'}
         </span>
         <video
@@ -150,8 +135,8 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           playsInline
           style={
             holistic ?
-              { border: '3px solid #8FE4FF' } :
-              { border: '3px solid #f3d162' }
+              { border: '3px solid var(--uvx-primary)' } :
+              { border: '3px solid #FCE708' }
           }
         />
         <canvas id="landmark-guides" ref={landmarkCanvasRef} />
