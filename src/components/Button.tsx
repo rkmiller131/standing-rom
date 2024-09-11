@@ -8,6 +8,7 @@ interface ButtonProps {
   onClick: (props: any) => void;
   extraClass?: string;
   animate?: boolean;
+  disabled?: boolean;
 }
 
 export default function Button({ buttonStyle = 'primary', content, onClick, extraClass, animate = false }: ButtonProps) {

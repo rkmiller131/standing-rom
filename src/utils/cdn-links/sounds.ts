@@ -21,7 +21,8 @@ export const backgroundMusic: { [key: string]: string } = {
   IndoorAmbience: '',
 };
 
-export const gameOverSFX = 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/gameOverSFX.mp3?v=1722979032668';
+export const gameOverSFX =
+  'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/gameOverSFX.mp3?v=1722979032668';
 
 export const announcer: { [key: string]: string } = {
   getCalibrated: 'https://cdn.glitch.global/22bbb2b4-7775-42b2-9c78-4b39e4d505e9/okLetsGetCalibrated.mp3?v=1722981178811',

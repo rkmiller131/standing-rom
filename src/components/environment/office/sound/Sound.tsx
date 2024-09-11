@@ -16,6 +16,7 @@ import {
 import useHookstateGetters from '../../../../interfaces/Hookstate_Interface';
 
 const songPath = backgroundMusic['IndoorOffice'];
+// const ambiencePath = backgroundMusic['IndoorAmbience'];
 
 export default function Sound() {
   const { camera, scene } = useThree();

@@ -20,8 +20,12 @@ export default function HandCollider({
   avatar,
   handedness,
 }: HandColliderProps) {
-  const { sceneLoaded, getCurrentStreak, getSideSpawned, getSFX } =
-    useHookstateGetters();
+  const {
+    sceneLoaded,
+    getCurrentStreak,
+    getSideSpawned,
+    getSFX
+  } = useHookstateGetters();
   const gameState = useGameState();
   const poppedBubbles = useRef<Set<string>>(new Set());
   const clock = useRef(new Clock());
@@ -64,17 +68,13 @@ export default function HandCollider({
       if (
         (handedness === 'right' && sideSpawned !== 'right') ||
         (handedness === 'left' && sideSpawned !== 'left')
-      )
-        clock.current.stop();
+      ) clock.current.stop();
 
       const elapsedTime = clock.current.getElapsedTime();
 
-      const handNodeWorld =
-        handedness === 'right'
-          ? avatar.current.humanoid.humanBones.rightMiddleProximal?.node
-              .matrixWorld
-          : avatar.current.humanoid.humanBones.leftMiddleProximal?.node
-              .matrixWorld;
+      const handNodeWorld = handedness === 'right' ?
+        avatar.current.humanoid.humanBones.rightMiddleProximal?.node.matrixWorld :
+        avatar.current.humanoid.humanBones.leftMiddleProximal?.node.matrixWorld;
 
       if (!handNodeWorld) return;
 
