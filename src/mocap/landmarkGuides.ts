@@ -44,19 +44,23 @@ export function drawLandmarkGuides(
     lineWidth: 3,
   });
   drawLandmarks(canvasCtx, leftFacialLandmarks, {
-    color: '#00B1FF',
+    // color: '#00B1FF', // <-old uvx green
+    color: '#7085ff',
     lineWidth: 1,
   });
   drawLandmarks(canvasCtx, rightFacialLandmarks, {
-    color: '#0ED8A5',
+    // color: '#0ED8A5',
+    color: '#f984ff',
     lineWidth: 1,
   });
   drawLandmarks(canvasCtx, leftLandmarks, {
-    color: '#00B1FF',
+    // color: '#00B1FF',
+    color: '#7085ff',
     lineWidth: 1,
   });
   drawLandmarks(canvasCtx, rightLandmarks, {
-    color: '#0ED8A5',
+    // color: '#0ED8A5', // <- old uvx blue
+    color: '#f984ff',
     lineWidth: 1,
   });
 
