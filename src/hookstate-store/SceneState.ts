@@ -9,10 +9,10 @@ const initialState: SceneType = hookstate({
   selectedEnvironment: '',
   selectedAvatar: '',
   sceneSettings: {
+    muteAllSound: false,
     sfx: true,
     music: true,
     announcer: true,
-    allSounds: true,
     ready: false,
   },
 });

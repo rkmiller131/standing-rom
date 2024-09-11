@@ -7,7 +7,7 @@ export interface OpaqueType<T extends string> {
 export type EntityId = OpaqueType<'entity'> & number;
 
 export type EnvironmentSelectionType = 'Outdoors' | 'Indoor Office' | '';
-export type AvatarSelectionType = '1' | '2' | 'locked' | '';
+export type AvatarSelectionType = 'maleModel1' | 'femaleModel1' | '';
 
 export type Bubble = {
   age: number;
@@ -44,13 +44,13 @@ export type SceneType = {
   environmentLoaded: boolean;
   gameRunning: boolean;
   device: 'Desktop' | 'Tablet' | 'Mobile';
-  selectedEnvironment: 'Indoor Office' | 'Outdoors' | '';
-  selectedAvatar: '1' | '2' | 'locked' | '';
+  selectedEnvironment: EnvironmentSelectionType;
+  selectedAvatar: AvatarSelectionType;
   sceneSettings: {
+    muteAllSound: boolean;
     sfx: boolean;
     music: boolean;
     announcer: boolean;
-    allSounds: boolean;
     ready: boolean;
   };
 };

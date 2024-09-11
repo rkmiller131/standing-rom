@@ -24,8 +24,7 @@ export default function HandCollider({
     sceneLoaded,
     getCurrentStreak,
     getSideSpawned,
-    getSFX,
-    getAllSounds,
+    getSFX
   } = useHookstateGetters();
   const gameState = useGameState();
   const poppedBubbles = useRef<Set<string>>(new Set());
@@ -44,13 +43,11 @@ export default function HandCollider({
     type: 'Kinematic',
     onCollideBegin: (e) => {
       poppedBubbles.current.add(e.body.uuid);
-      const key = getCurrentStreak() >= 5 ? 4 : getCurrentStreak();
-      // Create a new sound on each new collision so that if bubbles are popped rapidly, the sounds can overlap
-      const audio = new Audio(bubblePopSounds[key]);
-      if (getAllSounds() && getSFX()) {
+      if (getSFX()) {
+        const key = getCurrentStreak() >= 5 ? 4 : getCurrentStreak();
+        // Create a new sound on each new collision so that if bubbles are popped rapidly, the sounds can overlap
+        const audio = new Audio(bubblePopSounds[key]);
         audio.play();
-      } else {
-        audio.pause();
       }
     },
     args: [0.075],
@@ -71,17 +68,13 @@ export default function HandCollider({
       if (
         (handedness === 'right' && sideSpawned !== 'right') ||
         (handedness === 'left' && sideSpawned !== 'left')
-      )
-        clock.current.stop();
+      ) clock.current.stop();
 
       const elapsedTime = clock.current.getElapsedTime();
 
-      const handNodeWorld =
-        handedness === 'right'
-          ? avatar.current.humanoid.humanBones.rightMiddleProximal?.node
-              .matrixWorld
-          : avatar.current.humanoid.humanBones.leftMiddleProximal?.node
-              .matrixWorld;
+      const handNodeWorld = handedness === 'right' ?
+        avatar.current.humanoid.humanBones.rightMiddleProximal?.node.matrixWorld :
+        avatar.current.humanoid.humanBones.leftMiddleProximal?.node.matrixWorld;
 
       if (!handNodeWorld) return;
 

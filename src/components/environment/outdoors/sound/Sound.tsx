@@ -15,18 +15,17 @@ import {
 import { backgroundMusic } from '../../../../utils/cdn-links/sounds';
 import useHookstateGetters from '../../../../interfaces/Hookstate_Interface';
 
-const songPath = backgroundMusic['Outdoors'];
-const ambiencePath = backgroundMusic['OutdoorAmbience'];
+const songMusicPath = backgroundMusic['Outdoors'];
+const songAmbientPath = backgroundMusic['OutdoorAmbience'];
 
 export default function Sound() {
   const { camera, scene } = useThree();
-  const { getMusic, getAllSounds } = useHookstateGetters();
+  const { getMusic, getAllSoundsMuted } = useHookstateGetters();
 
   useEffect(() => {
     camera.add(listener);
 
-    const sound1 = new PositionalAudio(listener);
-    const sound2 = new PositionalAudio(listener);
+    const sound = new PositionalAudio(listener);
 
     const sphere = new SphereGeometry(20, 32, 16);
     const material = new MeshPhongMaterial({
@@ -36,34 +35,21 @@ export default function Sound() {
       side: DoubleSide,
     });
 
-    audioLoader.load(songPath, function (buffer: AudioBuffer) {
-      sound1.setBuffer(buffer);
-      sound1.setRefDistance(20);
-      sound1.setVolume(0.3);
-      sound1.setLoop(true);
-      if (getAllSounds() && getMusic()) {
-        sound1.play();
-      } else {
-        sound1.stop();
-      }
-    });
+    const songPath = getMusic() ? songMusicPath : songAmbientPath;
 
-    audioLoader.load(ambiencePath, function (buffer: AudioBuffer) {
-      sound2.setBuffer(buffer);
-      sound2.setRefDistance(20);
-      sound2.setVolume(0.3);
-      sound2.setLoop(true);
-      if (getAllSounds() && getMusic()) {
-        sound2.play();
-      } else {
-        sound2.stop();
+    audioLoader.load(songPath, function (buffer: AudioBuffer) {
+      sound.setBuffer(buffer);
+      sound.setRefDistance(20);
+      getMusic() && sound.setVolume(0.5);
+      sound.setLoop(true);
+      if (!getAllSoundsMuted()) {
+        sound.play();
       }
     });
 
     const mesh = new Mesh(sphere, material);
 
-    mesh.add(sound1);
-    mesh.add(sound2);
+    mesh.add(sound);
 
     scene.add(mesh);
 

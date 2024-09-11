@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 interface ButtonProps {
-  primaryStyle?: boolean;
+  buttonStyle?: 'primary' | 'secondary' | 'disabled';
   content: string;
   onClick: (props: any) => void;
   extraClass?: string;
@@ -11,15 +11,8 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-export default function Button({
-  primaryStyle = true,
-  content,
-  onClick,
-  extraClass,
-  animate = false,
-  disabled = false,
-}: ButtonProps) {
-  const buttonClass = primaryStyle ? 'button-primary' : 'button-secondary';
+export default function Button({ buttonStyle = 'primary', content, onClick, extraClass, animate = false }: ButtonProps) {
+  const buttonClass = `button-${buttonStyle}`;
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -36,7 +29,7 @@ export default function Button({
       className={`${buttonClass} ${extraClass}`}
       onClick={onClick}
       ref={buttonRef}
-      disabled={disabled}
+      disabled={buttonStyle === 'disabled'}
     >
       {content}
     </button>

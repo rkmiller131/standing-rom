@@ -5,9 +5,6 @@ import { announcer } from '../../utils/cdn-links/sounds';
 
 import '../../css/CountdownScreen.css';
 
-const audio = new Audio(announcer['countdown']);
-audio.volume = 0.75;
-
 export default function CountdownScreen() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { gameRunning, getAnnouncer, setGameRunning } = useHookstateGetters();
@@ -18,10 +15,8 @@ export default function CountdownScreen() {
       videoElement.play();
 
       if (getAnnouncer()) {
-        audio.play();
-      } else if (getAnnouncer() === false) {
-        audio.pause();
-      } else {
+        const audio = new Audio(announcer['countdown']);
+        audio.volume = 0.75;
         audio.play();
       }
     }

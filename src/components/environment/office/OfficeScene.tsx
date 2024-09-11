@@ -2,9 +2,9 @@ import { Suspense, lazy, useRef } from 'react';
 import { GLTF } from '../../../interfaces/THREE_Interface';
 import OfficeModel from './OfficeModel';
 import { useSceneState } from '../../../hookstate-store/SceneState';
+import Sound from './sound/Sound';
 
 const Sky = lazy(() => import('./Sky'));
-const Sound = lazy(() => import('./sound/Sound'));
 const Lights = lazy(() => import('./lights/Lights'));
 
 export default function OfficeScene() {
@@ -17,14 +17,16 @@ export default function OfficeScene() {
   };
 
   return (
-    <Suspense fallback={null}>
-      <Lights />
+    <>
       <Sound />
-      <Sky />
-      <OfficeModel
-        setEnvironmentModel={setEnvironmentModel}
-        environment={environment}
-      />
-    </Suspense>
+      <Suspense fallback={null}>
+        <Lights />
+        <Sky />
+        <OfficeModel
+          setEnvironmentModel={setEnvironmentModel}
+          environment={environment}
+        />
+      </Suspense>
+    </>
   );
 }

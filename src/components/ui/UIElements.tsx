@@ -1,18 +1,14 @@
 import { lazy, Suspense, useState } from 'react';
 import { VRM } from '@pixiv/three-vrm';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
-import SetupScreen from './environment-selection/SetupScreen';
 import LoadingScreen from './LoadingScreen';
 import ResultsScreen from './results/ResultsScreen';
-// import UVXBrandWatermark from './UVXBrandWatermark';
-// import ViewControls from './ViewControls';
 import CountdownScreen from './CountdownScreen';
 import SlidingInfo from './SlidingInfo';
 import GameInstructions from './how-to-play/GameInstructions';
 import RoomCode from './RoomCode';
+import GameSetupScreen from './game-setup/GameSetupScreen';
 
-// const ScoreDisplay = lazy(() => import('./player-score/ScoreDisplay'));
-// const LiveSocials = lazy(() => import('./socials/LiveSocials'));
 const GameplayUI = lazy(() => import('./gameplay-ui/GameplayUI'));
 
 interface UIProps {
@@ -20,9 +16,12 @@ interface UIProps {
 }
 
 export default function UIElements({ avatar }: UIProps) {
-  console.log('console loggin avatar for husky ', avatar);
-  const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
-    useHookstateGetters();
+  const {
+    environmentLoaded,
+    environmentSelected,
+    sceneLoaded,
+    gameOver
+  } = useHookstateGetters();
   const [codeSuccess, setCodeSuccess] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
 
@@ -31,35 +30,26 @@ export default function UIElements({ avatar }: UIProps) {
     // be sure to add some validation logic here if necessary when backend is established
     // add a new helper function to utils > http and verify against database
     console.log('Code submitted: ', code);
-    setCodeSuccess(true);
-  };
+    setCodeSuccess(true)
+  }
 
   const clientGrantsConsent = () => {
-    setConsentGiven(true);
-  };
+    setConsentGiven(true)
+  }
 
   return (
     <>
-      {!codeSuccess && <RoomCode submitCode={submitCode} />}
-      {codeSuccess && !consentGiven ? (
-        <GameInstructions clickHandler={clientGrantsConsent} />
-      ) : (
-        <SetupScreen />
-      )}
-      {/* <UVXBrandWatermark /> */}
+      {!codeSuccess && <RoomCode submitCode={submitCode}/>}
+      {codeSuccess && !consentGiven ?
+        <GameInstructions clickHandler={clientGrantsConsent}/> :
+        <GameSetupScreen />
+      }
       {environmentSelected() && <LoadingScreen />}
       {gameOver() && <ResultsScreen />}
       {environmentLoaded() && <SlidingInfo />}
       <Suspense fallback={null}>
-        {/* {environmentLoaded() && (
-          <>
-            <LiveSocials />
-            <ViewControls avatar={avatar} />
-          </>
-        )} */}
-        {environmentLoaded() && <GameplayUI avatar={avatar} />}
+        {environmentLoaded() && <GameplayUI avatar={avatar}/>}
         {sceneLoaded() && <CountdownScreen />}
-        {/* <ScoreDisplay /> */}
       </Suspense>
     </>
   );

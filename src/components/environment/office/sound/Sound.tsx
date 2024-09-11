@@ -20,7 +20,7 @@ const songPath = backgroundMusic['IndoorOffice'];
 
 export default function Sound() {
   const { camera, scene } = useThree();
-  const { getMusic, getAllSounds } = useHookstateGetters();
+  const { getMusic } = useHookstateGetters();
 
   useEffect(() => {
     camera.add(listener);
@@ -38,12 +38,10 @@ export default function Sound() {
     audioLoader.load(songPath, function (buffer: AudioBuffer) {
       sound.setBuffer(buffer);
       sound.setRefDistance(20);
-      sound.setVolume(0.05);
+      sound.setVolume(0.5);
       sound.setLoop(true);
-      if (getAllSounds() && getMusic()) {
+      if (getMusic()) {
         sound.play();
-      } else {
-        sound.stop();
       }
     });
 

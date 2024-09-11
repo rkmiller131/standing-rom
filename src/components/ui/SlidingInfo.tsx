@@ -4,9 +4,9 @@ import TitleSubtitle from './TitleSubtitle';
 import { slidingInfoBG } from '../../utils/cdn-links/motionGraphics';
 import { uvxLogos } from '../../utils/cdn-links/images';
 import { announcer } from '../../utils/cdn-links/sounds';
+import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 
 import '../../css/SlidingInfo.css';
-import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 
 let mounted = false;
 
@@ -31,14 +31,10 @@ export default function SlidingInfo() {
           autoAlpha: 1,
         },
       );
-      const audio = new Audio(announcer['getCalibrated']);
-      audio.volume = 0.75;
 
       if (getAnnouncer()) {
-        audio.play();
-      } else if (getAnnouncer() === false) {
-        audio.pause();
-      } else {
+        const audio = new Audio(announcer['getCalibrated']);
+        audio.volume = 0.75;
         audio.play();
       }
     }
@@ -60,6 +56,7 @@ export default function SlidingInfo() {
         },
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sceneLoaded]);
 
   return (

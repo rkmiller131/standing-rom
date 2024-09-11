@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { gltfLoader as loader } from '../../../../interfaces/THREE_Interface';
+import { gltfLoader as loader, textureLoader } from '../../../../interfaces/THREE_Interface';
 import { grassVertexShader } from '../shaders/grassVertexShader';
 import { grassFragmentShader } from '../shaders/grassFragmentShader';
 import { cloudMap } from '../../../../utils/cdn-links/environmentAssets';
@@ -28,7 +28,7 @@ function interpolate(
 let cloudTexture: THREE.Texture | null = null;
 
 if (typeof document !== 'undefined') {
-  cloudTexture = new THREE.TextureLoader().load(cloudMap);
+  cloudTexture = textureLoader.load(cloudMap);
   cloudTexture.wrapS = cloudTexture.wrapT = THREE.RepeatWrapping;
 }
 
