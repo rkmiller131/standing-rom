@@ -37,14 +37,9 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
       // Small delay allowing landmarks to draw before saying we've officially loaded
       if (!holisticLoaded) {
         setTimeout(() => {
-          const audio = new Audio(announcer['getReady']);
-          audio.volume = 0.75;
-
           if (getAnnouncer()) {
-            audio.play();
-          } else if (getAnnouncer() === false) {
-            audio.pause();
-          } else {
+            const audio = new Audio(announcer['getReady']);
+            audio.volume = 0.75;
             audio.play();
           }
           setHolisticLoaded(true);
@@ -69,10 +64,7 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
 
     async function initializeMediapipe() {
       // use mediapipe/holistic to track pose and hand landmarks from video stream
-      holistic = new Holistic({
-        locateFile: (file) =>
-          `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1675471629/${file}`,
-      });
+      holistic = new Holistic({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1675471629/${file}`});
 
       holistic.setOptions({
         modelComplexity: device !== 'Desktop' ? 0 : 1,
@@ -117,11 +109,13 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
     <div id="mocap-screen">
       <div
         id="mocap-container"
-        className={`${device}  frosted-glass`}
+        className={`${device}`}
         style={
-          holistic
-            ? { border: '3px solid var(--uvx-primary)' }
-            : { border: '3px solid #FCE708' }
+          holistic ?
+            // { border: '3px solid var(--uvx-primary)' } :
+            // { border: '3px solid #FCE708' }
+            { boxShadow: '0 0 21px 0px var(--uvx-primary)' } :
+            { boxShadow: '0 0 21px 0px #FCE187' }
         }
       >
         {holistic ? (
@@ -139,6 +133,11 @@ export default function Mocap({ avatar, setHolisticLoaded }: MocapProps) {
           height="100%"
           muted
           playsInline
+          style={
+            holistic ?
+              { border: '3px solid var(--uvx-primary)' } :
+              { border: '3px solid #FCE708' }
+          }
         />
         <canvas id="landmark-guides" ref={landmarkCanvasRef} />
       </div>

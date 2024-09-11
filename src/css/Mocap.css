@@ -8,7 +8,7 @@
 
 #mocap-container {
   position: absolute;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   height: 300px;
   width: 450px;
   z-index: 4;
@@ -66,8 +66,8 @@
 
 #webcam-stream {
   object-fit: cover;
-  border-radius: var(--border-radius);
   transform: scaleX(-1);
+  border-radius: 1.25rem 1.25rem;
 }
 
 #landmark-guides {
