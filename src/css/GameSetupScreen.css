@@ -115,6 +115,7 @@
 .selection-visuals-container {
   width: 40%;
   perspective: 1000px;
+  max-height: 500px;
 }
 
 .visual-display {
