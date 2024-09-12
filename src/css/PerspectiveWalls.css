@@ -1,0 +1,36 @@
+.perspective-walls {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 78%;
+  perspective: 2000px; /*this value controls the depth effect */
+}
+
+.perspective-wall-left,
+.perspective-wall-right {
+  width: 22%;
+  height: 70%;
+  background: var(--uvx-l-gradient);
+  mask-image: linear-gradient(rgba(0, 0, 0, 1) 96%, transparent 100%);
+}
+
+.perspective-wall-left {
+  transform: translateY(-10%) translateX(0%) rotateY(25deg) skewY(-17deg);
+}
+
+.perspective-wall-center {
+  width: 56%;
+  height: calc(100% - 30% - 15.75%);
+  overflow: hidden;
+  background: var(--uvx-primary);
+  mask-image: linear-gradient(rgba(0, 0, 0, 1) 95%, transparent 100%);
+}
+
+.perspective-wall-center video {
+  mix-blend-mode: lighten;
+  width: 100%;
+}
+
+.perspective-wall-right {
+  transform: translateY(-10%) translateX(0%) rotateY(-25deg) skewY(17deg);
+}

@@ -1,0 +1,62 @@
+#game-settings-form {
+  justify-self: center;
+  padding: 1rem 1rem 1.5rem 1rem;
+  min-width: 60%;
+  border-radius: var(--border-radius);
+  font-family: var(--font-primary);
+  font-weight: var(--font-regular);
+  font-size: var(--font-xsmall);
+  background-color: var(--uvx-secondary);
+  color: white;
+  transition: width 0.5s ease-in-out, height 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+}
+
+.sound-setting {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--uvx-primary);
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.sound-setting input {
+  position: relative;
+  width: 55px;
+  height: 25px;
+  border-radius: 25px;
+  transition: background 0.3s;
+  background: var(--uvx-primary);
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.sound-setting input:after {
+  content: '';
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  right: 55%;
+  top: 8%;
+  background: var(--uvx-secondary);
+  transition: right 0.3s;
+}
+
+
+.sound-setting input:checked {
+  background: var(--uvx-accent-color);
+}
+.sound-setting input:checked:after {
+  right: 5%;
+}
+.sound-setting input:checked + .sound-setting input:after {transform: translateX(28px);}
+
+@media screen and (max-width: 1300px) {
+  #game-settings-form {
+    min-width: 90%;
+  }
+}

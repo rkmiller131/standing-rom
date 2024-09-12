@@ -1,5 +1,7 @@
 import { baseBGAnimation } from '../../../utils/cdn-links/motionGraphics';
 
+import '../../../css/PerspectiveWalls.css';
+
 export default function PerspectiveWalls({ splashImage }: { splashImage: string }) {
   return (
     <div className="perspective-walls">
