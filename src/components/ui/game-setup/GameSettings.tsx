@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
-import { GameConfigurationSettings, SoundConfig } from './GameSetupScreen'
+import { GameConfigurationSettings, SoundConfig } from './GameSetupScreen';
+
+import '../../../css/GameSettings.css';
 
 interface GameSettingsProps {
   gameSettings: GameConfigurationSettings;
@@ -55,7 +57,7 @@ export default function GameSettings({ gameSettings, updateGameSettings }: GameS
   }, [gameSettings.sound])
 
   return (
-    <form>
+    <form id="game-settings-form">
       <div className="sound-setting">
         <label htmlFor="mute-all-sound">Mute All Sound</label>
         <input

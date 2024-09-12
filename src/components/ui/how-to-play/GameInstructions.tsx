@@ -141,7 +141,7 @@ export default function GameInstructions({ clickHandler }: GameInstructionsProps
             </a>
             <div className="how-to-play-container">
                 <TitleSubtitle
-                    className="callout-title h2play-title"
+                    className="callout-title small-callout-title"
                     accentTitle='Instructions'
                     mainTitle='How to Play'
                 />
