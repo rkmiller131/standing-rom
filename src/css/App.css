@@ -108,6 +108,10 @@ body,
   font-size: var(--font-medium);
 }
 
+.small-callout-title {
+  min-width: 300px;
+}
+
 .small-callout-title h3 {
   font-size: var(--font-small);
 }
