@@ -19,7 +19,7 @@ export const calibrationIcons = {
 };
 
 export const uvxLogos: { [key: string]: string } = {
-  uvxColor: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/uvxLogoColor%20(1).png?v=1724094223669',
+  uvxColor: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/UVXLogo-WhiteBlue.png?v=1726160092034',
   uvxWhite: 'https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/uvxLogoWhite.png?v=1724094162122',
 };
 
