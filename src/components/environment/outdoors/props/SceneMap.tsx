@@ -1,24 +1,22 @@
 import { useThree } from '@react-three/fiber';
 import { textureLoader } from '../../../../interfaces/THREE_Interface';
-import * as THREE from 'three';
 import { meadowMap } from '../../../../utils/cdn-links/environmentAssets';
-
-const map = meadowMap;
+import { BackSide, Mesh, MeshStandardMaterial, SphereGeometry } from 'three';
 
 export default function SceneMap() {
   const { scene } = useThree();
 
   textureLoader
-    .loadAsync(map)
+    .loadAsync(meadowMap)
     .then((texture) => {
-      const geometry = new THREE.SphereGeometry(50, 16, 16);
+      const geometry = new SphereGeometry(50, 16, 16);
 
-      const material = new THREE.MeshStandardMaterial({
+      const material = new MeshStandardMaterial({
         map: texture,
-        side: THREE.BackSide,
+        side: BackSide,
       });
 
-      const mesh = new THREE.Mesh(geometry, material);
+      const mesh = new Mesh(geometry, material);
       mesh.position.set(0, 0, 0);
       mesh.rotation.set(0, Math.PI / -3, 0);
 

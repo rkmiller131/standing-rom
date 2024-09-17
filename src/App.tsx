@@ -3,20 +3,20 @@ import { Suspense, lazy, useLayoutEffect, useRef, useState } from 'react';
 import { VRM } from '@pixiv/three-vrm';
 import { Physics } from '@react-three/cannon';
 import { Bubbles } from './ecs/entities/Bubbles';
-import AvatarHandColliders from './components/physics/AvatarHandColliders';
 import { useSceneState } from './hookstate-store/SceneState';
 import useHookstateGetters from './interfaces/Hookstate_Interface';
 import { checkUserDeviceType } from './utils/general/devices';
+import UIElements from './components/ui/UIElements';
+import Environment from './components/environment/Environment';
 import Mocap from './components/Mocap';
 import CameraAnimations from './components/CameraAnimations';
 import GameLogic from './ecs/systems/GameLogic';
-import UIElements from './components/ui/UIElements';
+import AvatarHandColliders from './components/physics/AvatarHandColliders';
 
 import './css/App.css';
 
 const Renderer = lazy(() => import('./canvas/Renderer'));
-const Environment = lazy(() => import('./components/environment/Environment'));
-const Avatar = lazy(() => import('./components/Avatar'))
+const Avatar = lazy(() => import('./components/Avatar'));
 
 export default function App() {
   const {

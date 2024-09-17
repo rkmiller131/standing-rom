@@ -24,6 +24,9 @@
   #uvx-watermark-container img {
     height: 2rem;
   }
+  #uvx-watermark-container::before {
+    height: 8%;
+  }
 }
 
 @media screen and (max-width: 1200px) {

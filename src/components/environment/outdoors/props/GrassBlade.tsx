@@ -5,8 +5,18 @@ import { grassVertexShader } from '../shaders/grassVertexShader';
 import { grassFragmentShader } from '../shaders/grassFragmentShader';
 import { cloudMap } from '../../../../utils/cdn-links/environmentAssets';
 import { groundPlane } from '../../../../utils/cdn-links/models';
-
-import * as THREE from 'three';
+import {
+  BufferAttribute,
+  BufferGeometry,
+  DoubleSide,
+  Mesh,
+  Raycaster,
+  RepeatWrapping,
+  ShaderMaterial,
+  Texture,
+  Vector3
+} from 'three';
+import { useSceneState } from '../../../../hookstate-store/SceneState';
 
 const BLADE_WIDTH = 0.1;
 const BLADE_HEIGHT = 0.3;
@@ -24,16 +34,15 @@ function interpolate(
   return ((val - oldMin) * (newMax - newMin)) / (oldMax - oldMin) + newMin;
 }
 
-
-let cloudTexture: THREE.Texture | null = null;
+let cloudTexture: Texture | null = null;
 
 if (typeof document !== 'undefined') {
   cloudTexture = textureLoader.load(cloudMap);
-  cloudTexture.wrapS = cloudTexture.wrapT = THREE.RepeatWrapping;
+  cloudTexture.wrapS = cloudTexture.wrapT = RepeatWrapping;
 }
 
-export class GrassGeometry extends THREE.BufferGeometry {
-  constructor(size: number, count: number, groundPlaneMesh: THREE.Mesh) {
+export class GrassGeometry extends BufferGeometry {
+  constructor(size: number, count: number, groundPlaneMesh: Mesh) {
     super();
 
     const positions: number[] = [];
@@ -57,9 +66,9 @@ export class GrassGeometry extends THREE.BufferGeometry {
       );
 
       // Raycast to find the height of the ground plane at the current position
-      const raycaster = new THREE.Raycaster(
-        new THREE.Vector3(x, 10, y),
-        new THREE.Vector3(0, -10, 0),
+      const raycaster = new Raycaster(
+        new Vector3(x, 10, y),
+        new Vector3(0, -10, 0),
       );
 
       const intersects = raycaster.intersectObject(groundPlaneMesh);
@@ -76,12 +85,12 @@ export class GrassGeometry extends THREE.BufferGeometry {
 
     this.setAttribute(
       'position',
-      new THREE.BufferAttribute(new Float32Array(positions), 3),
+      new BufferAttribute(new Float32Array(positions), 3),
     );
 
     this.setAttribute(
       'uv',
-      new THREE.BufferAttribute(new Float32Array(uvs), 2),
+      new BufferAttribute(new Float32Array(uvs), 2),
     );
     this.setIndex(indices);
     this.computeVertexNormals();
@@ -126,15 +135,15 @@ export class GrassGeometry extends THREE.BufferGeometry {
   }
 }
 
-class Grass extends THREE.Mesh {
-  constructor(size: number, count: number, groundPlaneMesh: THREE.Mesh) {
+class Grass extends Mesh {
+  constructor(size: number, count: number, groundPlaneMesh: Mesh) {
     const geometry = new GrassGeometry(size, count, groundPlaneMesh);
-    const material = new THREE.ShaderMaterial({
+    const material = new ShaderMaterial({
       uniforms: {
         uCloud: { value: cloudTexture },
         uTime: { value: 0 },
       },
-      side: THREE.DoubleSide,
+      side: DoubleSide,
       vertexShader: grassVertexShader,
       fragmentShader: grassFragmentShader,
     });
@@ -148,9 +157,8 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
 }) => {
   const { scene } = useThree();
   const grassRef = useRef<Grass>();
-  const [groundPlaneMesh, setGroundPlaneMesh] = useState<THREE.Mesh | null>(
-    null,
-  );
+  const [groundPlaneMesh, setGroundPlaneMesh] = useState<Mesh | null>(null);
+  const sceneState = useSceneState();
 
   useEffect(() => {
     const loadModel = async () => {
@@ -171,11 +179,10 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
             mesh.position.y === 0 &&
             mesh.position.z === 0
           ) {
-            setGroundPlaneMesh(mesh as THREE.Mesh);
+            setGroundPlaneMesh(mesh as Mesh);
 
             scene.add(mesh);
 
-            // console.log('Current Position:', mesh.position);
           } else {
             console.log('Failed to set proper position. Please Refresh');
           }
@@ -192,17 +199,21 @@ const GrassComponent: React.FC<{ size: number; count: number }> = ({
   useEffect(() => {
     if (groundPlaneMesh && !grassRef.current) {
       // Wait for the ground plane to load into the right position before doing displacement calculations
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         const grass = new Grass(size, count, groundPlaneMesh);
         grassRef.current = grass;
         scene.add(grass);
+        sceneState.environmentLoaded.set(true);
       }, 3000);
+
+      return () => clearTimeout(timer);
     }
-  }, [scene, size, count, groundPlaneMesh]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groundPlaneMesh]);
 
   useFrame(({ clock }) => {
     if (grassRef.current) {
-      const material = grassRef.current?.material as THREE.ShaderMaterial;
+      const material = grassRef.current?.material as ShaderMaterial;
       if (material.uniforms) {
         material.uniforms.uTime.value += clock.getDelta() + 10;
       }

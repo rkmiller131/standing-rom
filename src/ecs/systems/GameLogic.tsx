@@ -25,8 +25,10 @@ export default function GameLogic({ avatar }: GameLogicProps) {
   }
 
   useEffect(() => {
-    startTheGame();
-    gameIsSetup = true;
+    if (!gameIsSetup) {
+      startTheGame();
+      gameIsSetup = true;
+    }
   }, [])
 
   useEffect(() => {

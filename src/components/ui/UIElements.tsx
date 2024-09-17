@@ -48,7 +48,7 @@ export default function UIElements({ avatar }: UIProps) {
       {gameOver() && <ResultsScreen />}
       {environmentLoaded() && <SlidingInfo />}
       <Suspense fallback={null}>
-        {environmentLoaded() && <GameplayUI avatar={avatar}/>}
+        {environmentLoaded() && <GameplayUI avatar={avatar}/> }
         {sceneLoaded() && <CountdownScreen />}
       </Suspense>
     </>

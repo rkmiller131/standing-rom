@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { lazy, Suspense } from 'react';
 import SceneMap from './props/SceneMap';
 import GrassComponent from './props/GrassBlade';
-import { lazy, Suspense, useEffect } from 'react';
 import CustomEnvironmentSunlight from './props/CustomEnvironmentSunlight';
-import { useSceneState } from '../../../hookstate-store/SceneState';
 import Sound from './sound/Sound';
 
 const Tree = lazy(() =>
@@ -16,17 +15,6 @@ const TreeInstance = lazy(() =>
 );
 
 export default function OutdoorScene() {
-  const sceneState = useSceneState();
-
-  useEffect(() => {
-    // delay the scene loading to let async instances come into the scene
-    const timer = setTimeout(() => {
-      sceneState.environmentLoaded.set(true);
-    }, 8000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <>
       <GrassComponent size={25} count={30000} />
