@@ -4,13 +4,12 @@ import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 import LoadingScreen from './LoadingScreen';
 import ResultsScreen from './results/ResultsScreen';
 import CountdownScreen from './CountdownScreen';
-// import SlidingInfo from './SlidingInfo';
+import SlidingInfo from './SlidingInfo';
 import GameInstructions from './how-to-play/GameInstructions';
 import RoomCode from './RoomCode';
 import GameSetupScreen from './game-setup/GameSetupScreen';
 
 const GameplayUI = lazy(() => import('./gameplay-ui/GameplayUI'));
-const SlidingInfo = lazy(() => import('./SlidingInfo'));
 
 interface UIProps {
   avatar: React.RefObject<VRM>;
@@ -47,13 +46,9 @@ export default function UIElements({ avatar }: UIProps) {
       }
       {environmentSelected() && <LoadingScreen />}
       {gameOver() && <ResultsScreen />}
+      {environmentLoaded() && <SlidingInfo />}
       <Suspense fallback={null}>
-        {environmentLoaded() && (
-          <>
-            <SlidingInfo />
-            <GameplayUI avatar={avatar}/>
-          </>
-        )}
+        {environmentLoaded() && <GameplayUI avatar={avatar}/> }
         {sceneLoaded() && <CountdownScreen />}
       </Suspense>
     </>
