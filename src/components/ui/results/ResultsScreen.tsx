@@ -25,6 +25,7 @@ import { announcer } from '../../../utils/cdn-links/sounds';
 import { useRef } from 'react';
 
 import '../../../css/ResultsScreen.css';
+import { sendResults, GameData } from '../../../utils/http/httpSendGameData';
 
 ChartJS.register(
   CategoryScale,
@@ -141,13 +142,13 @@ export default function ResultsScreen() {
     audio.play();
   }
 
-  const handleSubmit = () => {
-    const results = {
+  const handleSubmit = async () => {
+    const results: GameData = {
       datePlayed: new Date().toISOString().slice(0, 19),
       percentCompletion,
       bubblesPopped: popped,
-      RightAvgVelocity: avgRightVelocity,
-      LeftAvgVelocity: avgLeftVelocity,
+      rightAvgVelocity: avgRightVelocity,
+      leftAvgVelocity: avgLeftVelocity,
       maxLeftAngle: maxLeftArmAngle,
       maxRightAngle: maxRightArmAngle,
       completed: true,
@@ -158,8 +159,15 @@ export default function ResultsScreen() {
       },
     };
 
-    console.log('results have been sent! ', results);
-    window.location.href = 'https://www.ubiquityvx.com/';
+    try {
+      const result = await sendResults(results);
+      console.log('Game data sent successfully:', result);
+    } catch (error) {
+      console.error('Failed to send game data:', error);
+    }
+
+    console.log('Success! Navigating...');
+    // window.location.href = 'https://www.ubiquityvx.com/';
   };
 
   const handleReplay = async () => {
