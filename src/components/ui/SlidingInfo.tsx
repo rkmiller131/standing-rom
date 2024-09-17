@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import { gsap } from 'gsap';
 import TitleSubtitle from './TitleSubtitle';
 import { slidingInfoBG } from '../../utils/cdn-links/motionGraphics';
@@ -10,7 +10,7 @@ import '../../css/SlidingInfo.css';
 
 let mounted = false;
 
-export default function SlidingInfo() {
+export default memo(function SlidingInfo() {
   const { sceneLoaded, getAnnouncer } = useHookstateGetters();
 
   useEffect(() => {
@@ -87,4 +87,4 @@ export default function SlidingInfo() {
       </div>
     </div>
   );
-}
+})

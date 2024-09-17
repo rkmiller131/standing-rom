@@ -1,15 +1,20 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useMemo, memo } from 'react';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
 
 const OfficeScene = lazy(() => import('./office/OfficeScene'));
 const OutdoorScene = lazy(() => import('./outdoors/Outdoors'));
 
-export default function Environment() {
+export default memo(function Environment() {
   const { environmentSelected } = useHookstateGetters();
+
+  const renderScene = useMemo(() => {
+    return environmentSelected() === 'Indoor Office' ?
+    <OfficeScene /> : <OutdoorScene />
+  }, [environmentSelected])
+
   return (
     <Suspense fallback={null}>
-      {environmentSelected() === 'Indoor Office' && <OfficeScene />}
-      {environmentSelected() === 'Outdoors' && <OutdoorScene />}
+      {renderScene}
     </Suspense>
   );
-}
+})

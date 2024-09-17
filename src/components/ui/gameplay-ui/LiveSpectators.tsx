@@ -97,4 +97,4 @@ function sortUsers (users: User[]) {
     // Default case: users without audio or video, render at the bottom
     return 0;
   });
-};
+}

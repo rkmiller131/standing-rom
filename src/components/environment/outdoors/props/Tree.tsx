@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { Material, Mesh, MeshStandardMaterial, Object3D } from 'three';
 import React, { useContext, createContext, useState, useEffect } from 'react';
 import { Merged } from '@react-three/drei';
 import {
@@ -10,14 +10,14 @@ import { treeModel } from '../../../../utils/cdn-links/models';
 
 type GLTFResult = GLTF & {
   nodes: {
-    BezierCurve025: THREE.Mesh;
-    BezierCurve025_1: THREE.Mesh;
-    BezierCurve025_2: THREE.Mesh;
+    BezierCurve025: Mesh;
+    BezierCurve025_1: Mesh;
+    BezierCurve025_2: Mesh;
   };
   materials: {
-    ['trunk-01']: THREE.MeshStandardMaterial;
-    ['branch-2-01']: THREE.MeshStandardMaterial;
-    ['branch-2-02']: THREE.MeshStandardMaterial;
+    ['trunk-01']: MeshStandardMaterial;
+    ['branch-2-01']: MeshStandardMaterial;
+    ['branch-2-02']: MeshStandardMaterial;
   };
 };
 
@@ -43,37 +43,23 @@ export function TreeInstance({
         });
         // Extract nodes directly from the loaded GLTF object
         const nodes = {
-          BezierCurve025: gltf.scene.getObjectByName(
-            'BezierCurve025',
-          ) as THREE.Mesh,
-          BezierCurve025_1: gltf.scene.getObjectByName(
-            'BezierCurve025_1',
-          ) as THREE.Mesh,
-          BezierCurve025_2: gltf.scene.getObjectByName(
-            'BezierCurve025_2',
-          ) as THREE.Mesh,
+          BezierCurve025: gltf.scene.getObjectByName('BezierCurve025') as Mesh,
+          BezierCurve025_1: gltf.scene.getObjectByName('BezierCurve025_1') as Mesh,
+          BezierCurve025_2: gltf.scene.getObjectByName('BezierCurve025_2') as Mesh,
         };
 
         // Extract materials from the nodes
-        const getMaterial = (
-          object: THREE.Object3D,
-        ): THREE.Material | undefined => {
-          if (object instanceof THREE.Mesh) {
+        const getMaterial = (object: Object3D): Material | undefined => {
+          if (object instanceof Mesh) {
             return object.material;
           }
           return undefined;
         };
 
         const materials = {
-          ['trunk-01']: getMaterial(
-            gltf.scene.getObjectByName('BezierCurve025') as THREE.Object3D,
-          ) as THREE.MeshStandardMaterial,
-          ['branch-2-01']: getMaterial(
-            gltf.scene.getObjectByName('BezierCurve025_1') as THREE.Object3D,
-          ) as THREE.MeshStandardMaterial,
-          ['branch-2-02']: getMaterial(
-            gltf.scene.getObjectByName('BezierCurve025_2') as THREE.Object3D,
-          ) as THREE.MeshStandardMaterial,
+          ['trunk-01']: getMaterial(gltf.scene.getObjectByName('BezierCurve025') as Object3D) as MeshStandardMaterial,
+          ['branch-2-01']: getMaterial(gltf.scene.getObjectByName('BezierCurve025_1') as Object3D) as MeshStandardMaterial,
+          ['branch-2-02']: getMaterial(gltf.scene.getObjectByName('BezierCurve025_2') as Object3D) as MeshStandardMaterial,
         };
 
         setGltf({ ...gltf, nodes, materials });
