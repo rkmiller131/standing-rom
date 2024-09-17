@@ -11,13 +11,18 @@ import { calcArcCoordinates } from '../math/calcArcCoordinates';
  * @param {'right'|'left'|'frontR'|'frontL'|'crossR'|'crossL'} spawnSide - The side of the avatar from which the bubbles should spawn.
  * @returns {Array<Object>} An array of bubble entities, each containing an `age`, `spawnPosition`, and `active` property.
  */
-export default function generateBubbles(reps: number, spawnSide: 'right' | 'left' | 'frontR' | 'frontL' | 'crossR' | 'crossL') {
+export default function generateBubbles(
+  reps: number,
+  spawnSide: 'right' | 'left' | 'frontR' | 'frontL' | 'crossR' | 'crossL',
+) {
   const bubbles = [];
   let origin = avatarProportions.spinePos;
   let startPosition, spawnPos;
 
-  const startAngle = (spawnSide !== 'crossL' && spawnSide !== 'crossR') ? 0 : Math.PI / 2;
-  const endAngle = (spawnSide !== 'crossL' && spawnSide !== 'crossR') ? Math.PI - 1.31 : Math.PI;
+  const startAngle =
+    spawnSide !== 'crossL' && spawnSide !== 'crossR' ? 0 : Math.PI / 2;
+  const endAngle =
+    spawnSide !== 'crossL' && spawnSide !== 'crossR' ? Math.PI - 1.31 : Math.PI;
   const midAngle = (endAngle - startAngle) / 2;
   const angleIncrement = (endAngle - startAngle) / (reps - 1);
 
@@ -26,29 +31,48 @@ export default function generateBubbles(reps: number, spawnSide: 'right' | 'left
 
     if (spawnSide === 'left') {
       // left hand position
-      startPosition = new Vector3(-0.6 * avatarProportions.armLength, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos);
-
+      startPosition = new Vector3(
+        -0.6 * avatarProportions.armLength,
+        avatarProportions.handHeight,
+        0,
+      ).add(avatarProportions.avatarPos);
     } else if (spawnSide === 'right') {
       // right hand position
-      startPosition = new Vector3(0.6 * avatarProportions.armLength, avatarProportions.handHeight, 0).add(avatarProportions.avatarPos);
-
+      startPosition = new Vector3(
+        0.6 * avatarProportions.armLength,
+        avatarProportions.handHeight,
+        0,
+      ).add(avatarProportions.avatarPos);
     } else if (spawnSide === 'frontL') {
       // left hand front position
-      startPosition = new Vector3(-0.3 * avatarProportions.armLength, avatarProportions.handHeight, -0.2 * avatarProportions.armLength).add(avatarProportions.avatarPos);
-
+      startPosition = new Vector3(
+        -0.3 * avatarProportions.armLength,
+        avatarProportions.handHeight,
+        -0.2 * avatarProportions.armLength,
+      ).add(avatarProportions.avatarPos);
     } else if (spawnSide === 'frontR') {
       // right hand front position
-      startPosition = new Vector3(0.3 * avatarProportions.armLength, avatarProportions.handHeight, -0.2 * avatarProportions.armLength).add(avatarProportions.avatarPos);
-
+      startPosition = new Vector3(
+        0.3 * avatarProportions.armLength,
+        avatarProportions.handHeight,
+        -0.2 * avatarProportions.armLength,
+      ).add(avatarProportions.avatarPos);
     } else if (spawnSide === 'crossL') {
       // left shoulder position
-      startPosition = new Vector3(-0.5 * avatarProportions.armLength, 0.75 * avatarProportions.shoulderHeight, 0).add(avatarProportions.avatarPos);
-      // update with the actual origin of the left shoulder plus some extra -z(?)
+      startPosition = new Vector3(
+        -0.5 * avatarProportions.armLength,
+        0.75 * avatarProportions.shoulderHeight,
+        0,
+      ).add(avatarProportions.avatarPos);
+      // update with the actual origin of the left shoulder plus some extra -z(?)  [M: 1.53 / W: 1.46 avatarProportions.shoulderHeight]
       origin = new Vector3(-0.2, 0.8, -0.05).add(avatarProportions.avatarPos);
-
     } else if (spawnSide === 'crossR') {
       // right shoulder position
-      startPosition = new Vector3(0.5 * avatarProportions.armLength, 0.75 * avatarProportions.shoulderHeight, 0).add(avatarProportions.avatarPos);
+      startPosition = new Vector3(
+        0.5 * avatarProportions.armLength,
+        0.75 * avatarProportions.shoulderHeight,
+        0,
+      ).add(avatarProportions.avatarPos);
       origin = new Vector3(0.2, 0.8, -0.05).add(avatarProportions.avatarPos);
     }
 
@@ -57,7 +81,7 @@ export default function generateBubbles(reps: number, spawnSide: 'right' | 'left
     }
 
     if (spawnSide === 'left' || spawnSide === 'crossL') {
-      angle = -angle // necessary to mirror coordinates
+      angle = -angle; // necessary to mirror coordinates
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------
@@ -88,8 +112,8 @@ export default function generateBubbles(reps: number, spawnSide: 'right' | 'left
     const bubbleEntity = {
       age: 0,
       spawnPosition: spawnPos,
-      active: false
-    }
+      active: false,
+    };
 
     if (spawnSide === 'crossL') {
       bubbles.unshift(bubbleEntity); // hot fix; these need to be in reverse order for this edge case
