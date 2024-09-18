@@ -23,6 +23,7 @@ import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 import { badgesIcons } from '../../../utils/cdn-links/images';
 import { announcer } from '../../../utils/cdn-links/sounds';
 import { useRef } from 'react';
+import { uvxLogos } from '../../../utils/cdn-links/images';
 
 import '../../../css/ResultsScreen.css';
 import { sendResults, GameData } from '../../../utils/http/httpSendGameData';
@@ -185,66 +186,91 @@ export default function ResultsScreen() {
   };
 
   return (
-    <div id="results-screen">
-      <div className="blend-hue" />
-      <div className="achievement-container results-ui-box">
-        {shoulderROMAchievements.map((award) => {
-          const unlocked = playerGotAchievement(award.title);
-          return (
-            <AchievementItem
-              achievement={award}
-              achievementUnlocked={unlocked}
-              key={award.title}
-            />
-          );
-        })}
-      </div>
-      <div className="results-summary">
-        <div className="badge-data results-ui-box">
-          <img src={awardMedal.current} alt="Medal" className="medal-img" />
-          <div className="stats-container">
-            <StatItem
-              icon={faTachometerAlt}
-              description="Popping Speed Right"
-              metric={`${avgRightVelocity}m/s`}
-            />
-            <StatItem
-              icon={faTachometerAlt}
-              description="Popping Speed Left"
-              metric={`${avgLeftVelocity}m/s`}
-            />
-            <StatItem
-              icon={faDraftingCompass}
-              description="Max Right Arm Angle"
-              metric={`${maxRightArmAngle}°`}
-            />
-            <StatItem
-              icon={faDraftingCompass}
-              description="Max Left Arm Angle"
-              metric={`${maxLeftArmAngle}°`}
-            />
-            <StatItem
-              icon={faChartLine}
-              description="Final Score"
-              metric={`${popped}/${totalBubbles}`}
-            />
+    <div id="overlay-screen">
+      <div className="back-box"></div>
+      <div className="middle-section">
+      <div className="box left-box">
+          <div className="achievements">
+            <h2 className="achievements-title">Achievements</h2>
+            
+            <div className="achievement completed">
+              <img src="/icons/check-icon.svg" alt="Check Icon" className="achievement-icon" />
+              <div className="achievement-info">
+                <div className="achievement-title">Bubble Burst Bonanza</div>
+                <div className="achievement-description">Pop 10 bubbles in 5 seconds</div>
+              </div>
+            </div>
+
+            <div className="achievement">
+              <img src="/icons/incomplete-icon.svg" alt="Incomplete Icon" className="achievement-icon" />
+              <div className="achievement-info">
+                <div className="achievement-title">Speed Demon</div>
+                <div className="achievement-description">Pop all bubbles in the time limit</div>
+              </div>
+            </div>
+
+            <div className="achievement">
+              <img src="/icons/incomplete-icon.svg" alt="Incomplete Icon" className="achievement-icon" />
+              <div className="achievement-info">
+                <div className="achievement-title">Precision Popper</div>
+                <div className="achievement-description">Pop 95% or more bubbles</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="results-graph-container results-ui-box">
-          <Line
-            data={data}
-            options={{
-              responsive: true,
-              plugins: { legend: { display: false } },
-            }}
+        <div className="box center-box">
+          <div className="center-box-header">
+            <img
+              src={badgesIcons.goldMedal}
+              alt="Gold Medal"
+              className="header-medal"
+            />
+            <div className="header-title">Results</div>
+            <div className="header-score">
+              Score: <span>35/50</span>
+            </div>
+          </div>
+
+          <img
+            className="person-silhouette"
+            src="/human.png"
+            alt="Person Silhouette"
           />
+
+          <div className="data-point left-shoulder">
+            <div className="data-title">Max ROM Left</div>
+            <div className="data-value frosted-glass">
+              <span>143°</span>
+            </div>
+          </div>
+
+          <div className="data-point right-shoulder">
+            <div className="data-title">Max ROM Right</div>
+            <div className="data-value frosted-glass">
+              <span>97°</span>
+            </div>
+          </div>
+
+          <div className="data-point left-wrist">
+            <div className="data-title">Popping Speed Left</div>
+            <div className="data-value frosted-glass">
+              <span>0.93 m/s</span>
+            </div>
+          </div>
+
+          <div className="data-point right-wrist">
+            <div className="data-title">Popping Speed Right</div>
+            <div className="data-value frosted-glass">
+              <span>0.56 m/s</span>
+            </div>
+          </div>
         </div>
-        <div className="gameplay-buttons">
-          <GameControlButtons
-            onRestart={handleReplay}
-            onNextGame={handleSubmit}
-          />
-        </div>
+        <div className="box right-box"></div>
+      </div>
+      <div className="footer-box">
+        <button className="footer-button left-button">Left Button</button>
+        <img className="footer-logo" src={uvxLogos.uvxWhite} alt="Logo" />
+        <button className="footer-button right-button">Right Button</button>
       </div>
     </div>
   );
