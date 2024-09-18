@@ -7,11 +7,19 @@ interface GameControlButtonsProps {
   onNextGame: () => void;
 }
 
-export default function GameControlButtons({ onRestart, onNextGame }: GameControlButtonsProps) {
+export default function GameControlButtons({
+  onRestart,
+  onNextGame,
+}: GameControlButtonsProps) {
   return (
     <>
-      <Button content="Try Again" onClick={onRestart} buttonStyle='secondary' animate={true}/>
-      <Button content="Continue" onClick={onNextGame} animate={true}/>
+      <Button
+        content="Try Again"
+        onClick={onRestart}
+        buttonStyle="secondary"
+        animate={true}
+      />
+      <Button content="Continue" onClick={onNextGame} animate={true} />
     </>
   );
 }
