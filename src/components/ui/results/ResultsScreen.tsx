@@ -1,10 +1,5 @@
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
-import {
-  faTachometerAlt,
-  faDraftingCompass,
-  faChartLine,
-} from '@fortawesome/free-solid-svg-icons';
-import { Line } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,6 +10,7 @@ import {
   Tooltip,
   Legend,
   Filler,
+  BarElement,
 } from 'chart.js';
 import AchievementItem from './AchievementItem';
 import StatItem from './StatItem';
@@ -32,6 +28,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -60,23 +57,22 @@ const shoulderROMAchievements: AchievementType[] = [
 ];
 
 // THIS WOULD ALSO BE RETRIEVED FROM DB AND SET UP IN ITS OWN GRAPH COMPONENT (Separate Line graph into own file, do an http get and create the graph)
-const lastFiveResults = [
+const lastResults = [
   { date: '2024-08-08', score: 85 },
   { date: '2024-08-09', score: 78 },
   { date: '2024-08-10', score: 92 },
-  { date: '2024-08-11', score: 88 },
-  { date: '2024-08-12', score: 95 },
 ];
 
-const labels = lastFiveResults.map((result) => result.date);
+const labels = lastResults.map((result) => result.date);
 const data = {
   labels,
   datasets: [
     {
       label: 'Scores',
-      data: lastFiveResults.map((result) => result.score),
+      data: lastResults.map((result) => result.score),
       borderColor: 'rgba(68, 243, 182, 1)',
-      backgroundColor: 'rgba(68, 243, 182, 0.2)',
+      backgroundColor: 'rgba(68, 243, 182, 0.85)',
+      borderRadius: 5,
       fill: true,
       tension: 0.4,
     },
@@ -167,7 +163,8 @@ export default function ResultsScreen() {
     }
 
     console.log('Success! Navigating...');
-    // window.location.href = 'https://www.ubiquityvx.com/';
+    setTimeout(() => {}, 3000);
+    window.location.href = 'https://www.ubiquityvx.com/';
   };
 
   const handleReplay = async () => {
@@ -185,66 +182,109 @@ export default function ResultsScreen() {
   };
 
   return (
-    <div id="results-screen">
-      <div className="blend-hue" />
-      <div className="achievement-container results-ui-box">
-        {shoulderROMAchievements.map((award) => {
-          const unlocked = playerGotAchievement(award.title);
-          return (
-            <AchievementItem
-              achievement={award}
-              achievementUnlocked={unlocked}
-              key={award.title}
+    <div id="overlay-screen">
+      <div className="back-box"></div>
+      <div className="middle-section">
+        <div className="box left-box">
+          <div className="achievements">
+            <h2 className="achievements-title">Achievements</h2>
+            {shoulderROMAchievements.map((award) => {
+              const unlocked = playerGotAchievement(award.title);
+              return (
+                <>
+                  <div className="ac-container frosted-glass">
+                    <AchievementItem
+                      achievement={award}
+                      achievementUnlocked={unlocked}
+                      key={award.title}
+                    />
+                  </div>
+                  <br></br>
+                </>
+              );
+            })}
+          </div>
+        </div>
+        <div className="box center-box">
+          <div className="center-box-header">
+            <img
+              src={awardMedal.current}
+              alt="Medal"
+              className="header-medal"
             />
-          );
-        })}
-      </div>
-      <div className="results-summary">
-        <div className="badge-data results-ui-box">
-          <img src={awardMedal.current} alt="Medal" className="medal-img" />
-          <div className="stats-container">
-            <StatItem
-              icon={faTachometerAlt}
-              description="Popping Speed Right"
-              metric={`${avgRightVelocity}m/s`}
-            />
-            <StatItem
-              icon={faTachometerAlt}
-              description="Popping Speed Left"
-              metric={`${avgLeftVelocity}m/s`}
-            />
-            <StatItem
-              icon={faDraftingCompass}
-              description="Max Right Arm Angle"
-              metric={`${maxRightArmAngle}°`}
-            />
-            <StatItem
-              icon={faDraftingCompass}
-              description="Max Left Arm Angle"
-              metric={`${maxLeftArmAngle}°`}
-            />
-            <StatItem
-              icon={faChartLine}
-              description="Final Score"
-              metric={`${popped}/${totalBubbles}`}
+
+            <div className="header-title">Results</div>
+            <div className="header-score">
+              Score: <span>{popped / totalBubbles}</span>
+            </div>
+          </div>
+
+          <img
+            className="person-silhouette"
+            src="/human.png"
+            alt="Person Silhouette"
+          />
+
+          <div className="data-point left-shoulder">
+            <div className="data-title">Max ROM Left</div>
+            <div className="data-value frosted-glass">
+              <span>{maxLeftArmAngle}&deg;</span>
+            </div>
+          </div>
+
+          <div className="data-point right-shoulder">
+            <div className="data-title">Max ROM Right</div>
+            <div className="data-value frosted-glass">
+              <span>{maxRightArmAngle}&deg;</span>
+            </div>
+          </div>
+
+          <div className="data-point left-wrist">
+            <div className="data-title">Popping Speed Left</div>
+            <div className="data-value frosted-glass">
+              <span>{avgLeftVelocity}m/s</span>
+            </div>
+          </div>
+
+          <div className="data-point right-wrist">
+            <div className="data-title">Popping Speed Right</div>
+            <div className="data-value frosted-glass">
+              <span>{avgRightVelocity}m/s</span>
+            </div>
+          </div>
+        </div>
+        <div className="box right-box">
+          <div className="results-graph-container">
+            <Bar
+              data={data}
+              options={{
+                responsive: true,
+                scales: {
+                  x: {
+                    display: false,
+                    ticks: {
+                      display: false,
+                    },
+                  },
+                  y: {
+                    display: false,
+                    ticks: {
+                      display: false,
+                    },
+                  },
+                },
+                color: '#efefef',
+                plugins: { legend: { display: false } },
+              }}
             />
           </div>
         </div>
-        <div className="results-graph-container results-ui-box">
-          <Line
-            data={data}
-            options={{
-              responsive: true,
-              plugins: { legend: { display: false } },
-            }}
-          />
-        </div>
-        <div className="gameplay-buttons">
-          <GameControlButtons
-            onRestart={handleReplay}
-            onNextGame={handleSubmit}
-          />
-        </div>
+      </div>
+      <div className="footer-box">
+        <GameControlButtons
+          onRestart={handleReplay}
+          onNextGame={handleSubmit}
+        />
       </div>
     </div>
   );
