@@ -37,7 +37,6 @@ export default function UIElements({ avatar }: UIProps) {
     <>
       {!codeSuccess && (
         <>
-          {/* <ResultsScreen /> */}
           <RoomCode submitCode={submitCode} />
         </>
       )}
