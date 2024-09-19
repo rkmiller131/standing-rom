@@ -136,8 +136,7 @@
   top: 20%;
   left: 4%;
   background-color: var(--uvx-secondary);
-  border-radius: 15%;
-  border: 1px solid white;
+  border-radius: 30px;
   margin-top: 15%;
 }
 
@@ -150,12 +149,13 @@
   color: white;
   text-align: center;
   background-color: var(--uvx-secondary);
-  border-radius: 15%;
+  border-radius: 30px;
   padding: 2% 5%;
 }
 
 .header-score {
-  font-size: 2rem;
+  font-size: 2.25rem;
+  font-weight: 600;
   color: white;
   text-align: right;
   width: 25%;
@@ -177,8 +177,10 @@
 
 .data-title {
   display: flex;
+  min-width: max-content;
   align-items: center;
-  font-size: 0.85rem;
+  text-align: center;
+  font-size: 1.35rem;
   color: white;
   margin-bottom: 10px;
 }
@@ -190,8 +192,8 @@
 }
 
 .data-value {
-  font-size: 1.4rem;
-  color: white;
+  font-size: 1.75rem;
+  color: var(--uvx-results-foreground);
   padding: 20px 60px;
   border-radius: 8px;
 }
@@ -225,7 +227,7 @@
   justify-content: center;
   align-items: center;
   padding: 0 10%;
-  margin-bottom: 1%;
+  padding-bottom: 1%;
   z-index: 1000;
 }
 
@@ -289,24 +291,72 @@
   }
 }
 
-.results-graph-container {
+.chart-container {
   display: flex;
-  min-height: 35rem;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  column-gap: 2rem;
+  width: auto;
+  height: 512px;
+  margin: 2rem 1rem;
+  overflow: hidden;
+  transition: all 0.5s;
 }
-
-.results-graph-container::before {
-  content: 'Recent Performance Trends';
-  position: absolute;
-  display: flex;
+.bar {
+  width: 50px;
+  background-color: var(--uvx-primary);
+  text-align: center;
   color: white;
-  align-self: flex-start;
+  border-radius: 15px;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .ac-container {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   padding: 1rem;
+}
+
+.achievement-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.achievement-container::before {
+  content: 'ACHIEVEMENTS';
+  position: absolute;
+  margin-top: -4rem;
+  margin-left: -2%;
+  font-size: var(--font-medium);
+  font-weight: var(--fw-medium);
+  font-style: italic;
+  text-shadow: 3px 3px 6px black;
+}
+
+#achievement-item {
+  display: flex;
+  gap: 25px;
+  color: white;
+  font-size: 1.5rem;
+}
+
+#achievement-item input[type='checkbox'] {
+  transform: scale(2);
+}
+
+.achievement-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.achievement-title {
+  font-weight: var(--fw-medium);
+  font-style: italic;
+}
+
+.achievement-description {
+  color: rgb(214, 207, 207);
+  font-size: 1rem;
 }

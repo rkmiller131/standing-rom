@@ -1,39 +1,13 @@
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
-import { Bar, Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-  BarElement,
-} from 'chart.js';
 import AchievementItem from './AchievementItem';
-import StatItem from './StatItem';
 import GameControlButtons from './GameControlButtons';
 import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 import { badgesIcons } from '../../../utils/cdn-links/images';
 import { announcer } from '../../../utils/cdn-links/sounds';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import '../../../css/ResultsScreen.css';
 import { sendResults, GameData } from '../../../utils/http/httpSendGameData';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-);
 
 // FAKE DATABASE DATA MOCK - WOULD HAVE A TABLE/COLLECTION FOR ACHIEVEMENTS - A UTIL FUNCTION TODO IN UTILS > HTTP
 // fake return value would be something like:
@@ -57,27 +31,11 @@ const shoulderROMAchievements: AchievementType[] = [
 ];
 
 // THIS WOULD ALSO BE RETRIEVED FROM DB AND SET UP IN ITS OWN GRAPH COMPONENT (Separate Line graph into own file, do an http get and create the graph)
+// only using two for rendering. third is current game.
 const lastResults = [
-  { date: '2024-08-08', score: 85 },
   { date: '2024-08-09', score: 78 },
   { date: '2024-08-10', score: 92 },
 ];
-
-const labels = lastResults.map((result) => result.date);
-const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Scores',
-      data: lastResults.map((result) => result.score),
-      borderColor: 'rgba(68, 243, 182, 1)',
-      backgroundColor: 'rgba(68, 243, 182, 0.85)',
-      borderRadius: 5,
-      fill: true,
-      tension: 0.4,
-    },
-  ],
-};
 
 export default function ResultsScreen() {
   const {
@@ -101,6 +59,23 @@ export default function ResultsScreen() {
   const avgLeftVelocity = calcAverageVelocity(left as number[]).avg;
 
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
+
+  useEffect(() => {
+    const bar1 = document.getElementById('bar1');
+    const bar2 = document.getElementById('bar2');
+    const bar3 = document.getElementById('bar3');
+
+    if (bar1 && bar2 && bar3) {
+      bar1.style.height = `${lastResults[0].score}%`;
+      bar1.textContent = `${lastResults[0].score}`;
+
+      bar2.style.height = `${lastResults[1].score}%`;
+      bar2.textContent = `${lastResults[1].score}`;
+
+      bar3.style.height = `${percentCompletion}%`;
+      bar3.textContent = `${percentCompletion}`;
+    }
+  }, []);
 
   function playerGotAchievement(title: string) {
     let gotAchievement = false;
@@ -215,7 +190,10 @@ export default function ResultsScreen() {
 
             <div className="header-title">Results</div>
             <div className="header-score">
-              Score: <span>{popped / totalBubbles}</span>
+              Score:
+              <div>
+                {popped} / {totalBubbles}
+              </div>
             </div>
           </div>
 
@@ -254,29 +232,10 @@ export default function ResultsScreen() {
           </div>
         </div>
         <div className="box right-box">
-          <div className="results-graph-container">
-            <Bar
-              data={data}
-              options={{
-                responsive: true,
-                scales: {
-                  x: {
-                    display: false,
-                    ticks: {
-                      display: false,
-                    },
-                  },
-                  y: {
-                    display: false,
-                    ticks: {
-                      display: false,
-                    },
-                  },
-                },
-                color: '#efefef',
-                plugins: { legend: { display: false } },
-              }}
-            />
+          <div className="chart-container">
+            <div className="bar" id="bar1"></div>
+            <div className="bar" id="bar2"></div>
+            <div className="bar" id="bar3"></div>
           </div>
         </div>
       </div>
