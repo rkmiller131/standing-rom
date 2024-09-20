@@ -127,6 +127,7 @@
   max-width: 100%;
   max-height: 80%;
   object-fit: contain;
+  opacity: 0.8;
 }
 
 .header-medal {
@@ -359,4 +360,25 @@
 .achievement-description {
   color: rgb(214, 207, 207);
   font-size: 1rem;
+}
+
+.chart-btmn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-right: 3rem;
+}
+
+.chart-ctnr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-ctnr-title {
+  font-size: 1rem;
+  color: white;
+  font-weight: var(--fw-medium);
+  transform: rotate(-35deg);
 }
