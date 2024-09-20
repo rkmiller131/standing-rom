@@ -13,23 +13,14 @@
   --callout-bg-color: #272727;
   --uvx-primary: #7085ff;
   --uvx-secondary: #3c5199;
-  --uvx-tertiary: #c6cdff;
+  --uvx-tertiary: #C6CDFF;
   --uvx-accent-color: #f984ff;
-  --uvx-results-foreground: #4f5db3;
   --uvx-r-gradient: linear-gradient(to right, var(--uvx-primary), transparent);
   --uvx-l-gradient: linear-gradient(var(--uvx-primary), var(--uvx-secondary));
   --uvx-t-gradient: linear-gradient(to top, var(--uvx-primary), transparent);
   --uvx-b-gradient: linear-gradient(to bottom, var(--uvx-primary), transparent);
-  --mask-r-gradient: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 1) 30%,
-    transparent 100%
-  );
-  --mask-l-gradient: linear-gradient(
-    to left,
-    rgba(0, 0, 0, 1) 10%,
-    transparent 100%
-  );
+  --mask-r-gradient: linear-gradient(to right, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
+  --mask-l-gradient: linear-gradient(to left, rgba(0, 0, 0, 1) 10%, transparent 100%);
   --border-radius: 1.5rem;
   --font-large: 4rem;
   --font-medium: 2.5rem;
@@ -72,15 +63,9 @@ body,
   border-radius: var(--border-radius);
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
-  background: linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.27) 44%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.27) 44%, rgba(255, 255, 255, 0) 100%);
   border: 3px solid;
-  border-color: transparent rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.4)
-    rgba(255, 255, 255, 0.3);
+  border-color: transparent rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.3);
 }
 
 .ui-h3,
