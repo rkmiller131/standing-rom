@@ -35,28 +35,40 @@
 
 .button-primary:hover {
   color: white;
-  background-image: radial-gradient(var(--uvx-secondary), var(--uvx-accent-color));
+  background-image: radial-gradient(
+    var(--uvx-secondary),
+    var(--uvx-accent-color)
+  );
   box-shadow: inset 9px 9px 6.5px rgba(0, 0, 0, 0.2);
 }
 
 .button-secondary {
-  background: linear-gradient(var(--uvx-secondary), #29396F);
+  background: linear-gradient(var(--uvx-secondary), #29396f);
   color: var(--uvx-tertiary);
 }
 
 .button-secondary:hover {
   color: white;
-  background-image: radial-gradient(var(--uvx-accent-color), var(--uvx-secondary));
+  background-image: radial-gradient(
+    var(--uvx-accent-color),
+    var(--uvx-secondary)
+  );
   box-shadow: inset 12px 12px 8px rgba(0, 0, 0, 0.2);
 }
 
 .button-disabled {
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.27) 44%, rgba(255, 255, 255, 0.2) 100%);
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.27) 44%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
   border: 2px solid;
   color: var(--uvx-secondary);
-  border-color: transparent rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.1);
+  border-color: transparent rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.4)
+    rgba(255, 255, 255, 0.1);
   cursor: not-allowed;
 }
 

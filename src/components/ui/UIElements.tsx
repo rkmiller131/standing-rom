@@ -16,12 +16,8 @@ interface UIProps {
 }
 
 export default function UIElements({ avatar }: UIProps) {
-  const {
-    environmentLoaded,
-    environmentSelected,
-    sceneLoaded,
-    gameOver
-  } = useHookstateGetters();
+  const { environmentLoaded, environmentSelected, sceneLoaded, gameOver } =
+    useHookstateGetters();
   const [codeSuccess, setCodeSuccess] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
 
@@ -30,25 +26,30 @@ export default function UIElements({ avatar }: UIProps) {
     // be sure to add some validation logic here if necessary when backend is established
     // add a new helper function to utils > http and verify against database
     console.log('Code submitted: ', code);
-    setCodeSuccess(true)
-  }
+    setCodeSuccess(true);
+  };
 
   const clientGrantsConsent = () => {
-    setConsentGiven(true)
-  }
+    setConsentGiven(true);
+  };
 
   return (
     <>
-      {!codeSuccess && <RoomCode submitCode={submitCode}/>}
-      {codeSuccess && !consentGiven ?
-        <GameInstructions clickHandler={clientGrantsConsent}/> :
+      {!codeSuccess && (
+        <>
+          <RoomCode submitCode={submitCode} />
+        </>
+      )}
+      {codeSuccess && !consentGiven ? (
+        <GameInstructions clickHandler={clientGrantsConsent} />
+      ) : (
         <GameSetupScreen />
-      }
+      )}
       {environmentSelected() && <LoadingScreen />}
       {gameOver() && <ResultsScreen />}
       {environmentLoaded() && <SlidingInfo />}
       <Suspense fallback={null}>
-        {environmentLoaded() && <GameplayUI avatar={avatar}/> }
+        {environmentLoaded() && <GameplayUI avatar={avatar} />}
         {sceneLoaded() && <CountdownScreen />}
       </Suspense>
     </>
