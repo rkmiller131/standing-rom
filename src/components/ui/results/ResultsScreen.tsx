@@ -105,7 +105,7 @@ export default function ResultsScreen() {
     audio = new Audio(announcer['goodScore']);
   } else {
     awardMedal.current = badgesIcons.bronzeMedal;
-    audio = new Audio(announcer['goodScore']); // need a new bad score option ("it's ok..." got vetoed)
+    audio = new Audio(announcer['goodScore']); // need a new bad score option ("it's ok..." got vetoed) g
   }
   audio.volume = 0.75;
 
