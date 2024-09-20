@@ -8,6 +8,7 @@ import { useEffect, useRef } from 'react';
 
 import '../../../css/ResultsScreen.css';
 import { sendResults, GameData } from '../../../utils/http/httpSendGameData';
+import { PersonStanding, Zap } from 'lucide-react';
 
 // FAKE DATABASE DATA MOCK - WOULD HAVE A TABLE/COLLECTION FOR ACHIEVEMENTS - A UTIL FUNCTION TODO IN UTILS > HTTP
 // fake return value would be something like:
@@ -206,6 +207,23 @@ export default function ResultsScreen() {
           <div className="data-point left-shoulder">
             <div className="data-title">Max ROM Left</div>
             <div className="data-value frosted-glass">
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '-8px',
+                  top: '-10px',
+                  backgroundColor: 'black',
+                  borderRadius: '32px',
+                  width: '32px',
+                  height: '32px',
+                }}
+              >
+                <PersonStanding
+                  size={24}
+                  color="white"
+                  style={{ marginLeft: '0.25rem', marginTop: '0.25rem' }}
+                />
+              </div>
               <span>{maxLeftArmAngle}&deg;</span>
             </div>
           </div>
@@ -213,6 +231,23 @@ export default function ResultsScreen() {
           <div className="data-point right-shoulder">
             <div className="data-title">Max ROM Right</div>
             <div className="data-value frosted-glass">
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '-8px',
+                  top: '-10px',
+                  backgroundColor: 'black',
+                  borderRadius: '32px',
+                  width: '32px',
+                  height: '32px',
+                }}
+              >
+                <PersonStanding
+                  size={24}
+                  color="white"
+                  style={{ marginLeft: '0.25rem', marginTop: '0.25rem' }}
+                />
+              </div>
               <span>{maxRightArmAngle}&deg;</span>
             </div>
           </div>
@@ -220,6 +255,24 @@ export default function ResultsScreen() {
           <div className="data-point left-wrist">
             <div className="data-title">Popping Speed Left</div>
             <div className="data-value frosted-glass">
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '-8px',
+                  top: '-10px',
+                  backgroundColor: 'black',
+                  borderRadius: '32px',
+                  width: '32px',
+                  height: '32px',
+                }}
+              >
+                <Zap
+                  size={18}
+                  fill="white"
+                  color="white"
+                  style={{ marginLeft: '0.4rem', marginBottom: '0.1rem' }}
+                />
+              </div>
               <span>{avgLeftVelocity}m/s</span>
             </div>
           </div>
@@ -227,6 +280,24 @@ export default function ResultsScreen() {
           <div className="data-point right-wrist">
             <div className="data-title">Popping Speed Right</div>
             <div className="data-value frosted-glass">
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '-8px',
+                  top: '-10px',
+                  backgroundColor: 'black',
+                  borderRadius: '32px',
+                  width: '32px',
+                  height: '32px',
+                }}
+              >
+                <Zap
+                  size={18}
+                  fill="white"
+                  color="white"
+                  style={{ marginLeft: '0.4rem', marginBottom: '0.1rem' }}
+                />
+              </div>
               <span>{avgRightVelocity}m/s</span>
             </div>
           </div>
@@ -236,6 +307,13 @@ export default function ResultsScreen() {
             <div className="bar" id="bar1"></div>
             <div className="bar" id="bar2"></div>
             <div className="bar" id="bar3"></div>
+          </div>
+          <div className="chart-btmn">
+            <div className="chart-ctnr">
+              <div className="chart-ctnr-title">Third Time</div>
+              <div className="chart-ctnr-title">Last Time</div>
+              <div className="chart-ctnr-title">This Time</div>
+            </div>
           </div>
         </div>
       </div>
