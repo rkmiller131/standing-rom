@@ -36,7 +36,13 @@ export default function UIElements({ avatar }: UIProps) {
       try {
         const results = await getSessionInformation({ code: code });
 
-        console.log('Code submitted: ', code, results);
+        console.log('Retrieved info: ', code, results);
+
+        if (results.code !== code || !results || !results._id) {
+          console.error('Invalid code or no game found');
+          setCodeSuccess(false);
+          return;
+        }
 
         setRoomCode(results.code);
         setGameID(results._id);
