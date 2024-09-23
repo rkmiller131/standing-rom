@@ -61,39 +61,6 @@ export default function ResultsScreen() {
 
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
 
-  useEffect(() => {
-    const bar1 = document.getElementById('bar1');
-    const bar2 = document.getElementById('bar2');
-    const bar3 = document.getElementById('bar3');
-
-    if (bar1 && bar2 && bar3) {
-      bar1.style.height = `${lastResults[0].score}%`;
-      bar1.textContent = `${lastResults[0].score}`;
-
-      bar2.style.height = `${lastResults[1].score}%`;
-      bar2.textContent = `${lastResults[1].score}`;
-
-      bar3.style.height = `${percentCompletion}%`;
-      bar3.textContent = `${percentCompletion}`;
-    }
-  }, []);
-
-  function playerGotAchievement(title: string) {
-    let gotAchievement = false;
-    if (title === 'Precision Popper') {
-      gotAchievement = percentCompletion >= 95;
-    }
-    if (title === 'Speed Demon') {
-      // implement a timing achievement here later.
-      gotAchievement = percentCompletion >= 95;
-    }
-    if (title === 'Bubble Burst Bonanza') {
-      // refactor later for maybe max streak?
-      gotAchievement = getCurrentStreak() >= 10;
-    }
-    return gotAchievement;
-  }
-
   let audio;
   if (percentCompletion === 100) {
     audio = new Audio(announcer['perfectScore']);
@@ -110,8 +77,43 @@ export default function ResultsScreen() {
   }
   audio.volume = 0.75;
 
-  if (getAnnouncer()) {
-    audio.play();
+  useEffect(() => {
+    const bar1 = document.getElementById('bar1');
+    const bar2 = document.getElementById('bar2');
+    const bar3 = document.getElementById('bar3');
+
+    if (bar1 && bar2 && bar3) {
+      bar1.style.height = `${lastResults[0].score}%`;
+      bar1.textContent = `${lastResults[0].score}`;
+
+      bar2.style.height = `${lastResults[1].score}%`;
+      bar2.textContent = `${lastResults[1].score}`;
+
+      bar3.style.height = `${percentCompletion}%`;
+      bar3.textContent = `${percentCompletion}`;
+    }
+
+    if (getAnnouncer()) {
+      audio.play();
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function playerGotAchievement(title: string) {
+    let gotAchievement = false;
+    if (title === 'Precision Popper') {
+      gotAchievement = percentCompletion >= 95;
+    }
+    if (title === 'Speed Demon') {
+      // implement a timing achievement here later.
+      gotAchievement = percentCompletion >= 95;
+    }
+    if (title === 'Bubble Burst Bonanza') {
+      // refactor later for maybe max streak?
+      gotAchievement = getCurrentStreak() >= 10;
+    }
+    return gotAchievement;
   }
 
   const handleSubmit = async () => {

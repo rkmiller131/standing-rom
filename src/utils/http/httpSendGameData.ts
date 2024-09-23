@@ -18,7 +18,7 @@ export interface GameData {
   };
 }
 
-export const sendResults = async (data: GameData): Promise<any> => {
+export const sendResults = async (data: GameData): Promise<unknown> => {
   try {
     const config: AxiosRequestConfig = {
       method: 'post',

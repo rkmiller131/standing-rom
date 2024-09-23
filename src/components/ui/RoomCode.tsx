@@ -31,6 +31,7 @@ export default function RoomCode({submitCode}: {submitCode: (code: number) => vo
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
 
   return (

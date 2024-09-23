@@ -9,14 +9,15 @@ export default function CountdownScreen() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { gameRunning, getAnnouncer, setGameRunning } = useHookstateGetters();
 
+  const audio = new Audio(announcer['countdown']);
+  audio.volume = 0.75;
+
   useEffect(() => {
     const videoElement = videoRef.current;
     if (videoElement) {
       videoElement.play();
 
       if (getAnnouncer()) {
-        const audio = new Audio(announcer['countdown']);
-        audio.volume = 0.75;
         audio.play();
       }
     }
