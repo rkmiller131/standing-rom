@@ -53,4 +53,6 @@ export type SceneType = {
     announcer: boolean;
     ready: boolean;
   };
+  roomCode: number;
+  _id: string;
 };

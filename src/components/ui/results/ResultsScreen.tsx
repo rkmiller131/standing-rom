@@ -47,6 +47,8 @@ export default function ResultsScreen() {
     getPoppedVelocities,
     getCurrentStreak,
     getAnnouncer,
+    getRoomCode,
+    getGameID,
   } = useHookstateGetters();
   const awardMedal = useRef('');
 
@@ -97,7 +99,7 @@ export default function ResultsScreen() {
       audio.play();
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function playerGotAchievement(title: string) {
@@ -117,20 +119,19 @@ export default function ResultsScreen() {
   }
 
   const handleSubmit = async () => {
+    const roomCode = getRoomCode();
+    const gameID = getGameID();
+
     const results: GameData = {
-      datePlayed: new Date().toISOString().slice(0, 19),
-      percentCompletion,
-      bubblesPopped: popped,
-      rightAvgVelocity: avgRightVelocity,
-      leftAvgVelocity: avgLeftVelocity,
-      maxLeftAngle: maxLeftArmAngle,
-      maxRightAngle: maxRightArmAngle,
-      completed: true,
-      achievements: {
-        precisionPopper: playerGotAchievement('Precision Popper'),
-        speedDemon: playerGotAchievement('Speed Demon'),
-        bubbleBurstBonanza: playerGotAchievement('Bubble Burst Bonanza'),
+      code: roomCode,
+      results: {
+        bubblesPopped: popped,
+        rightAvgVelocity: parseFloat(avgRightVelocity),
+        leftAvgVelocity: parseFloat(avgLeftVelocity),
+        maxLeftAngle: maxLeftArmAngle,
+        maxRightAngle: maxRightArmAngle,
       },
+      _id: gameID,
     };
 
     try {
@@ -141,8 +142,8 @@ export default function ResultsScreen() {
     }
 
     console.log('Success! Navigating...');
-    setTimeout(() => {}, 3000);
-    window.location.href = 'https://www.ubiquityvx.com/';
+    // setTimeout(() => {}, 3000);
+    // window.location.href = 'https://www.ubiquityvx.com/';
   };
 
   const handleReplay = async () => {

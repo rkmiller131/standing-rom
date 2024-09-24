@@ -3,28 +3,30 @@ import axios, { AxiosRequestConfig } from 'axios';
 const API_BASE_URL = 'http://localhost:3001';
 
 export interface GameData {
-  datePlayed: string;
-  percentCompletion: number;
-  bubblesPopped: number;
-  rightAvgVelocity: string;
-  leftAvgVelocity: string;
-  maxLeftAngle: number;
-  maxRightAngle: number;
-  completed: boolean;
-  achievements: {
-    precisionPopper: boolean;
-    speedDemon: boolean;
-    bubbleBurstBonanza: boolean;
+  code: number;
+  results: {
+    bubblesPopped: number;
+    rightAvgVelocity: number;
+    leftAvgVelocity: number;
+    maxLeftAngle: number;
+    maxRightAngle: number;
   };
+  _id?: string;
 }
 
 export const sendResults = async (data: GameData): Promise<unknown> => {
+  const workoutId = data._id;
+  const postData: GameData = {
+    code: data.code,
+    results: data.results,
+  };
+
   try {
     const config: AxiosRequestConfig = {
-      method: 'post',
-      url: `${API_BASE_URL}/session/submitResult`,
+      method: 'patch',
+      url: `${API_BASE_URL}/sessions/workout/${workoutId}`,
       headers: { 'Content-Type': 'application/json' },
-      data,
+      data: postData,
     };
 
     const response = await axios(config);

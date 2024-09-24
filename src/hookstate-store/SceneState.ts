@@ -15,6 +15,8 @@ const initialState: SceneType = hookstate({
     announcer: true,
     ready: false,
   },
+  roomCode: 0,
+  _id: '',
 });
 
 export const useSceneState = () => {
