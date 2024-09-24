@@ -161,16 +161,16 @@ export default function ResultsScreen() {
 
   return (
     <div id="overlay-screen">
-      <div className="back-box"></div>
-      <div className="middle-section">
-        <div className="box left-box">
-          <div className="achievements">
+      <div className="blend-hue" />
+      <div className="back-box">
+        <div className="back-box-content">
+          <div className="box left-box">
             <h2 className="achievements-title">Achievements</h2>
             {shoulderROMAchievements.map((award) => {
               const unlocked = playerGotAchievement(award.title);
               return (
                 <>
-                  <div className="ac-container frosted-glass">
+                  <div className={`ac-container frosted-glass ${unlocked && 'completed'}`}>
                     <AchievementItem
                       achievement={award}
                       achievementUnlocked={unlocked}
@@ -182,149 +182,150 @@ export default function ResultsScreen() {
               );
             })}
           </div>
-        </div>
-        <div className="box center-box">
-          <div className="center-box-header">
+          <div className="box center-box">
+            <div className="center-box-header">
+              <img
+                src={awardMedal.current}
+                alt="Medal"
+                className="header-medal"
+              />
+
+              <div className="header-title">Results</div>
+              <div className="header-score">
+                Score:
+                <div>
+                  {popped} / {totalBubbles}
+                </div>
+              </div>
+            </div>
+
             <img
-              src={awardMedal.current}
-              alt="Medal"
-              className="header-medal"
+              className="person-silhouette"
+              src="/human.png"
+              alt="Person Silhouette"
             />
 
-            <div className="header-title">Results</div>
-            <div className="header-score">
-              Score:
-              <div>
-                {popped} / {totalBubbles}
+            <div className="data-point left-shoulder">
+              <div className="data-title">Max ROM Left</div>
+              <div className="data-value frosted-glass">
+                <div
+                  style={{
+                    position: 'absolute',
+                    right: '-8px',
+                    top: '-10px',
+                    backgroundColor: 'black',
+                    borderRadius: '32px',
+                    width: '32px',
+                    height: '32px',
+                  }}
+                >
+                  <PersonStanding
+                    size={24}
+                    color="white"
+                    style={{ marginLeft: '0.25rem', marginTop: '0.25rem' }}
+                  />
+                </div>
+                <span>{maxLeftArmAngle}&deg;</span>
+              </div>
+            </div>
+
+            <div className="data-point right-shoulder">
+              <div className="data-title">Max ROM Right</div>
+              <div className="data-value frosted-glass">
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '-8px',
+                    top: '-10px',
+                    backgroundColor: 'black',
+                    borderRadius: '32px',
+                    width: '32px',
+                    height: '32px',
+                  }}
+                >
+                  <PersonStanding
+                    size={24}
+                    color="white"
+                    style={{ marginLeft: '0.25rem', marginTop: '0.25rem' }}
+                  />
+                </div>
+                <span>{maxRightArmAngle}&deg;</span>
+              </div>
+            </div>
+
+            <div className="data-point left-wrist">
+              <div className="data-title">Popping Speed Left</div>
+              <div className="data-value frosted-glass">
+                <div
+                  style={{
+                    position: 'absolute',
+                    right: '-8px',
+                    top: '-10px',
+                    backgroundColor: 'black',
+                    borderRadius: '32px',
+                    width: '32px',
+                    height: '32px',
+                  }}
+                >
+                  <Zap
+                    size={18}
+                    fill="white"
+                    color="white"
+                    style={{ marginLeft: '0.4rem', marginBottom: '0.1rem' }}
+                  />
+                </div>
+                <span>{avgLeftVelocity}m/s</span>
+              </div>
+            </div>
+
+            <div className="data-point right-wrist">
+              <div className="data-title">Popping Speed Right</div>
+              <div className="data-value frosted-glass">
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '-8px',
+                    top: '-10px',
+                    backgroundColor: 'black',
+                    borderRadius: '32px',
+                    width: '32px',
+                    height: '32px',
+                  }}
+                >
+                  <Zap
+                    size={18}
+                    fill="white"
+                    color="white"
+                    style={{ marginLeft: '0.4rem', marginBottom: '0.1rem' }}
+                  />
+                </div>
+                <span>{avgRightVelocity}m/s</span>
               </div>
             </div>
           </div>
-
-          <img
-            className="person-silhouette"
-            src="/human.png"
-            alt="Person Silhouette"
+          <div className="box right-box">
+            <div className="chart-container">
+              <div className="bar" id="bar1"></div>
+              <div className="bar" id="bar2"></div>
+              <div className="bar" id="bar3"></div>
+            </div>
+            <div className="chart-btmn">
+              <div className="chart-ctnr">
+                <div className="chart-ctnr-title">Third Time</div>
+                <div className="chart-ctnr-title">Last Time</div>
+                <div className="chart-ctnr-title">This Time</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="footer-box">
+          <GameControlButtons
+            onRestart={handleReplay}
+            onNextGame={handleSubmit}
           />
-
-          <div className="data-point left-shoulder">
-            <div className="data-title">Max ROM Left</div>
-            <div className="data-value frosted-glass">
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '-8px',
-                  top: '-10px',
-                  backgroundColor: 'black',
-                  borderRadius: '32px',
-                  width: '32px',
-                  height: '32px',
-                }}
-              >
-                <PersonStanding
-                  size={24}
-                  color="white"
-                  style={{ marginLeft: '0.25rem', marginTop: '0.25rem' }}
-                />
-              </div>
-              <span>{maxLeftArmAngle}&deg;</span>
-            </div>
-          </div>
-
-          <div className="data-point right-shoulder">
-            <div className="data-title">Max ROM Right</div>
-            <div className="data-value frosted-glass">
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '-8px',
-                  top: '-10px',
-                  backgroundColor: 'black',
-                  borderRadius: '32px',
-                  width: '32px',
-                  height: '32px',
-                }}
-              >
-                <PersonStanding
-                  size={24}
-                  color="white"
-                  style={{ marginLeft: '0.25rem', marginTop: '0.25rem' }}
-                />
-              </div>
-              <span>{maxRightArmAngle}&deg;</span>
-            </div>
-          </div>
-
-          <div className="data-point left-wrist">
-            <div className="data-title">Popping Speed Left</div>
-            <div className="data-value frosted-glass">
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '-8px',
-                  top: '-10px',
-                  backgroundColor: 'black',
-                  borderRadius: '32px',
-                  width: '32px',
-                  height: '32px',
-                }}
-              >
-                <Zap
-                  size={18}
-                  fill="white"
-                  color="white"
-                  style={{ marginLeft: '0.4rem', marginBottom: '0.1rem' }}
-                />
-              </div>
-              <span>{avgLeftVelocity}m/s</span>
-            </div>
-          </div>
-
-          <div className="data-point right-wrist">
-            <div className="data-title">Popping Speed Right</div>
-            <div className="data-value frosted-glass">
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '-8px',
-                  top: '-10px',
-                  backgroundColor: 'black',
-                  borderRadius: '32px',
-                  width: '32px',
-                  height: '32px',
-                }}
-              >
-                <Zap
-                  size={18}
-                  fill="white"
-                  color="white"
-                  style={{ marginLeft: '0.4rem', marginBottom: '0.1rem' }}
-                />
-              </div>
-              <span>{avgRightVelocity}m/s</span>
-            </div>
-          </div>
-        </div>
-        <div className="box right-box">
-          <div className="chart-container">
-            <div className="bar" id="bar1"></div>
-            <div className="bar" id="bar2"></div>
-            <div className="bar" id="bar3"></div>
-          </div>
-          <div className="chart-btmn">
-            <div className="chart-ctnr">
-              <div className="chart-ctnr-title">Third Time</div>
-              <div className="chart-ctnr-title">Last Time</div>
-              <div className="chart-ctnr-title">This Time</div>
-            </div>
-          </div>
         </div>
       </div>
-      <div className="footer-box">
-        <GameControlButtons
-          onRestart={handleReplay}
-          onNextGame={handleSubmit}
-        />
-      </div>
+
     </div>
   );
 }
