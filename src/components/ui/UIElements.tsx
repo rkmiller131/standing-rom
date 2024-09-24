@@ -8,7 +8,7 @@ import SlidingInfo from './SlidingInfo';
 import GameInstructions from './how-to-play/GameInstructions';
 import RoomCode from './RoomCode';
 import GameSetupScreen from './game-setup/GameSetupScreen';
-import { getSessionInformation } from '../../utils/http/httpStoreCode';
+import { getSessionInformation } from '../../utils/http/httpSessionInfo';
 
 const GameplayUI = lazy(() => import('./gameplay-ui/GameplayUI'));
 
@@ -28,31 +28,36 @@ export default function UIElements({ avatar }: UIProps) {
   const [codeSuccess, setCodeSuccess] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
 
-  // future optimizations: put these fn inside a useCallback
-  const submitCode = useCallback(
-    async (code: number) => {
-      // be sure to add some validation logic here if necessary when backend is established
-      // add a new helper function to utils > http and verify against database
-      try {
-        const results = await getSessionInformation({ code: code });
+  const submitCode = useCallback(async (code: number) => {
+    try {
+      const results = await getSessionInformation({ code: code });
 
-        console.log('Retrieved info: ', code, results);
+      console.log('Results:', results);
 
-        if (results.code !== code || !results || !results._id) {
-          console.error('Invalid code or no game found');
-          setCodeSuccess(false);
-          return;
-        }
+      const checkCode = parseInt(results.code); // has to be a number to pass the check
 
-        setRoomCode(results.code);
-        setGameID(results._id);
-        setCodeSuccess(true);
-      } catch (error) {
-        console.error('Error submitting code:', error);
+      if (checkCode !== code) {
+        console.error('Invalid code or no game found');
+        setCodeSuccess(false);
+        return;
       }
-    },
-    [setGameID, setRoomCode],
-  ) as (code: number) => void;
+
+      console.log('Retrieved info: ', code, results);
+
+      const workouts = results.workouts;
+      setRoomCode(results.code as number);
+
+      workouts.forEach((workout: any) => {
+        if (workout.name === 'Shoulder ROM, Standing') {
+          setGameID(workout._id as string);
+        }
+      });
+
+      setCodeSuccess(true);
+    } catch (error) {
+      console.error('Error submitting code:', error);
+    }
+  }, []) as (code: number) => void;
 
   const clientGrantsConsent = () => {
     setConsentGiven(true);
