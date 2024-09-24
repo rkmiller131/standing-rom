@@ -1,4 +1,38 @@
-# Standing Range of Motion Version Log
+# Motion Capture Physical Therapy Game - MVP
+Contributors:
+* [Rachel Miller](https://github.com/rkmiller131)
+* [Nathan Potter](https://github.com/nathanpotter17)
+* [Nazarii Kubik](https://github.com/mr-nazarii)
+
+## Technologies Used:
+* ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+* ![Threejs](https://img.shields.io/badge/threejs-black?style=for-the-badge&logo=three.js&logoColor=white)
+* [Cannon-es](https://github.com/pmndrs/use-cannon)
+* [Mediapipe Holistic](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker)
+* [Miniplex ECS](https://github.com/hmans/miniplex?tab=readme-ov-file)
+
+## Features:
+* A Room Code screen to serve as authentication for patient playing the link (demo)
+* A How to Play screen with instructions on the three core shoulder range of motion exercises
+* A game setup screen allowing player choice of avatar, environment, and sound confiuration settings
+* Gameplay: pop all the bubbles!
+* Results Screen: Patient data on range of motion performance and achievements
+
+## Preview:
+![Capture3](https://github.com/user-attachments/assets/ed53fa3c-ff46-4373-a502-ee0406845a52)
+
+### 3 Month Sprint & MVP Proposal
+[Proposal Document](https://docs.google.com/document/d/11XJzJjPcLb5WHN0k0T0xeVhXBgehEhkmyow-c8bsjnI/edit?usp=sharing)
+
+Historical Milestones:
+* [April 2024] Independent of EE - spike for technologies and sandbox implementations.
+* [May 2024] Creation of own assets (environments, avatars, framework/React platform).
+* [June 2024] Implementation of core game logic with a physics system and ECS
+* [July 2024] Spike for mocap solutions with various algorithms
+* [Aug 2024] Design and implementation of first pass Game UI and branding, creation of more assets such as soundfx, motion graphics, etc.
+* [Sept 2024] Final polish of MVP with second pass of new Game UI and new branding, optimizations, and integration with dashboard MVP
+
+# Task List items (Old):
 
 The main (dev) branch is stable and represents the project's source of truth with fully fleshed out features (nothing hard-coded, mocked, or placed for the sake of demoing).
 
