@@ -142,8 +142,8 @@ export default function ResultsScreen() {
     }
 
     console.log('Success! Navigating...');
-    // setTimeout(() => {}, 3000);
-    // window.location.href = 'https://www.ubiquityvx.com/';
+    setTimeout(() => {}, 3000);
+    window.location.href = 'https://www.ubiquityvx.com/';
   };
 
   const handleReplay = async () => {
@@ -171,7 +171,9 @@ export default function ResultsScreen() {
               const unlocked = playerGotAchievement(award.title);
               return (
                 <>
-                  <div className={`ac-container frosted-glass ${unlocked && 'completed'}`}>
+                  <div
+                    className={`ac-container frosted-glass ${unlocked && 'completed'}`}
+                  >
                     <AchievementItem
                       achievement={award}
                       achievementUnlocked={unlocked}
@@ -326,7 +328,6 @@ export default function ResultsScreen() {
           />
         </div>
       </div>
-
     </div>
   );
 }
