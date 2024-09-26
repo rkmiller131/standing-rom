@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { PlayerAchievementType } from '../../components/ui/results/ResultsScreen';
 
-const API_BASE_URL = 'http://localhost:3001';
+// const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'https://dev-ubx-mvp.fly.dev/';
 
 export interface GameData {
   code: number;

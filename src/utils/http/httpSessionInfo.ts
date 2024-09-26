@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-const API_BASE_URL = 'http://localhost:3001';
+// const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'https://dev-ubx-mvp.fly.dev/';
 
 
 export async function getSessionInformation(code: number): Promise<any> {
