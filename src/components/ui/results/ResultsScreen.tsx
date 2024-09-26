@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import useHookstateGetters from '../../../interfaces/Hookstate_Interface';
 import AchievementItem from './AchievementItem';
 import GameControlButtons from './GameControlButtons';
@@ -25,26 +26,26 @@ export type PlayerAchievementType = {
   date_acquired: string;
 }
 
-const requestBody =  {
-  code: 9879,
-  results: {
-    bubblesPopped: 35,
-    rightAvgVelocity: 0.43,
-    leftAvgVelocity: 0.62,
-    maxLeftAngle: 143,
-    maxRightAngle: 90
-  },
-  achievements: [
-    {
-      achievement_id: '66f55c025f4d789eb7843d38',
-      date_acquired: 1727356207133
-    },
-    {
-      achievement_id: '66f55c025f4d789eb7843d3a',
-      date_acquired: 1727356207133
-    }
-  ]
-}
+// const requestBody =  {
+//   code: 9879,
+//   results: {
+//     bubblesPopped: 35,
+//     rightAvgVelocity: 0.43,
+//     leftAvgVelocity: 0.62,
+//     maxLeftAngle: 143,
+//     maxRightAngle: 90
+//   },
+//   achievements: [
+//     {
+//       achievement_id: '66f55c025f4d789eb7843d38',
+//       date_acquired: 1727356207133
+//     },
+//     {
+//       achievement_id: '66f55c025f4d789eb7843d3a',
+//       date_acquired: 1727356207133
+//     }
+//   ]
+// }
 // THIS WOULD ALSO BE RETRIEVED FROM DB AND SET UP IN ITS OWN GRAPH COMPONENT (Separate Line graph into own file, do an http get and create the graph)
 // only using two for rendering. third is current game.
 const lastResults = [
@@ -100,14 +101,14 @@ export default function ResultsScreen() {
   useEffect(() => {
     getSessionInformation(roomCode)
       .then((results) => {
-        const achievements = results.workouts.find((workout) => workout._id === gameId).achievements;
+        const achievements = results.workouts.find((workout: any) => workout._id === gameId).achievements;
         setGameAchievements(achievements);
         const userAchievements = achievements.map((achievement: AchievementType) => (
           playerGotAchievement(achievement.name) ? {
             achievement_id: achievement._id,
             date_acquired: new Date()
           } : null
-        )).filter((item) => item !== null);
+        )).filter((item: any) => item !== null);
         console.log('user achievements are ', userAchievements)
         setPlayerAchievements(userAchievements);
       });

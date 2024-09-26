@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { lazy, Suspense, useCallback, useState } from 'react';
 import { VRM } from '@pixiv/three-vrm';
 import useHookstateGetters from '../../interfaces/Hookstate_Interface';
