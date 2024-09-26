@@ -2,15 +2,12 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 const API_BASE_URL = 'http://localhost:3001';
 
-export interface RoomCode {
-  code: number;
-}
 
-export async function getSessionInformation(data: RoomCode): Promise<any> {
+export async function getSessionInformation(code: number): Promise<any> {
   try {
     const config: AxiosRequestConfig = {
       method: 'get',
-      url: `${API_BASE_URL}/sessions/room/${data.code}`,
+      url: `${API_BASE_URL}/sessions/room/${code}`,
       headers: { 'Content-Type': 'application/json' },
     };
 

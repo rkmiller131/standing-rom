@@ -30,30 +30,33 @@ export default function UIElements({ avatar }: UIProps) {
 
   const submitCode = useCallback(async (code: number) => {
     try {
-      const results = await getSessionInformation({ code: code });
+      const results = await getSessionInformation(code);
 
-      console.log('Results:', results);
+      // no need to do this, getSessionInformation already checks if the code is a valid session
+      // const checkCode = parseInt(results.code); // has to be a number to pass the check
 
-      const checkCode = parseInt(results.code); // has to be a number to pass the check
+      // if (checkCode !== code) {
+      //   console.error('Invalid code or no game found');
+      //   setCodeSuccess(false);
+      //   return;
+      // }
 
-      if (checkCode !== code) {
-        console.error('Invalid code or no game found');
+      if (results && results.status === 'Completed') {
+        window.alert('This session has already been completed');
         setCodeSuccess(false);
-        return;
+      } else {
+        const workouts = results.workouts;
+        setRoomCode(results.code as number);
+
+        workouts.forEach((workout: any) => {
+          if (workout.name === 'Shoulder ROM, Standing') {
+            setGameID(workout._id as string);
+          }
+        });
+
+        setCodeSuccess(true);
       }
 
-      console.log('Retrieved info: ', code, results);
-
-      const workouts = results.workouts;
-      setRoomCode(results.code as number);
-
-      workouts.forEach((workout: any) => {
-        if (workout.name === 'Shoulder ROM, Standing') {
-          setGameID(workout._id as string);
-        }
-      });
-
-      setCodeSuccess(true);
     } catch (error) {
       console.error('Error submitting code:', error);
     }

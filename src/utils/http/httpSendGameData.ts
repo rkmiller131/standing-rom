@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { PlayerAchievementType } from '../../components/ui/results/ResultsScreen';
 
 const API_BASE_URL = 'http://localhost:3001';
 
@@ -11,6 +12,8 @@ export interface GameData {
     maxLeftAngle: number;
     maxRightAngle: number;
   };
+  achievements: Array<PlayerAchievementType>;
+  percentCompletion: number;
   _id?: string;
 }
 
@@ -19,6 +22,8 @@ export const sendResults = async (data: GameData): Promise<unknown> => {
   const postData: GameData = {
     code: data.code,
     results: data.results,
+    achievements: data.achievements,
+    percentCompletion: data.percentCompletion
   };
 
   try {

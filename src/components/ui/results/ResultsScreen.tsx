@@ -4,38 +4,52 @@ import GameControlButtons from './GameControlButtons';
 import calcAverageVelocity from '../../../utils/math/calcAverageVelocity';
 import { badgesIcons } from '../../../utils/cdn-links/images';
 import { announcer } from '../../../utils/cdn-links/sounds';
-import { useEffect, useRef } from 'react';
-
-import '../../../css/ResultsScreen.css';
+import { useEffect, useRef, useState } from 'react';
 import { sendResults, GameData } from '../../../utils/http/httpSendGameData';
 import { PersonStanding, Zap } from 'lucide-react';
+import { getSessionInformation } from '../../../utils/http/httpSessionInfo';
+
+import '../../../css/ResultsScreen.css';
 
 // FAKE DATABASE DATA MOCK - WOULD HAVE A TABLE/COLLECTION FOR ACHIEVEMENTS - A UTIL FUNCTION TODO IN UTILS > HTTP
 // fake return value would be something like:
 export type AchievementType = {
-  title: string;
+  _id: string;
+  name: string;
   description: string;
+  acquired?: boolean;
 };
-const shoulderROMAchievements: AchievementType[] = [
-  {
-    title: 'Precision Popper',
-    description: 'Pop 95% or more bubbles',
-  },
-  {
-    title: 'Speed Demon',
-    description: 'Complete within the time limit',
-  },
-  {
-    title: 'Bubble Burst Bonanza',
-    description: 'Pop 10 bubbles in 5 seconds',
-  },
-];
 
+export type PlayerAchievementType = {
+  achievement_id: string;
+  date_acquired: string;
+}
+
+const requestBody =  {
+  code: 9879,
+  results: {
+    bubblesPopped: 35,
+    rightAvgVelocity: 0.43,
+    leftAvgVelocity: 0.62,
+    maxLeftAngle: 143,
+    maxRightAngle: 90
+  },
+  achievements: [
+    {
+      achievement_id: '66f55c025f4d789eb7843d38',
+      date_acquired: 1727356207133
+    },
+    {
+      achievement_id: '66f55c025f4d789eb7843d3a',
+      date_acquired: 1727356207133
+    }
+  ]
+}
 // THIS WOULD ALSO BE RETRIEVED FROM DB AND SET UP IN ITS OWN GRAPH COMPONENT (Separate Line graph into own file, do an http get and create the graph)
 // only using two for rendering. third is current game.
 const lastResults = [
   { date: '2024-08-09', score: 78 },
-  { date: '2024-08-10', score: 92 },
+  { date: '2024-08-10', score: 54 },
 ];
 
 export default function ResultsScreen() {
@@ -51,6 +65,8 @@ export default function ResultsScreen() {
     getGameID,
   } = useHookstateGetters();
   const awardMedal = useRef('');
+  const [playerAchievements, setPlayerAchievements] = useState([]);
+  const [gameAchievements, setGameAchievements] = useState([]);
 
   const maxRightArmAngle = getMaxRightArmAngle();
   const maxLeftArmAngle = getMaxLeftArmAngle();
@@ -62,6 +78,8 @@ export default function ResultsScreen() {
   const avgLeftVelocity = calcAverageVelocity(left as number[]).avg;
 
   const percentCompletion = Math.round((popped / totalBubbles) * 100);
+  const roomCode = getRoomCode();
+  const gameId = getGameID();
 
   let audio;
   if (percentCompletion === 100) {
@@ -80,6 +98,19 @@ export default function ResultsScreen() {
   audio.volume = 0.75;
 
   useEffect(() => {
+    getSessionInformation(roomCode)
+      .then((results) => {
+        const achievements = results.workouts.find((workout) => workout._id === gameId).achievements;
+        setGameAchievements(achievements);
+        const userAchievements = achievements.map((achievement: AchievementType) => (
+          playerGotAchievement(achievement.name) ? {
+            achievement_id: achievement._id,
+            date_acquired: new Date()
+          } : null
+        )).filter((item) => item !== null);
+        console.log('user achievements are ', userAchievements)
+        setPlayerAchievements(userAchievements);
+      });
     const bar1 = document.getElementById('bar1');
     const bar2 = document.getElementById('bar2');
     const bar3 = document.getElementById('bar3');
@@ -119,9 +150,6 @@ export default function ResultsScreen() {
   }
 
   const handleSubmit = async () => {
-    const roomCode = getRoomCode();
-    const gameID = getGameID();
-
     const results: GameData = {
       code: roomCode,
       results: {
@@ -131,7 +159,9 @@ export default function ResultsScreen() {
         maxLeftAngle: maxLeftArmAngle,
         maxRightAngle: maxRightArmAngle,
       },
-      _id: gameID,
+      achievements: playerAchievements,
+      percentCompletion,
+      _id: gameId,
     };
 
     try {
@@ -143,7 +173,7 @@ export default function ResultsScreen() {
 
     console.log('Success! Navigating...');
     setTimeout(() => {}, 3000);
-    window.location.href = 'https://www.ubiquityvx.com/';
+    // window.location.href = 'https://www.ubiquityvx.com/';
   };
 
   const handleReplay = async () => {
@@ -167,21 +197,18 @@ export default function ResultsScreen() {
         <div className="back-box-content">
           <div className="box left-box">
             <h2 className="achievements-title">Achievements</h2>
-            {shoulderROMAchievements.map((award) => {
-              const unlocked = playerGotAchievement(award.title);
+            {gameAchievements.map((award: AchievementType) => {
+              const unlocked = playerGotAchievement(award.name);
               return (
-                <>
-                  <div
-                    className={`ac-container frosted-glass ${unlocked && 'completed'}`}
-                  >
-                    <AchievementItem
-                      achievement={award}
-                      achievementUnlocked={unlocked}
-                      key={award.title}
-                    />
-                  </div>
-                  <br></br>
-                </>
+                <div
+                  className={`ac-container frosted-glass ${unlocked && 'completed'}`}
+                  key={award.name}
+                >
+                  <AchievementItem
+                    achievement={award}
+                    achievementUnlocked={unlocked}
+                  />
+                </div>
               );
             })}
           </div>
