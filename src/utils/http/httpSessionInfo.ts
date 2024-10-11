@@ -2,7 +2,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 // const API_BASE_URL = 'http://localhost:3001';
-const API_BASE_URL = 'https://dev-ubx-mvp.fly.dev';
+const API_BASE_URL = 'https://ubx-mvp.fly.dev';
 
 
 export async function getSessionInformation(code: number): Promise<any> {
@@ -17,6 +17,5 @@ export async function getSessionInformation(code: number): Promise<any> {
     return response.data;
   } catch (error) {
     console.error('Error sending game code:', error);
-    throw error;
   }
 }

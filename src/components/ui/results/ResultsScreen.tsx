@@ -232,7 +232,7 @@ export default function ResultsScreen() {
 
             <img
               className="person-silhouette"
-              src="/human.png"
+              src="https://cdn.glitch.global/155b1488-cef3-43d5-92c7-da25735e6c95/humanSilhouette.png?v=1727127495126"
               alt="Person Silhouette"
             />
 

@@ -42,6 +42,10 @@ export default function UIElements({ avatar }: UIProps) {
       //   return;
       // }
 
+      if (!results) {
+        window.alert('Invalid Room Code');
+      }
+
       if (results && results.status === 'Completed') {
         window.alert('This session has already been completed');
         setCodeSuccess(false);
