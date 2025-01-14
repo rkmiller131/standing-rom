@@ -1,4 +1,4 @@
-# Motion Capture Physical Therapy Game - MVP
+# Motion Capture Physical Therapy Game - Proof of Concept
 Contributors:
 * [Rachel Miller](https://github.com/rkmiller131)
 * [Nathan Potter](https://github.com/nathanpotter17)
