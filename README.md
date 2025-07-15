@@ -19,6 +19,9 @@ Contributors:
 * Results Screen: Patient data on range of motion performance and achievements
 
 ## Preview:
+[SEE VIDEO DEMO →](https://www.youtube.com/watch?v=P6xKGmAQQ70)
+<br>
+
 ![Capture3](https://github.com/user-attachments/assets/ed53fa3c-ff46-4373-a502-ee0406845a52)
 
 ### 3 Month Sprint & MVP Proposal
